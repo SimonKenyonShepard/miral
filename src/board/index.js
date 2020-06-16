@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Toolbar from './ui/toolbar';
+import Altimeter from './ui/altimeter';
 import Shortid from 'shortid';
 
 import './styles.css';
@@ -21,8 +22,8 @@ class Board extends Component {
             "sdfklsndflksndf" : {
                 id : "sdfklsndflksndf",
                 type : "circle",
-                cx : 50,
-                cy : 50,
+                cx : 0,
+                cy : 0,
                 r : 1000,
                 fill : "red"
             }
@@ -72,8 +73,8 @@ class Board extends Component {
             newState.elements[newID] = {
                 id : newID,
                 type : "rect",
-                x : e.clientX*this.state.zoomLevel,
-                y : e.clientY*this.state.zoomLevel,
+                x : (e.clientX*this.state.zoomLevel)+this.state.offsetX,
+                y : (e.clientY*this.state.zoomLevel)+this.state.offsetY,
                 width : 8*this.state.zoomLevel,
                 height: 8*this.state.zoomLevel,
                 fill : "red"
@@ -114,7 +115,12 @@ class Board extends Component {
     }
 
     handleMouseUp = (e) => {
-        this.setState({dragging : false});
+        this.setState({
+            dragging : false,
+            dragStartX : 0,
+            dragStartY : 0,
+            currentElement : null
+        });
     }
   
     render() {
@@ -149,7 +155,7 @@ class Board extends Component {
         });
         return (
             <div className={`boardWrapper ${tool}`}>
-                <div className="altitude">Altitude : {zoomLevel}m</div>
+                <Altimeter zoomLevel={zoomLevel} />
                 <Toolbar handleToolSelect={this.handleToolSelect} />
                 <svg id="board" 
                     width={`${width}px`}
