@@ -1,0 +1,62 @@
+.altitude {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius : 2px;
+    box-shadow: 2px 2px 3px #ccc;
+    padding: 8px;
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+}
+
+.toolbar {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius : 2px;
+    box-shadow: 2px 2px 3px #ccc;
+    cursor: pointer;
+    position: absolute;
+    height: 280px;
+    left: 16px;
+    top: 128px;
+    width: 40px;
+}
+
+.toolbar_tool {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 24px 24px;
+    display: block;
+    height: 40px;
+    width: 40px
+}
+
+.toolbar_tool:hover {
+    background-color: #ccc;
+}
+
+.toolbar_pan {
+    background-image: url("/icons/pan_tool-24px.svg");
+}
+
+.toolbar_sticky {
+    background-image: url("/icons/sticky_note_2-24px.svg");
+}
+
+.toolbar_text {
+    background-image: url("/icons/title-24px.svg");
+}
+
+.toolbar_shape {
+    background-image: url("/icons/check_box_outline_blank-24px.svg");
+}
+
+.toolbar_pen {
+    background-image: url("/icons/edit-24px.svg");
+}
+
+.toolbar_image {
+    background-image: url("/icons/insert_photo-24px.svg");
+}
+
+.toolbar_more {
+    background-image: url("/icons/more_horiz-24px.svg");
+}

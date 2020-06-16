@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Whiteboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+  <style>
+      html {
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+      body {
+          background-image: url(christian-wiediger-Qly9eLlgFAI-unsplash.jpg);
+          background-size: cover;
+          background-repeat: no-repeat;
+          margin: 0;
+          padding: 0;
+          height: 100vh;
+          width: 100vw;
+      }
+
+      #altitude {
+          position: absolute;
+          right: 0;
+          top : 0;
+
+      }
+  </style>
+  <script>
+
+    SVG.on(document, 'DOMContentLoaded', function() {
+        const width = window.innerWidth,
+              height = window.innerHeight,
+              altitudeIndicator = document.getElementById("altitude");
+
+        let zoomLevel = 100,
+            offsetX = 0,
+            offsetY = 0;
+
+        const zoomAndPan = function() {
+            const zoomedWidth = width*zoomLevel,
+                  zoomedHeight = height*zoomLevel;
+            draw.viewbox(offsetX, offsetY, zoomedWidth, zoomedHeight);
+        }
+
+    
+        window.addEventListener("wheel", function(e) {
+
+                const dir = Math.sign(e.deltaY),
+                      nextZoomLevel = zoomLevel > 0 ? zoomLevel + dir : 1,
+                      currentCursorPositionX = e.clientX*zoomLevel,
+                      currentCursorPositionY = e.clientY*zoomLevel,
+                      cursorPositionXAfterZoom = e.clientX*nextZoomLevel,
+                      cursorPositionYAfterZoom = e.clientY*nextZoomLevel,
+                      newOffsetX = offsetX - (cursorPositionXAfterZoom - currentCursorPositionX),
+                      newOffsetY = offsetY - (cursorPositionYAfterZoom - currentCursorPositionY)
+
+                offsetX = newOffsetX;
+                offsetY = newOffsetY;
+                zoomLevel = nextZoomLevel;
+
+                if(zoomLevel > 0) {
+                    zoomAndPan();
+                    altitudeIndicator.innerHTML = `Altitude : ${zoomLevel}`;
+                }
+        });
+
+        window.addEventListener("mousedown", function(e) {
+
+            const panDrag = function(e) {
+                offsetX += e.movementX*-zoomLevel;
+                offsetY += e.movementY*-zoomLevel;
+                zoomAndPan();
+            };
+
+            const panDragEnd = function(e) {
+                window.removeEventListener("mousemove", panDrag);
+                window.removeEventListener("mouseup", panDragEnd);
+            }
+            
+            window.addEventListener("mousemove", panDrag);
+            window.addEventListener("mouseup", panDragEnd);
+
+        });
+
+        var draw = SVG().size(width, height).addTo('body');
+
+        let backgroundOverlay = draw.circle(20000).fill('rgba(0,0,0,0.6)').move(200, 300);
+
+
+        zoomAndPan();
+
+    });
+  </script>
+</head>
+<body>
+    <div id="altitude">Altitude : 100</div>
+</body>
+</html>

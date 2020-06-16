@@ -1,0 +1,7 @@
+.boardWrapper {
+    position: relative;
+}
+
+.pan {
+    cursor: grab;
+}
