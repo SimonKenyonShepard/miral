@@ -5,3 +5,7 @@
 .pan {
     cursor: grab;
 }
+
+.shape {
+    cursor: crosshair;
+}

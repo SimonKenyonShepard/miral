@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
+//UI
 import Toolbar from './ui/toolbar';
 import Altimeter from './ui/altimeter';
+import TextEditor from './ui/textEditor';
+//ELEMENTS
+import Rect from './elements/rect';
+
 import Shortid from 'shortid';
 
 import './styles.css';
@@ -15,6 +20,7 @@ class Board extends Component {
         offsetX : 0,
         offsetY : 0,
         tool : "pan",
+        resetTool : false,
         dragging : false,
         dragStartX :  0,
         dragStartY : 0,
@@ -28,7 +34,8 @@ class Board extends Component {
                 fill : "red"
             }
         },
-        currentElement : null
+        currentElement : null,
+        textEditor : null
       };
     }
   
@@ -77,8 +84,11 @@ class Board extends Component {
                 y : (e.clientY*this.state.zoomLevel)+this.state.offsetY,
                 width : 8*this.state.zoomLevel,
                 height: 8*this.state.zoomLevel,
-                fill : "red"
+                fillOpacity: "0",
+                stroke : "black",
+                strokeWidth : 2*this.state.zoomLevel
             };
+            newState.resetTool = true;
             newState.currentElement = newID;
         }
         this.setState(newState);
@@ -115,17 +125,26 @@ class Board extends Component {
     }
 
     handleMouseUp = (e) => {
-        this.setState({
+        const resetState = {
             dragging : false,
             dragStartX : 0,
             dragStartY : 0,
             currentElement : null
-        });
+        };
+        if(this.state.resetTool) {
+            resetState.tool = "pan";
+            resetState.resetTool = false;
+        }
+        this.setState(resetState);
+    }
+
+    handleTextEdit = (data) => {
+        this.setState({textEditor : data});
     }
   
     render() {
         const {width, height} = this.props;
-        const {offsetX, offsetY, zoomLevel, tool, elements} = this.state;
+        const {offsetX, offsetY, zoomLevel, tool, elements, textEditor} = this.state;
         const zoomedWidth = width*zoomLevel,
         zoomedHeight = height*zoomLevel;
         const viewBox = `${offsetX} ${offsetY} ${zoomedWidth} ${zoomedHeight}`;
@@ -141,14 +160,10 @@ class Board extends Component {
                             style={{cursor: "pointer"}} 
                     />);
             } else if (element.type === "rect") {
-                return (<rect 
+                return (<Rect 
                     key={element.id}
-                    x={element.x} 
-                    y={element.y} 
-                    width={element.width} 
-                    height={element.height} 
-                    fill={element.fill} 
-                    style={{cursor: "pointer"}} 
+                    data={element}
+                    handleTextEdit={this.handleTextEdit}
                 />);
             }
             return null;
@@ -157,6 +172,7 @@ class Board extends Component {
             <div className={`boardWrapper ${tool}`}>
                 <Altimeter zoomLevel={zoomLevel} />
                 <Toolbar handleToolSelect={this.handleToolSelect} />
+                <TextEditor data={elements[textEditor]} gridSpace={{offsetX, offsetY, zoomLevel}}/>
                 <svg id="board" 
                     width={`${width}px`}
                     height={`${height}px`}
