@@ -141,6 +141,10 @@ class Board extends Component {
     handleTextEdit = (data) => {
         this.setState({textEditor : data});
     }
+
+    handleUpdatedText = (data) => {
+        console.log(data);
+    }
   
     render() {
         const {width, height} = this.props;
@@ -172,7 +176,11 @@ class Board extends Component {
             <div className={`boardWrapper ${tool}`}>
                 <Altimeter zoomLevel={zoomLevel} />
                 <Toolbar handleToolSelect={this.handleToolSelect} />
-                <TextEditor data={elements[textEditor]} gridSpace={{offsetX, offsetY, zoomLevel}}/>
+                <TextEditor 
+                    data={elements[textEditor]} 
+                    gridSpace={{offsetX, offsetY, zoomLevel}}
+                    handleUpdatedText={this.handleUpdatedText}
+                />
                 <svg id="board" 
                     width={`${width}px`}
                     height={`${height}px`}
