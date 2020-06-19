@@ -20,6 +20,9 @@ class Rect extends Component {
 
     handleTextEdit = (e) => {
 
+        this.setState({
+            selected : false
+        });
         this.props.handleTextEdit(this.props.data.id);
     }
   
@@ -57,10 +60,10 @@ class Rect extends Component {
             <g 
                 onClick={this.handleSelect}
                 onDoubleClick={this.handleTextEdit}
+                cursor={"pointer"}
             >
                 <rect 
                     {...shapeProps}
-                    cursor={"pointer"}
                 />
                 {text}
             </g>

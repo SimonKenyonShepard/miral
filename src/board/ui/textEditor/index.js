@@ -8,7 +8,6 @@ class TextEditor extends Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
-        selected : true,
         fontSize : 24,
         lineHeight : 32,
       };
@@ -19,8 +18,12 @@ class TextEditor extends Component {
             id : this.props.data.id,
             newText : this.textInput.innerText.trim(),
             fontSize : this.state.fontSize
-        })
-        this.setState({"selected" : false});
+        });
+        this.textInput.innerHTML = "";
+        this.setState({
+            fontSize : 24,
+            lineHeight : 32
+        });
     }
 
     handleKeyPress = (e) => {
@@ -47,8 +50,8 @@ class TextEditor extends Component {
        };
        let starterText = "";
        if(data && data.id) {
-            let x = ((data.x || data.cx)/gridSpace.zoomLevel)+(gridSpace.offsetX/gridSpace.zoomLevel),
-                y = ((data.y || data.cy)/gridSpace.zoomLevel)+(gridSpace.offsetY/gridSpace.zoomLevel),
+            let x = ((data.x || data.cx)/gridSpace.zoomLevel)-(gridSpace.offsetX/gridSpace.zoomLevel),
+                y = ((data.y || data.cy)/gridSpace.zoomLevel)-(gridSpace.offsetY/gridSpace.zoomLevel),
                 width = data.width/gridSpace.zoomLevel,
                 height = data.height/gridSpace.zoomLevel;
             styles.top = `${y}px`;
@@ -65,7 +68,7 @@ class TextEditor extends Component {
                 ref={(container) => { this.textContainer = container; }}
             >
                 <div 
-                    contentEditable={this.state.selected}
+                    contentEditable={true}
                     ref={(input) => { this.textInput = input; }}
                     className="textContainer"
                     onBlur={this.handleLostFocus}
