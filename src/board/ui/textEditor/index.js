@@ -8,16 +8,32 @@ class TextEditor extends Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
-        selected : true
+        selected : true,
+        fontSize : 24,
+        lineHeight : 32,
       };
     }
 
     handleLostFocus = (e) => {
         this.props.handleUpdatedText({
             id : this.props.data.id,
-            newText : this.textInput.innerText.trim()
+            newText : this.textInput.innerText.trim(),
+            fontSize : this.state.fontSize
         })
-        this.setState({"selected" : false})
+        this.setState({"selected" : false});
+    }
+
+    handleKeyPress = (e) => {
+        if(this.textContainer.scrollHeight > this.textContainer.clientHeight) {
+            let newFontSize = 0;
+            if(this.state.fontSize > 8) {
+                newFontSize = this.state.fontSize - 8;
+                
+            } else {
+                newFontSize = this.state.fontSize/2;
+            }
+            this.setState({fontSize : newFontSize});
+        }
     }
 
     render() {
@@ -40,10 +56,13 @@ class TextEditor extends Component {
             styles.height = `${height}px`; 
             styles.width = `${width}px`;
             styles.visibility = "visible";
+            styles.overflow = "scroll";
        }
         return (
             <div
                 style={styles}
+                onKeyPress={this.handleKeyPress}
+                ref={(container) => { this.textContainer = container; }}
             >
                 <div 
                     contentEditable={this.state.selected}
@@ -51,6 +70,9 @@ class TextEditor extends Component {
                     className="textContainer"
                     onBlur={this.handleLostFocus}
                     suppressContentEditableWarning={true}
+                    style={{
+                        fontSize : this.state.fontSize
+                    }}
                 >
                     {starterText}
                 </div>
