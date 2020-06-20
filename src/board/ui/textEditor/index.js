@@ -8,8 +8,7 @@ class TextEditor extends Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
-        fontSize : 24,
-        lineHeight : 32,
+        fontSize : 24
       };
     }
 
@@ -19,14 +18,12 @@ class TextEditor extends Component {
             newText : this.textInput.innerText.trim(),
             fontSize : this.state.fontSize
         });
-        this.textInput.innerHTML = "";
         this.setState({
-            fontSize : 24,
-            lineHeight : 32
+            fontSize : 24
         });
     }
 
-    handleKeyPress = (e) => {
+    handleKeyPress = () => {
         if(this.textContainer.scrollHeight > this.textContainer.clientHeight) {
             let newFontSize = 0;
             if(this.state.fontSize > 8) {
@@ -61,6 +58,12 @@ class TextEditor extends Component {
             styles.width = `${width}px`;
             styles.visibility = "visible";
             styles.overflow = "scroll";
+            if(data.text.length > 0) {
+                starterText = data.text.split(/\n|\r/).map((line, i) => {
+                    return(<div key={`editor_${data.id}_${line}_${i}`}>{line}</div>);
+                });
+            }
+            
        }
         return (
             <div
@@ -84,8 +87,22 @@ class TextEditor extends Component {
         );
     }
 
-    componentDidUpdate(prevProps, prevState) {
+   componentDidUpdate(prevProps, prevState) {
         this.textInput.focus();
+        const moveCaretToEnd = this.props.data ? this.props.data.text.length > 0 : false;
+
+        if(moveCaretToEnd) {
+            let range = document.createRange();
+            range.selectNodeContents(this.textInput);
+            range.collapse(false);
+            let selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+
+        if(this.props.data && this.props.data.unScaledFontSize && this.props.data.unScaledFontSize !== this.state.fontSize) {
+            this.setState({fontSize : this.props.data.unScaledFontSize});
+        }
    }
 
     

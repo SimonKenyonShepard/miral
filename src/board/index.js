@@ -91,7 +91,8 @@ class Board extends Component {
                     fillOpacity: "0",
                     stroke : "black",
                     strokeWidth : 2*this.state.zoomLevel
-                }
+                },
+                text : ""
             };
             newState.resetTool = true;
             newState.currentElement = newID;
@@ -148,14 +149,18 @@ class Board extends Component {
         this.setState(resetState);
     }
 
-    handleTextEdit = (data) => {
-        this.setState({textEditor : data});
+    handleTextEdit = (id) => {
+        const newElements = {...this.state.elements};
+        const elementData = {...this.state.elements[id]};
+        newElements[id].text = "";
+        this.setState({textEditor : elementData, elements : newElements});
     }
 
     handleUpdatedText = (data) => {
         const newElementsData = {...this.state.elements};
         newElementsData[data.id].text = data.newText;
         newElementsData[data.id].styles.fontSize = data.fontSize*this.state.zoomLevel;
+        newElementsData[data.id].unScaledFontSize = data.fontSize;
         this.setState({
             elements : newElementsData,
             textEditor : null
@@ -200,7 +205,7 @@ class Board extends Component {
                 <Altimeter zoomLevel={zoomLevel} />
                 <Toolbar handleToolSelect={this.handleToolSelect} />
                 <TextEditor 
-                    data={elements[textEditor]} 
+                    data={textEditor}
                     gridSpace={{offsetX, offsetY, zoomLevel}}
                     handleUpdatedText={this.handleUpdatedText}
                 />
