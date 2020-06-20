@@ -49,11 +49,12 @@ class TextEditor extends Component {
            visibility: "hidden"
        };
        let starterText = "";
-       if(data && data.id) {
-            let x = ((data.x || data.cx)/gridSpace.zoomLevel)-(gridSpace.offsetX/gridSpace.zoomLevel),
-                y = ((data.y || data.cy)/gridSpace.zoomLevel)-(gridSpace.offsetY/gridSpace.zoomLevel),
-                width = data.width/gridSpace.zoomLevel,
-                height = data.height/gridSpace.zoomLevel;
+       if(data && data.id && data.styles) {
+        const componentStyles = data.styles;
+            let x = ((componentStyles.x || componentStyles.cx)/gridSpace.zoomLevel)-(gridSpace.offsetX/gridSpace.zoomLevel),
+                y = ((componentStyles.y || componentStyles.cy)/gridSpace.zoomLevel)-(gridSpace.offsetY/gridSpace.zoomLevel),
+                width = componentStyles.width/gridSpace.zoomLevel,
+                height = componentStyles.height/gridSpace.zoomLevel;
             styles.top = `${y}px`;
             styles.left = `${x}px`; 
             styles.height = `${height}px`; 

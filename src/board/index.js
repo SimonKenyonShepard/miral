@@ -28,14 +28,16 @@ class Board extends Component {
             "sdfklsndflksndf" : {
                 id : "sdfklsndflksndf",
                 type : "circle",
-                cx : 0,
-                cy : 0,
-                r : 1000,
-                fill : "red"
+                styles : {
+                    cx : 0,
+                    cy : 0,
+                    r : 500,
+                    fill : "grey"
+                }
             }
         },
         currentElement : null,
-        textEditor : null
+        textEditor : null,
       };
     }
   
@@ -68,6 +70,7 @@ class Board extends Component {
     }
 
     handleMouseDown = (e) => {
+       
         const newState = {
             dragging : true,
             dragStartX : e.clientX,
@@ -80,18 +83,21 @@ class Board extends Component {
             newState.elements[newID] = {
                 id : newID,
                 type : "rect",
-                x : (e.clientX*this.state.zoomLevel)+this.state.offsetX,
-                y : (e.clientY*this.state.zoomLevel)+this.state.offsetY,
-                width : 8*this.state.zoomLevel,
-                height: 8*this.state.zoomLevel,
-                fillOpacity: "0",
-                stroke : "black",
-                strokeWidth : 2*this.state.zoomLevel
+                styles : {
+                    x : (e.clientX*this.state.zoomLevel)+this.state.offsetX,
+                    y : (e.clientY*this.state.zoomLevel)+this.state.offsetY,
+                    width : 8*this.state.zoomLevel,
+                    height: 8*this.state.zoomLevel,
+                    fillOpacity: "0",
+                    stroke : "black",
+                    strokeWidth : 2*this.state.zoomLevel
+                }
             };
             newState.resetTool = true;
             newState.currentElement = newID;
         }
         this.setState(newState);
+        
     }
 
     handleMouseMove = (e) => {
@@ -114,8 +120,8 @@ class Board extends Component {
                 });
             } else if (tool === "shape" && currentElement !== null) {
                 const newElementGraph = {...elements};
-                newElementGraph[currentElement].width = (e.clientX-dragStartX)*zoomLevel;
-                newElementGraph[currentElement].height = (e.clientY-dragStartY)*zoomLevel;
+                newElementGraph[currentElement].styles.width = (e.clientX-dragStartX)*zoomLevel;
+                newElementGraph[currentElement].styles.height = (e.clientY-dragStartY)*zoomLevel;
                 this.setState({
                     elements : newElementGraph
                 });
@@ -129,8 +135,12 @@ class Board extends Component {
             dragging : false,
             dragStartX : 0,
             dragStartY : 0,
-            currentElement : null
+            currentElement : null,
+            elements : {...this.state.elements}
         };
+        if(this.state.currentElement) {
+            resetState.elements[this.state.currentElement].drawn = true;
+        }
         if(this.state.resetTool) {
             resetState.tool = "pan";
             resetState.resetTool = false;
@@ -145,10 +155,19 @@ class Board extends Component {
     handleUpdatedText = (data) => {
         const newElementsData = {...this.state.elements};
         newElementsData[data.id].text = data.newText;
-        newElementsData[data.id].fontSize = data.fontSize*this.state.zoomLevel;
+        newElementsData[data.id].styles.fontSize = data.fontSize*this.state.zoomLevel;
         this.setState({
             elements : newElementsData,
             textEditor : null
+        });
+    }
+
+    handleUpdatePosition = (data) => {
+        const newElementsData = {...this.state.elements};
+        newElementsData[data.id].styles.x += data.x*this.state.zoomLevel;
+        newElementsData[data.id].styles.y += data.y*this.state.zoomLevel;
+        this.setState({
+            elements : newElementsData
         });
     }
   
@@ -163,10 +182,7 @@ class Board extends Component {
             if(element.type === "circle") {
                 return (<circle
                             key={element.id} 
-                            cx={element.cx} 
-                            cy={element.cy} 
-                            r={element.r} 
-                            fill={element.fill} 
+                            {...element.styles}
                             style={{cursor: "pointer"}} 
                     />);
             } else if (element.type === "rect") {
@@ -174,6 +190,7 @@ class Board extends Component {
                     key={element.id}
                     data={element}
                     handleTextEdit={this.handleTextEdit}
+                    handleUpdatePosition={this.handleUpdatePosition}
                 />);
             }
             return null;
