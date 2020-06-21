@@ -36,7 +36,8 @@ class Board extends Component {
                 }
             }
         },
-        currentElement : null,
+        elementState : {},
+        currentElement : [],
         textEditor : null,
       };
     }
@@ -74,7 +75,7 @@ class Board extends Component {
         const newState = {
             dragging : true,
             dragStartX : e.clientX,
-            dragStartY : e.clientY
+            dragStartY : e.clientY,
         };
         
         if(this.state.tool === "shape") {
@@ -92,8 +93,10 @@ class Board extends Component {
                     stroke : "black",
                     strokeWidth : 2*this.state.zoomLevel
                 },
-                text : ""
+                text : "",
             };
+            newState.elementState = {...this.state.elementState};
+            newState.elementState[newID] = {};
             newState.resetTool = true;
             newState.currentElement = newID;
         }
@@ -137,10 +140,10 @@ class Board extends Component {
             dragStartX : 0,
             dragStartY : 0,
             currentElement : null,
-            elements : {...this.state.elements}
+            elementState : {...this.state.elementState}
         };
         if(this.state.currentElement) {
-            resetState.elements[this.state.currentElement].drawn = true;
+            resetState.elementState[this.state.currentElement].drawn = true;
         }
         if(this.state.resetTool) {
             resetState.tool = "pan";
@@ -169,12 +172,33 @@ class Board extends Component {
 
     handleUpdatePosition = (data) => {
         const newElementsData = {...this.state.elements};
-        newElementsData[data.id].styles.x += data.x*this.state.zoomLevel;
-        newElementsData[data.id].styles.y += data.y*this.state.zoomLevel;
+        const selectedItems = Object.keys(this.state.elementState).filter(item => {
+            if(this.state.elementState[item].selected) {
+                return true;
+            }
+            return false;
+        });
+        selectedItems.map(element => {
+            newElementsData[element].styles.x += data.x*this.state.zoomLevel;
+            newElementsData[element].styles.y += data.y*this.state.zoomLevel;
+        });
         this.setState({
             elements : newElementsData
         });
     }
+
+    handleSetCurrentElement = (elementID, selected, isMultiSelect) => {
+        const newElementStateData = {...this.state.elementState};
+        if(!isMultiSelect) {
+            Object.keys(newElementStateData).forEach(item => {
+                newElementStateData[item].selected = false;
+            });
+        }
+        newElementStateData[elementID].selected = selected;
+        this.setState({
+            elementState : newElementStateData
+        });
+    };
   
     render() {
         const {width, height} = this.props;
@@ -194,8 +218,10 @@ class Board extends Component {
                 return (<Rect 
                     key={element.id}
                     data={element}
+                    elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
                     handleUpdatePosition={this.handleUpdatePosition}
+                    handleSetCurrentElement={this.handleSetCurrentElement}
                 />);
             }
             return null;

@@ -2,40 +2,35 @@ import React, {Component} from 'react';
 
 import './styles.css';
 
-
 class Rect extends Component {
 
     constructor(props, context) {
       super(props, context);
       this.state = {
-        selected : false,
-        dragging : false,
+        drag: 0,
         cursor : "crosshair"
       };
     }
 
-    handleSelect = (e) => {
-        this.setState({
-            selected : true,
-            cursor : "grab"
-        });
-    }
-
     handleMouseDown = (e) => {
-        if(this.state.selected === true) {
+        if(this.props.elementState.selected === true) {
             e.stopPropagation();
             this.setState({
                 cursor : "grabbing",
-                dragging : true
+                drag : 1
             });
         }
     }
 
     handleMouseMove = (e) => {
-        if(this.state.dragging === true) {
+        if(this.state.drag === 1 || this.state.drag === 2) {
+            if(this.state.drag === 1) {
+                this.setState({
+                    drag : 2
+                });
+            }
             e.stopPropagation();
             this.props.handleUpdatePosition({
-                id : this.props.data.id,
                 x : e.movementX,
                 y : e.movementY
             });
@@ -43,28 +38,33 @@ class Rect extends Component {
     }
 
     handleMouseUp = (e) => {
-        if(this.state.dragging === true) {
+        const wasDrag = this.state.drag === 2;
+        if(wasDrag) {
             e.stopPropagation();
             this.setState({
-                dragging : false,
+                drag : 0,
                 cursor : "grab",
+            });
+           
+        } else if(this.state.drag === 0 || this.state.drag === 1) {
+            const isMultiSelect = e.metaKey;
+            this.props.handleSetCurrentElement(this.props.data.id, true, isMultiSelect);
+            this.setState({
+                drag : 0,
+                cursor : "grab"
             });
         }
     }
 
     handleTextEdit = (e) => {
-        this.setState({
-            selected : false
-        });
         this.props.handleTextEdit(this.props.data.id);
     }
   
     render() {
-        const {selected} = this.state;
-        const data = this.props.data;
+        const {elementState, data} = this.props;
         const shapeProps = {...this.props.data.styles};
         let text = null;
-        if(selected) {
+        if(elementState.selected) {
             shapeProps.style = {outline : `${(shapeProps.strokeWidth/2)}px dashed cyan`};
         }
         if(data.text) {
@@ -87,17 +87,18 @@ class Rect extends Component {
                     </div>
                     
                 </foreignObject>
-            )
+            );
         }
         
         return (
             <g 
-                onClick={this.handleSelect}
                 onDoubleClick={this.handleTextEdit}
                 onMouseDown={this.handleMouseDown}
                 onMouseMove={this.handleMouseMove}
                 onMouseUp={this.handleMouseUp}
                 cursor={this.state.cursor}
+                height={shapeProps.height}
+                width={shapeProps.width}
             >
                 <rect 
                     {...shapeProps}
@@ -108,10 +109,10 @@ class Rect extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.data.drawn === true && this.state.cursor === "crosshair") {
+        if (this.props.elementState.drawn === true && this.state.cursor === "crosshair") {
           this.setState({"cursor" : "pointer"});
         }
-      }
+    }
 
     
   }
