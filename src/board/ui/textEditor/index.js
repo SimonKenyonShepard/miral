@@ -46,6 +46,7 @@ class TextEditor extends Component {
            visibility: "hidden"
        };
        let starterText = "";
+       let editorKey = "blank";
        if(data && data.id && data.styles) {
         const componentStyles = data.styles;
             let x = ((componentStyles.x || componentStyles.cx)/gridSpace.zoomLevel)-(gridSpace.offsetX/gridSpace.zoomLevel),
@@ -63,8 +64,10 @@ class TextEditor extends Component {
                     return(<div key={`editor_${data.id}_${line}_${i}`}>{line}</div>);
                 });
             }
+            editorKey=this.props.data.id;
             
        }
+        
         return (
             <div
                 style={styles}
@@ -72,6 +75,7 @@ class TextEditor extends Component {
                 ref={(container) => { this.textContainer = container; }}
             >
                 <div 
+                    key={`textEditor_${editorKey}`}
                     contentEditable={true}
                     ref={(input) => { this.textInput = input; }}
                     className="textContainer"
@@ -103,6 +107,7 @@ class TextEditor extends Component {
         if(this.props.data && this.props.data.unScaledFontSize && this.props.data.unScaledFontSize !== this.state.fontSize) {
             this.setState({fontSize : this.props.data.unScaledFontSize});
         }
+
    }
 
     

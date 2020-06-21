@@ -178,7 +178,7 @@ class Board extends Component {
             }
             return false;
         });
-        selectedItems.map(element => {
+        selectedItems.forEach(element => {
             newElementsData[element].styles.x += data.x*this.state.zoomLevel;
             newElementsData[element].styles.y += data.y*this.state.zoomLevel;
         });
