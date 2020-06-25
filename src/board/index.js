@@ -3,10 +3,9 @@ import React, {Component} from 'react';
 import Toolbar from './ui/toolbar';
 import Altimeter from './ui/altimeter';
 import TextEditor from './ui/textEditor';
+import Resizer from './ui/resizer';
 //ELEMENTS
 import Rect from './elements/rect';
-
-import Shortid from 'shortid';
 
 import './styles.css';
 
@@ -24,18 +23,10 @@ class Board extends Component {
         dragging : false,
         dragStartX :  0,
         dragStartY : 0,
-        elements : {
-            "sdfklsndflksndf" : {
-                id : "sdfklsndflksndf",
-                type : "circle",
-                styles : {
-                    cx : 0,
-                    cy : 0,
-                    r : 500,
-                    fill : "grey"
-                }
-            }
-        },
+        dragStartHandler : null,
+        dragMoveHandler : null,
+        dragEndHandler : null,
+        elements : {},
         elementState : {},
         currentElement : [],
         textEditor : null,
@@ -77,30 +68,15 @@ class Board extends Component {
             dragStartX : e.clientX,
             dragStartY : e.clientY,
         };
-        
-        if(this.state.tool === "shape") {
-            newState.elements = {...this.state.elements};
-            const newID = Shortid.generate();
-            newState.elements[newID] = {
-                id : newID,
-                type : "rect",
-                styles : {
-                    x : (e.clientX*this.state.zoomLevel)+this.state.offsetX,
-                    y : (e.clientY*this.state.zoomLevel)+this.state.offsetY,
-                    width : 8*this.state.zoomLevel,
-                    height: 8*this.state.zoomLevel,
-                    fillOpacity: "0",
-                    stroke : "black",
-                    strokeWidth : 2*this.state.zoomLevel
-                },
-                text : "",
-            };
-            newState.elementState = {...this.state.elementState};
-            newState.elementState[newID] = {};
-            newState.resetTool = true;
-            newState.currentElement = newID;
+
+        let stateUpdate = {};
+        if(this.state.dragStartHandler) {
+            stateUpdate = this.state.dragStartHandler(e, this.state);
         }
-        this.setState(newState);
+
+        const finalNewState = Object.assign({}, newState, stateUpdate);
+
+        this.setState(finalNewState);
         
     }
 
@@ -110,46 +86,40 @@ class Board extends Component {
             offsetY,
             zoomLevel,
             dragging,
-            dragStartX,
-            dragStartY,
             tool,
-            elements,
-            currentElement
+            dragMoveHandler
         } = this.state;
         if(dragging) {
-            if(tool === "pan") {
-                this.setState({
+            let newState = {};
+            if(dragMoveHandler) {
+                newState = dragMoveHandler(e, this.state);
+            } else if(tool === "pan") {
+                newState = {
                     offsetX : offsetX + (e.movementX*-zoomLevel),
                     offsetY : offsetY + (e.movementY*-zoomLevel)
-                });
-            } else if (tool === "shape" && currentElement !== null) {
-                const newElementGraph = {...elements};
-                newElementGraph[currentElement].styles.width = (e.clientX-dragStartX)*zoomLevel;
-                newElementGraph[currentElement].styles.height = (e.clientY-dragStartY)*zoomLevel;
-                this.setState({
-                    elements : newElementGraph
-                });
+                };
             }
-            
+            this.setState(newState);
         }
     }
 
     handleMouseUp = (e) => {
-        const resetState = {
+        const newState = {
             dragging : false,
             dragStartX : 0,
             dragStartY : 0,
             currentElement : null,
             elementState : {...this.state.elementState}
         };
-        if(this.state.currentElement) {
-            resetState.elementState[this.state.currentElement].drawn = true;
+
+        let stateUpdate = {};
+        if(this.state.dragEndHandler) {
+            stateUpdate = this.state.dragEndHandler(e, this.state);
         }
-        if(this.state.resetTool) {
-            resetState.tool = "pan";
-            resetState.resetTool = false;
-        }
-        this.setState(resetState);
+
+        const finalState = Object.assign({}, newState, stateUpdate);
+
+        this.setState(finalState);
     }
 
     handleTextEdit = (id) => {
@@ -199,6 +169,10 @@ class Board extends Component {
             elementState : newElementStateData
         });
     };
+
+    handleSetDragHandler = (newState) => {
+        this.setState(newState);
+    };
   
     render() {
         const {width, height} = this.props;
@@ -226,10 +200,19 @@ class Board extends Component {
             }
             return null;
         });
+        const selectedElements = [];
+        Object.keys(this.state.elementState).forEach(item => {
+            if(this.state.elementState[item].selected) {
+                selectedElements.push(this.state.elements[item]);
+            }
+        });
         return (
             <div className={`boardWrapper ${tool}`}>
                 <Altimeter zoomLevel={zoomLevel} />
-                <Toolbar handleToolSelect={this.handleToolSelect} />
+                <Toolbar 
+                    handleToolSelect={this.handleToolSelect} 
+                    handleSetDragHandler={this.handleSetDragHandler}
+                />
                 <TextEditor 
                     data={textEditor}
                     gridSpace={{offsetX, offsetY, zoomLevel}}
@@ -245,6 +228,10 @@ class Board extends Component {
                     onMouseUp={this.handleMouseUp}
                     >
                     {elementNodes}
+                    <Resizer 
+                        selectedElements={selectedElements}
+                        handleSetDragHandler={this.handleSetDragHandler}
+                    />
                 </svg>
             </div>
         );
