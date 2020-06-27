@@ -125,7 +125,7 @@ class Board extends Component {
     handleTextEdit = (id) => {
         const newElements = {...this.state.elements};
         const elementData = {...this.state.elements[id]};
-        newElements[id].text = "";
+        const clearTextInRealElement = newElements[id].text = "";
         this.setState({textEditor : elementData, elements : newElements});
     }
 
