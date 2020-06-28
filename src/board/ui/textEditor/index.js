@@ -8,7 +8,8 @@ class TextEditor extends Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
-        fontSize : 24
+        fontSize : 24,
+        expandToFit : null
       };
     }
 
@@ -24,7 +25,10 @@ class TextEditor extends Component {
     }
 
     handleKeyPress = () => {
-        if(this.textContainer.scrollHeight > this.textContainer.clientHeight) {
+        let isAutoResize = (this.props.data.type !== "text"),
+            isExpandToFit = (this.props.data.type === "text");
+
+        if(isAutoResize && (this.textContainer.scrollHeight > this.textContainer.clientHeight)) {
             let newFontSize = 0;
             if(this.state.fontSize > 8) {
                 newFontSize = this.state.fontSize - 8;
@@ -33,6 +37,9 @@ class TextEditor extends Component {
                 newFontSize = this.state.fontSize/2;
             }
             this.setState({fontSize : newFontSize});
+        } else if(isExpandToFit && (this.textContainer.scrollHeight > this.textContainer.clientHeight)) {
+            this.setState({expandToFit : this.textContainer.scrollHeight});
+            this.props.handleSetElementHeight(this.props.data.id, this.textContainer.scrollHeight);
         }
     }
 
@@ -55,7 +62,7 @@ class TextEditor extends Component {
                 height = componentStyles.height/gridSpace.zoomLevel;
             styles.top = `${y}px`;
             styles.left = `${x}px`; 
-            styles.height = `${height}px`; 
+            styles.height = `${(this.state.expandToFit || height)}px`; 
             styles.width = `${width}px`;
             styles.visibility = "visible";
             styles.overflow = "scroll";

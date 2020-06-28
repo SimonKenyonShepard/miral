@@ -1,5 +1,8 @@
 .boardWrapper {
     position: relative;
+    background: #f2f2f2;
+    background-image: linear-gradient(rgba(255, 255, 255, 1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 1) 1px, transparent 1px);
+    background-size: 48px 48px;
 }
 
 .pan {
@@ -11,5 +14,9 @@
 }
 
 .shape {
+    cursor: crosshair;
+}
+
+.text {
     cursor: crosshair;
 }

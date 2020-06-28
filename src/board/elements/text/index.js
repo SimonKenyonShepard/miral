@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import './styles.css';
 
-class Rect extends Component {
+class Text extends Component {
 
     constructor(props, context) {
       super(props, context);
@@ -111,10 +111,11 @@ class Rect extends Component {
     componentDidUpdate(prevProps) {
         if (this.props.elementState.drawn === true && this.state.cursor === "crosshair") {
           this.setState({"cursor" : "pointer"});
+          this.props.handleTextEdit(this.props.data.id);
         }
     }
 
     
   }
 
-  export default Rect;
+  export default Text;

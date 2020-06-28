@@ -78,6 +78,56 @@ class Toolbar extends Component {
         }
         return newState;
     }
+
+    handleTextDragStart = (e, currentState) => {
+        const newState = {};
+        newState.elements = {...currentState.elements};
+        const newID = Shortid.generate();
+        newState.elements[newID] = {
+            id : newID,
+            type : "text",
+            styles : {
+                x : (e.clientX*currentState.zoomLevel)+currentState.offsetX,
+                y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
+                width : 8*currentState.zoomLevel,
+                height: (24*1.4)*currentState.zoomLevel,
+                fillOpacity: "0",
+                stroke : "transparent",
+                strokeWidth : 2*currentState.zoomLevel
+            },
+            text : "",
+        };
+        newState.elementState = {...currentState.elementState};
+        newState.elementState[newID] = {
+            selected : true
+        };
+        newState.currentElement = newID;
+        return newState;
+    }
+
+    handleTextDragMove = (e, currentState) => {
+        const newState = {};
+        if(currentState.currentElement !== null) {
+            const newElementGraph = {...currentState.elements};
+            newElementGraph[currentState.currentElement].styles.width = (e.clientX-currentState.dragStartX)*currentState.zoomLevel;
+            newState.elements = newElementGraph;
+        }
+        
+        return newState;
+    }
+
+    handleTextDragEnd = (e, currentState) => {
+        const newState = {};
+        newState.dragStartHandler = null;
+        newState.dragMoveHandler = null;
+        newState.dragEndHandler = null;
+        if(currentState.currentElement !== null) {
+            newState.elementState = {...currentState.elementState};
+            newState.elementState[currentState.currentElement].drawn = true;
+            newState.tool = "pan";
+        }
+        return newState;
+    }
   
     render() {
         const {handleToolSelect} = this.props;
@@ -85,7 +135,13 @@ class Toolbar extends Component {
             <div className="toolbar">
                 <Tool type="pan" handleToolSelect={handleToolSelect}/>
                 <Tool type="sticky" handleToolSelect={handleToolSelect}/>
-                <Tool type="text" handleToolSelect={handleToolSelect}/>
+                <Tool type="text" 
+                    handleToolSelect={handleToolSelect}
+                    handleSetDragHandler={this.props.handleSetDragHandler}
+                    handleDragStart={this.handleTextDragStart}
+                    handleDragMove={this.handleTextDragMove}
+                    handleDragEnd={this.handleTextDragEnd}
+                />
                 <Tool type="shape" 
                     handleToolSelect={handleToolSelect}
                     handleSetDragHandler={this.props.handleSetDragHandler}

@@ -6,6 +6,7 @@ import TextEditor from './ui/textEditor';
 import Resizer from './ui/resizer';
 //ELEMENTS
 import Rect from './elements/rect';
+import Text from './elements/text';
 
 import './styles.css';
 
@@ -173,6 +174,12 @@ class Board extends Component {
     handleSetDragHandler = (newState) => {
         this.setState(newState);
     };
+
+    handleSetElementHeight = (elementID, height) => {
+        const newElementsData = {...this.state.elements};
+        newElementsData[elementID].styles.height = Number(height)*this.state.zoomLevel;
+        this.setState(newElementsData);
+    };
   
     render() {
         const {width, height} = this.props;
@@ -197,6 +204,15 @@ class Board extends Component {
                     handleUpdatePosition={this.handleUpdatePosition}
                     handleSetCurrentElement={this.handleSetCurrentElement}
                 />);
+            } else if (element.type === "text") {
+                return (<Text 
+                    key={element.id}
+                    data={element}
+                    elementState={this.state.elementState[element.id]}
+                    handleTextEdit={this.handleTextEdit}
+                    handleUpdatePosition={this.handleUpdatePosition}
+                    handleSetCurrentElement={this.handleSetCurrentElement}
+                />);
             }
             return null;
         });
@@ -206,8 +222,11 @@ class Board extends Component {
                 selectedElements.push(this.state.elements[item]);
             }
         });
+        const gridPosition = {
+            backgroundPosition : `${(offsetX*-1)/zoomLevel}px ${(offsetY*-1)/zoomLevel}px`
+        };
         return (
-            <div className={`boardWrapper ${tool}`}>
+            <div className={`boardWrapper ${tool}`} style={gridPosition}>
                 <Altimeter zoomLevel={zoomLevel} />
                 <Toolbar 
                     handleToolSelect={this.handleToolSelect} 
@@ -217,6 +236,7 @@ class Board extends Component {
                     data={textEditor}
                     gridSpace={{offsetX, offsetY, zoomLevel}}
                     handleUpdatedText={this.handleUpdatedText}
+                    handleSetElementHeight={this.handleSetElementHeight}
                 />
                 <svg id="board" 
                     width={`${width}px`}
