@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import './styles.css';
 
-class Rect extends Component {
+class PostitSquare extends Component {
 
     constructor(props, context) {
       super(props, context);
@@ -38,7 +38,7 @@ class Rect extends Component {
     }
 
     handleMouseUp = (e) => {
-        console.log('rect mouse up');
+        console.log("postit mouse up");
         const wasDrag = this.state.drag === 2;
         if(wasDrag) {
             e.stopPropagation();
@@ -50,6 +50,7 @@ class Rect extends Component {
         } else if(this.state.drag === 0 || this.state.drag === 1) {
             const isMultiSelect = e.metaKey;
             this.props.handleSetCurrentElement(this.props.data.id, true, isMultiSelect);
+            console.log("reset selected element posit");
             this.setState({
                 drag : 0,
                 cursor : "grab"
@@ -65,6 +66,7 @@ class Rect extends Component {
         const {elementState, data} = this.props;
         const shapeProps = {...this.props.data.styles};
         let text = null;
+        const postItBaseWidth = 760;
         if(elementState.selected) {
             shapeProps.style = {outline : `${(shapeProps.strokeWidth/2)}px dashed #5086F2`};
         }
@@ -98,12 +100,20 @@ class Rect extends Component {
                 onMouseMove={this.handleMouseMove}
                 onMouseUp={this.handleMouseUp}
                 cursor={this.state.cursor}
-                height={shapeProps.height}
+                height={shapeProps.width}
                 width={shapeProps.width}
             >
                 <rect 
                     {...shapeProps}
+                    height={shapeProps.width}
                 />
+                <g transform={`translate(${shapeProps.x} ${shapeProps.y}) scale(${(shapeProps.width/postItBaseWidth)})`}>
+                    <path 
+                        d="m12.04544,2.07068l737.03703,11.11111l-1.85186,742.5926l-744.44443,-7.40742l9.25926,-746.29629z" 
+                        fill="yellow"
+                        filter="url(#shadow)"
+                    />
+                </g>
                 {text}
             </g>
         );
@@ -118,4 +128,4 @@ class Rect extends Component {
     
   }
 
-  export default Rect;
+  export default PostitSquare;

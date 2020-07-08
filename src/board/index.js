@@ -7,6 +7,7 @@ import Resizer from './ui/resizer';
 //ELEMENTS
 import Rect from './elements/rect';
 import Text from './elements/text';
+import PostitSquare from './elements/postit_square';
 
 import './styles.css';
 
@@ -213,6 +214,15 @@ class Board extends Component {
                     handleUpdatePosition={this.handleUpdatePosition}
                     handleSetCurrentElement={this.handleSetCurrentElement}
                 />);
+            } else if (element.type === "postit_square") {
+                return (<PostitSquare
+                    key={element.id}
+                    data={element}
+                    elementState={this.state.elementState[element.id]}
+                    handleTextEdit={this.handleTextEdit}
+                    handleUpdatePosition={this.handleUpdatePosition}
+                    handleSetCurrentElement={this.handleSetCurrentElement}
+                />);
             }
             return null;
         });
@@ -247,6 +257,24 @@ class Board extends Component {
                     onMouseMove={this.handleMouseMove}
                     onMouseUp={this.handleMouseUp}
                     >
+                    <defs>
+                        <filter id="shadow0">
+                            <feDropShadow dx="10" dy="10" stdDeviation="2"/>
+                        </filter>
+                        <filter id="shadow">
+                            <feOffset result="offOut" in="SourceAlpha" dx="5" dy="-5" />
+                            <feGaussianBlur result="blurOut" in="offOut" stdDeviation="3" />
+                            <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+                        </filter>
+                        <filter id="shadow2">
+                        <feDropShadow dx="0" dy="0" stdDeviation="0.5" 
+                            floodColor="cyan"/>
+                        </filter>
+                        <filter id="shadow3">
+                        <feDropShadow dx="-0.8" dy="-0.8" stdDeviation="0" 
+                            floodColor="pink" floodOpacity="0.5"/>
+                        </filter>
+                    </defs>
                     {elementNodes}
                     <Resizer 
                         selectedElements={selectedElements}
