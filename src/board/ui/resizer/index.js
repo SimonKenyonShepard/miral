@@ -98,6 +98,7 @@ class Resizer extends Component {
                 combinedWidth = cx-x;
                 combinedHeight = cy-y;
             }
+            console.log(height, width);
             resizeHandle = (
                 <g>
                     <rect

@@ -140,8 +140,8 @@ class Toolbar extends Component {
             styles : {
                 x : (e.clientX*currentState.zoomLevel)+currentState.offsetX,
                 y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
-                width : 8*currentState.zoomLevel,
-                height: 8*currentState.zoomLevel,
+                width : 128*currentState.zoomLevel,
+                height: 128*currentState.zoomLevel,
                 fillOpacity: "0",
                 strokeWidth : 2*currentState.zoomLevel
             },
@@ -153,18 +153,6 @@ class Toolbar extends Component {
         return newState;
     }
 
-    handlePostit_squareDragMove = (e, currentState) => {
-        const newState = {};
-        if(currentState.currentElement !== null) {
-            const newElementGraph = {...currentState.elements};
-            newElementGraph[currentState.currentElement].styles.width = (e.clientX-currentState.dragStartX)*currentState.zoomLevel;
-            newElementGraph[currentState.currentElement].styles.height = (e.clientY-currentState.dragStartY)*currentState.zoomLevel;
-            newState.elements = newElementGraph;
-        }
-        
-        return newState;
-    }
-
     handlePostit_squareDragEnd = (e, currentState) => {
         const newState = {};
         newState.dragStartHandler = null;
@@ -173,6 +161,10 @@ class Toolbar extends Component {
         if(currentState.currentElement !== null) {
             newState.elementState = {...currentState.elementState};
             newState.elementState[currentState.currentElement].drawn = true;
+            let min = 0,
+                max = 5;
+            //newState.elementState[currentState.currentElement].shapeType = Math.random() * (max - min) + min;
+            newState.elementState[currentState.currentElement].shapeType = 1;
             newState.tool = "pan";
         }
         return newState;
