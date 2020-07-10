@@ -89,7 +89,7 @@ class Toolbar extends Component {
             styles : {
                 x : (e.clientX*currentState.zoomLevel)+currentState.offsetX,
                 y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
-                width : 8*currentState.zoomLevel,
+                width : 240*currentState.zoomLevel,
                 height: (24*1.4)*currentState.zoomLevel,
                 fillOpacity: "0",
                 stroke : "transparent",
@@ -149,6 +149,9 @@ class Toolbar extends Component {
         };
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {};
+        let min = 0,
+            max = 3;
+        newState.elementState[newID].shapeType = Math.floor(Math.random() * (max - min + 1)) + min;
         newState.currentElement = newID;
         return newState;
     }
@@ -161,10 +164,6 @@ class Toolbar extends Component {
         if(currentState.currentElement !== null) {
             newState.elementState = {...currentState.elementState};
             newState.elementState[currentState.currentElement].drawn = true;
-            let min = 0,
-                max = 5;
-            //newState.elementState[currentState.currentElement].shapeType = Math.random() * (max - min) + min;
-            newState.elementState[currentState.currentElement].shapeType = 1;
             newState.tool = "pan";
         }
         return newState;

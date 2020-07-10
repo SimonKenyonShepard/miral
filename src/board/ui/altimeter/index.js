@@ -7,7 +7,7 @@ class Altimeter extends Component {
   
     render() {
         return (
-            <div className="altitude">Scale - 1:{this.props.zoomLevel}</div>
+            <div className="altitude">Scale : {this.props.zoomLevel}%</div>
         );
     }
     

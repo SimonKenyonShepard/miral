@@ -98,7 +98,6 @@ class Resizer extends Component {
                 combinedWidth = cx-x;
                 combinedHeight = cy-y;
             }
-            console.log(height, width);
             resizeHandle = (
                 <g>
                     <rect
@@ -109,7 +108,8 @@ class Resizer extends Component {
                         stroke={"blue"}
                         strokeOpacity={0.5}
                         strokeWidth={strokeWidth}
-                        fillOpacity={0} 
+                        fillOpacity={0}
+                        pointerEvents={"none"} 
                     />
                     <circle
                         onMouseDown={this.handleMouseDown}
