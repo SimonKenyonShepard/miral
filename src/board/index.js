@@ -136,6 +136,8 @@ class Board extends Component {
         newElementsData[data.id].text = data.newText;
         newElementsData[data.id].styles.fontSize = data.fontSize*this.state.zoomLevel;
         newElementsData[data.id].unScaledFontSize = data.fontSize;
+        newElementsData[data.id].padding = 8*this.state.zoomLevel;
+        
         this.setState({
             elements : newElementsData,
             textEditor : null

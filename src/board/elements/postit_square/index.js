@@ -109,7 +109,8 @@ class PostitSquare extends Component {
                 return(<div key={`${data.id}_${line}_${i}`}>{line}</div>);
             });
             const fontSize = `${shapeProps.fontSize}px`,
-                lineHeight = `${(shapeProps.fontSize*1.4)}px`;
+                lineHeight = `${(shapeProps.fontSize*1.4)}px`,
+                padding = `${shapeProps.padding}px`;
             text = (
                 <foreignObject
                     x={shapeProps.x}
@@ -120,7 +121,7 @@ class PostitSquare extends Component {
                     <div
                         className="svg_textContainer"
                     >
-                        <div style={{fontSize, lineHeight}}>{textBody}</div>
+                        <div style={{fontSize, lineHeight, padding}}>{textBody}</div>
                     </div>
                     
                 </foreignObject>
