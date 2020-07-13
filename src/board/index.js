@@ -5,6 +5,7 @@ import Altimeter from './ui/altimeter';
 import TextEditor from './ui/textEditor';
 import Resizer from './ui/resizer';
 import NavBar from './ui/navbar';
+import BoardControls from './ui/boardControls';
 
 //ELEMENTS
 import Rect from './elements/rect';
@@ -13,6 +14,7 @@ import PostitSquare from './elements/postit_square';
 
 import './styles.css';
 
+const rfc6902 = require('rfc6902');
 
 class Board extends Component {
 
@@ -34,6 +36,10 @@ class Board extends Component {
         elementState : {},
         currentElement : [],
         textEditor : null,
+        storeUndo : false,
+        undo : [],
+        redo : [],
+        updates : []
       };
     }
   
@@ -185,6 +191,48 @@ class Board extends Component {
         newElementsData[elementID].styles.height = Number(height)*this.state.zoomLevel;
         this.setState(newElementsData);
     };
+
+    handleUndo = () => {
+
+        const newUndo = [...this.state.undo];
+        const newUpdates = [...this.state.updates];
+        const lastUndoAction = newUndo.pop();
+        const lastUpdateAction = newUpdates.pop();
+        const newRedo = [...this.state.redo, lastUpdateAction];
+        
+        const newCombinedData = {
+            elements : {...this.state.elements},
+            elementState : {...this.state.elementState} 
+        };
+  
+        rfc6902.applyPatch(newCombinedData, lastUndoAction);
+        this.setState({
+            elementState :  newCombinedData.elementState,
+            elements : newCombinedData.elements,
+            undo : newUndo,
+            redo : newRedo,
+            updates : newUpdates
+        });
+    }
+
+    handleRedo = () => {
+        const newRedo = [...this.state.redo];
+        const lastRedoAction = newRedo.pop();
+        
+        const newCombinedData = {
+            elements : {...this.state.elements},
+            elementState : {...this.state.elementState} 
+        };
+        
+        rfc6902.applyPatch(newCombinedData, lastRedoAction);
+
+        this.setState({
+            elementState :  newCombinedData.elementState,
+            elements : newCombinedData.elements,
+            redo : newRedo,
+            storeUndo : true
+        });
+    }
   
     render() {
         const {width, height} = this.props;
@@ -243,6 +291,10 @@ class Board extends Component {
             <div className={`boardWrapper ${tool}`} style={gridPosition}>
                 <NavBar />
                 <Altimeter zoomLevel={zoomLevel} />
+                <BoardControls 
+                    handleUndo={this.handleUndo}
+                    handleRedo={this.handleRedo}
+                />
                 <Toolbar 
                     handleToolSelect={this.handleToolSelect} 
                     handleSetDragHandler={this.handleSetDragHandler}
@@ -278,6 +330,26 @@ class Board extends Component {
                 </svg>
             </div>
         );
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const prevCombinedData = {
+            elements : prevState.elements,
+            elementState : prevState.elementState 
+        };
+        const currentCombinedData = {
+            elements : this.state.elements,
+            elementState : this.state.elementState 
+        };
+        const elementsDiffUpdates = rfc6902.createPatch(prevCombinedData, currentCombinedData);
+        const elementsDiffUndo = rfc6902.createPatch(currentCombinedData, prevCombinedData);
+        if(elementsDiffUndo.length > 0 && elementsDiffUpdates.length > 0 && this.state.storeUndo) {
+            this.setState({
+                undo : [...this.state.undo, elementsDiffUndo],
+                updates : [...this.state.updates, elementsDiffUpdates],
+                storeUndo : false
+            });
+        }
     }
 
     

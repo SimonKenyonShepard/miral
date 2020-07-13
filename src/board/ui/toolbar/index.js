@@ -153,6 +153,7 @@ class Toolbar extends Component {
             max = 3;
         newState.elementState[newID].shapeType = Math.floor(Math.random() * (max - min + 1)) + min;
         newState.currentElement = newID;
+        newState.storeUndo = true;
         return newState;
     }
 
