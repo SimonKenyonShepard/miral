@@ -101,9 +101,9 @@ class PostitSquare extends Component {
         const shapeProps = {...this.props.data.styles};
         let text = null;
         const postItBaseWidth = 800;
-        // if(elementState.selected) {
-        //     shapeProps.style = {outline : `${(shapeProps.strokeWidth/2)}px dashed #5086F2`};
-        // }
+        if(elementState.selected) {
+            shapeProps.style = {outline : `${(shapeProps.strokeWidth/2)}px dashed #5086F2`};
+        }
         if(data.text) {
             const textBody = data.text.split(/\n|\r/).map((line, i) => {
                 return(<div key={`${data.id}_${line}_${i}`}>{line}</div>);
