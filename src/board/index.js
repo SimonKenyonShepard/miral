@@ -4,6 +4,8 @@ import Toolbar from './ui/toolbar';
 import Altimeter from './ui/altimeter';
 import TextEditor from './ui/textEditor';
 import Resizer from './ui/resizer';
+import NavBar from './ui/navbar';
+
 //ELEMENTS
 import Rect from './elements/rect';
 import Text from './elements/text';
@@ -239,6 +241,7 @@ class Board extends Component {
         };
         return (
             <div className={`boardWrapper ${tool}`} style={gridPosition}>
+                <NavBar />
                 <Altimeter zoomLevel={zoomLevel} />
                 <Toolbar 
                     handleToolSelect={this.handleToolSelect} 
