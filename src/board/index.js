@@ -291,7 +291,9 @@ class Board extends Component {
             <div className={`boardWrapper ${tool}`} style={gridPosition}>
                 <NavBar />
                 <Altimeter zoomLevel={zoomLevel} />
-                <BoardControls 
+                <BoardControls
+                    undoIsPossible={this.state.undo.length > 0}
+                    redoIsPossible={this.state.redo.length > 0} 
                     handleUndo={this.handleUndo}
                     handleRedo={this.handleRedo}
                 />
