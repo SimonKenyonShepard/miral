@@ -28,6 +28,11 @@ class ElementEditor extends Component {
       };
     }
 
+    handleUpdateElementProperty = (data) => {
+        data.id = this.props.selectedElements[0].id;
+        this.props.handleUpdateElementProperty(data);
+    }
+
     render() {
 
         const containerPosition = {},
@@ -43,6 +48,7 @@ class ElementEditor extends Component {
                         return <PredefinedColorPicker 
                                     key={`${selectedElements[0].id}_${button}`}
                                     fillColor={selectedElements[0].predefinedColor}
+                                    handleUpdateElementProperty={this.handleUpdateElementProperty}
                                 />;
                     case 'fontStyle':
                         return <FontStyle key={`${selectedElements[0].id}_${button}`}/>;
@@ -67,7 +73,7 @@ class ElementEditor extends Component {
             
             containerClass += " isVisible";
 
-            const editorHeightPlusMargin = 40+40,
+            const editorHeightPlusMargin = 40+56,
                   halfEditorWidth = 200,
                   halfElementWidth = (selectedElements[0].styles.width/gridSpace.zoomLevel)/2,
                   elementX = ((selectedElements[0].styles.x/gridSpace.zoomLevel)+halfElementWidth)-halfEditorWidth,
@@ -76,7 +82,6 @@ class ElementEditor extends Component {
             containerPosition.left = `${elementX}px`;
             containerPosition.top = `${elementY}px`;
 
-            console.log(selectedElements[0].type);
         }
         
         return (

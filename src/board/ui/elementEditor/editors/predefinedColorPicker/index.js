@@ -3,6 +3,25 @@ import {ThemeContext} from '../../../../../theme-context';
 
 import './styles.css';
 
+class PredefinedColorOption extends Component {
+
+  handleSelectColor = () => {
+    this.props.handleUpdateElementProperty({
+      property : "predefinedColor",
+      value : this.props.colorID
+    })
+  }
+
+  render() {
+      return <div 
+              className={"availableColor"} 
+              style={{backgroundColor: this.props.color}}
+              onClick={this.handleSelectColor}  
+            />
+  }
+
+}
+
 
 class PredefinedColorPicker extends Component {
 
@@ -34,10 +53,19 @@ class PredefinedColorPicker extends Component {
                   style={selectedColor}
                   onClick={this.handleOpenSubMenu}
                 ></div>
-                <div className={submenuCSS}>
+                <div 
+                  className={submenuCSS}
+                  onClick={this.handleOpenSubMenu}
+                >
+                    <div className={"arrow"} />
                     {
-                      theme.preDefinedColors.map(color => {
-                        return <div className={"availableColor"} style={{backgroundColor: color}} />
+                      theme.preDefinedColors.map((color, i) => {
+                        return <PredefinedColorOption 
+                                key={('preDefinedColorOption_'+color)}
+                                color={color} 
+                                colorID={i}
+                                handleUpdateElementProperty={this.props.handleUpdateElementProperty}
+                              />
                       })
                     }
                 </div>

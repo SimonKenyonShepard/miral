@@ -123,7 +123,7 @@ class PostitSquare extends Component {
         }
 
         const postItShapeData = postItShapeTypes[(elementState.shapeType || 0)],
-              postItColor = data.predefinedColor || 3;
+              postItColor = data.predefinedColor;
 
         
         return (

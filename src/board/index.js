@@ -193,6 +193,12 @@ class Board extends Component {
         this.setState(newElementsData);
     };
 
+    handleUpdateElementProperty = (data) => {
+        const newElementsData = {...this.state.elements};
+        newElementsData[data.id][data.property] = data.value;
+        this.setState(newElementsData);
+    }
+
     handleUndo = () => {
 
         const newUndo = [...this.state.undo];
@@ -311,6 +317,7 @@ class Board extends Component {
                 <ElementEditor 
                     selectedElements={selectedElements}
                     gridSpace={{offsetX, offsetY, zoomLevel}}
+                    handleUpdateElementProperty={this.handleUpdateElementProperty}
                 />
                 <svg id="board" 
                     width={`${width}px`}
