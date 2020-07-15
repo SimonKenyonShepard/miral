@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import Toolbar from './ui/toolbar';
 import Altimeter from './ui/altimeter';
 import TextEditor from './ui/textEditor';
+import ElementEditor from './ui/elementEditor';
 import Resizer from './ui/resizer';
 import NavBar from './ui/navbar';
 import BoardControls from './ui/boardControls';
@@ -306,6 +307,10 @@ class Board extends Component {
                     gridSpace={{offsetX, offsetY, zoomLevel}}
                     handleUpdatedText={this.handleUpdatedText}
                     handleSetElementHeight={this.handleSetElementHeight}
+                />
+                <ElementEditor 
+                    selectedElements={selectedElements}
+                    gridSpace={{offsetX, offsetY, zoomLevel}}
                 />
                 <svg id="board" 
                     width={`${width}px`}

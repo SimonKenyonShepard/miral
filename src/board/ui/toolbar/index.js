@@ -137,6 +137,7 @@ class Toolbar extends Component {
             id : newID,
             type : "postit_square",
             fixedRatio : "true",
+            predefinedColor : 3,
             styles : {
                 x : (e.clientX*currentState.zoomLevel)+currentState.offsetX,
                 y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,

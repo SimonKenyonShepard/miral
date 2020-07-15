@@ -1,14 +1,7 @@
 import React, {Component} from 'react';
+import {ThemeContext} from '../../../theme-context';
 
 import './styles.css';
-
-const postItColors = {
-    pink : "#FC72A6",
-    blue : "#1B8CA6",
-    green : "#C8DE02",
-    yellow : "#EBE000",
-    orange : "#F2A105"
-};
 
 const postItShapeTypes = [
     {
@@ -97,6 +90,7 @@ class PostitSquare extends Component {
     }
   
     render() {
+        const theme = this.context;
         const {elementState, data} = this.props;
         const shapeProps = {...this.props.data.styles};
         let text = null;
@@ -128,7 +122,9 @@ class PostitSquare extends Component {
             );
         }
 
-        const postItShapeData = postItShapeTypes[(elementState.shapeType || 0)];
+        const postItShapeData = postItShapeTypes[(elementState.shapeType || 0)],
+              postItColor = data.predefinedColor || 3;
+
         
         return (
             <g 
@@ -152,7 +148,7 @@ class PostitSquare extends Component {
                     />
                     <path 
                         d={postItShapeData.path} 
-                        fill={postItColors.yellow}
+                        fill={(theme.preDefinedColors[postItColor])}
                     />
                 </g>
                 {text}
@@ -168,5 +164,7 @@ class PostitSquare extends Component {
 
     
   }
+
+  PostitSquare.contextType = ThemeContext;
 
   export default PostitSquare;
