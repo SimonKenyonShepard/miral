@@ -15,8 +15,6 @@ import PostitSquare from './elements/postit_square';
 
 import './styles.css';
 
-const rfc6902 = require('rfc6902');
-
 class Board extends Component {
 
     constructor(props, context) {
@@ -37,10 +35,7 @@ class Board extends Component {
         elementState : {},
         currentElement : [],
         textEditor : null,
-        storeUndo : false,
-        undo : [],
-        redo : [],
-        updates : []
+        storeUndo : false
       };
     }
   
@@ -190,55 +185,19 @@ class Board extends Component {
     handleSetElementHeight = (elementID, height) => {
         const newElementsData = {...this.state.elements};
         newElementsData[elementID].styles.height = Number(height)*this.state.zoomLevel;
-        this.setState(newElementsData);
+        this.setState(newElementsData); //HOW DOES THIS WORK?
     };
 
     handleUpdateElementProperty = (data) => {
         const newElementsData = {...this.state.elements};
-        newElementsData[data.id][data.property] = data.value;
-        this.setState(newElementsData);
+        const newElement = {...newElementsData[data.id]};
+        newElement[data.property] = data.value;
+        newElementsData[data.id] = newElement;
+        this.setState({elements : newElementsData, storeUndo : true});
     }
 
-    handleUndo = () => {
-
-        const newUndo = [...this.state.undo];
-        const newUpdates = [...this.state.updates];
-        const lastUndoAction = newUndo.pop();
-        const lastUpdateAction = newUpdates.pop();
-        const newRedo = [...this.state.redo, lastUpdateAction];
-        
-        const newCombinedData = {
-            elements : {...this.state.elements},
-            elementState : {...this.state.elementState} 
-        };
-  
-        rfc6902.applyPatch(newCombinedData, lastUndoAction);
-        this.setState({
-            elementState :  newCombinedData.elementState,
-            elements : newCombinedData.elements,
-            undo : newUndo,
-            redo : newRedo,
-            updates : newUpdates
-        });
-    }
-
-    handleRedo = () => {
-        const newRedo = [...this.state.redo];
-        const lastRedoAction = newRedo.pop();
-        
-        const newCombinedData = {
-            elements : {...this.state.elements},
-            elementState : {...this.state.elementState} 
-        };
-        
-        rfc6902.applyPatch(newCombinedData, lastRedoAction);
-
-        this.setState({
-            elementState :  newCombinedData.elementState,
-            elements : newCombinedData.elements,
-            redo : newRedo,
-            storeUndo : true
-        });
+    handleUpdateElementsAndState = (data) => {
+        this.setState(data);
     }
   
     render() {
@@ -299,10 +258,10 @@ class Board extends Component {
                 <NavBar />
                 <Altimeter zoomLevel={zoomLevel} />
                 <BoardControls
-                    undoIsPossible={this.state.undo.length > 0}
-                    redoIsPossible={this.state.redo.length > 0} 
-                    handleUndo={this.handleUndo}
-                    handleRedo={this.handleRedo}
+                    elements={this.state.elements}
+                    elementState={this.state.elementState}
+                    storeUndo={this.state.storeUndo}
+                    handleUpdateElementsAndState={this.handleUpdateElementsAndState}
                 />
                 <Toolbar 
                     handleToolSelect={this.handleToolSelect} 
@@ -344,26 +303,6 @@ class Board extends Component {
                 </svg>
             </div>
         );
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        const prevCombinedData = {
-            elements : prevState.elements,
-            elementState : prevState.elementState 
-        };
-        const currentCombinedData = {
-            elements : this.state.elements,
-            elementState : this.state.elementState 
-        };
-        const elementsDiffUpdates = rfc6902.createPatch(prevCombinedData, currentCombinedData);
-        const elementsDiffUndo = rfc6902.createPatch(currentCombinedData, prevCombinedData);
-        if(elementsDiffUndo.length > 0 && elementsDiffUpdates.length > 0 && this.state.storeUndo) {
-            this.setState({
-                undo : [...this.state.undo, elementsDiffUndo],
-                updates : [...this.state.updates, elementsDiffUpdates],
-                storeUndo : false
-            });
-        }
     }
 
     

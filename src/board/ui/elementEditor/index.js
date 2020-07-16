@@ -15,7 +15,8 @@ import ElementEditorMenu from './editors/elementEditorMenu';
 import './styles.css';
 
 const shapeTypeEditableFeatures = {
-    "postit_square" : ["predefinedColor", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"]
+    "postit_square" : ["predefinedColor", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "rect" : ["predefinedColor", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"]
 };
 
 
