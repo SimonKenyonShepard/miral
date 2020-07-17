@@ -75,7 +75,7 @@ class ElementEditor extends Component {
             containerClass += " isVisible";
 
             const editorHeightPlusMargin = 40+56,
-                  halfEditorWidth = 200,
+                  halfEditorWidth = (editButtons.length*40)/2,
                   halfElementWidth = (selectedElements[0].styles.width/gridSpace.zoomLevel)/2,
                   elementX = ((selectedElements[0].styles.x/gridSpace.zoomLevel)+halfElementWidth)-halfEditorWidth,
                   elementY = (selectedElements[0].styles.y/gridSpace.zoomLevel)-editorHeightPlusMargin;

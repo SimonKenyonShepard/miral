@@ -52,6 +52,7 @@ class PredefinedColorPicker extends Component {
                   className={"selectedColor"}
                   style={selectedColor}
                   onClick={this.handleOpenSubMenu}
+                  title={"Change color"}
                 ></div>
                 <div 
                   className={submenuCSS}

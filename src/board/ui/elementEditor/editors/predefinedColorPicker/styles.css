@@ -6,7 +6,7 @@
 }
 
 .selectedColor {
-    border: 1px solid #999;
+    outline: 1px solid #999;
     cursor : pointer;
     height: 24px;
     width: 24px;
