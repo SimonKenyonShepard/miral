@@ -47,6 +47,7 @@
 
 .availableColor {
     border: 1px solid #eee;
+    border-radius : 50px;
     cursor : pointer;
     height: 24px;
     margin-left: 8px;
