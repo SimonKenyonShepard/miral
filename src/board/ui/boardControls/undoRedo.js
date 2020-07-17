@@ -76,11 +76,23 @@ class UndoRedo extends Component {
         }
 
         const redoStyles = {
+            pointerEvents : "none",
             opacity : 0.5
         };
 
         if(redoIsPossible) {
             redoStyles.opacity = 1;
+            redoStyles.pointerEvents = "all";
+        }
+
+        const undoStyles = {
+            opacity : 0.5,
+            pointerEvents : "none"
+        };
+
+        if(undoIsPossible) {
+            undoStyles.opacity = 1;
+            undoStyles.pointerEvents = "all";
         }
 
         return (
@@ -89,6 +101,7 @@ class UndoRedo extends Component {
                 <span 
                     className={"iconButton undo"}
                     onClick={this.handleUndo}
+                    style={undoStyles}
                 />
                 <span 
                     className={"iconButton redo"}
