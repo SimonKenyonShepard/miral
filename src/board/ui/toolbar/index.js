@@ -46,6 +46,11 @@ class Toolbar extends Component {
                 stroke : "black",
                 strokeWidth : 2*currentState.zoomLevel
             },
+            fontStyle : {
+                fontWeight : "normal",
+                fontStyle : "normal",
+                textDecorationLine : "" 
+            },
             text : "",
         };
         newState.elementState = {...currentState.elementState};
@@ -94,6 +99,11 @@ class Toolbar extends Component {
                 fillOpacity: "0",
                 stroke : "transparent",
                 strokeWidth : 2*currentState.zoomLevel
+            },
+            fontStyle : {
+                fontWeight : "normal",
+                fontStyle : "normal",
+                textDecorationLine : "" 
             },
             text : "",
         };
@@ -145,6 +155,11 @@ class Toolbar extends Component {
                 height: 128*currentState.zoomLevel,
                 fillOpacity: "0",
                 strokeWidth : 2*currentState.zoomLevel
+            },
+            fontStyle : {
+                fontWeight : "normal",
+                fontStyle : "normal",
+                textDecorationLine : "" 
             },
             text : "",
         };

@@ -71,8 +71,12 @@ class Text extends Component {
             const textBody = data.text.split(/\n|\r/).map((line, i) => {
                 return(<div key={`${data.id}_${line}_${i}`}>{line}</div>);
             });
-            const fontSize = `${shapeProps.fontSize}px`,
-                lineHeight = `${(shapeProps.fontSize*1.4)}px`;
+            const fontStyle = {
+                ...data.fontStyle,
+                fontSize : `${shapeProps.fontSize}px`,
+                lineHeight : `${(shapeProps.fontSize*1.4)}px`,
+                padding : `${shapeProps.padding}px`
+            };
             text = (
                 <foreignObject
                     x={shapeProps.x}
@@ -83,7 +87,7 @@ class Text extends Component {
                     <div
                         className="svg_textContainer"
                     >
-                        <div style={{fontSize, lineHeight}}>{textBody}</div>
+                        <div style={fontStyle}>{textBody}</div>
                     </div>
                     
                 </foreignObject>

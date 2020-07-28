@@ -52,7 +52,11 @@ class ElementEditor extends Component {
                                     handleUpdateElementProperty={this.handleUpdateElementProperty}
                                 />;
                     case 'fontStyle':
-                        return <FontStyle key={`${selectedElements[0].id}_${button}`}/>;
+                        return <FontStyle 
+                                    key={`${selectedElements[0].id}_${button}`}
+                                    fontStyle={selectedElements[0].fontStyle}
+                                    handleUpdateElementProperty={this.handleUpdateElementProperty}
+                                />;
                     case 'textAlignment':
                         return <TextAlignment key={`${selectedElements[0].id}_${button}`}/>;
                     case 'link':
