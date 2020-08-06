@@ -17,7 +17,7 @@ import './styles.css';
 const shapeTypeEditableFeatures = {
     "postit_square" : ["predefinedColor", "fontStyle", "link", "bringForward", "sendBackward", "lock", "delete", "menu"],
     "rect" : ["predefinedColor", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "text" : ["predefinedColor", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"]
+    "text" : ["fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"]
 };
 
 
@@ -87,10 +87,14 @@ class ElementEditor extends Component {
                   halfEditorWidth = (editButtons.length*40)/2,
                   halfElementWidth = (selectedElements[0].styles.width/gridSpace.zoomLevel)/2,
                   elementX = ((selectedElements[0].styles.x/gridSpace.zoomLevel)+halfElementWidth)-halfEditorWidth,
-                  elementY = (selectedElements[0].styles.y/gridSpace.zoomLevel)-editorHeightPlusMargin;
+                  elementY = (selectedElements[0].styles.y/gridSpace.zoomLevel)-editorHeightPlusMargin,
+                  elementXOffset = gridSpace.offsetX/gridSpace.zoomLevel,
+                  elementYOffset = gridSpace.offsetY/gridSpace.zoomLevel,
+                  finalLeft = elementX - elementXOffset,
+                  finalTop = elementY - elementYOffset;
 
-            containerPosition.left = `${elementX}px`;
-            containerPosition.top = `${elementY}px`;
+            containerPosition.left = `${finalLeft}px`;
+            containerPosition.top = `${finalTop}px`;
 
         }
         
