@@ -40,7 +40,8 @@ class Board extends Component {
     }
   
     handleToolSelect = (type) => {
-      this.setState({"tool" : type});
+        this.handleDeselectAllElements();
+        this.setState({"tool" : type});
     }
 
     handleZoom = (e) => {
@@ -177,6 +178,16 @@ class Board extends Component {
             elementState : newElementStateData
         });
     };
+
+    handleDeselectAllElements = () => {
+        const newElementStateData = {...this.state.elementState};
+        Object.keys(newElementStateData).forEach(item => {
+            newElementStateData[item].selected = false;
+        });
+        this.setState({
+            elementState : newElementStateData
+        });
+    }
 
     handleSetDragHandler = (newState) => {
         this.setState(newState);
