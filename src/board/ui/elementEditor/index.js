@@ -15,9 +15,9 @@ import ElementEditorMenu from './editors/elementEditorMenu';
 import './styles.css';
 
 const shapeTypeEditableFeatures = {
-    "postit_square" : ["predefinedColor", "fontStyle", "link", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "rect" : ["predefinedColor", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "text" : ["fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"]
+    "postit_square" : ["predefinedColor", "fontStyle", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "rect" : ["predefinedColor", "fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "text" : ["fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"]
 };
 
 
@@ -26,13 +26,17 @@ class ElementEditor extends Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
-        
+        currentOpenSubMenu : null
       };
     }
 
     handleUpdateElementProperty = (data) => {
         data.id = this.props.selectedElements[0].id;
         this.props.handleUpdateElementProperty(data);
+    }
+
+    handleSetCurrentOpenSubMenu = (currentOpenSubMenu) => {
+        this.setState({currentOpenSubMenu});
     }
 
     render() {
@@ -51,18 +55,24 @@ class ElementEditor extends Component {
                                     key={`${selectedElements[0].id}_${button}`}
                                     fillColor={selectedElements[0].predefinedColor}
                                     handleUpdateElementProperty={this.handleUpdateElementProperty}
+                                    handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
+                                    currentOpenSubMenu={this.state.currentOpenSubMenu}
                                 />;
                     case 'fontStyle':
                         return <FontStyle 
                                     key={`${selectedElements[0].id}_${button}`}
                                     fontStyle={selectedElements[0].fontStyle}
                                     handleUpdateElementProperty={this.handleUpdateElementProperty}
+                                    handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
+                                    currentOpenSubMenu={this.state.currentOpenSubMenu}
                                 />;
                     case 'textAlignment':
                         return <TextAlignment 
                                     key={`${selectedElements[0].id}_${button}`}
                                     fontStyle={selectedElements[0].fontStyle}
                                     handleUpdateElementProperty={this.handleUpdateElementProperty}
+                                    handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
+                                    currentOpenSubMenu={this.state.currentOpenSubMenu}
                                 />;
                     case 'link':
                         return <Link key={`${selectedElements[0].id}_${button}`}/>;

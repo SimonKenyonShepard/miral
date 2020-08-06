@@ -4,6 +4,8 @@ import './styles.css';
 
 const iconColor = "#333";
 
+const SUBMENU_NAME = "TextAlignment";
+
 function CenterIcon(props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
@@ -48,6 +50,7 @@ class TextAlignment extends Component {
 
     handleOpenSubMenu = () => {
       this.setState({subMenuOpen : !this.state.subMenuOpen});
+      this.props.handleSetCurrentOpenSubMenu(SUBMENU_NAME);
     }
 
     handleLeftChange = () => {
@@ -55,6 +58,12 @@ class TextAlignment extends Component {
         property : "fontStyle",
         value : {...this.props.fontStyle, "textAlign" : "left"}
       });
+    }
+
+    componentDidUpdate() {
+      if(this.state.subMenuOpen && this.props.currentOpenSubMenu !== SUBMENU_NAME) {
+        this.setState({subMenuOpen : false});
+      }
     }
 
     handleRightChange = () => {

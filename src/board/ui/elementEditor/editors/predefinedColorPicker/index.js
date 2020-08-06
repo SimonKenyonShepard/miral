@@ -22,6 +22,7 @@ class PredefinedColorOption extends Component {
 
 }
 
+const SUBMENU_NAME = "PredefinedColorPicker";
 
 class PredefinedColorPicker extends Component {
 
@@ -34,6 +35,13 @@ class PredefinedColorPicker extends Component {
 
     handleOpenSubMenu = () => {
       this.setState({subMenuOpen : !this.state.subMenuOpen});
+      this.props.handleSetCurrentOpenSubMenu(SUBMENU_NAME);
+    }
+
+    componentDidUpdate() {
+      if(this.state.subMenuOpen && this.props.currentOpenSubMenu !== SUBMENU_NAME) {
+        this.setState({subMenuOpen : false});
+      }
     }
 
     render() {

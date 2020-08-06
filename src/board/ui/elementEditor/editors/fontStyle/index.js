@@ -4,6 +4,7 @@ import './styles.css';
 
 const iconColor = "#333";
 
+const SUBMENU_NAME = "FontStyle";
 
 class FontStyle extends Component {
 
@@ -16,6 +17,13 @@ class FontStyle extends Component {
 
     handleOpenSubMenu = () => {
       this.setState({subMenuOpen : !this.state.subMenuOpen});
+      this.props.handleSetCurrentOpenSubMenu(SUBMENU_NAME);
+    }
+
+    componentDidUpdate() {
+      if(this.state.subMenuOpen && this.props.currentOpenSubMenu !== SUBMENU_NAME) {
+        this.setState({subMenuOpen : false});
+      }
     }
 
     handleBoldChange = () => {
