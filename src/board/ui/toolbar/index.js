@@ -109,7 +109,7 @@ class Toolbar extends Component {
                 color : "#080808",
                 textAlign: "center"
             },
-            text : "",
+            text : ""
         };
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
@@ -119,16 +119,7 @@ class Toolbar extends Component {
         return newState;
     }
 
-    handleTextDragMove = (e, currentState) => {
-        const newState = {};
-        if(currentState.currentElement !== null) {
-            const newElementGraph = {...currentState.elements};
-            newElementGraph[currentState.currentElement].styles.width = (e.clientX-currentState.dragStartX)*currentState.zoomLevel;
-            newState.elements = newElementGraph;
-        }
-        
-        return newState;
-    }
+  
 
     handleTextDragEnd = (e, currentState) => {
         const newState = {};
