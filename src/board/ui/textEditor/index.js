@@ -55,6 +55,11 @@ class TextEditor extends Component {
         }
     }
 
+    handlePaste = (event) => {
+        event.preventDefault();
+        document.execCommand('inserttext', false, event.clipboardData.getData('text/plain'));
+    }
+
     render() {
        const {data, gridSpace} = this.props;
        const styles = {
@@ -99,6 +104,7 @@ class TextEditor extends Component {
                     ref={(input) => { this.textInput = input; }}
                     className="textContainer"
                     onBlur={this.handleLostFocus}
+                    onPaste={this.handlePaste}
                     suppressContentEditableWarning={true}
                     style={{
                         fontSize : this.state.fontSize

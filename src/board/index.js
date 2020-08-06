@@ -40,7 +40,7 @@ class Board extends Component {
     }
   
     handleToolSelect = (type) => {
-        this.handleDeselectAllElements();
+        this.handleDeselectAllElements();   
         this.setState({"tool" : type});
     }
 
@@ -111,6 +111,14 @@ class Board extends Component {
     }
 
     handleMouseUp = (e) => {
+
+        const wasClick = (this.state.dragStartX === e.clientX && this.state.dragStartY === e.clientY);
+        const boardWasTarget = (e.target.id === "board");
+
+        if(wasClick && boardWasTarget) {
+            this.handleDeselectAllElements();
+        }
+
         const newState = {
             dragging : false,
             dragStartX : 0,
