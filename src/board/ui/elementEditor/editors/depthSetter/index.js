@@ -21,7 +21,7 @@ class DepthSetter extends Component {
               {isForward ?
                 <div 
                   className={"editor_icon"}
-                  title={"Move element forward"}
+                  title={"Bring forward"}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                     <path d="M0 0h24v24H0V0z" fill="none"/>
@@ -31,7 +31,7 @@ class DepthSetter extends Component {
                 :
                 <div 
                   className={"editor_icon"}
-                  title={"Move element backwards"}
+                  title={"Send backwards"}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                     <path d="M0 0h24v24H0V0z" fill="none"/>

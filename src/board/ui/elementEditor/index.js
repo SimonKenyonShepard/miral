@@ -15,8 +15,9 @@ import ElementEditorMenu from './editors/elementEditorMenu';
 import './styles.css';
 
 const shapeTypeEditableFeatures = {
-    "postit_square" : ["predefinedColor", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "rect" : ["predefinedColor", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"]
+    "postit_square" : ["predefinedColor", "fontStyle", "link", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "rect" : ["predefinedColor", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "text" : ["predefinedColor", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"]
 };
 
 
@@ -58,7 +59,11 @@ class ElementEditor extends Component {
                                     handleUpdateElementProperty={this.handleUpdateElementProperty}
                                 />;
                     case 'textAlignment':
-                        return <TextAlignment key={`${selectedElements[0].id}_${button}`}/>;
+                        return <TextAlignment 
+                                    key={`${selectedElements[0].id}_${button}`}
+                                    fontStyle={selectedElements[0].fontStyle}
+                                    handleUpdateElementProperty={this.handleUpdateElementProperty}
+                                />;
                     case 'link':
                         return <Link key={`${selectedElements[0].id}_${button}`}/>;
                     case 'bringForward':

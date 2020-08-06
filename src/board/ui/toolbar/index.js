@@ -50,7 +50,8 @@ class Toolbar extends Component {
                 fontWeight : "normal",
                 fontStyle : "normal",
                 textDecorationLine : "",
-                color : "#080808"  
+                color : "#080808",
+                textAlign: "center" 
             },
             text : "",
         };
@@ -105,7 +106,8 @@ class Toolbar extends Component {
                 fontWeight : "normal",
                 fontStyle : "normal",
                 textDecorationLine : "",
-                color : "#080808" 
+                color : "#080808",
+                textAlign: "center"
             },
             text : "",
         };
@@ -162,7 +164,8 @@ class Toolbar extends Component {
                 fontWeight : "normal",
                 fontStyle : "normal",
                 textDecorationLine : "",
-                color : "#080808" 
+                color : "#080808",
+                textAlign: "center" 
             },
             text : "",
         };
