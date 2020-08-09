@@ -153,6 +153,7 @@ class Board extends Component {
         
         this.setState({
             elements : newElementsData,
+            storeUndo : true,
             textEditor : null
         });
     }

@@ -76,7 +76,8 @@ class Rect extends Component {
                 ...data.fontStyle,
                 fontSize : `${shapeProps.fontSize}px`,
                 lineHeight : `${(shapeProps.fontSize*1.4)}px`,
-                padding : `${shapeProps.padding}px`
+                padding : `${shapeProps.padding}px`,
+                width : "100%"
             };
             text = (
                 <foreignObject

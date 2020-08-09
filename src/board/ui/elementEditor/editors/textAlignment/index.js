@@ -30,14 +30,6 @@ function RightIcon(props) {
   );
 }
 
-function JustifyIcon(props) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-      <path fill={props.iconColor} d="M3 21h18v-2H3v2zm0-4h18v-2H3v2zm0-4h18v-2H3v2zm0-4h18V7H3v2zm0-6v2h18V3H3z"/>
-    </svg>
-  );
-}
-
 
 class TextAlignment extends Component {
 
@@ -79,14 +71,6 @@ class TextAlignment extends Component {
         value : {...this.props.fontStyle, "textAlign" : "center"}
       });
     }
-
-    handleJustifyChange = () => {
-      this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, "textAlign" : "justify"}
-      });
-    }
-
     render() {
 
         let submenuCSS = "predefinedColorPicker_submenu";
@@ -96,8 +80,7 @@ class TextAlignment extends Component {
 
         let leftSelected = (this.props.fontStyle.textAlign === "left") ? "selected" : null,
             centerSelected = (this.props.fontStyle.textAlign === "center") ? "selected" : null,
-            rightSelected = (this.props.fontStyle.textAlign === "right") ? "selected" : null,
-            justifySelected = (this.props.fontStyle.textAlign === "justify") ? "selected" : null;
+            rightSelected = (this.props.fontStyle.textAlign === "right") ? "selected" : null;
         
         let currentIcon = <CenterIcon iconColor={iconColor} />;
 
@@ -105,8 +88,6 @@ class TextAlignment extends Component {
           currentIcon = <LeftIcon iconColor={iconColor} />;
         } else if (rightSelected) {
           currentIcon = <RightIcon iconColor={iconColor} />;
-        } else if (justifySelected) {
-          currentIcon = <JustifyIcon iconColor={iconColor} />;
         }
         
         return (
@@ -131,9 +112,6 @@ class TextAlignment extends Component {
                     </div>
                     <div className={`editor_subMenu_icon ${rightSelected}`} onClick={this.handleRightChange}>
                       <RightIcon iconColor={iconColor} />
-                    </div>
-                    <div className={`editor_subMenu_icon ${justifySelected}`} onClick={this.handleJustifyChange}>
-                      <JustifyIcon iconColor={iconColor} />
                     </div>
                     
                 </div>
