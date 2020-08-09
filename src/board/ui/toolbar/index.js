@@ -42,7 +42,7 @@ class Toolbar extends Component {
                 y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
                 width : 8*currentState.zoomLevel,
                 height: 8*currentState.zoomLevel,
-                fillOpacity: "0",
+                fillOpacity: 0,
                 fill: "#ffffff",
                 stroke : "black",
                 strokeWidth : 2*currentState.zoomLevel
@@ -99,7 +99,7 @@ class Toolbar extends Component {
                 y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
                 width : 240*currentState.zoomLevel,
                 height: (24*1.4)*currentState.zoomLevel,
-                fillOpacity: "0",
+                fillOpacity: 0,
                 fill: "#ffffff",
                 stroke : "transparent",
                 strokeWidth : 2*currentState.zoomLevel
@@ -150,7 +150,7 @@ class Toolbar extends Component {
                 y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
                 width : 128*currentState.zoomLevel,
                 height: 128*currentState.zoomLevel,
-                fillOpacity: "0",
+                fillOpacity: 0,
                 strokeWidth : 2*currentState.zoomLevel
             },
             fontStyle : {

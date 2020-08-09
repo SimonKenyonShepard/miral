@@ -19,6 +19,24 @@ class CustomColorOption extends Component {
 
 }
 
+class TransparentColorOption extends Component {
+
+  handleSelectColor = () => {
+   this.props.handleOpacityChange({target : { value : 0 }});
+  }
+
+  render() {
+      return <div 
+              className={"availableColor"} 
+              style={{backgroundColor: "#fff", border: "1px solid #999"}}
+              onClick={this.handleSelectColor}  
+            >
+            <div className="transparentLine" />
+            </div>
+  }
+
+}
+
 const SUBMENU_NAME = "CustomColorPicker";
 
 class CustomColorPicker extends Component {
@@ -36,9 +54,20 @@ class CustomColorPicker extends Component {
     }
 
     handleUpdateColor = (color) => {
+      let newFillOpacity = this.props.currentStyles.fillOpacity;
+      if (newFillOpacity === 0) {
+        newFillOpacity = 1;
+      }
       this.props.handleUpdateElementProperty({
         property : "styles",
-        value : {...this.props.currentStyles, "fill" : color, fillOpacity : "1"} 
+        value : {...this.props.currentStyles, "fill" : color, fillOpacity : newFillOpacity} 
+      });
+    }
+
+    handleOpacityChange = (e) => {
+      this.props.handleUpdateElementProperty({
+        property : "styles",
+        value : {...this.props.currentStyles, fillOpacity : e.target.value} 
       });
     }
 
@@ -51,7 +80,7 @@ class CustomColorPicker extends Component {
     render() {
         const theme = this.context;
         const selectedColor = {
-          backgroundColor : theme.preDefinedColors[this.props.fillColor] 
+          backgroundColor : this.props.currentStyles.fill 
         };
         let submenuCSS = "predefinedColorPicker_submenu";
         if(this.state.subMenuOpen) {
@@ -68,9 +97,12 @@ class CustomColorPicker extends Component {
                 ></div>
                 <div 
                   className={submenuCSS}
-                  onClick={this.handleOpenSubMenu}
                 >
                     <div className={"arrow"} />
+                    <TransparentColorOption 
+                      key={('customColorOption_transparent')}
+                      handleOpacityChange={this.handleOpacityChange}
+                    />
                     {
                       theme.preDefinedColors.map((color, i) => {
                         return <CustomColorOption 
@@ -81,6 +113,21 @@ class CustomColorPicker extends Component {
                               />
                       })
                     }
+                    <div
+                     className="opacityPicker"
+                    >
+                      <div  className="opacityLabel" >Opacity:</div>
+                      <input 
+                        type="number" 
+                        id="opacity" 
+                        name="opacity" 
+                        min="0" 
+                        max="1"
+                        step="0.1"
+                        onChange={this.handleOpacityChange}
+                        value={(this.props.currentStyles.fillOpacity || 0)}
+                      />
+                    </div>
                 </div>
             </div>
         );
