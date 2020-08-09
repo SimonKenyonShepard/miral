@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 //Editors
 
 import PredefinedColorPicker from './editors/predefinedColorPicker';
+import CustomColorPicker from './editors/customColorPicker';
 import FontStyle from './editors/fontStyle';
 import TextAlignment from './editors/textAlignment';
 import Link from './editors/link';
@@ -16,7 +17,7 @@ import './styles.css';
 
 const shapeTypeEditableFeatures = {
     "postit_square" : ["predefinedColor", "fontStyle", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "rect" : ["predefinedColor", "fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "rect" : ["customColor", "fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
     "text" : ["fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"]
 };
 
@@ -54,6 +55,14 @@ class ElementEditor extends Component {
                         return <PredefinedColorPicker 
                                     key={`${selectedElements[0].id}_${button}`}
                                     fillColor={selectedElements[0].predefinedColor}
+                                    handleUpdateElementProperty={this.handleUpdateElementProperty}
+                                    handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
+                                    currentOpenSubMenu={this.state.currentOpenSubMenu}
+                                />;
+                    case 'customColor':
+                        return <CustomColorPicker 
+                                    key={`${selectedElements[0].id}_${button}`}
+                                    currentStyles={selectedElements[0].styles}
                                     handleUpdateElementProperty={this.handleUpdateElementProperty}
                                     handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                                     currentOpenSubMenu={this.state.currentOpenSubMenu}

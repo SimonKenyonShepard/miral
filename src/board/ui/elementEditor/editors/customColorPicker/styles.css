@@ -1,0 +1,59 @@
+.predefinedColorPicker {
+    position: relative;
+    padding: 8px;
+    height: 24px;
+    width: 24px;
+}
+
+.selectedColor {
+    outline: 1px solid #999;
+    cursor : pointer;
+    height: 24px;
+    width: 24px;
+}
+
+.predefinedColorPicker_submenu {
+    align-items : center;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius : 2px;
+    box-shadow: 2px 2px 3px #ccc;
+    display: flex;
+    height: 40px;
+    opacity: 0;
+    padding-right: 8px;
+    position: absolute;
+    pointer-events: none;
+    transform: translateY(-23px);
+    transition: opacity .3s, transform .3s;
+    top: 48px;
+}
+
+.isVisible {
+    opacity : 1;
+    pointer-events: all;
+    transform: none;
+}
+
+.arrow {
+    border-bottom: 8px solid #fff;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    height: 1px;
+    left: 4px;
+    position: absolute;
+    top: -8px;
+    width : 1px;
+}
+
+.availableColor {
+    border: 1px solid #eee;
+    border-radius : 50px;
+    cursor : pointer;
+    height: 24px;
+    margin-left: 8px;
+    width: 24px;
+}
+
+.availableColor:hover {
+    border: 1px solid #999;
+}

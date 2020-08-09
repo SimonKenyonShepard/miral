@@ -7,11 +7,14 @@ import './styles.css';
 
 class BoardControls extends Component {
   
+    
     render() {
+        const today = new Date().toLocaleDateString();
+
         return (
             <div className={"boardControls"}>
                 <div className={"primaryControls"}>
-                    <span className={"boardName"}>Your board name</span>
+                    <span className={"boardName"}>new-board-{today}</span>
                     <span className={"iconButton share"}></span>
                 </div>
                 <UndoRedo 
