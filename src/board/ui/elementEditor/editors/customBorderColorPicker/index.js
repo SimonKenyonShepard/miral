@@ -93,7 +93,7 @@ class CustomBorderColorPicker extends Component {
                   className={"selectedBorderColor"}
                   style={selectedColor}
                   onClick={this.handleOpenSubMenu}
-                  title={"Change boarder color"}
+                  title={"Change border color"}
                 ></div>
                 <div 
                   className={submenuCSS}
@@ -104,7 +104,7 @@ class CustomBorderColorPicker extends Component {
                       handleOpacityChange={this.handleOpacityChange}
                     />
                     {
-                      theme.preDefinedColors.map((color, i) => {
+                      theme.primaryColors.map((color, i) => {
                         return <CustomBorderColorOption 
                                 key={('preDefinedColorOption_'+color)}
                                 color={color} 

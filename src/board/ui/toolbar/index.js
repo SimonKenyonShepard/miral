@@ -46,7 +46,8 @@ class Toolbar extends Component {
                 fill: "#ffffff",
                 stroke : "#000000",
                 strokeOpacity : 1,
-                strokeWidth : 2*currentState.zoomLevel
+                strokeWidth : 2*currentState.zoomLevel,
+                strokeDasharray : "0"
             },
             fontStyle : {
                 fontWeight : "normal",
@@ -56,6 +57,7 @@ class Toolbar extends Component {
                 textAlign: "center" 
             },
             text : "",
+            initialZoomLevel : currentState.zoomLevel
         };
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {};

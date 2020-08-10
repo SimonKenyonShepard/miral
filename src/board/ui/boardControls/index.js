@@ -9,7 +9,7 @@ class BoardControls extends Component {
   
     
     render() {
-        const today = new Date().toLocaleDateString();
+        const today = new Date().toLocaleDateString().replace(/\//g, "");
 
         return (
             <div className={"boardControls"}>

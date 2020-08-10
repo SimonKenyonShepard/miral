@@ -8,7 +8,12 @@ export const themes = {
       "#C8DE02", //green
       "#EBE000", //yellow
       "#F2A105" //orange
-    ]
+    ],
+    primaryColors : [
+      "#ffffff", //white
+      "#000000", //black
+      "#999", //grey
+    ],
   },
   dark: {
     

@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import PredefinedColorPicker from './editors/predefinedColorPicker';
 import CustomColorPicker from './editors/customColorPicker';
 import CustomBorderColorPicker from './editors/customBorderColorPicker';
+import BorderStyle from './editors/borderStyle';
 import FontStyle from './editors/fontStyle';
 import TextAlignment from './editors/textAlignment';
 import Link from './editors/link';
@@ -18,7 +19,7 @@ import './styles.css';
 
 const shapeTypeEditableFeatures = {
     "postit_square" : ["predefinedColor", "fontStyle", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "rect" : ["customColor", "customBorderColor", "fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "rect" : ["customColor", "customBorderColor", "borderStyle", "fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
     "text" : ["fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"]
 };
 
@@ -72,6 +73,15 @@ class ElementEditor extends Component {
                         return <CustomBorderColorPicker 
                                     key={`${selectedElements[0].id}_${button}`}
                                     currentStyles={selectedElements[0].styles}
+                                    handleUpdateElementProperty={this.handleUpdateElementProperty}
+                                    handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
+                                    currentOpenSubMenu={this.state.currentOpenSubMenu}
+                                />;
+                    case 'borderStyle':
+                        return <BorderStyle 
+                                    key={`${selectedElements[0].id}_${button}`}
+                                    currentStyles={selectedElements[0].styles}
+                                    initialZoomLevel={selectedElements[0].initialZoomLevel}
                                     handleUpdateElementProperty={this.handleUpdateElementProperty}
                                     handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                                     currentOpenSubMenu={this.state.currentOpenSubMenu}
