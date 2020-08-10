@@ -44,7 +44,8 @@ class Toolbar extends Component {
                 height: 8*currentState.zoomLevel,
                 fillOpacity: 0,
                 fill: "#ffffff",
-                stroke : "black",
+                stroke : "#000000",
+                strokeOpacity : 1,
                 strokeWidth : 2*currentState.zoomLevel
             },
             fontStyle : {
@@ -101,7 +102,8 @@ class Toolbar extends Component {
                 height: (24*1.4)*currentState.zoomLevel,
                 fillOpacity: 0,
                 fill: "#ffffff",
-                stroke : "transparent",
+                stroke : "#000000",
+                strokeOpacity : 0,
                 strokeWidth : 2*currentState.zoomLevel
             },
             fontStyle : {
