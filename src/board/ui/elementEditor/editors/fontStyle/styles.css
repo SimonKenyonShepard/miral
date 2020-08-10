@@ -6,3 +6,11 @@
     background-color : #c8c8c8;
     border-radius: 2px;
 }
+
+.fontFamily {
+    padding : 0 0 0 8px;
+}
+
+.fontFamily option {
+    padding: 4px;
+}

@@ -50,6 +50,7 @@ class Toolbar extends Component {
                 strokeDasharray : "0"
             },
             fontStyle : {
+                fontFamily : "",
                 fontWeight : "normal",
                 fontStyle : "normal",
                 textDecorationLine : "",
@@ -109,6 +110,7 @@ class Toolbar extends Component {
                 strokeWidth : 2*currentState.zoomLevel
             },
             fontStyle : {
+                fontFamily : "",
                 fontWeight : "normal",
                 fontStyle : "normal",
                 textDecorationLine : "",

@@ -6,6 +6,23 @@ const iconColor = "#333";
 
 const SUBMENU_NAME = "FontStyle";
 
+const FONT_FAMILIES = [
+  "Arial",
+  "Arial Black",
+  "Arial Narrow",
+  "Arial Rounded MT Bold",
+  "Baskerville",
+  "Courier New",
+  "Georgia",
+  "Lucida Bright",
+  "Lucida Sans Typewriter",
+  "Palatino",
+  "Tahoma",
+  "Times New Roman",
+  "Trebuchet MS",
+  "Verdana"
+];
+
 class FontStyle extends Component {
 
     constructor(props, context) {
@@ -74,6 +91,16 @@ class FontStyle extends Component {
       });
     }
 
+    handleFontChange = (e) => {
+      let {fontFamily} = this.props.fontStyle;
+      if(fontFamily !== e.target.value) {
+        this.props.handleUpdateElementProperty({
+          property : "fontStyle",
+          value : {...this.props.fontStyle, fontFamily : e.target.value}
+        });
+      }
+    }
+
     render() {
         
         let submenuCSS = "predefinedColorPicker_submenu";
@@ -99,7 +126,6 @@ class FontStyle extends Component {
               </div>
               <div 
                   className={submenuCSS}
-                  onClick={this.handleOpenSubMenu}
                 >
                     <div className={"arrow"} />
                     <div className={`editor_subMenu_icon ${boldSelected}`} onClick={this.handleBoldChange}>
@@ -121,6 +147,14 @@ class FontStyle extends Component {
                       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                         <path fill={iconColor} d="M10 19h4v-3h-4v3zM5 4v3h5v3h4V7h5V4H5zM3 14h18v-2H3v2z"/>
                       </svg>
+                    </div>
+                    <div className="fontFamily">
+                        <select 
+                          value={this.props.fontStyle.fontFamily}
+                          onChange={this.handleFontChange}
+                        >
+                          {FONT_FAMILIES.map(font => <option key={`fontSelector_${font}`}>{font}</option>)}
+                        </select>
                     </div>
                 </div>
             </div>
