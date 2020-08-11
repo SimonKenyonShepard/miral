@@ -219,7 +219,31 @@ class Board extends Component {
     handleUpdateElementsAndState = (data) => {
         this.setState(data);
     }
-  
+
+    handleDeleteElements = () => {
+        const newElementsData = {...this.state.elements};
+        const newElementsState = {...this.state.elementState};
+        Object.keys(this.state.elementState).forEach(item => {
+            if(this.state.elementState[item].selected) {
+                delete newElementsData[item];
+                delete newElementsState[item];
+            }
+        });
+        this.setState({
+                elements : newElementsData,
+                elementState : newElementsState,
+                storeUndo : true
+            });
+    }
+    
+    handleKeyPress = (e) => {
+
+        if(e.key === "Backspace") {
+            this.handleDeleteElements();
+        }
+        
+    }
+
     render() {
         const {width, height} = this.props;
         const {offsetX, offsetY, zoomLevel, tool, elements, textEditor} = this.state;
@@ -274,7 +298,10 @@ class Board extends Component {
             backgroundPosition : `${(offsetX*-1)/zoomLevel}px ${(offsetY*-1)/zoomLevel}px`
         };
         return (
-            <div className={`boardWrapper ${tool}`} style={gridPosition}>
+            <div 
+                className={`boardWrapper ${tool}`} 
+                style={gridPosition}
+            >
                 <NavBar />
                 <Altimeter zoomLevel={zoomLevel} />
                 <BoardControls
@@ -297,6 +324,7 @@ class Board extends Component {
                     selectedElements={selectedElements}
                     gridSpace={{offsetX, offsetY, zoomLevel}}
                     handleUpdateElementProperty={this.handleUpdateElementProperty}
+                    handleDeleteElements={this.handleDeleteElements}
                 />
                 <svg id="board" 
                     width={`${width}px`}
@@ -323,6 +351,14 @@ class Board extends Component {
                 </svg>
             </div>
         );
+    }
+
+    componentDidMount(){
+        document.addEventListener('keydown', this.handleKeyPress);
+    }
+
+    componentWillUnmount(){
+        document.removeEventListener('keydown', this.handleKeyPress);
     }
 
     

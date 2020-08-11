@@ -146,7 +146,7 @@ class PostitSquare extends Component {
                 <g transform={`translate(${shapeProps.x} ${shapeProps.y}) scale(${(shapeProps.width/postItBaseWidth)})`}>
                     <path 
                         d={postItShapeData.dropShadow} 
-                        fill="#cccccc" 
+                        fill="rgba(0,0,0, 0.4)" 
                         filter={`url(#${postItShapeData.filter})`}
                     />
                     <path 

@@ -111,7 +111,10 @@ class ElementEditor extends Component {
                     case 'lock':
                         return <ElementLocker key={`${selectedElements[0].id}_${button}`} />;
                     case 'delete':
-                        return <ElementDeleter key={`${selectedElements[0].id}_${button}`} />;
+                        return <ElementDeleter 
+                                    key={`${selectedElements[0].id}_${button}`} 
+                                    handleDeleteElements={this.props.handleDeleteElements}
+                                />;
                     case 'menu':
                         return <ElementEditorMenu options={shapeTypeEditableFeatures[selectedElements[0].type]} key={`${selectedElements[0].id}_${button}`} />;
                     default:
