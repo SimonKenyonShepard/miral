@@ -49,6 +49,10 @@ class ElementEditor extends Component {
         let containerClass = "elementEditor",
             editButtons = null;
         
+        const selectedIDs = selectedElements.map(element => {
+            return element.id;
+        });
+        
         if(selectedElements.length === 1) {
 
             editButtons = shapeTypeEditableFeatures[selectedElements[0].type].map(button => {
@@ -105,9 +109,19 @@ class ElementEditor extends Component {
                     case 'link':
                         return <Link key={`${selectedElements[0].id}_${button}`}/>;
                     case 'bringForward':
-                        return <DepthSetter type="forward" key={`${selectedElements[0].id}_${button}`} />;
+                        return <DepthSetter 
+                                    type="forward" 
+                                    key={`${selectedElements[0].id}_${button}`}
+                                    handleShiftElementPosition={this.props.handleShiftElementPosition}
+                                    ids={selectedIDs}
+                                />;
                     case 'sendBackward':
-                        return <DepthSetter type="backward" key={`${selectedElements[0].id}_${button}`} />;
+                        return <DepthSetter 
+                                    type="backward" 
+                                    key={`${selectedElements[0].id}_${button}`}
+                                    handleShiftElementPosition={this.props.handleShiftElementPosition}
+                                    ids={selectedIDs}
+                                />;
                     case 'lock':
                         return <ElementLocker key={`${selectedElements[0].id}_${button}`} />;
                     case 'delete':

@@ -12,6 +12,14 @@ class DepthSetter extends Component {
       };
     }
 
+    handleBringForward = () => {
+      this.props.handleShiftElementPosition("forward", this.props.ids);
+    }
+
+    handleSendBackward = () => {
+      this.props.handleShiftElementPosition("backward", this.props.ids);
+    }
+
     render() {
         
         const isForward = (this.props.type === "forward");
@@ -22,6 +30,7 @@ class DepthSetter extends Component {
                 <div 
                   className={"editor_icon"}
                   title={"Bring forward"}
+                  onClick={this.handleBringForward}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                     <path d="M0 0h24v24H0V0z" fill="none"/>
@@ -32,6 +41,7 @@ class DepthSetter extends Component {
                 <div 
                   className={"editor_icon"}
                   title={"Send backwards"}
+                  onClick={this.handleSendBackward}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                     <path d="M0 0h24v24H0V0z" fill="none"/>

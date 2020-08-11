@@ -235,6 +235,24 @@ class Board extends Component {
                 storeUndo : true
             });
     }
+
+    handleShiftElementPosition = (type, ids) => {
+        const newElementsData = {};
+        const newIdsOrder = Object.keys(this.state.elements);
+        ids.forEach(id => {
+            const arrayPosition = newIdsOrder.indexOf(id);
+            newIdsOrder.splice(arrayPosition, 1);
+            if(type === "forward") {
+                newIdsOrder.splice(arrayPosition+1, 0, id);
+            } else if (type === "backward") {
+                newIdsOrder.splice(arrayPosition-1, 0, id);
+            }
+        });
+        newIdsOrder.forEach(id => {
+            newElementsData[id] = this.state.elements[id];
+        });
+        this.setState({elements : newElementsData});
+    }
     
     handleKeyPress = (e) => {
 
@@ -325,6 +343,7 @@ class Board extends Component {
                     gridSpace={{offsetX, offsetY, zoomLevel}}
                     handleUpdateElementProperty={this.handleUpdateElementProperty}
                     handleDeleteElements={this.handleDeleteElements}
+                    handleShiftElementPosition={this.handleShiftElementPosition}
                 />
                 <svg id="board" 
                     width={`${width}px`}
