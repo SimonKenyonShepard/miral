@@ -11,7 +11,7 @@ import BoardControls from './ui/boardControls';
 //ELEMENTS
 import Rect from './elements/rect';
 import Text from './elements/text';
-import PostitSquare from './elements/postit_square';
+import Postit from './elements/postit';
 
 import './styles.css';
 
@@ -294,8 +294,8 @@ class Board extends Component {
                     handleUpdatePosition={this.handleUpdatePosition}
                     handleSetCurrentElement={this.handleSetCurrentElement}
                 />);
-            } else if (element.type === "postit_square") {
-                return (<PostitSquare
+            } else if (element.type === "postit") {
+                return (<Postit
                     key={element.id}
                     data={element}
                     elementState={this.state.elementState[element.id]}

@@ -29,7 +29,7 @@ const postItShapeTypes = [
 
 ];
 
-class PostitSquare extends Component {
+class Postit extends Component {
 
     constructor(props, context) {
       super(props, context);
@@ -168,6 +168,6 @@ class PostitSquare extends Component {
     
   }
 
-  PostitSquare.contextType = ThemeContext;
+  Postit.contextType = ThemeContext;
 
-  export default PostitSquare;
+  export default Postit;

@@ -11,7 +11,7 @@ const ELEMENT_TYPE_PROPERTIES = {
         isExpandToFit : false,
         isAutoResize : true
     },
-    postit_square : {
+    postit : {
         isExpandToFit : false,
         isAutoResize : true
     }

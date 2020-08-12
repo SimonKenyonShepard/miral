@@ -142,13 +142,14 @@ class Toolbar extends Component {
         return newState;
     }
 
-    handlePostit_squareDragStart = (e, currentState) => {
+    handlePostitDragStart = (e, currentState) => {
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
         newState.elements[newID] = {
             id : newID,
-            type : "postit_square",
+            type : "postit",
+            subType : "square",
             fixedRatio : "true",
             predefinedColor : 3,
             styles : {
@@ -178,7 +179,7 @@ class Toolbar extends Component {
         return newState;
     }
 
-    handlePostit_squareDragEnd = (e, currentState) => {
+    handlePostitDragEnd = (e, currentState) => {
         const newState = {};
         newState.dragStartHandler = null;
         newState.dragMoveHandler = null;
@@ -199,9 +200,9 @@ class Toolbar extends Component {
                 <Tool type="postit" 
                     handleToolSelect={handleToolSelect}
                     handleSetDragHandler={this.props.handleSetDragHandler}
-                    handleDragStart={this.handlePostit_squareDragStart}
-                    handleDragMove={this.handlePostit_squareDragMove}
-                    handleDragEnd={this.handlePostit_squareDragEnd}
+                    handleDragStart={this.handlePostitDragStart}
+                    handleDragMove={this.handlePostitDragMove}
+                    handleDragEnd={this.handlePostitDragEnd}
                 />
                 <Tool type="text" 
                     handleToolSelect={handleToolSelect}
