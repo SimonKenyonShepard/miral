@@ -73,22 +73,22 @@ class TextEditor extends Component {
        let editorKey = "blank";
        if(data && data.id && data.styles) {
         const componentStyles = data.styles;
-            let x = ((componentStyles.x || componentStyles.cx)/gridSpace.zoomLevel)-(gridSpace.offsetX/gridSpace.zoomLevel),
-                y = ((componentStyles.y || componentStyles.cy)/gridSpace.zoomLevel)-(gridSpace.offsetY/gridSpace.zoomLevel),
-                width = componentStyles.width/gridSpace.zoomLevel,
-                height = componentStyles.height/gridSpace.zoomLevel;
-            styles.top = `${y}px`;
-            styles.left = `${x}px`; 
-            styles.height = `${height}px`; 
-            styles.width = `${width}px`;
-            styles.visibility = "visible";
-            styles.overflow = "scroll";
-            if(data.text.length > 0) {
-                starterText = data.text.split(/\n|\r/).map((line, i) => {
-                    return(<div key={`editor_${data.id}_${line}_${i}`}>{line}</div>);
-                });
-            }
-            editorKey=this.props.data.id;
+        let x = ((componentStyles.x || componentStyles.cx)/gridSpace.zoomLevel)-(gridSpace.offsetX/gridSpace.zoomLevel),
+            y = ((componentStyles.y || componentStyles.cy)/gridSpace.zoomLevel)-(gridSpace.offsetY/gridSpace.zoomLevel),
+            width = componentStyles.width/gridSpace.zoomLevel,
+            height = componentStyles.height/gridSpace.zoomLevel;
+        styles.top = `${y}px`;
+        styles.left = `${x}px`; 
+        styles.height = `${height}px`; 
+        styles.width = `${width}px`;
+        styles.visibility = "visible";
+        styles.overflow = "scroll";
+        if(data.text.length > 0) {
+            starterText = data.text.split(/\n|\r/).map((line, i) => {
+                return(<div key={`editor_${data.id}_${line}_${i}`}>{line}</div>);
+            });
+        }
+        editorKey=this.props.data.id;
             
        }
         

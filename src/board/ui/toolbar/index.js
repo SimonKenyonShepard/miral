@@ -11,7 +11,8 @@ class Tool extends Component {
         this.props.handleSetDragHandler({
             "dragStartHandler" : this.props.handleDragStart,
             "dragMoveHandler" : this.props.handleDragMove,
-            "dragEndHandler" : this.props.handleDragEnd
+            "dragEndHandler" : this.props.handleDragEnd,
+            "clickHandler" : this.props.handleClick
         });
     }
 
@@ -30,7 +31,8 @@ class Tool extends Component {
 
 class Toolbar extends Component {
 
-    handleShapeDragStart = (e, currentState) => {
+    handleShapeClick(e, dragStartX, dragStartY) {
+        const currentState = this.state;
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
@@ -38,10 +40,10 @@ class Toolbar extends Component {
             id : newID,
             type : "rect",
             styles : {
-                x : (e.clientX*currentState.zoomLevel)+currentState.offsetX,
-                y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
-                width : 8*currentState.zoomLevel,
-                height: 8*currentState.zoomLevel,
+                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
+                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
+                width : 240*currentState.zoomLevel,
+                height: 120*currentState.zoomLevel,
                 fillOpacity: 0,
                 fill: "#ffffff",
                 stroke : "#000000",
@@ -62,36 +64,77 @@ class Toolbar extends Component {
         };
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {};
-        newState.currentElement = newID;
-        return newState;
+        newState.dragStartHandler = null;
+        newState.dragMoveHandler = null;
+        newState.dragEndHandler = null;
+        newState.clickHandler = null;
+        newState.tool = "pan";
+        newState.storeUndo = true;
+        this.setState(newState);
     }
 
-    handleShapeDragMove = (e, currentState) => {
+    handleShapeDragStart(e, dragStartX, dragStartY, width, height) {
+        const currentState = this.state;
         const newState = {};
-        if(currentState.currentElement !== null) {
+        newState.elements = {...currentState.elements};
+        const newID = Shortid.generate();
+        newState.elements[newID] = {
+            id : newID,
+            type : "rect",
+            styles : {
+                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
+                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
+                width : width*currentState.zoomLevel,
+                height: height*currentState.zoomLevel,
+                fillOpacity: 0,
+                fill: "#ffffff",
+                stroke : "#000000",
+                strokeOpacity : 1,
+                strokeWidth : 2*currentState.zoomLevel,
+                strokeDasharray : "0"
+            },
+            fontStyle : {
+                fontFamily : "",
+                fontWeight : "normal",
+                fontStyle : "normal",
+                textDecorationLine : "",
+                color : "#080808",
+                textAlign: "center" 
+            },
+            text : "",
+            initialZoomLevel : currentState.zoomLevel
+        };
+        newState.elementState = {...currentState.elementState};
+        newState.elementState[newID] = {};
+        newState.elementBeingDrawn = newID;
+        newState.storeUndo = true;
+        this.setState(newState);
+    }
+
+    handleDragMove(e) {
+        const currentState = this.state;
+        const newState = {};
+        if(currentState.elementBeingDrawn !== null) {
             const newElementGraph = {...currentState.elements};
-            newElementGraph[currentState.currentElement].styles.width = (e.clientX-currentState.dragStartX)*currentState.zoomLevel;
-            newElementGraph[currentState.currentElement].styles.height = (e.clientY-currentState.dragStartY)*currentState.zoomLevel;
+            newElementGraph[currentState.elementBeingDrawn].styles.width += e.movementX*currentState.zoomLevel;
+            newElementGraph[currentState.elementBeingDrawn].styles.height += e.movementY*currentState.zoomLevel;
             newState.elements = newElementGraph;
         }
-        
-        return newState;
+        this.setState(newState);
     }
 
-    handleShapeDragEnd = (e, currentState) => {
+    handleDragEnd() {
         const newState = {};
         newState.dragStartHandler = null;
         newState.dragMoveHandler = null;
         newState.dragEndHandler = null;
-        if(currentState.currentElement !== null) {
-            newState.elementState = {...currentState.elementState};
-            newState.elementState[currentState.currentElement].drawn = true;
-            newState.tool = "pan";
-        }
-        return newState;
+        newState.clickHandler = null;
+        newState.tool = "pan";
+        this.setState(newState);
     }
 
-    handleTextDragStart = (e, currentState) => {
+    handleTextClick(e, dragStartX, dragStartY) {
+        const currentState = this.state;
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
@@ -99,8 +142,8 @@ class Toolbar extends Component {
             id : newID,
             type : "text",
             styles : {
-                x : (e.clientX*currentState.zoomLevel)+currentState.offsetX,
-                y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
+                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
+                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
                 width : 240*currentState.zoomLevel,
                 height: (24*1.4)*currentState.zoomLevel,
                 fillOpacity: 0,
@@ -123,26 +166,53 @@ class Toolbar extends Component {
         newState.elementState[newID] = {
             selected : true
         };
-        newState.currentElement = newID;
-        return newState;
-    }
-
-  
-
-    handleTextDragEnd = (e, currentState) => {
-        const newState = {};
         newState.dragStartHandler = null;
         newState.dragMoveHandler = null;
         newState.dragEndHandler = null;
-        if(currentState.currentElement !== null) {
-            newState.elementState = {...currentState.elementState};
-            newState.elementState[currentState.currentElement].drawn = true;
-            newState.tool = "pan";
-        }
-        return newState;
+        newState.clickHandler = null;
+        newState.tool = "pan";
+        this.setState(newState);
     }
 
-    handlePostitDragStart = (e, currentState) => {
+    handleTextDragStart(e, dragStartX, dragStartY, width, height) {
+        const currentState = this.state;
+        const newState = {};
+        newState.elements = {...currentState.elements};
+        const newID = Shortid.generate();
+        newState.elements[newID] = {
+            id : newID,
+            type : "text",
+            styles : {
+                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
+                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
+                width : width*currentState.zoomLevel,
+                height: height*currentState.zoomLevel,
+                fillOpacity: 0,
+                fill: "#ffffff",
+                stroke : "#000000",
+                strokeOpacity : 0,
+                strokeWidth : 2*currentState.zoomLevel
+            },
+            fontStyle : {
+                fontFamily : "",
+                fontWeight : "normal",
+                fontStyle : "normal",
+                textDecorationLine : "",
+                color : "#080808",
+                textAlign: "center"
+            },
+            text : ""
+        };
+        newState.elementState = {...currentState.elementState};
+        newState.elementState[newID] = {
+            selected : true
+        };
+        newState.elementBeingDrawn = newID;
+        this.setState(newState);
+    }
+
+    handlePostitClick(e) {
+        const currentState = this.state;
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
@@ -174,22 +244,51 @@ class Toolbar extends Component {
         let min = 0,
             max = 3;
         newState.elementState[newID].shapeType = Math.floor(Math.random() * (max - min + 1)) + min;
-        newState.currentElement = newID;
-        newState.storeUndo = true;
-        return newState;
-    }
-
-    handlePostitDragEnd = (e, currentState) => {
-        const newState = {};
         newState.dragStartHandler = null;
         newState.dragMoveHandler = null;
         newState.dragEndHandler = null;
-        if(currentState.currentElement !== null) {
-            newState.elementState = {...currentState.elementState};
-            newState.elementState[currentState.currentElement].drawn = true;
-            newState.tool = "pan";
-        }
-        return newState;
+        newState.clickHandler = null;
+        newState.tool = "pan";
+        newState.storeUndo = true;
+        this.setState(newState);
+    }
+
+    handlePostitDragStart(e) {
+        const currentState = this.state;
+        const newState = {};
+        newState.elements = {...currentState.elements};
+        const newID = Shortid.generate();
+        newState.elements[newID] = {
+            id : newID,
+            type : "postit",
+            subType : "square",
+            fixedRatio : "true",
+            predefinedColor : 3,
+            styles : {
+                x : (e.clientX*currentState.zoomLevel)+currentState.offsetX,
+                y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
+                width : 128*currentState.zoomLevel,
+                height: 128*currentState.zoomLevel,
+                fillOpacity: 0,
+                strokeWidth : 2*currentState.zoomLevel
+            },
+            fontStyle : {
+                fontWeight : "normal",
+                fontStyle : "normal",
+                textDecorationLine : "",
+                color : "#080808",
+                textAlign: "center" 
+            },
+            text : "",
+        };
+        newState.elementState = {...currentState.elementState};
+        newState.elementState[newID] = {};
+        let min = 0,
+            max = 3;
+        newState.elementState[newID].shapeType = Math.floor(Math.random() * (max - min + 1)) + min;
+        newState.storeUndo = true;
+        newState.elementBeingDrawn = newID;
+        this.setState(newState);
     }
   
     render() {
@@ -200,23 +299,26 @@ class Toolbar extends Component {
                 <Tool type="postit" 
                     handleToolSelect={handleToolSelect}
                     handleSetDragHandler={this.props.handleSetDragHandler}
+                    handleClick={this.handlePostitClick}
                     handleDragStart={this.handlePostitDragStart}
-                    handleDragMove={this.handlePostitDragMove}
-                    handleDragEnd={this.handlePostitDragEnd}
+                    handleDragMove={this.handleDragMove}
+                    handleDragEnd={this.handleDragEnd}
                 />
                 <Tool type="text" 
                     handleToolSelect={handleToolSelect}
                     handleSetDragHandler={this.props.handleSetDragHandler}
+                    handleClick={this.handleTextClick}
                     handleDragStart={this.handleTextDragStart}
-                    handleDragMove={this.handleTextDragMove}
-                    handleDragEnd={this.handleTextDragEnd}
+                    handleDragMove={this.handleDragMove}
+                    handleDragEnd={this.handleDragEnd}
                 />
                 <Tool type="shape" 
                     handleToolSelect={handleToolSelect}
                     handleSetDragHandler={this.props.handleSetDragHandler}
+                    handleClick={this.handleShapeClick}
                     handleDragStart={this.handleShapeDragStart}
-                    handleDragMove={this.handleShapeDragMove}
-                    handleDragEnd={this.handleShapeDragEnd} 
+                    handleDragMove={this.handleDragMove}
+                    handleDragEnd={this.handleDragEnd} 
                 />
                 <Tool type="pen" handleToolSelect={handleToolSelect}/>
                 <Tool type="image" handleToolSelect={handleToolSelect}/>

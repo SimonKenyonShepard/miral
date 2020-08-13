@@ -7,6 +7,7 @@ import ElementEditor from './ui/elementEditor';
 import Resizer from './ui/resizer';
 import NavBar from './ui/navbar';
 import BoardControls from './ui/boardControls';
+import InteractionManager from './ui/InteractionManager';
 
 //ELEMENTS
 import Rect from './elements/rect';
@@ -24,16 +25,12 @@ class Board extends Component {
         offsetX : 0,
         offsetY : 0,
         tool : "pan",
-        resetTool : false,
-        dragging : false,
-        dragStartX :  0,
-        dragStartY : 0,
         dragStartHandler : null,
         dragMoveHandler : null,
         dragEndHandler : null,
+        clickHandler : null,
         elements : {},
         elementState : {},
-        currentElement : [],
         textEditor : null,
         storeUndo : false
       };
@@ -42,99 +39,6 @@ class Board extends Component {
     handleToolSelect = (type) => {
         this.handleDeselectAllElements();   
         this.setState({"tool" : type});
-    }
-
-    handleZoom = (e) => {
-        const {
-            offsetX,
-            offsetY,
-            zoomLevel
-        } = this.state;
-
-        const dir = Math.sign(e.deltaY),
-        nextZoomLevel = zoomLevel + dir > 0 ? zoomLevel + dir : 1,
-        currentCursorPositionX = e.clientX*zoomLevel,
-        currentCursorPositionY = e.clientY*zoomLevel,
-        cursorPositionXAfterZoom = e.clientX*nextZoomLevel,
-        cursorPositionYAfterZoom = e.clientY*nextZoomLevel,
-        newOffsetX = offsetX - (cursorPositionXAfterZoom - currentCursorPositionX),
-        newOffsetY = offsetY - (cursorPositionYAfterZoom - currentCursorPositionY);
-
-        this.setState({
-            offsetX : newOffsetX,
-            offsetY : newOffsetY,
-            zoomLevel : nextZoomLevel
-        });
-
-    }
-
-    handleMouseDown = (e) => {
-       
-        const newState = {
-            dragging : true,
-            dragStartX : e.clientX,
-            dragStartY : e.clientY,
-        };
-
-        let stateUpdate = {};
-        if(this.state.dragStartHandler) {
-            stateUpdate = this.state.dragStartHandler(e, this.state);
-        }
-
-        const finalNewState = Object.assign({}, newState, stateUpdate);
-
-        this.setState(finalNewState);
-        
-    }
-
-    handleMouseMove = (e) => {
-        const {
-            offsetX,
-            offsetY,
-            zoomLevel,
-            dragging,
-            tool,
-            dragMoveHandler
-        } = this.state;
-        if(dragging) {
-            let newState = {};
-            if(dragMoveHandler) {
-                newState = dragMoveHandler(e, this.state);
-            } else if(tool === "pan") {
-                newState = {
-                    offsetX : offsetX + (e.movementX*-zoomLevel),
-                    offsetY : offsetY + (e.movementY*-zoomLevel)
-                };
-            }
-            this.setState(newState);
-        }
-    }
-
-    handleMouseUp = (e) => {
-
-        const wasClick = (this.state.dragStartX === e.clientX && this.state.dragStartY === e.clientY);
-        const boardWasTarget = (e.target.id === "board");
-
-        if(wasClick && boardWasTarget) {
-            this.handleDeselectAllElements();
-        }
-
-        const newState = {
-            dragging : false,
-            dragStartX : 0,
-            dragStartY : 0,
-            currentElement : null,
-            elementState : {...this.state.elementState}
-        };
-
-        let stateUpdate = {};
-        if(this.state.dragEndHandler) {
-            stateUpdate = this.state.dragEndHandler(e, this.state);
-        }
-
-        const finalState = Object.assign({}, newState, stateUpdate);
-
-        this.setState(finalState);
     }
 
     handleTextEdit = (id) => {
@@ -158,7 +62,14 @@ class Board extends Component {
         });
     }
 
-    handleUpdatePosition = (data) => {
+    updateDragPosition = (data) => {
+        const {
+            offsetX,
+            offsetY,
+            zoomLevel,
+            tool
+        } = this.state;
+
         const newElementsData = {...this.state.elements};
         const selectedItems = Object.keys(this.state.elementState).filter(item => {
             if(this.state.elementState[item].selected) {
@@ -166,13 +77,20 @@ class Board extends Component {
             }
             return false;
         });
-        selectedItems.forEach(element => {
-            newElementsData[element].styles.x += data.x*this.state.zoomLevel;
-            newElementsData[element].styles.y += data.y*this.state.zoomLevel;
-        });
-        this.setState({
-            elements : newElementsData
-        });
+        if(selectedItems.length) {
+            selectedItems.forEach(element => {
+                newElementsData[element].styles.x += data.x*this.state.zoomLevel;
+                newElementsData[element].styles.y += data.y*this.state.zoomLevel;
+            });
+            this.setState({
+                elements : newElementsData
+            });
+        } else if(tool === "pan") {
+            this.setState({
+                offsetX : offsetX + (data.x*-zoomLevel),
+                offsetY : offsetY + (data.y*-zoomLevel)
+            });
+        }
     }
 
     handleSetCurrentElement = (elementID, selected, isMultiSelect) => {
@@ -198,8 +116,13 @@ class Board extends Component {
         });
     }
 
-    handleSetDragHandler = (newState) => {
-        this.setState(newState);
+    handleSetDragHandler = (dragHandlers) => {
+        this.setState({
+            dragStartHandler : dragHandlers.dragStartHandler.bind(this),
+            dragMoveHandler : dragHandlers.dragMoveHandler.bind(this),
+            dragEndHandler : dragHandlers.dragEndHandler.bind(this),
+            clickHandler : dragHandlers.clickHandler.bind(this)
+        });
     };
 
     handleSetElementHeight = (elementID, height) => {
@@ -262,6 +185,10 @@ class Board extends Component {
         
     }
 
+    handleUpdateBoardPosition = (data) => {
+        this.setState(data);
+    }
+
     render() {
         const {width, height} = this.props;
         const {offsetX, offsetY, zoomLevel, tool, elements, textEditor} = this.state;
@@ -282,7 +209,6 @@ class Board extends Component {
                     data={element}
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
-                    handleUpdatePosition={this.handleUpdatePosition}
                     handleSetCurrentElement={this.handleSetCurrentElement}
                 />);
             } else if (element.type === "text") {
@@ -291,7 +217,6 @@ class Board extends Component {
                     data={element}
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
-                    handleUpdatePosition={this.handleUpdatePosition}
                     handleSetCurrentElement={this.handleSetCurrentElement}
                 />);
             } else if (element.type === "postit") {
@@ -300,7 +225,6 @@ class Board extends Component {
                     data={element}
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
-                    handleUpdatePosition={this.handleUpdatePosition}
                     handleSetCurrentElement={this.handleSetCurrentElement}
                 />);
             }
@@ -320,6 +244,40 @@ class Board extends Component {
                 className={`boardWrapper ${tool}`} 
                 style={gridPosition}
             >
+                <InteractionManager
+                    offsetX={this.state.offsetX}
+                    offsetY={this.state.offsetY}
+                    zoomLevel={this.state.zoomLevel}
+                    updateBoardPosition={this.updateBoardPosition}
+                    updateDragPosition={this.updateDragPosition}
+                    handleDragStart={this.state.dragStartHandler}
+                    handleDrag={this.state.dragMoveHandler}
+                    handleDragEnd={this.state.dragEndHandler}
+                    handleClick={this.state.clickHandler}
+                >
+                    <svg id="board" 
+                        width={`${width}px`}
+                        height={`${height}px`}
+                        viewBox={viewBox}
+                        onMouseDown={this.handleMouseDown}
+                        onMouseMove={this.handleMouseMove}
+                        onMouseUp={this.handleMouseUp}
+                        >
+                        <defs>
+                            <filter height="200%" id="shadow1" width="200%" x="-50%" y="-50%">
+                                <feGaussianBlur in="SourceGraphic" stdDeviation="20"/>
+                            </filter>
+                            <filter height="200%" id="shadow2" width="200%" x="-50%" y="-50%">
+                                <feGaussianBlur in="SourceGraphic" stdDeviation="10"/>
+                            </filter>
+                        </defs>
+                        {elementNodes}
+                        <Resizer 
+                            selectedElements={selectedElements}
+                            handleSetDragHandler={this.handleSetDragHandler}
+                        />
+                    </svg>
+                </InteractionManager>
                 <NavBar />
                 <Altimeter zoomLevel={zoomLevel} />
                 <BoardControls
@@ -345,29 +303,6 @@ class Board extends Component {
                     handleDeleteElements={this.handleDeleteElements}
                     handleShiftElementPosition={this.handleShiftElementPosition}
                 />
-                <svg id="board" 
-                    width={`${width}px`}
-                    height={`${height}px`}
-                    viewBox={viewBox}
-                    onWheel={this.handleZoom}
-                    onMouseDown={this.handleMouseDown}
-                    onMouseMove={this.handleMouseMove}
-                    onMouseUp={this.handleMouseUp}
-                    >
-                    <defs>
-                        <filter height="200%" id="shadow1" width="200%" x="-50%" y="-50%">
-                            <feGaussianBlur in="SourceGraphic" stdDeviation="20"/>
-                        </filter>
-                        <filter height="200%" id="shadow2" width="200%" x="-50%" y="-50%">
-                            <feGaussianBlur in="SourceGraphic" stdDeviation="10"/>
-                        </filter>
-                    </defs>
-                    {elementNodes}
-                    <Resizer 
-                        selectedElements={selectedElements}
-                        handleSetDragHandler={this.handleSetDragHandler}
-                    />
-                </svg>
             </div>
         );
     }

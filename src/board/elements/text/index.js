@@ -6,57 +6,15 @@ class Text extends Component {
 
     constructor(props, context) {
       super(props, context);
-      this.state = {
-        drag: 0,
-        cursor : "crosshair"
-      };
+      this.state = {};
     }
 
-    handleMouseDown = (e) => {
-        if(this.props.elementState.selected === true) {
-            e.stopPropagation();
-            this.setState({
-                cursor : "grabbing",
-                drag : 1
-            });
-        }
+    handleSelect = (e) => {
+        const isMultiSelect = e.metaKey;
+        this.props.handleSetCurrentElement(this.props.data.id, true, isMultiSelect);
     }
 
-    handleMouseMove = (e) => {
-        if(this.state.drag === 1 || this.state.drag === 2) {
-            if(this.state.drag === 1) {
-                this.setState({
-                    drag : 2
-                });
-            }
-            e.stopPropagation();
-            this.props.handleUpdatePosition({
-                x : e.movementX,
-                y : e.movementY
-            });
-        }
-    }
-
-    handleMouseUp = (e) => {
-        const wasDrag = this.state.drag === 2;
-        if(wasDrag) {
-            e.stopPropagation();
-            this.setState({
-                drag : 0,
-                cursor : "grab",
-            });
-           
-        } else if(this.state.drag === 0 || this.state.drag === 1) {
-            const isMultiSelect = e.metaKey;
-            this.props.handleSetCurrentElement(this.props.data.id, true, isMultiSelect);
-            this.setState({
-                drag : 0,
-                cursor : "grab"
-            });
-        }
-    }
-
-    handleTextEdit = (e) => {
+    handleTextEdit = () => {
         this.props.handleTextEdit(this.props.data.id);
     }
   
@@ -97,10 +55,8 @@ class Text extends Component {
         
         return (
             <g 
+                onClick={this.handleSelect}
                 onDoubleClick={this.handleTextEdit}
-                onMouseDown={this.handleMouseDown}
-                onMouseMove={this.handleMouseMove}
-                onMouseUp={this.handleMouseUp}
                 cursor={this.state.cursor}
                 height={shapeProps.height}
                 width={shapeProps.width}
@@ -113,13 +69,12 @@ class Text extends Component {
         );
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.elementState.drawn === true && this.state.cursor === "crosshair") {
-          this.setState({"cursor" : "pointer"});
-          this.props.handleTextEdit(this.props.data.id);
-        }
+    componentDidMount() {
+        setTimeout(() => {
+            this.handleTextEdit();
+        }, 300);
+        
     }
-
     
   }
 

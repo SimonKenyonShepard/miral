@@ -18,7 +18,7 @@ import ElementEditorMenu from './editors/elementEditorMenu';
 import './styles.css';
 
 const shapeTypeEditableFeatures = {
-    "postit_square" : ["predefinedColor", "fontStyle", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "postit" : ["predefinedColor", "fontStyle", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
     "rect" : ["customColor", "customBorderColor", "borderStyle", "fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
     "text" : ["fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"]
 };
@@ -54,7 +54,6 @@ class ElementEditor extends Component {
         });
         
         if(selectedElements.length === 1) {
-
             editButtons = shapeTypeEditableFeatures[selectedElements[0].type].map(button => {
                 switch (button) {
                     case 'predefinedColor':
