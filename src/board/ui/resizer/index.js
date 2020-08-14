@@ -3,57 +3,35 @@ import React, {Component} from 'react';
 import './styles.css';
 
 class Resizer extends Component {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-          resizing: false
-        };
-    }
-
-    handleMouseDown = (e) => {
-        if(this.state.resizing === false) {
-            this.setState({
-                resizing : true
-            });
-            this.props.handleSetDragHandler({
-                "dragMoveHandler" : this.handleMouseMove,
-                "dragEndHandler" : this.handleMouseUp
-            });
-        }
-    }
 
     handleMouseMove(e) {
         const currentState = this.state;
-        if(this.state.resizing === true) {
-            const newState = {};
-            if(this.props.selectedElements) {
-                const newElementsData = {...currentState.elements};
-                if(this.props.selectedElements.length > 1) {
-                    this.props.selectedElements.forEach(item => {
-                        newElementsData[item.id].styles.width += e.movementX*currentState.zoomLevel;
-                        newElementsData[item.id].styles.height += e.movementX*currentState.zoomLevel;
-                    });
-                } else if(this.props.selectedElements.length === 1 && this.props.selectedElements[0].fixedRatio) {
-                    let elementID = this.props.selectedElements[0].id;
-                    newElementsData[elementID].styles.width += e.movementX*currentState.zoomLevel;
-                    newElementsData[elementID].styles.height += e.movementX*currentState.zoomLevel;
-                } else if(this.props.selectedElements.length === 1) {
-                    let elementID = this.props.selectedElements[0].id;
-                    newElementsData[elementID].styles.width += e.movementX*currentState.zoomLevel;
-                    newElementsData[elementID].styles.height += e.movementY*currentState.zoomLevel;
-                }
-                
+        const selectedElements = [];
+        Object.keys(this.state.elementState).forEach(item => {
+            if(this.state.elementState[item].selected) {
+                selectedElements.push(this.state.elements[item]);
+            }
+        });
+        const newState = {};
+        if(selectedElements) {
+            const newElementsData = {...currentState.elements};
+            if(selectedElements.length > 1) {
+                selectedElements.forEach(item => {
+                    newElementsData[item.id].styles.width += e.movementX*currentState.zoomLevel;
+                    newElementsData[item.id].styles.height += e.movementX*currentState.zoomLevel;
+                });
+            } else if(selectedElements.length === 1 && selectedElements[0].fixedRatio) {
+                let elementID = selectedElements[0].id;
+                newElementsData[elementID].styles.width += e.movementX*currentState.zoomLevel;
+                newElementsData[elementID].styles.height += e.movementX*currentState.zoomLevel;
+            } else if(selectedElements.length === 1) {
+                let elementID = selectedElements[0].id;
+                newElementsData[elementID].styles.width += e.movementX*currentState.zoomLevel;
+                newElementsData[elementID].styles.height += e.movementY*currentState.zoomLevel;
             }
             this.setState({newState});
         }
-    }
-
-    handleMouseUp = (e) => {
-        if(this.state.resizing === true) {
-            this.setState({
-                resizing : false
-            });
-        }
+        
     }
 
     render() {
@@ -111,7 +89,7 @@ class Resizer extends Component {
                         pointerEvents={"none"} 
                     />
                     <circle
-                        onMouseDown={this.handleMouseDown}
+                        id={"resizerHandle"}
                         cx={cx} 
                         cy={cy} 
                         r={500} 
@@ -129,6 +107,12 @@ class Resizer extends Component {
                 {resizeHandle}
             </g>
         );
+    }
+
+    componentDidMount() {
+        this.props.registerDragHandler("resizerHandle", {
+            "dragMoveHandler" : this.handleMouseMove
+        });
     }
 }
 

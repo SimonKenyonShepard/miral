@@ -45,6 +45,7 @@ class Text extends Component {
         newState.dragEndHandler = null;
         newState.clickHandler = null;
         newState.tool = "pan";
+        this.removeDragHandler("drawCanvas");
         this.setState(newState);
     }
 

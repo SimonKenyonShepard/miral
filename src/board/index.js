@@ -291,7 +291,7 @@ class Board extends Component {
                         {elementNodes}
                         <Resizer 
                             selectedElements={selectedElements}
-                            handleSetDragHandler={this.handleSetDragHandler}
+                            registerDragHandler={this.registerDragHandler}
                         />
                     </svg>
                 </InteractionManager>
@@ -322,6 +322,12 @@ class Board extends Component {
 
     componentDidMount(){
         document.addEventListener('keydown', this.handleKeyPress);
+        setTimeout(() => {
+            this.registerDragHandler("board", {
+                "clickHandler" : this.handleDeselectAllElements
+            });
+        })
+        
     }
 
     componentWillUnmount(){

@@ -50,6 +50,7 @@ class Shape extends Component {
         newState.clickHandler = null;
         newState.tool = "pan";
         newState.storeUndo = true;
+        this.removeDragHandler("drawCanvas");
         this.setState(newState);
     }
 
