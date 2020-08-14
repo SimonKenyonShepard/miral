@@ -25,9 +25,7 @@ class Board extends Component {
         offsetX : 0,
         offsetY : 0,
         tool : "pan",
-        dragStartHandler : null,
-        dragMoveHandler : null,
-        dragEndHandler : null,
+        dragHandlers : {},
         clickHandler : null,
         elements : {},
         elementState : {},
@@ -116,14 +114,32 @@ class Board extends Component {
         });
     }
 
-    handleSetDragHandler = (dragHandlers) => {
-        this.setState({
-            dragStartHandler : dragHandlers.dragStartHandler.bind(this),
-            dragMoveHandler : dragHandlers.dragMoveHandler.bind(this),
-            dragEndHandler : dragHandlers.dragEndHandler.bind(this),
-            clickHandler : dragHandlers.clickHandler.bind(this)
-        });
+    registerDragHandler = (id, newDragHandlers) => {
+        var newHandlers = {};
+        if(newDragHandlers.dragStartHandler) {
+            newHandlers.handleDragStart =  newDragHandlers.dragStartHandler.bind(this);
+        }
+        if(newDragHandlers.dragMoveHandler) {
+            newHandlers.handleDragMove =  newDragHandlers.dragMoveHandler.bind(this);
+        }
+        if(newDragHandlers.dragEndHandler) {
+            newHandlers.handleDragEnd =  newDragHandlers.dragEndHandler.bind(this);
+        }
+        if(newDragHandlers.clickHandler) {
+            newHandlers.handleClick =  newDragHandlers.clickHandler.bind(this);
+        }
+        const dragHandlers = {...this.state.dragHandlers};
+        dragHandlers[id] = newHandlers;
+        this.setState({dragHandlers});
     };
+
+    removeDragHandler = (id) => {
+        const dragHandlers = {...this.state.dragHandlers};
+        if(dragHandlers[id]) {
+            delete dragHandlers[id];
+        }
+        this.setState({dragHandlers});
+    }
 
     handleSetElementHeight = (elementID, height) => {
         const newElementsData = {...this.state.elements};
@@ -250,11 +266,12 @@ class Board extends Component {
                     zoomLevel={this.state.zoomLevel}
                     updateBoardPosition={this.updateBoardPosition}
                     updateDragPosition={this.updateDragPosition}
-                    handleDragStart={this.state.dragStartHandler}
-                    handleDrag={this.state.dragMoveHandler}
-                    handleDragEnd={this.state.dragEndHandler}
-                    handleClick={this.state.clickHandler}
+                    dragHandlers={this.state.dragHandlers}
                 >
+                     <Toolbar 
+                        handleToolSelect={this.handleToolSelect} 
+                        registerDragHandler={this.registerDragHandler}
+                    />
                     <svg id="board" 
                         width={`${width}px`}
                         height={`${height}px`}
@@ -285,10 +302,6 @@ class Board extends Component {
                     elementState={this.state.elementState}
                     storeUndo={this.state.storeUndo}
                     handleUpdateElementsAndState={this.handleUpdateElementsAndState}
-                />
-                <Toolbar 
-                    handleToolSelect={this.handleToolSelect} 
-                    handleSetDragHandler={this.handleSetDragHandler}
                 />
                 <TextEditor 
                     data={textEditor}

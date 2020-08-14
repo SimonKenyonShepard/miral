@@ -42,41 +42,46 @@ class InteractionManager extends Component {
         this.setState({
             dragStartX : e.clientX,
             dragStartY : e.clientY,
-            drag : "mouseDown"
+            drag : "mouseDown",
+            elementID : e.target.id
         });
     }
 
     handleMouseMove = (e) => {
         if(this.state.drag === "mouseDown" || this.state.drag === "dragging") {
             let wasFirstDrag = false;
+            const dragHandlers = this.props.dragHandlers[this.state.elementID];
             if(this.state.drag === "mouseDown") {
                 wasFirstDrag = true;
                 this.setState({
                     drag : "dragging"
                 });
-                if(this.props.handleDragStart) {
-                    this.props.handleDragStart(e, this.state.dragStartX, this.state.dragStartY, e.movementX, e.movementY);
+                if(dragHandlers &&
+                    dragHandlers.handleDragStart) {
+                    dragHandlers.handleDragStart(e, this.state.dragStartX, this.state.dragStartY, e.movementX, e.movementY);
+                
                 }
                
             }
             e.stopPropagation();
-            if(this.props.handleDrag && !wasFirstDrag) {
-                this.props.handleDrag(e);
-            } else {
+            if(dragHandlers && dragHandlers.handleDragMove && !wasFirstDrag) {
+                dragHandlers.handleDragMove(e);
+            }
+            // } else {
                 // this.props.updateDragPosition({
                 //     x : e.movementX,
                 //     y : e.movementY
                 // });
-            }
+            // }
         }
     }
 
     handleMouseUp = (e) => {
+        const dragHandlers = this.props.dragHandlers[this.state.elementID];
         if(this.state.drag === "dragging") {
             e.stopPropagation();
-            
-            if(this.props.handleDragEnd) {
-                this.props.handleDragEnd();
+            if(dragHandlers && dragHandlers.handleDragEnd) {
+                dragHandlers.handleDragEnd();
             }
             
             this.setState({
@@ -87,8 +92,8 @@ class InteractionManager extends Component {
             
         } else if(this.state.drag === "normal" || this.state.drag === "mouseDown") {
 
-            if(this.props.handleClick) {
-                this.props.handleClick(e, this.state.dragStartX, this.state.dragStartY);
+            if(dragHandlers && dragHandlers.handleClick) {
+                dragHandlers.handleClick(e, this.state.dragStartX, this.state.dragStartY);
             }
             this.setState({
                 drag : "normal",

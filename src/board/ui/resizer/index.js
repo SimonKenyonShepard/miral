@@ -22,7 +22,8 @@ class Resizer extends Component {
         }
     }
 
-    handleMouseMove = (e, currentState) => {
+    handleMouseMove(e) {
+        const currentState = this.state;
         if(this.state.resizing === true) {
             const newState = {};
             if(this.props.selectedElements) {
@@ -43,9 +44,7 @@ class Resizer extends Component {
                 }
                 
             }
-            return newState;
-        } else {
-            return {};
+            this.setState({newState});
         }
     }
 
