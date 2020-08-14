@@ -37,6 +37,10 @@
     background-image: url("/icons/pan_tool-24px.svg");
 }
 
+.toolbar_select {
+    background-image: url("/icons/highlight_alt-24px.svg");
+}
+
 .toolbar_postit {
     background-image: url("/icons/sticky_note_2-24px.svg");
 }

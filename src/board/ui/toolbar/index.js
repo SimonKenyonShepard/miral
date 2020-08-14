@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import Pan from './pan';
+import Select from './select';
 import Shape from './shape';
 import Postit from './postit';
 import Text from './text';
@@ -23,7 +25,7 @@ class Toolbar extends Component {
         this.setState({drawCanvasVisible : false});
     }
 
-    handleDragMove(e) {
+    handleElementDragMove(e) {
         const currentState = this.state;
         const newState = {};
         if(currentState.elementBeingDrawn !== null) {
@@ -37,10 +39,6 @@ class Toolbar extends Component {
 
     handleDragEnd() {
         const newState = {};
-        newState.dragStartHandler = null;
-        newState.dragMoveHandler = null;
-        newState.dragEndHandler = null;
-        newState.clickHandler = null;
         newState.tool = "pan";
         this.removeDragHandler("drawCanvas");
         this.setState(newState);
@@ -60,26 +58,30 @@ class Toolbar extends Component {
         return (
             <div className="toolbar_container">
                 <div className="toolbar">
-                    {/* <Tool type="pan" handleToolSelect={handleToolSelect}/> */}
+                    <Select 
+                        handleToolSelect={handleToolSelect}
+                        handleDrawCanvasShow={this.handleDrawCanvasShow}
+                        registerDragHandler={registerDragHandler}
+                    />
                     <Shape
                         handleToolSelect={handleToolSelect}
                         handleDrawCanvasShow={this.handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
-                        handleDragMove={this.handleDragMove}
+                        handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
                     />
                     <Postit
                         handleToolSelect={handleToolSelect}
                         handleDrawCanvasShow={this.handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
-                        handleDragMove={this.handleDragMove}
+                        handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
                     />
                     <Text
                         handleToolSelect={handleToolSelect}
                         handleDrawCanvasShow={this.handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
-                        handleDragMove={this.handleDragMove}
+                        handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
                     />
                     {/* <Tool type="pen" handleToolSelect={handleToolSelect}/>

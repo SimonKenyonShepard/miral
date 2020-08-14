@@ -5,6 +5,7 @@ import Altimeter from './ui/altimeter';
 import TextEditor from './ui/textEditor';
 import ElementEditor from './ui/elementEditor';
 import Resizer from './ui/resizer';
+import ElementDrag from './ui/elementDrag';
 import NavBar from './ui/navbar';
 import BoardControls from './ui/boardControls';
 import InteractionManager from './ui/InteractionManager';
@@ -33,6 +34,32 @@ class Board extends Component {
         storeUndo : false
       };
     }
+
+    handlePanStart(e, dragStartX, dragStartY) {
+        const {
+            offsetX,
+            offsetY,
+            zoomLevel
+        } = this.state;
+
+        this.setState({
+            offsetX : offsetX + ((dragStartX+e.movementX)*-zoomLevel),
+            offsetY : offsetY + ((dragStartY+e.movementY)*-zoomLevel)
+        });
+    }
+
+    handlePanMove(e) {
+        const {
+            offsetX,
+            offsetY,
+            zoomLevel
+        } = this.state;
+
+        this.setState({
+            offsetX : offsetX + ((e.movementX)*-zoomLevel),
+            offsetY : offsetY + ((e.movementY)*-zoomLevel)
+        });
+    }
   
     handleToolSelect = (type) => {
         this.handleDeselectAllElements();   
@@ -60,37 +87,6 @@ class Board extends Component {
         });
     }
 
-    updateDragPosition = (data) => {
-        const {
-            offsetX,
-            offsetY,
-            zoomLevel,
-            tool
-        } = this.state;
-
-        const newElementsData = {...this.state.elements};
-        const selectedItems = Object.keys(this.state.elementState).filter(item => {
-            if(this.state.elementState[item].selected) {
-                return true;
-            }
-            return false;
-        });
-        if(selectedItems.length) {
-            selectedItems.forEach(element => {
-                newElementsData[element].styles.x += data.x*this.state.zoomLevel;
-                newElementsData[element].styles.y += data.y*this.state.zoomLevel;
-            });
-            this.setState({
-                elements : newElementsData
-            });
-        } else if(tool === "pan") {
-            this.setState({
-                offsetX : offsetX + (data.x*-zoomLevel),
-                offsetY : offsetY + (data.y*-zoomLevel)
-            });
-        }
-    }
-
     handleSetCurrentElement = (elementID, selected, isMultiSelect) => {
         const newElementStateData = {...this.state.elementState};
         if(!isMultiSelect) {
@@ -115,22 +111,25 @@ class Board extends Component {
     }
 
     registerDragHandler = (id, newDragHandlers) => {
-        var newHandlers = {};
-        if(newDragHandlers.dragStartHandler) {
-            newHandlers.handleDragStart =  newDragHandlers.dragStartHandler.bind(this);
-        }
-        if(newDragHandlers.dragMoveHandler) {
-            newHandlers.handleDragMove =  newDragHandlers.dragMoveHandler.bind(this);
-        }
-        if(newDragHandlers.dragEndHandler) {
-            newHandlers.handleDragEnd =  newDragHandlers.dragEndHandler.bind(this);
-        }
-        if(newDragHandlers.clickHandler) {
-            newHandlers.handleClick =  newDragHandlers.clickHandler.bind(this);
-        }
-        const dragHandlers = {...this.state.dragHandlers};
-        dragHandlers[id] = newHandlers;
-        this.setState({dragHandlers});
+        setTimeout(() => {
+            var newHandlers = {};
+            if(newDragHandlers.dragStartHandler) {
+                newHandlers.handleDragStart =  newDragHandlers.dragStartHandler.bind(this);
+            }
+            if(newDragHandlers.dragMoveHandler) {
+                newHandlers.handleDragMove =  newDragHandlers.dragMoveHandler.bind(this);
+            }
+            if(newDragHandlers.dragEndHandler) {
+                newHandlers.handleDragEnd =  newDragHandlers.dragEndHandler.bind(this);
+            }
+            if(newDragHandlers.clickHandler) {
+                newHandlers.handleClick =  newDragHandlers.clickHandler.bind(this);
+            }
+            const dragHandlers = {...this.state.dragHandlers};
+            dragHandlers[id] = newHandlers;
+            this.setState({dragHandlers});
+        });
+       
     };
 
     removeDragHandler = (id) => {
@@ -205,6 +204,60 @@ class Board extends Component {
         this.setState(data);
     }
 
+    calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY) {
+        if(selectedElements && selectedElements.length > 0) {
+            let width = selectedElements[0].styles.width,
+                height = selectedElements[0].styles.height,
+                x = selectedElements[0].styles.cx || selectedElements[0].styles.x,
+                y = selectedElements[0].styles.cy || selectedElements[0].styles.y,
+                cx = x+width,
+                cy = y+height,
+                combinedWidth = 0,
+                combinedHeight = 0;
+            if(selectedElements.length > 1) {
+                selectedElements.forEach(item => {
+                    let itemWidth = item.styles.width,
+                        itemHeight = item.styles.height,
+                        itemX = item.styles.cx || item.styles.x,
+                        itemY = item.styles.cy || item.styles.y,
+                        itemCX = itemX+itemWidth,
+                        itemCY = itemY+itemHeight;
+                    
+                    if (itemX < x) {
+                        x = itemX;
+                    }
+                    if(itemCX > cx) {
+                        cx = itemCX;
+                    }
+                    if (itemY < y) {
+                        y = itemY;
+                    }
+                    if(itemCY > cy) {
+                        cy = itemCY;
+                    }
+                });
+                combinedWidth = cx-x;
+                combinedHeight = cy-y;
+            }
+            return {
+                height : (combinedHeight || height)/zoomLevel,
+                width : (combinedWidth || width)/zoomLevel,
+                x : (x-offsetX)/zoomLevel,
+                y : (y-offsetY)/zoomLevel,
+                cx : (cx-offsetX)/zoomLevel,
+                cy : (cy-offsetY)/zoomLevel
+            };
+        }
+        return {
+            height : 0,
+            width : 0,
+            x : 0,
+            y : 0,
+            cx : 0,
+            cy : 0
+        };
+    }
+
     render() {
         const {width, height} = this.props;
         const {offsetX, offsetY, zoomLevel, tool, elements, textEditor} = this.state;
@@ -252,6 +305,7 @@ class Board extends Component {
                 selectedElements.push(this.state.elements[item]);
             }
         });
+        const boundingBox = this.calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY);
         const gridPosition = {
             backgroundPosition : `${(offsetX*-1)/zoomLevel}px ${(offsetY*-1)/zoomLevel}px`
         };
@@ -272,6 +326,15 @@ class Board extends Component {
                         handleToolSelect={this.handleToolSelect} 
                         registerDragHandler={this.registerDragHandler}
                     />
+                    <ElementDrag 
+                        boundingBox={boundingBox}
+                        registerDragHandler={this.registerDragHandler}
+                    />
+                    <Resizer 
+                        selectedElements={selectedElements}
+                        registerDragHandler={this.registerDragHandler}
+                        boundingBox={boundingBox}
+                    />
                     <svg id="board" 
                         width={`${width}px`}
                         height={`${height}px`}
@@ -289,10 +352,6 @@ class Board extends Component {
                             </filter>
                         </defs>
                         {elementNodes}
-                        <Resizer 
-                            selectedElements={selectedElements}
-                            registerDragHandler={this.registerDragHandler}
-                        />
                     </svg>
                 </InteractionManager>
                 <NavBar />
@@ -322,11 +381,12 @@ class Board extends Component {
 
     componentDidMount(){
         document.addEventListener('keydown', this.handleKeyPress);
-        setTimeout(() => {
-            this.registerDragHandler("board", {
-                "clickHandler" : this.handleDeselectAllElements
-            });
-        })
+        this.registerDragHandler("board", {
+            //"dragStartHandler" : this.handlePanStart,
+            "dragMoveHandler" : this.handlePanMove,
+            "clickHandler" : this.handleDeselectAllElements
+        });
+
         
     }
 

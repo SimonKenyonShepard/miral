@@ -35,77 +35,30 @@ class Resizer extends Component {
     }
 
     render() {
-        let resizeHandle = "";
-        const {selectedElements} = this.props;
-        if(selectedElements && selectedElements.length > 0) {
-            let width = selectedElements[0].styles.width,
-                height = selectedElements[0].styles.height,
-                x = selectedElements[0].styles.cx || selectedElements[0].styles.x,
-                y = selectedElements[0].styles.cy || selectedElements[0].styles.y,
-                cx = x+width,
-                cy = y+height,
-                combinedWidth = 0,
-                combinedHeight = 0;
-            let strokeWidth = selectedElements[0].styles.strokeWidth;
-            if(selectedElements.length > 1) {
-                selectedElements.forEach(item => {
-                    let itemWidth = item.styles.width,
-                        itemHeight = item.styles.height,
-                        itemX = item.styles.cx || item.styles.x,
-                        itemY = item.styles.cy || item.styles.y,
-                        itemCX = itemX+itemWidth,
-                        itemCY = itemY+itemHeight;
-                    
-                    if (itemX < x) {
-                        x = itemX;
-                    }
-                    if(itemCX > cx) {
-                        cx = itemCX;
-                    }
-                    if (itemY < y) {
-                        y = itemY;
-                    }
-                    if(itemCY > cy) {
-                        cy = itemCY;
-                    }
-                    if(item.styles.strokeWidth > strokeWidth) {
-                        strokeWidth = item.styles.strokeWidth;
-                    }
-                });
-                combinedWidth = cx-x;
-                combinedHeight = cy-y;
-            }
-            resizeHandle = (
-                <g>
-                    <rect
-                        height={(combinedHeight || height)}
-                        width={(combinedWidth || width)}
-                        x={x}
-                        y={y}
-                        stroke={"blue"}
-                        strokeOpacity={0.5}
-                        strokeWidth={strokeWidth}
-                        fillOpacity={0}
-                        pointerEvents={"none"} 
-                    />
-                    <circle
-                        id={"resizerHandle"}
-                        cx={cx} 
-                        cy={cy} 
-                        r={500} 
-                        fill={"white"}
-                        stroke={"grey"}
-                        strokeWidth={strokeWidth}
-                        strokeOpacity={0.5} 
-                        cursor={"nwse-resize"}>
-                    </circle>
-                </g>
-            );
-        }
+        const { boundingBox } = this.props;
+
+        const resizerStyles = {
+            position : "absolute",
+            height : `16px`,
+            width : `16px`,
+            top : `${(boundingBox.cy-8)}px`,
+            left : `${(boundingBox.cx-8)}px`
+        };
+
         return (
-            <g>
-                {resizeHandle}
-            </g>
+            <svg style={resizerStyles} height="16" width="16" viewBox="-8 -8 16 16">
+                <circle
+                id={"resizerHandle"}
+                cx={0} 
+                cy={0} 
+                r={6}
+                fill={"white"}
+                stroke={"grey"}
+                strokeWidth={2}
+                strokeOpacity={0.5} 
+                cursor={"nwse-resize"}>
+                </circle>
+            </svg>
         );
     }
 
