@@ -200,7 +200,7 @@ class Board extends Component {
         
     }
 
-    handleUpdateBoardPosition = (data) => {
+    updateBoardPosition = (data) => {
         this.setState(data);
     }
 
@@ -245,7 +245,11 @@ class Board extends Component {
                 x : (x-offsetX)/zoomLevel,
                 y : (y-offsetY)/zoomLevel,
                 cx : (cx-offsetX)/zoomLevel,
-                cy : (cy-offsetY)/zoomLevel
+                cy : (cy-offsetY)/zoomLevel,
+                rawX : x,
+                rawY : y,
+                rawHeight : (combinedHeight || height),
+                rawWidth : (combinedWidth || width)
             };
         }
         return {
@@ -299,10 +303,12 @@ class Board extends Component {
             }
             return null;
         });
-        const selectedElements = [];
+        const selectedElements = [],
+              selectedElementKeys = [];
         Object.keys(this.state.elementState).forEach(item => {
             if(this.state.elementState[item].selected) {
                 selectedElements.push(this.state.elements[item]);
+                selectedElementKeys.push(item);
             }
         });
         const boundingBox = this.calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY);
@@ -322,19 +328,6 @@ class Board extends Component {
                     updateDragPosition={this.updateDragPosition}
                     dragHandlers={this.state.dragHandlers}
                 >
-                     <Toolbar 
-                        handleToolSelect={this.handleToolSelect} 
-                        registerDragHandler={this.registerDragHandler}
-                    />
-                    <ElementDrag 
-                        boundingBox={boundingBox}
-                        registerDragHandler={this.registerDragHandler}
-                    />
-                    <Resizer 
-                        selectedElements={selectedElements}
-                        registerDragHandler={this.registerDragHandler}
-                        boundingBox={boundingBox}
-                    />
                     <svg id="board" 
                         width={`${width}px`}
                         height={`${height}px`}
@@ -351,30 +344,45 @@ class Board extends Component {
                                 <feGaussianBlur in="SourceGraphic" stdDeviation="10"/>
                             </filter>
                         </defs>
+                        <ElementDrag 
+                            boundingBox={boundingBox}
+                            selectedElementKeys={selectedElementKeys}
+                            registerDragHandler={this.registerDragHandler}
+                            removeDragHandler={this.removeDragHandler}
+                        />
                         {elementNodes}
                     </svg>
+                    <Toolbar 
+                        handleToolSelect={this.handleToolSelect} 
+                        registerDragHandler={this.registerDragHandler}
+                    />
+                    <Resizer 
+                        selectedElements={selectedElements}
+                        registerDragHandler={this.registerDragHandler}
+                        boundingBox={boundingBox}
+                    />
+                    <NavBar />
+                    <Altimeter zoomLevel={zoomLevel} />
+                    <BoardControls
+                        elements={this.state.elements}
+                        elementState={this.state.elementState}
+                        storeUndo={this.state.storeUndo}
+                        handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                    />
+                    <TextEditor 
+                        data={textEditor}
+                        gridSpace={{offsetX, offsetY, zoomLevel}}
+                        handleUpdatedText={this.handleUpdatedText}
+                        handleSetElementHeight={this.handleSetElementHeight}
+                    />
+                    <ElementEditor 
+                        selectedElements={selectedElements}
+                        gridSpace={{offsetX, offsetY, zoomLevel}}
+                        handleUpdateElementProperty={this.handleUpdateElementProperty}
+                        handleDeleteElements={this.handleDeleteElements}
+                        handleShiftElementPosition={this.handleShiftElementPosition}
+                    />
                 </InteractionManager>
-                <NavBar />
-                <Altimeter zoomLevel={zoomLevel} />
-                <BoardControls
-                    elements={this.state.elements}
-                    elementState={this.state.elementState}
-                    storeUndo={this.state.storeUndo}
-                    handleUpdateElementsAndState={this.handleUpdateElementsAndState}
-                />
-                <TextEditor 
-                    data={textEditor}
-                    gridSpace={{offsetX, offsetY, zoomLevel}}
-                    handleUpdatedText={this.handleUpdatedText}
-                    handleSetElementHeight={this.handleSetElementHeight}
-                />
-                <ElementEditor 
-                    selectedElements={selectedElements}
-                    gridSpace={{offsetX, offsetY, zoomLevel}}
-                    handleUpdateElementProperty={this.handleUpdateElementProperty}
-                    handleDeleteElements={this.handleDeleteElements}
-                    handleShiftElementPosition={this.handleShiftElementPosition}
-                />
             </div>
         );
     }

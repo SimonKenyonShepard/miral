@@ -60,7 +60,8 @@ class Rect extends Component {
                 height={shapeProps.height}
                 width={shapeProps.width}
             >
-                <rect 
+                <rect
+                    id={data.id} 
                     {...shapeProps}
                 />
                 {text}

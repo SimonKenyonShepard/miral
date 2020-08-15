@@ -41,24 +41,38 @@ class Resizer extends Component {
             position : "absolute",
             height : `16px`,
             width : `16px`,
-            top : `${(boundingBox.cy-8)}px`,
-            left : `${(boundingBox.cx-8)}px`
+            top : `0`,
+            left : `0`,
+            transform : `translate3d(${(boundingBox.cx-8)}px,${(boundingBox.cy-8)}px, 0)`
+        };
+
+        const elementHighlightStyles = {
+            position : "absolute",
+            height : `${boundingBox.height}px`,
+            width : `${boundingBox.width}px`,
+            top : `0`,
+            left : `0`,
+            transform : `translate3d(${(boundingBox.x)}px,${(boundingBox.y)}px, 0)`
         };
 
         return (
-            <svg style={resizerStyles} height="16" width="16" viewBox="-8 -8 16 16">
-                <circle
-                id={"resizerHandle"}
-                cx={0} 
-                cy={0} 
-                r={6}
-                fill={"white"}
-                stroke={"grey"}
-                strokeWidth={2}
-                strokeOpacity={0.5} 
-                cursor={"nwse-resize"}>
-                </circle>
-            </svg>
+            <div>
+                <div className="elementsHightlight" style={elementHighlightStyles}/>
+                <svg style={resizerStyles} height="16" width="16" viewBox="-8 -8 16 16">
+                    <circle
+                    id={"resizerHandle"}
+                    cx={0} 
+                    cy={0} 
+                    r={6}
+                    fill={"white"}
+                    stroke={"grey"}
+                    strokeWidth={2}
+                    strokeOpacity={0.5} 
+                    cursor={"nwse-resize"}>
+                    </circle>
+                </svg>
+            </div>
+           
         );
     }
 

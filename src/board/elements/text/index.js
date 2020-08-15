@@ -62,6 +62,7 @@ class Text extends Component {
                 width={shapeProps.width}
             >
                 <rect 
+                    id={data.id}
                     {...shapeProps}
                 />
                 {text}

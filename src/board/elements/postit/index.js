@@ -93,11 +93,15 @@ class Postit extends Component {
                 height={shapeProps.width}
                 width={shapeProps.width}
             >
-                <rect 
+                <rect
+                    id={data.id} 
                     {...shapeProps}
                     height={shapeProps.width}
                 />
-                <g transform={`translate(${shapeProps.x} ${shapeProps.y}) scale(${(shapeProps.width/postItBaseWidth)})`}>
+                <g 
+                    transform={`translate(${shapeProps.x} ${shapeProps.y}) scale(${(shapeProps.width/postItBaseWidth)})`}
+                    pointerEvents={"none"}
+                >
                     <path 
                         d={postItShapeData.dropShadow} 
                         fill="rgba(0,0,0, 0.4)" 

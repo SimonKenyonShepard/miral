@@ -29,21 +29,56 @@ class ElementDrag extends Component {
 
     render() {
         const { boundingBox } = this.props;
-           
-        const highlighterStyles = {
-            height : `${boundingBox.height}px`,
-            width : `${boundingBox.width}px`,
-            top : `${boundingBox.y}px`,
-            left : `${boundingBox.x}px`
-        }
 
         return (
-            <div id={"elementSelectionHighlight"} style={highlighterStyles} />
+            <rect 
+                id={"elementSelectionArea"}
+                height={boundingBox.rawHeight}
+                width={boundingBox.rawWidth}
+                x={boundingBox.rawX}
+                y={boundingBox.rawY}
+                fillOpacity={0}
+            />
         );
+    }
+    
+    componentDidUpdate(prevProps) {
+        const currentSelectedElements = this.props.selectedElementKeys,
+              prevSelectedElements = prevProps.selectedElementKeys;
+
+        const removedElements = prevSelectedElements.filter(element => {
+            if(currentSelectedElements.indexOf(element) === -1) {
+                return true;
+            }
+            return false;
+        });
+
+        const addedElements = currentSelectedElements.filter(element => {
+            if(prevSelectedElements.indexOf(element) === -1) {
+                return true;
+            }
+            return false;
+        });
+
+        if(removedElements.length > 0) {
+            removedElements.forEach(id => {
+                this.props.removeDragHandler(id);
+            });
+        }
+
+        if(addedElements.length > 0) {
+            addedElements.forEach(id => {
+                this.props.registerDragHandler(id, {
+                    "dragMoveHandler" : this.updateElementDragPosition
+                });
+            })
+        }
+        
+
     }
 
     componentDidMount() {
-        this.props.registerDragHandler("elementSelectionHighlight", {
+        this.props.registerDragHandler("elementSelectionArea", {
             "dragMoveHandler" : this.updateElementDragPosition
         });
     }
