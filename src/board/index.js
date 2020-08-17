@@ -94,7 +94,7 @@ class Board extends Component {
                 newElementStateData[item].selected = false;
             });
         }
-        newElementStateData[elementID].selected = selected;
+        newElementStateData[elementID].selected = !newElementStateData[elementID].selected;
         this.setState({
             elementState : newElementStateData
         });
@@ -352,14 +352,14 @@ class Board extends Component {
                         />
                         {elementNodes}
                     </svg>
-                    <Toolbar 
-                        handleToolSelect={this.handleToolSelect} 
-                        registerDragHandler={this.registerDragHandler}
-                    />
                     <Resizer 
                         selectedElements={selectedElements}
                         registerDragHandler={this.registerDragHandler}
                         boundingBox={boundingBox}
+                    />
+                    <Toolbar 
+                        handleToolSelect={this.handleToolSelect} 
+                        registerDragHandler={this.registerDragHandler}
                     />
                     <NavBar />
                     <Altimeter zoomLevel={zoomLevel} />

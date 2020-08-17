@@ -59,7 +59,6 @@ class InteractionManager extends Component {
                 if(dragHandlers &&
                     dragHandlers.handleDragStart) {
                     dragHandlers.handleDragStart(e, this.state.dragStartX, this.state.dragStartY, e.movementX, e.movementY);
-                
                 }
                
             }
@@ -67,12 +66,6 @@ class InteractionManager extends Component {
             if(dragHandlers && dragHandlers.handleDragMove && !wasFirstDrag) {
                 dragHandlers.handleDragMove(e);
             }
-            // } else {
-                // this.props.updateDragPosition({
-                //     x : e.movementX,
-                //     y : e.movementY
-                // });
-            // }
         }
     }
 
