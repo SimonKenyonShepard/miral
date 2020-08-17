@@ -38,6 +38,7 @@ class Rect extends Component {
             };
             text = (
                 <foreignObject
+                    className="svg_textContainer_foreignObject"
                     x={shapeProps.x}
                     y={shapeProps.y}
                     height={shapeProps.height}
@@ -46,7 +47,7 @@ class Rect extends Component {
                     <div
                         className="svg_textContainer"
                     >
-                        <div style={fontStyle}>{textBody}</div>
+                        <div className="svg_textContainer_line" style={fontStyle}>{textBody}</div>
                     </div>
                     
                 </foreignObject>
