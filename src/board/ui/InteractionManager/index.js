@@ -42,9 +42,11 @@ class InteractionManager extends Component {
         this.setState({
             dragStartX : e.clientX,
             dragStartY : e.clientY,
+            dragStartTime : Date.now(),
             drag : "mouseDown",
             elementID : e.target.id
         });
+        console.log(e.target.id);
     }
 
     handleMouseMove = (e) => {
@@ -71,7 +73,10 @@ class InteractionManager extends Component {
 
     handleMouseUp = (e) => {
         const dragHandlers = this.props.dragHandlers[this.state.elementID];
-        if(this.state.drag === "dragging") {
+        const interactionTime = Date.now() - this.state.dragStartTime;
+        const interactionMovement = (this.state.dragStartX+this.state.dragStartY)-(e.clientX+e.clientY);
+        const wasProbablyClick = (interactionMovement > -5 && interactionMovement < 5) && interactionTime < 200;
+        if(this.state.drag === "dragging" && !wasProbablyClick) {
             e.stopPropagation();
             if(dragHandlers && dragHandlers.handleDragEnd) {
                 dragHandlers.handleDragEnd();
@@ -83,7 +88,7 @@ class InteractionManager extends Component {
                 dragStartY : 0
             });
             
-        } else if(this.state.drag === "normal" || this.state.drag === "mouseDown") {
+        } else if(this.state.drag === "normal" || this.state.drag === "mouseDown" || (this.state.drag === "dragging" && wasProbablyClick)) {
 
             if(dragHandlers && dragHandlers.handleClick) {
                 dragHandlers.handleClick(e, this.state.dragStartX, this.state.dragStartY);
