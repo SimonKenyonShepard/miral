@@ -194,7 +194,7 @@ class Board extends Component {
     
     handleKeyPress = (e) => {
 
-        if(e.key === "Backspace") {
+        if(e.key === "Backspace" && this.state.textEditor === null) {
             this.handleDeleteElements();
         }
         
