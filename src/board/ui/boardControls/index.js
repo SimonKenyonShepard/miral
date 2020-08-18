@@ -9,12 +9,11 @@ class BoardControls extends Component {
   
     
     render() {
-        const today = new Date().toLocaleDateString().replace(/\//g, "");
 
         return (
             <div className={"boardControls"}>
                 <div className={"primaryControls"}>
-                    <span className={"boardName"}>new-board-{today}</span>
+                    <span className={"boardName"}>{this.props.boardName}</span>
                     <span className={"iconButton share"}></span>
                 </div>
                 <UndoRedo 

@@ -31,3 +31,59 @@
 .burgerMenu:hover {
     background-color: #ccc;
 }
+
+.navBar_menu {
+    left: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events : none;
+    position: absolute;
+    top: 48px;
+    width: 100%;
+}
+
+.navBar_menu_open {
+    opacity : 1;
+    pointer-events: auto;
+}
+
+.navBar_menu_arrow {
+    border-bottom: 8px solid #fff;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    height: 1px;
+    left: 4px;
+    position: absolute;
+    top: -9px;
+    width : 1px;
+}
+
+.navBar_menu_slider {
+    display: flex;
+    transition : transform .3s, opacity .3s;
+    transform : translate3d(0, 0, 0);
+    width: 200%;
+}
+
+.navBar_menu_slider.slideLeft {
+    transform : translate3d(-100%, 0, 0);
+}
+
+.navBar_menu_items {
+    background-color: #fff;
+    min-width: 100%;
+    
+}
+
+.navBar_menu_item {
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    padding: 8px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.navBar_menu_item:hover {
+    background-color: #ccc;
+    color: #fff;
+}

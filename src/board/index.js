@@ -22,6 +22,7 @@ class Board extends Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
+        boardName : "new-board-"+new Date().toLocaleDateString().replace(/\//g, ""),
         zoomLevel : 100,
         offsetX : 0,
         offsetY : 0,
@@ -361,13 +362,17 @@ class Board extends Component {
                         handleToolSelect={this.handleToolSelect} 
                         registerDragHandler={this.registerDragHandler}
                     />
-                    <NavBar />
+                    <NavBar 
+                        applicationState={this.state}
+                        handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                    />
                     <Altimeter zoomLevel={zoomLevel} />
                     <BoardControls
                         elements={this.state.elements}
                         elementState={this.state.elementState}
                         storeUndo={this.state.storeUndo}
                         handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                        boardName={this.state.boardName}
                     />
                     <TextEditor 
                         data={textEditor}
