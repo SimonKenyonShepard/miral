@@ -23,6 +23,7 @@ const shapeTypeEditableFeatures = {
     "text" : ["fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"]
 };
 
+const multiElementEditableFeatures = ["bringForward", "sendBackward", "lock", "delete", "menu"];
 
 class ElementEditor extends Component {
 
@@ -45,8 +46,13 @@ class ElementEditor extends Component {
     render() {
 
         const containerPosition = {},
-              {selectedElements, gridSpace} = this.props;
+            {
+                selectedElements,
+                gridSpace,
+                boundingBox
+            } = this.props;
         let containerClass = "elementEditor",
+            editButtonTypes = null,
             editButtons = null;
         
         const selectedIDs = selectedElements.map(element => {
@@ -54,7 +60,12 @@ class ElementEditor extends Component {
         });
         
         if(selectedElements.length === 1) {
-            editButtons = shapeTypeEditableFeatures[selectedElements[0].type].map(button => {
+            editButtonTypes = shapeTypeEditableFeatures[selectedElements[0].type];
+        } else if (selectedElements.length > 1) {
+            editButtonTypes = multiElementEditableFeatures;
+        }
+        if(editButtonTypes) {
+            editButtons = editButtonTypes.map(button => {
                 switch (button) {
                     case 'predefinedColor':
                         return <PredefinedColorPicker 
@@ -139,13 +150,9 @@ class ElementEditor extends Component {
 
             const editorHeightPlusMargin = 40+56,
                   halfEditorWidth = (editButtons.length*40)/2,
-                  halfElementWidth = (selectedElements[0].styles.width/gridSpace.zoomLevel)/2,
-                  elementX = ((selectedElements[0].styles.x/gridSpace.zoomLevel)+halfElementWidth)-halfEditorWidth,
-                  elementY = (selectedElements[0].styles.y/gridSpace.zoomLevel)-editorHeightPlusMargin,
-                  elementXOffset = gridSpace.offsetX/gridSpace.zoomLevel,
-                  elementYOffset = gridSpace.offsetY/gridSpace.zoomLevel,
-                  finalLeft = elementX - elementXOffset,
-                  finalTop = elementY - elementYOffset;
+                  halfElementWidth = boundingBox.width/2,
+                  finalLeft = (boundingBox.x+halfElementWidth)-halfEditorWidth,
+                  finalTop = boundingBox.y-editorHeightPlusMargin;
 
             containerPosition.left = `${finalLeft}px`;
             containerPosition.top = `${finalTop}px`;

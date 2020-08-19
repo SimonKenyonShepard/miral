@@ -418,6 +418,7 @@ class Board extends Component {
                         handleUpdateElementProperty={this.handleUpdateElementProperty}
                         handleDeleteElements={this.handleDeleteElements}
                         handleShiftElementPosition={this.handleShiftElementPosition}
+                        boundingBox={boundingBox}
                     />
                     <Tools
                         handleToolSelect={this.handleToolSelect} 
