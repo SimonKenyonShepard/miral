@@ -50,6 +50,9 @@ class Navbar extends Component {
         const file = window.localStorage.getItem(`miralFile_${fileName}`);
         const state = JSON.parse(file);
         this.props.handleUpdateElementsAndState(state);
+        this.setState({
+            menuVisible : false
+        });
     }
 
     getSavedFromBrowser = (e) => {
