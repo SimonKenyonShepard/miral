@@ -38,17 +38,25 @@ class Navbar extends Component {
     
     saveToBrowser = (e) => {
         const { applicationState } = this.props;
+        const stateToSave = {
+            elements : applicationState.elements,
+            elementState : applicationState.elementState,
+            boardName : applicationState.boardName,
+            zoomLevel : applicationState.zoomLevel,
+            offsetX : applicationCache.offsetX,
+            offsetY : applicationState.offsetY
+        };
         let fileName = `miralFile_${applicationState.boardName}`;
         const checkIfAlreadyExists = window.localStorage.getItem(fileName);
         if(checkIfAlreadyExists) {
             fileName = fileName+"_"+new Date().getHours()+new Date().getMinutes();
         }
-        window.localStorage.setItem(fileName, JSON.stringify(applicationState));
+        window.localStorage.setItem(fileName, JSON.stringify(stateToSave));
     }
 
     loadFile = (fileName) => {
         const file = window.localStorage.getItem(`miralFile_${fileName}`);
-        const state = JSON.parse(file);
+        const state = Object.assign({}, this.props.applicationState, JSON.parse(file));
         this.props.handleUpdateElementsAndState(state);
         this.setState({
             menuVisible : false

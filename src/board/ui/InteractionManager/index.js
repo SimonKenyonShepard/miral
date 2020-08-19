@@ -46,6 +46,7 @@ class InteractionManager extends Component {
             drag : "mouseDown",
             elementID : e.target.id
         });
+        console.log(e.target);
     }
 
     handleMouseMove = (e) => {

@@ -8,30 +8,51 @@ Your cloud.
 An open source on-premesis whiteboarding solution, that keeps your data secure & private in your hands by integrating with :
 Google Cloud, Microsoft teams, AWS & many more.
 
-An Enterprise grade on-premesis whiteboarding solution built in Europe to keep your data secure & private in your hands. Integratates with :
+An open-source, Enterprise grade, white-label, on-premis, offline, whiteboarding solution built in Europe to keep your data secure & private in your hands. Integratates with :
 Google Cloud, Microsoft teams, AWS & many more.
 
 Don't want the hastle of hosting? Use TeamWall to get a hosted version of Miral. 
 
-select and pan
-post its - Text, colors & other shapes 50%  
-Text - Fonts, size
-Shapes - other shapes, colors, borders,
-drawings
-images
-submenu bar
-scale controls
-slides
-iframes
-arrows & lines
-templates
-grid
-realtime updates
-sharing
-integration with Cloud
-SSO
-Saving
-Restoring
+resize window - done
+delete - done
+move forward/backwards - done 
+Multi-select with cursor & deselect - done
+Save and load localstorage - done
+selector - done
+
+Backlog
+
+group elements
+lock elements
+multi-select lock
+duplicate
+multi-select duplicate
+multi-select align
+custom colors/font color
+autosize horizontal postit note resize
+Images
+Slides & link & jump
+Other shapes
+Alternative post-it shapes
+lines
+Iframes
+
+Multi-user
+Multi-user updates
+Multi-user cursors
+Multi-user encryption w PW
+Attention management
+Share
+
+Save as Image
+Save as file
+Load from file
+Save to gDrive
+
+Zoom in/out buttons
+
+grid Scaling
+grid guides
 
 
 UPSs :
