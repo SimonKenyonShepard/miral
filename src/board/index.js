@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 //UI
-import Toolbar from './ui/toolbar';
+import Tools from './ui/tools';
 import Altimeter from './ui/altimeter';
 import TextEditor from './ui/textEditor';
 import ElementEditor from './ui/elementEditor';
@@ -192,6 +192,42 @@ class Board extends Component {
         });
         this.setState({elements : newElementsData});
     }
+
+    handleSelectElementsWithinArea = (x, y, x1, y1) => {
+        const {
+            elements,
+            elementState,
+            zoomLevel,
+            offsetX,
+            offsetY
+        } = this.state;
+
+        const newElementsState = {...elementState};
+
+        const realSpaceX = (x*zoomLevel)+offsetX,
+              realSpaceY = (y*zoomLevel)+offsetY,
+              realSpaceX1 = (x1*zoomLevel)+offsetX,
+              realSpaceY1 = (y1*zoomLevel)+offsetY;
+
+        Object.keys(elements).forEach(elementID => {
+            const element = elements[elementID];
+            let isWithinArea = false;
+            if(
+                element.styles.x >= realSpaceX &&
+                (element.styles.x + element.styles.width) <= realSpaceX1 &&
+                element.styles.y >= realSpaceY &&
+                (element.styles.y + element.styles.height) <= realSpaceY1) 
+                {
+                    isWithinArea = true;
+                }
+            if(isWithinArea) {
+                newElementsState[element.id].selected = true;
+            } else {
+                newElementsState[element.id].selected = false;
+            }
+        });
+        this.setState({elementState : newElementsState});
+    }
     
     handleKeyPress = (e) => {
 
@@ -358,10 +394,6 @@ class Board extends Component {
                         registerDragHandler={this.registerDragHandler}
                         boundingBox={boundingBox}
                     />
-                    <Toolbar 
-                        handleToolSelect={this.handleToolSelect} 
-                        registerDragHandler={this.registerDragHandler}
-                    />
                     <NavBar 
                         applicationState={this.state}
                         handleUpdateElementsAndState={this.handleUpdateElementsAndState}
@@ -386,6 +418,12 @@ class Board extends Component {
                         handleUpdateElementProperty={this.handleUpdateElementProperty}
                         handleDeleteElements={this.handleDeleteElements}
                         handleShiftElementPosition={this.handleShiftElementPosition}
+                    />
+                    <Tools
+                        handleToolSelect={this.handleToolSelect} 
+                        registerDragHandler={this.registerDragHandler}
+                        removeDragHandler={this.removeDragHandler}
+                        handleSelectElementsWithinArea={this.handleSelectElementsWithinArea}
                     />
                 </InteractionManager>
             </div>

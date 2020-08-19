@@ -8,6 +8,7 @@
     position: absolute;
     right: 16px;
     top: 16px;
+    user-select: none;
 }
 
 .companyName {

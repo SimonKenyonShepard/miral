@@ -10,21 +10,6 @@ import './styles.css';
 
 class Toolbar extends Component {
 
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-          drawCanvasVisible : false
-        };
-    }
-
-    handleDrawCanvasShow = () => {
-        this.setState({drawCanvasVisible : true});
-    }
-
-    handleDrawCanvasHide = () => {
-        this.setState({drawCanvasVisible : false});
-    }
-
     handleElementDragMove(e) {
         const currentState = this.state;
         const newState = {};
@@ -40,46 +25,47 @@ class Toolbar extends Component {
     handleDragEnd() {
         const newState = {};
         newState.tool = "pan";
-        this.removeDragHandler("drawCanvas");
         this.setState(newState);
     }
   
     render() {
         const {
             handleToolSelect,
-            registerDragHandler
+            registerDragHandler,
+            handleShowSelectionArea,
+            handleUpdateSelectionArea,
+            handleDrawCanvasShow,
+            handleSelectElementsWithinArea
         } = this.props;
-        const drawCanvasStyles = {
-            display : "none"
-        };
-        if(this.state.drawCanvasVisible) {
-            drawCanvasStyles.display = "block";
-        }
+
         return (
             <div className="toolbar_container">
                 <div className="toolbar">
                     <Select 
                         handleToolSelect={handleToolSelect}
-                        handleDrawCanvasShow={this.handleDrawCanvasShow}
+                        handleDrawCanvasShow={handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
+                        handleShowSelectionArea={handleShowSelectionArea}
+                        handleUpdateSelectionArea={handleUpdateSelectionArea}
+                        handleSelectElementsWithinArea={handleSelectElementsWithinArea}
                     />
                     <Shape
                         handleToolSelect={handleToolSelect}
-                        handleDrawCanvasShow={this.handleDrawCanvasShow}
+                        handleDrawCanvasShow={handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
                         handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
                     />
                     <Postit
                         handleToolSelect={handleToolSelect}
-                        handleDrawCanvasShow={this.handleDrawCanvasShow}
+                        handleDrawCanvasShow={handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
                         handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
                     />
                     <Text
                         handleToolSelect={handleToolSelect}
-                        handleDrawCanvasShow={this.handleDrawCanvasShow}
+                        handleDrawCanvasShow={handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
                         handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
@@ -88,11 +74,6 @@ class Toolbar extends Component {
                     <Tool type="image" handleToolSelect={handleToolSelect}/>
                     <Tool type="more" handleToolSelect={handleToolSelect}/> */}
                 </div>
-                <div 
-                    id="drawCanvas" 
-                    style={drawCanvasStyles}
-                    onMouseUp={this.handleDrawCanvasHide}
-                ></div>
             </div>
         );
     }
