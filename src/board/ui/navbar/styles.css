@@ -36,7 +36,6 @@
 .navBar_menu {
     left: 0;
     opacity: 0;
-    overflow: hidden;
     pointer-events : none;
     position: absolute;
     top: 48px;
@@ -58,6 +57,11 @@
     top: -9px;
     width : 1px;
 }
+.navBar_menu_sliderWrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
 
 .navBar_menu_slider {
     display: flex;
@@ -67,21 +71,27 @@
 }
 
 .navBar_menu_slider.slideLeft {
-    transform : translate3d(-100%, 0, 0);
+    transform : translate3d(-50%, 0, 0);
 }
 
 .navBar_menu_items {
     background-color: #fff;
-    min-width: 100%;
+    width: 100%;
     
 }
 
 .navBar_menu_item {
     border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
     font-size: 14px;
     padding: 8px;
     text-align: left;
     cursor: pointer;
+}
+
+.navBar_menu_item svg {
+    padding: 0 8px 0 0;
 }
 
 .navBar_menu_item:hover {

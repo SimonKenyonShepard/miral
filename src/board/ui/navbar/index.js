@@ -32,7 +32,8 @@ class Navbar extends Component {
     handleOpenMenu = (e) => {
         e.stopPropagation();
         this.setState({
-            menuVisible : !this.state.menuVisible
+            menuVisible : !this.state.menuVisible,
+            subMenu : []
         });
     }
     
@@ -59,7 +60,8 @@ class Navbar extends Component {
         const state = Object.assign({}, this.props.applicationState, JSON.parse(file));
         this.props.handleUpdateElementsAndState(state);
         this.setState({
-            menuVisible : false
+            menuVisible : false,
+            subMenu : []
         });
     }
 
@@ -101,21 +103,35 @@ class Navbar extends Component {
                 <span className={"burgerMenu"} onClick={this.handleOpenMenu}></span>
                 <div className={menuCSS}>
                     <div className={"navBar_menu_arrow"} />
-                    <div className={`navBar_menu_slider ${letFirstMenuHidden}`} >
-                        <div className={`navBar_menu_items`} >
-                            <div 
-                                className={"navBar_menu_item"}
-                                onClick={this.saveToBrowser}
-                            >Save to Browser</div>
-                            <div 
-                                className={"navBar_menu_item"}
-                                onClick={this.getSavedFromBrowser}
-                            >Load from Browser</div>
-                        </div>
-                        <div className={"navBar_menu_items"} >
-                            {subMenu.map(item => {
-                                return item;
-                            })}
+                    <div className={`navBar_menu_sliderWrapper`} >
+                        <div className={`navBar_menu_slider ${letFirstMenuHidden}`} >
+                            <div className={`navBar_menu_items`} >
+                                <div 
+                                    className={"navBar_menu_item"}
+                                    onClick={this.saveToBrowser}
+                                >   
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                                        <path d="M19 12v7H5v-7H3v9h18v-9h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/>
+                                    </svg>
+                                    <span>Save to Browser</span>
+                                </div>
+                                <div 
+                                    className={"navBar_menu_item"}
+                                    onClick={this.getSavedFromBrowser}
+                                >
+                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="m19,12l0,7l-14,0l0,-7l-2,0l0,9l18,0l0,-9l-2,0z" fill="black" id="svg_2"/>
+                                        <path d="m12.75,11.67l2.59,-2.58l1.41,1.41l-5,5l-5,-5l1.41,-1.41l2.59,2.58l0,-9.67l2,0c0,3.223333 0,6.446667 0,9.67z" fill="black" id="svg_3" transform="rotate(180 11.75 8.75)"/>
+                                    </svg>
+                                    <span>Load from Browser</span>
+                                </div>
+                            </div>
+                            <div className={"navBar_menu_items"} >
+                                {subMenu.map(item => {
+                                    return item;
+                                })}
+                            </div>
                         </div>
                     </div>
                 </div>
