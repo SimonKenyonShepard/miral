@@ -9,13 +9,19 @@ import ElementDrag from './ui/elementDrag';
 import NavBar from './ui/navbar';
 import BoardControls from './ui/boardControls';
 import InteractionManager from './ui/InteractionManager';
+import KeyboardManager from './ui/KeyboardManager';
 
 //ELEMENTS
 import Rect from './elements/rect';
 import Text from './elements/text';
 import Postit from './elements/postit';
 
+//HELPERS
+import Shortid from 'shortid';
+import {objectClone} from './utils';
+
 import './styles.css';
+
 
 class Board extends Component {
 
@@ -228,13 +234,61 @@ class Board extends Component {
         });
         this.setState({elementState : newElementsState});
     }
-    
-    handleKeyPress = (e) => {
 
-        if(e.key === "Backspace" && this.state.textEditor === null) {
-            this.handleDeleteElements();
-        }
-        
+    handleDuplicateElements = () => {
+        const {
+            elements,
+            elementState,
+            zoomLevel
+        } = this.state;
+
+        const newElements = {...elements};
+        const newElementsState = {...elementState};
+        const selectedElements = [];
+
+        Object.keys(elementState).forEach(element => {
+            if(elementState[element].selected) {
+                selectedElements.push(elements[element]);
+            }
+        });
+
+        const duplicatesOffsetMargin = 8;
+
+        const duplicatesOffsetPosition = {
+            x : selectedElements[0].styles.x,
+            x1 : selectedElements[0].styles.x + selectedElements[0].styles.width + (duplicatesOffsetMargin*zoomLevel)
+        };
+
+        //get position for new duplicate elements
+        selectedElements.forEach(element => {
+            if(element.styles.x < duplicatesOffsetPosition.x) {
+                duplicatesOffsetPosition.x = element.styles.x;
+            }
+            const elementX1 = element.styles.x + element.styles.width;
+            if(elementX1 > duplicatesOffsetPosition.x1) {
+                duplicatesOffsetPosition.x1 = elementX1+(duplicatesOffsetMargin*zoomLevel);
+            }
+        });
+
+        //duplicate elements & state
+        selectedElements.forEach(element => {
+            const newID = Shortid.generate();
+            const duplicateElement = objectClone(element);
+            const duplicateElementState = objectClone(elementState[element.id]);
+            duplicateElement.id = newID;
+            duplicateElement.styles.x = duplicatesOffsetPosition.x1 + (duplicateElement.styles.x - duplicatesOffsetPosition.x);
+            newElements[newID] = duplicateElement;
+            newElementsState[newID] = duplicateElementState;
+            //remove selected status for old items
+            newElementsState[element.id].selected = false;
+        });
+
+        this.setState(
+            {
+                elementState : newElementsState,
+                elements : newElements
+            }
+        );
     }
 
     updateBoardPosition = (data) => {
@@ -427,12 +481,16 @@ class Board extends Component {
                         handleSelectElementsWithinArea={this.handleSelectElementsWithinArea}
                     />
                 </InteractionManager>
+                <KeyboardManager 
+                    handleDeleteElements={this.handleDeleteElements}
+                    handleDuplicateElements={this.handleDuplicateElements}
+                    textEditor={textEditor}
+                />
             </div>
         );
     }
 
     componentDidMount(){
-        document.addEventListener('keydown', this.handleKeyPress);
         this.registerDragHandler("board", {
             //"dragStartHandler" : this.handlePanStart,
             "dragMoveHandler" : this.handlePanMove,
@@ -440,10 +498,6 @@ class Board extends Component {
         });
 
         
-    }
-
-    componentWillUnmount(){
-        document.removeEventListener('keydown', this.handleKeyPress);
     }
 
     
