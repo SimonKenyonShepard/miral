@@ -79,6 +79,11 @@ class Navbar extends Component {
                 );
             }
         });
+        if(files.length === 0) {
+            files.push(<div className="navMenu_error">
+                No saved files found on this browser.
+            </div>);
+        }
         this.setState({
             subMenu : files
         });

@@ -98,3 +98,7 @@
     background-color: #ccc;
     color: #fff;
 }
+
+.navMenu_error {
+    padding: 8px;
+}
