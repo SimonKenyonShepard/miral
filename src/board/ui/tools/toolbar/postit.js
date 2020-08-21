@@ -27,6 +27,7 @@ class Postit extends Component {
                 strokeWidth : 2*currentState.zoomLevel
             },
             fontStyle : {
+                fontSize : 24*currentState.zoomLevel,
                 fontWeight : "normal",
                 fontStyle : "normal",
                 textDecorationLine : "",

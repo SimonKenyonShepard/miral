@@ -19,22 +19,26 @@ move forward/backwards - done
 Multi-select with cursor & deselect - done
 Save and load localstorage - done
 selector - done
+multi-selected editor menu - done
+duplicate - done
+multi-select duplicate - done
 
 Backlog
 
+
+Images
+lines
+Other shapes
+Alternative post-it shapes
+
 group elements
+
 lock elements
 multi-select lock
-duplicate
-multi-select duplicate
 multi-select align
 custom colors/font color
 autosize horizontal postit note resize
-Images
 Slides & link & jump
-Other shapes
-Alternative post-it shapes
-lines
 Iframes
 
 Multi-user

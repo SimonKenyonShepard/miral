@@ -27,6 +27,7 @@ class Text extends Component {
                 strokeWidth : 2*currentState.zoomLevel
             },
             fontStyle : {
+                fontSize : 24*currentState.zoomLevel,
                 fontFamily : "",
                 fontWeight : "normal",
                 fontStyle : "normal",

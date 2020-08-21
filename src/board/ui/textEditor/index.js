@@ -22,7 +22,7 @@ class TextEditor extends Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
-        fontSize : 24
+        fontSize : 24*props.gridSpace.zoomLevel
       };
     }
 
@@ -32,9 +32,9 @@ class TextEditor extends Component {
             newText : (this.textInput.innerText || this.textInput.textContent).trim(),
             fontSize : this.state.fontSize
         });
-        this.setState({
-            fontSize : 24
-        });
+        // this.setState({
+        //     fontSize : 24*this.props.gridSpace.zoomLevel
+        // });
     }
 
     handleKeyPress = () => {
@@ -43,8 +43,8 @@ class TextEditor extends Component {
 
         if(isAutoResize && (this.textContainer.scrollHeight > this.textContainer.clientHeight)) {
             let newFontSize = 0;
-            if(this.state.fontSize > 8) {
-                newFontSize = this.state.fontSize - 8;
+            if(this.state.fontSize > 8*this.props.gridSpace.zoomLevel) {
+                newFontSize = this.state.fontSize - 8*this.props.gridSpace.zoomLevel;
                 
             } else {
                 newFontSize = this.state.fontSize/2;
@@ -58,6 +58,12 @@ class TextEditor extends Component {
     handlePaste = (event) => {
         event.preventDefault();
         document.execCommand('inserttext', false, event.clipboardData.getData('text/plain'));
+    }
+
+    handleGotFocus = (e) => {
+        this.setState({
+            fontSize : this.props.data.fontStyle.fontSize
+        });
     }
 
     render() {
@@ -104,10 +110,11 @@ class TextEditor extends Component {
                     ref={(input) => { this.textInput = input; }}
                     className="textContainer"
                     onBlur={this.handleLostFocus}
+                    onFocus={this.handleGotFocus}
                     onPaste={this.handlePaste}
                     suppressContentEditableWarning={true}
                     style={{
-                        fontSize : this.state.fontSize
+                        fontSize : this.state.fontSize/this.props.gridSpace.zoomLevel
                     }}
                 >
                     {starterText}
@@ -129,10 +136,10 @@ class TextEditor extends Component {
             selection.addRange(range);
         }
 
-        if(this.props.data && this.props.data.unScaledFontSize && this.props.data.unScaledFontSize !== this.state.fontSize) {
-            this.setState({fontSize : this.props.data.unScaledFontSize});
-        }
-
+        // if(this.props.data && this.props.data.unScaledFontSize && this.props.data.unScaledFontSize !== this.state.fontSize) {
+        //     this.setState({fontSize : this.props.data.unScaledFontSize});
+        // }
+        //Can't remember why this was needed.
    }
 
     

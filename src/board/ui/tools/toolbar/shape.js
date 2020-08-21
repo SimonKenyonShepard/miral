@@ -75,6 +75,7 @@ class Shape extends Component {
                 strokeDasharray : "0"
             },
             fontStyle : {
+                fontSize : 24*currentState.zoomLevel,
                 fontFamily : "",
                 fontWeight : "normal",
                 fontStyle : "normal",

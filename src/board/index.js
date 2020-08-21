@@ -83,7 +83,7 @@ class Board extends Component {
     handleUpdatedText = (data) => {
         const newElementsData = {...this.state.elements};
         newElementsData[data.id].text = data.newText;
-        newElementsData[data.id].styles.fontSize = data.fontSize*this.state.zoomLevel;
+        newElementsData[data.id].styles.fontSize = data.fontSize;
         newElementsData[data.id].unScaledFontSize = data.fontSize;
         newElementsData[data.id].padding = 8*this.state.zoomLevel;
         
