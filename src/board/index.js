@@ -444,7 +444,7 @@ class Board extends Component {
                         {elementNodes}
                     </svg>
                     <Resizer 
-                        selectedElements={selectedElements}
+                        isVisible={(selectedElements.length > 0)}
                         registerDragHandler={this.registerDragHandler}
                         boundingBox={boundingBox}
                     />

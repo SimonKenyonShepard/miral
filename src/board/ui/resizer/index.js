@@ -35,8 +35,15 @@ class Resizer extends Component {
     }
 
     render() {
-        const { boundingBox } = this.props;
+        const { boundingBox, isVisible } = this.props;
 
+        const wrapperStyles = {
+            display: "none"
+        };
+
+        if(isVisible) {
+            wrapperStyles.display = "block";
+        }
         const resizerStyles = {
             position : "absolute",
             height : `16px`,
@@ -56,7 +63,7 @@ class Resizer extends Component {
         };
 
         return (
-            <div>
+            <div className="resizerWrapper" style={wrapperStyles}>
                 <div className="elementsHightlight" style={elementHighlightStyles}/>
                 <svg style={resizerStyles} height="16" width="16" viewBox="-8 -8 16 16">
                     <circle
