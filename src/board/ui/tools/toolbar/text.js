@@ -93,7 +93,8 @@ class Text extends Component {
             handleDrawCanvasShow,
             registerDragHandler,
             handleDragMove,
-            handleDragEnd
+            handleDragEnd,
+            currentSelectedTool
         } = this.props;
        
         return (
@@ -105,6 +106,7 @@ class Text extends Component {
                 handleDragStart={this.handleTextDragStart}
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd} 
+                currentSelectedTool={currentSelectedTool}
             />
         );
     }

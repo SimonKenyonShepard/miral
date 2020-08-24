@@ -26,10 +26,15 @@
     background-size: 24px 24px;
     display: block;
     height: 40px;
+    position: relative;
     width: 40px
 }
 
 .toolbar_tool:hover {
+    background-color: #999;
+}
+
+.toolbar_tool_selected {
     background-color: #ccc;
 }
 
@@ -49,8 +54,24 @@
     background-image: url("/icons/title-24px.svg");
 }
 
+/* .toolbar_shape {
+    background-image: url("/icons/category-24px.svg");
+} */
+
 .toolbar_shape {
     background-image: url("/icons/check_box_outline_blank-24px.svg");
+}
+
+.toolbar_shapeRect {
+    background-image: url("/icons/check_box_outline_blank-24px.svg");
+}
+
+.toolbar_shapeCircle {
+    background-image: url("/icons/radio_button_unchecked-24px.svg");
+}
+
+.toolbar_shapeTriangle {
+    background-image: url("/icons/triangle.svg");
 }
 
 .toolbar_pen {
@@ -63,6 +84,40 @@
 
 .toolbar_more {
     background-image: url("/icons/more_horiz-24px.svg");
+}
+
+.toolbar_submenu {
+    align-items : center;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius : 2px;
+    box-shadow: 2px 2px 3px #ccc;
+    display: flex;
+    flex-direction: column;
+    left: 55px;
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+    transform: translateY(-23px);
+    transition: opacity .3s, transform .3s;
+    top: 0px;
+    width: 40px;
+}
+
+.toolbar_isVisible {
+    opacity : 1;
+    pointer-events: all;
+    transform: none;
+}
+
+.leftArrow {
+    border-right: 8px solid #fff;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    height: 1px;
+    left: -8px;
+    position: absolute;
+    top: 8px;
+    width : 1px;
 }
 
 #drawCanvas {

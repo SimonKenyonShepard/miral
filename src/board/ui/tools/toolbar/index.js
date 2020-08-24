@@ -35,7 +35,8 @@ class Toolbar extends Component {
             handleShowSelectionArea,
             handleUpdateSelectionArea,
             handleDrawCanvasShow,
-            handleSelectElementsWithinArea
+            handleSelectElementsWithinArea,
+            currentSelectedTool
         } = this.props;
 
         return (
@@ -48,6 +49,7 @@ class Toolbar extends Component {
                         handleShowSelectionArea={handleShowSelectionArea}
                         handleUpdateSelectionArea={handleUpdateSelectionArea}
                         handleSelectElementsWithinArea={handleSelectElementsWithinArea}
+                        currentSelectedTool={currentSelectedTool}
                     />
                     <Shape
                         handleToolSelect={handleToolSelect}
@@ -55,6 +57,7 @@ class Toolbar extends Component {
                         registerDragHandler={registerDragHandler}
                         handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
+                        currentSelectedTool={currentSelectedTool}
                     />
                     <Postit
                         handleToolSelect={handleToolSelect}
@@ -62,6 +65,7 @@ class Toolbar extends Component {
                         registerDragHandler={registerDragHandler}
                         handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
+                        currentSelectedTool={currentSelectedTool}
                     />
                     <Text
                         handleToolSelect={handleToolSelect}
@@ -69,6 +73,7 @@ class Toolbar extends Component {
                         registerDragHandler={registerDragHandler}
                         handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
+                        currentSelectedTool={currentSelectedTool}
                     />
                     {/* <Tool type="pen" handleToolSelect={handleToolSelect}/>
                     <Tool type="image" handleToolSelect={handleToolSelect}/>

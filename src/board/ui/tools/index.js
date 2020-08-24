@@ -80,7 +80,8 @@ class Tools extends Component {
         const {
             handleToolSelect,
             registerDragHandler,
-            handleSelectElementsWithinArea
+            handleSelectElementsWithinArea,
+            currentSelectedTool
         } = this.props;
         const {
             selectAreaVisible,
@@ -113,6 +114,7 @@ class Tools extends Component {
                     handleShowSelectionArea={this.handleShowSelectionArea}
                     handleUpdateSelectionArea={this.handleUpdateSelectionArea}
                     handleSelectElementsWithinArea={handleSelectElementsWithinArea}
+                    currentSelectedTool={currentSelectedTool}
 
                 />
                 <div 

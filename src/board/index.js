@@ -479,6 +479,7 @@ class Board extends Component {
                         registerDragHandler={this.registerDragHandler}
                         removeDragHandler={this.removeDragHandler}
                         handleSelectElementsWithinArea={this.handleSelectElementsWithinArea}
+                        currentSelectedTool={this.state.tool}
                     />
                 </InteractionManager>
                 <KeyboardManager 

@@ -21,7 +21,9 @@
     cursor: default;
 }
 
-.shape {
+.shapeRect,
+.shapeCircle,
+.shapeTriangle {
     cursor: crosshair;
 }
 

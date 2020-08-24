@@ -66,7 +66,8 @@ class Select extends Component {
         const {
             handleToolSelect,
             handleDrawCanvasShow,
-            registerDragHandler
+            registerDragHandler,
+            currentSelectedTool
         } = this.props;
        
         return (
@@ -76,7 +77,8 @@ class Select extends Component {
                 registerDragHandler={registerDragHandler}
                 handleDragStart={this.handleSelectStart}
                 handleDragMove={this.handleSelectMove}
-                handleDragEnd={this.handleSelectEnd} 
+                handleDragEnd={this.handleSelectEnd}
+                currentSelectedTool={currentSelectedTool} 
             />
         );
     }

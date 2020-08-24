@@ -5,29 +5,32 @@ import Tool from './tool';
 import './styles.css';
 
 
-class Postit extends Component {
+class Shape extends Component {
 
-    handlePostitClick(e) {
+    handleShapeClick(e, dragStartX, dragStartY) {
         const currentState = this.state;
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
+        const width = 240,
+              height = 120;
         newState.elements[newID] = {
             id : newID,
-            type : "postit",
-            subType : "square",
-            fixedRatio : "true",
-            predefinedColor : 3,
+            type : "rect",
             styles : {
-                x : (e.clientX*currentState.zoomLevel)+currentState.offsetX,
-                y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
-                width : 128*currentState.zoomLevel,
-                height: 128*currentState.zoomLevel,
+                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX-((width/2)*currentState.zoomLevel),
+                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-((height/2)*currentState.zoomLevel),
+                width : width*currentState.zoomLevel,
+                height: height*currentState.zoomLevel,
                 fillOpacity: 0,
-                strokeWidth : 2*currentState.zoomLevel
+                fill: "#ffffff",
+                stroke : "#000000",
+                strokeOpacity : 1,
+                strokeWidth : 2*currentState.zoomLevel,
+                strokeDasharray : "0"
             },
             fontStyle : {
-                fontSize : 24*currentState.zoomLevel,
+                fontFamily : "",
                 fontWeight : "normal",
                 fontStyle : "normal",
                 textDecorationLine : "",
@@ -35,12 +38,12 @@ class Postit extends Component {
                 textAlign: "center" 
             },
             text : "",
+            initialZoomLevel : currentState.zoomLevel
         };
         newState.elementState = {...currentState.elementState};
-        newState.elementState[newID] = {};
-        let min = 0,
-            max = 3;
-        newState.elementState[newID].shapeType = Math.floor(Math.random() * (max - min + 1)) + min;
+        newState.elementState[newID] = {
+            selected : true
+        };
         newState.dragStartHandler = null;
         newState.dragMoveHandler = null;
         newState.dragEndHandler = null;
@@ -51,26 +54,29 @@ class Postit extends Component {
         this.setState(newState);
     }
 
-    handlePostitDragStart(e) {
+    handleShapeDragStart(e, dragStartX, dragStartY, width, height) {
         const currentState = this.state;
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
         newState.elements[newID] = {
             id : newID,
-            type : "postit",
-            subType : "square",
-            fixedRatio : "true",
-            predefinedColor : 3,
+            type : "rect",
             styles : {
-                x : (e.clientX*currentState.zoomLevel)+currentState.offsetX,
-                y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
-                width : 128*currentState.zoomLevel,
-                height: 128*currentState.zoomLevel,
+                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
+                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
+                width : width*currentState.zoomLevel,
+                height: height*currentState.zoomLevel,
                 fillOpacity: 0,
-                strokeWidth : 2*currentState.zoomLevel
+                fill: "#ffffff",
+                stroke : "#000000",
+                strokeOpacity : 1,
+                strokeWidth : 2*currentState.zoomLevel,
+                strokeDasharray : "0"
             },
             fontStyle : {
+                fontSize : 24*currentState.zoomLevel,
+                fontFamily : "",
                 fontWeight : "normal",
                 fontStyle : "normal",
                 textDecorationLine : "",
@@ -78,14 +84,14 @@ class Postit extends Component {
                 textAlign: "center" 
             },
             text : "",
+            initialZoomLevel : currentState.zoomLevel
         };
         newState.elementState = {...currentState.elementState};
-        newState.elementState[newID] = {};
-        let min = 0,
-            max = 3;
-        newState.elementState[newID].shapeType = Math.floor(Math.random() * (max - min + 1)) + min;
-        newState.storeUndo = true;
+        newState.elementState[newID] = {
+            selected : true
+        };
         newState.elementBeingDrawn = newID;
+        newState.storeUndo = true;
         this.setState(newState);
     }
   
@@ -95,24 +101,24 @@ class Postit extends Component {
             handleDrawCanvasShow,
             registerDragHandler,
             handleDragMove,
-            handleDragEnd,
-            currentSelectedTool
+            handleDragEnd
         } = this.props;
 
         return (
-            <Tool type="postit" 
+           
+            <Tool type="shapeTriangle" 
                 handleToolSelect={handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
-                handleClick={this.handlePostitClick}
-                handleDragStart={this.handlePostitDragStart}
+                handleClick={this.handleShapeClick}
+                handleDragStart={this.handleShapeDragStart}
                 handleDragMove={handleDragMove}
-                handleDragEnd={handleDragEnd}
-                currentSelectedTool={currentSelectedTool}
-            />    
+                handleDragEnd={handleDragEnd} 
+            />
+                   
         );
     }
     
   }
 
-  export default Postit;
+  export default Shape;
