@@ -12,7 +12,7 @@ import InteractionManager from './ui/InteractionManager';
 import KeyboardManager from './ui/KeyboardManager';
 
 //ELEMENTS
-import Rect from './elements/rect';
+import Shape from './elements/shape';
 import Text from './elements/text';
 import Postit from './elements/postit';
 
@@ -367,8 +367,8 @@ class Board extends Component {
                             {...element.styles}
                             style={{cursor: "pointer"}} 
                     />);
-            } else if (element.type === "rect") {
-                return (<Rect 
+            } else if (element.type === "shape") {
+                return (<Shape
                     key={element.id}
                     data={element}
                     elementState={this.state.elementState[element.id]}

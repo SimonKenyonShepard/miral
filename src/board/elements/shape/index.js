@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import './styles.css';
 
-class Rect extends Component {
+class Shape extends Component {
 
     constructor(props, context) {
       super(props, context);
@@ -22,6 +22,7 @@ class Rect extends Component {
         const {elementState, data} = this.props;
         const shapeProps = {...this.props.data.styles};
         let text = null;
+        let shape = null;
         if(elementState.selected) {
             shapeProps.style = {outline : `${(shapeProps.strokeWidth/2)}px dashed #5086F2`};
         }
@@ -53,6 +54,28 @@ class Rect extends Component {
                 </foreignObject>
             );
         }
+
+        if(data.shapeType === 0) {
+            shape = <rect
+                id={data.id} 
+                {...shapeProps}
+            />;
+        } else if (data.shapeType === 1) {
+            shapeProps.r = shapeProps.width/2;
+            shapeProps.cx = shapeProps.x+shapeProps.r;
+            shapeProps.cy = shapeProps.y+shapeProps.r;
+            
+            shape = <circle
+                id={data.id} 
+                {...shapeProps}
+            />;
+        } else {
+            shape = <text>No Shape Type Set</text>;
+        }
+
+        if(shapeProps.r) {
+            
+        }
         
         return (
             <g 
@@ -61,10 +84,7 @@ class Rect extends Component {
                 height={shapeProps.height}
                 width={shapeProps.width}
             >
-                <rect
-                    id={data.id} 
-                    {...shapeProps}
-                />
+                {shape}
                 {text}
             </g>
         );
@@ -72,4 +92,4 @@ class Rect extends Component {
     
   }
 
-  export default Rect;
+  export default Shape;

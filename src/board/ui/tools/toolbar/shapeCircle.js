@@ -12,16 +12,17 @@ class Shape extends Component {
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        const width = 240,
-              height = 120;
+        const width = 120;
         newState.elements[newID] = {
             id : newID,
-            type : "rect",
+            type : "shape",
+            shapeType : 1,
+            fixedRatio : "true",
             styles : {
                 x : (dragStartX*currentState.zoomLevel)+currentState.offsetX-((width/2)*currentState.zoomLevel),
-                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-((height/2)*currentState.zoomLevel),
+                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-((width/2)*currentState.zoomLevel),
                 width : width*currentState.zoomLevel,
-                height: height*currentState.zoomLevel,
+                height: width*currentState.zoomLevel,
                 fillOpacity: 0,
                 fill: "#ffffff",
                 stroke : "#000000",
@@ -54,19 +55,21 @@ class Shape extends Component {
         this.setState(newState);
     }
 
-    handleShapeDragStart(e, dragStartX, dragStartY, width, height) {
+    handleShapeDragStart(e, dragStartX, dragStartY, width) {
         const currentState = this.state;
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
         newState.elements[newID] = {
             id : newID,
-            type : "rect",
+            type : "shape",
+            shapeType : 1,
+            fixedRatio : "true",
             styles : {
                 x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
                 y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
                 width : width*currentState.zoomLevel,
-                height: height*currentState.zoomLevel,
+                height: width*currentState.zoomLevel,
                 fillOpacity: 0,
                 fill: "#ffffff",
                 stroke : "#000000",

@@ -15,8 +15,18 @@ class Toolbar extends Component {
         const newState = {};
         if(currentState.elementBeingDrawn !== null) {
             const newElementGraph = {...currentState.elements};
-            newElementGraph[currentState.elementBeingDrawn].styles.width += e.movementX*currentState.zoomLevel;
-            newElementGraph[currentState.elementBeingDrawn].styles.height += e.movementY*currentState.zoomLevel;
+            if(newElementGraph[currentState.elementBeingDrawn].fixedRatio) {
+                let multiplier = e.movementX;
+                if(e.movementY > multiplier) {
+                    multiplier = e.movementY;
+                }
+                newElementGraph[currentState.elementBeingDrawn].styles.width += multiplier*currentState.zoomLevel;
+                newElementGraph[currentState.elementBeingDrawn].styles.height += multiplier*currentState.zoomLevel;
+
+            } else {
+                newElementGraph[currentState.elementBeingDrawn].styles.width += e.movementX*currentState.zoomLevel;
+                newElementGraph[currentState.elementBeingDrawn].styles.height += e.movementY*currentState.zoomLevel;
+            }
             newState.elements = newElementGraph;
         }
         this.setState(newState);

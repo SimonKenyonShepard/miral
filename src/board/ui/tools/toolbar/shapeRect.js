@@ -16,7 +16,8 @@ class Shape extends Component {
               height = 120;
         newState.elements[newID] = {
             id : newID,
-            type : "rect",
+            type : "shape",
+            shapeType : 0,
             styles : {
                 x : (dragStartX*currentState.zoomLevel)+currentState.offsetX-((width/2)*currentState.zoomLevel),
                 y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-((height/2)*currentState.zoomLevel),
@@ -61,7 +62,8 @@ class Shape extends Component {
         const newID = Shortid.generate();
         newState.elements[newID] = {
             id : newID,
-            type : "rect",
+            type : "shape",
+            shapeType : 0,
             styles : {
                 x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
                 y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,

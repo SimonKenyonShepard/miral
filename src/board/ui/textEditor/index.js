@@ -7,7 +7,7 @@ const ELEMENT_TYPE_PROPERTIES = {
         isExpandToFit : true,
         isAutoResize : false
     },
-    rect : {
+    shape : {
         isExpandToFit : false,
         isAutoResize : true
     },
