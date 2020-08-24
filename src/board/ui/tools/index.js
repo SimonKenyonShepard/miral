@@ -57,11 +57,19 @@ class Tools extends Component {
         
     }
 
-    handleUpdateSelectionArea = (event) => {
+    handleUpdateSelectionArea = (selectionAreaCoords) => {
         const positionUpdate = {
-            width : this.state.selectAreaPosition.width+event.movementX,
-            height : this.state.selectAreaPosition.height+event.movementY
+            width : selectionAreaCoords.x1-selectionAreaCoords.x,
+            height : selectionAreaCoords.y1-selectionAreaCoords.y
         };
+        if(selectionAreaCoords.x > selectionAreaCoords.x1) {
+            positionUpdate.x = selectionAreaCoords.x1;
+            positionUpdate.width = selectionAreaCoords.x-selectionAreaCoords.x1;
+        }
+        if(selectionAreaCoords.y > selectionAreaCoords.y1) {
+            positionUpdate.y = selectionAreaCoords.y1;
+            positionUpdate.height = selectionAreaCoords.y-selectionAreaCoords.y1;
+        }
         this.setState({
             selectAreaPosition : Object.assign({}, this.state.selectAreaPosition, positionUpdate)
         });

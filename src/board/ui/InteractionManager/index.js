@@ -66,7 +66,7 @@ class InteractionManager extends Component {
             }
             e.stopPropagation();
             if(dragHandlers && dragHandlers.handleDragMove && !wasFirstDrag) {
-                dragHandlers.handleDragMove(e);
+                dragHandlers.handleDragMove(e, this.state.dragStartX, this.state.dragStartY);
             }
         }
     }
