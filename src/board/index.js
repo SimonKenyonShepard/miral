@@ -69,7 +69,7 @@ class Board extends Component {
     }
   
     handleToolSelect = (type) => {
-        this.handleDeselectAllElements();   
+        this.handleDeselectAllElements(); 
         this.setState({"tool" : type});
     }
 

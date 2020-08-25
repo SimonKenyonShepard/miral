@@ -107,6 +107,13 @@ class Tools extends Component {
         }
         return (
             <div className="tools">
+                <div 
+                    id="drawCanvas" 
+                    style={drawCanvasStyles}
+                    onMouseUp={this.handleDrawCanvasHide}
+                >
+                    <div className={"selectionArea"} style={selectAreaStyle}/>
+                </div>
                 <Toolbar
                     handleToolSelect={handleToolSelect} 
                     registerDragHandler={registerDragHandler}
@@ -117,13 +124,6 @@ class Tools extends Component {
                     currentSelectedTool={currentSelectedTool}
 
                 />
-                <div 
-                    id="drawCanvas" 
-                    style={drawCanvasStyles}
-                    onMouseUp={this.handleDrawCanvasHide}
-                >
-                    <div className={"selectionArea"} style={selectAreaStyle}/>
-                </div>
             </div>
         );
     }

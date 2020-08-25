@@ -10,6 +10,18 @@ import './styles.css';
 
 class Toolbar extends Component {
 
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+          openSubMenu : null
+        };
+    }
+
+
+    handleSetCurrentOpenSubMenu = (openSubMenu) => {
+        this.setState({openSubMenu});
+    }
+
     handleElementDragMove(e) {
         const currentState = this.state;
         const newState = {};
@@ -60,6 +72,8 @@ class Toolbar extends Component {
                         handleUpdateSelectionArea={handleUpdateSelectionArea}
                         handleSelectElementsWithinArea={handleSelectElementsWithinArea}
                         currentSelectedTool={currentSelectedTool}
+                        openSubMenu={this.state.openSubMenu}
+                        handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                     />
                     <Shape
                         handleToolSelect={handleToolSelect}
@@ -68,6 +82,8 @@ class Toolbar extends Component {
                         handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
                         currentSelectedTool={currentSelectedTool}
+                        openSubMenu={this.state.openSubMenu}
+                        handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                     />
                     <Postit
                         handleToolSelect={handleToolSelect}
@@ -76,6 +92,8 @@ class Toolbar extends Component {
                         handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
                         currentSelectedTool={currentSelectedTool}
+                        openSubMenu={this.state.openSubMenu}
+                        handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                     />
                     <Text
                         handleToolSelect={handleToolSelect}
@@ -84,6 +102,8 @@ class Toolbar extends Component {
                         handleDragMove={this.handleElementDragMove}
                         handleDragEnd={this.handleDragEnd}
                         currentSelectedTool={currentSelectedTool}
+                        openSubMenu={this.state.openSubMenu}
+                        handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                     />
                     {/* <Tool type="pen" handleToolSelect={handleToolSelect}/>
                     <Tool type="image" handleToolSelect={handleToolSelect}/>
@@ -91,6 +111,16 @@ class Toolbar extends Component {
                 </div>
             </div>
         );
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(
+            this.props.currentSelectedTool === "pan" &&
+            this.state.openSubMenu !== null && 
+            prevState.openSubMenu === this.state.openSubMenu
+        ) {
+            this.setState({openSubMenu : null});
+        }
     }
     
   }

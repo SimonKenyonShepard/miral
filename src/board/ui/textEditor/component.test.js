@@ -44,7 +44,7 @@ it("it displays the element text when it recieved data with existing text", () =
     handleUpdatedText = function () { return true },
     textEditor = {
       id: "sdkfjnskdjfnskdj",
-      type: "rect",
+      type: "shape",
       styles: {
         x: 4000,
         y: 4000,
@@ -81,7 +81,7 @@ it("it is correctly positioned", () => {
     handleUpdatedText = function () { return true },
     textEditor = {
       id: "sdkfjnskdjfnskdj",
-      type: "rect",
+      type: "shape",
       styles: {
         x: 50,
         y: 50,
@@ -128,7 +128,7 @@ it("is returns updated text after losing focus", () => {
     handleUpdatedText = (data) => { console.log("run"); functionWasCalled = data; },
     textEditor = {
       id: "sdkfjnskdjfnskdj",
-      type: "rect",
+      type: "shape",
       styles: {
         x: 0,
         y: 0,

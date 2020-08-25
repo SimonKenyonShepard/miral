@@ -123,7 +123,7 @@ it("is correctly positioned when one element is selected", () => {
 //     handleUpdatedText = function () { return true },
 //     textEditor = {
 //       id: "sdkfjnskdjfnskdj",
-//       type: "rect",
+//       type: "shape",
 //       styles: {
 //         x: 4000,
 //         y: 4000,
@@ -160,7 +160,7 @@ it("is correctly positioned when one element is selected", () => {
 //     handleUpdatedText = function () { return true },
 //     textEditor = {
 //       id: "sdkfjnskdjfnskdj",
-//       type: "rect",
+//       type: "shape",
 //       styles: {
 //         x: 50,
 //         y: 50,
@@ -207,7 +207,7 @@ it("is correctly positioned when one element is selected", () => {
 //     handleUpdatedText = (data) => { console.log("run"); functionWasCalled = data; },
 //     textEditor = {
 //       id: "sdkfjnskdjfnskdj",
-//       type: "rect",
+//       type: "shape",
 //       styles: {
 //         x: 0,
 //         y: 0,

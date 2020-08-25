@@ -103,19 +103,24 @@ class Shape extends Component {
             handleDrawCanvasShow,
             registerDragHandler,
             handleDragMove,
-            handleDragEnd
+            handleDragEnd,
+            autoActivate,
+            currentSelectedTool
         } = this.props;
+
 
         return (
            
             <Tool type="shapeRect" 
                 handleToolSelect={handleToolSelect}
+                currentSelectedTool={currentSelectedTool}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleClick={this.handleShapeClick}
                 handleDragStart={this.handleShapeDragStart}
                 handleDragMove={handleDragMove}
-                handleDragEnd={handleDragEnd} 
+                handleDragEnd={handleDragEnd}
+                autoActivate={autoActivate}
             />
                    
         );

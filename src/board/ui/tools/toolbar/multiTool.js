@@ -11,15 +11,18 @@ class MultiTool extends Component {
         };
     }
   
-    handleOpenSubMenu = () => {
-        this.setState({subMenuOpen : !this.state.subMenuOpen});
-        //this.props.handleSetCurrentOpenSubMenu(this.props.type);
+    handleOpenSubMenu = (e) => {
+        e.stopPropagation();
+        this.setState({
+            toolSubMenuOpen : !this.state.toolSubMenuOpen
+        });
+        this.props.handleSetCurrentOpenSubMenu(this.props.type);
     }
   
     render() {
 
         let submenuCSS = "toolbar_submenu";
-        if(this.state.subMenuOpen && this.props.subMenuItems) {
+        if(this.state.toolSubMenuOpen && this.props.subMenuItems) {
           submenuCSS += " toolbar_isVisible";
         }
 
@@ -36,9 +39,10 @@ class MultiTool extends Component {
         );
     }
 
-    onComponentDidUpdate() {
-        if(this.props.isDefault) {
-            this.handleToolSelect();
+    componentDidUpdate() {
+        if( this.state.toolSubMenuOpen &&
+            this.props.openSubMenu !== this.props.type) {
+                this.setState({toolSubMenuOpen : false});
         }
     }
     

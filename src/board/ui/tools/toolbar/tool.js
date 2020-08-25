@@ -36,10 +36,12 @@ class Tool extends Component {
         );
     }
 
-    onComponentDidUpdate() {
-        if(this.props.isDefault) {
+    componentDidUpdate() {
+
+        if(this.props.autoActivate) {
             this.handleToolSelect();
         }
+
     }
     
   }

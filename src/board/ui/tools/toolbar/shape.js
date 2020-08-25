@@ -9,10 +9,26 @@ import ShapeTriangle from './shapeTriangle';
 
 
 class Shape extends Component {
+
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+          previousSelectedShapeTool : "shapeRect",
+          menuActivated : false
+        };
+    }
+
+    handleToolSelect = (tool) => {
+        if(this.props.currentSelectedTool !== tool) {
+            this.setState({
+                previousSelectedShapeTool : tool
+            });
+            this.props.handleToolSelect(tool);
+        }
+    }
   
     render() {
         const {
-            handleToolSelect,
             handleDrawCanvasShow,
             registerDragHandler,
             handleDragMove,
@@ -20,41 +36,66 @@ class Shape extends Component {
             currentSelectedTool
         } = this.props;
 
+        const autoActivate = {
+            shapeRect : false,
+            shapeCircle : false,
+            shapeTriangle : false
+        };
+
+        if(this.state.menuActivated) {
+            autoActivate[this.state.previousSelectedShapeTool] = true;
+        }
+
         const subMenuTools = [
-            <ShapeRect 
-                handleToolSelect={handleToolSelect}
+            <ShapeRect
+                handleToolSelect={this.handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
+                autoActivate={autoActivate.shapeRect}
             />,
-            <ShapeCircle 
-                handleToolSelect={handleToolSelect}
+            <ShapeCircle
+                handleToolSelect={this.handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
+                autoActivate={autoActivate.shapeCircle}
+
             />,
             <ShapeTriangle 
-                handleToolSelect={handleToolSelect}
+                handleToolSelect={this.handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
+                autoActivate={autoActivate.shapeTriangle}
             />
         ];
 
         return (
            
-            <MultiTool type="shape" 
-                subMenuItems={subMenuTools} 
+            <MultiTool 
+                type="shape" 
+                subMenuItems={subMenuTools}
+                openSubMenu={this.props.openSubMenu}
+                handleSetCurrentOpenSubMenu={this.props.handleSetCurrentOpenSubMenu} 
             />
                    
         );
     }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.openSubMenu !== prevProps.openSubMenu && this.props.openSubMenu === "shape") {
+            this.setState({menuActivated : true});
+        } else if (this.state.menuActivated) {
+            this.setState({menuActivated : false});
+        }
+    }   
     
   }
 
