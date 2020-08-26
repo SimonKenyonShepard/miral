@@ -74,6 +74,22 @@
     background-image: url("/icons/triangle.svg");
 }
 
+.toolbar_line {
+    background-image: url("/icons/trending_up-24px.svg");
+}
+
+.toolbar_lineAngles {
+    background-image: url("/icons/trending_up-24px.svg");
+}
+
+.toolbar_lineSmooth {
+    background-image: url("/icons/swap_calls-24px.svg");
+}
+
+.toolbar_lineFreehand {
+    background-image: url("/icons/edit-24px.svg");
+}
+
 .toolbar_pen {
     background-image: url("/icons/edit-24px.svg");
 }
