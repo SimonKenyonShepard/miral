@@ -12,11 +12,12 @@ class Shape extends Component {
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        const width = 240,
+        const width = 120,
               height = 120;
         newState.elements[newID] = {
             id : newID,
-            type : "rect",
+            type : "shape",
+            shapeType : 2,
             styles : {
                 x : (dragStartX*currentState.zoomLevel)+currentState.offsetX-((width/2)*currentState.zoomLevel),
                 y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-((height/2)*currentState.zoomLevel),
@@ -61,7 +62,8 @@ class Shape extends Component {
         const newID = Shortid.generate();
         newState.elements[newID] = {
             id : newID,
-            type : "rect",
+            type : "shape",
+            shapeType : 2,
             styles : {
                 x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
                 y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
@@ -106,6 +108,7 @@ class Shape extends Component {
             currentSelectedTool
         } = this.props;
 
+
         return (
            
             <Tool type="shapeTriangle" 
@@ -117,7 +120,7 @@ class Shape extends Component {
                 handleDragStart={this.handleShapeDragStart}
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
-                autoActivate={autoActivate} 
+                autoActivate={autoActivate}
             />
                    
         );

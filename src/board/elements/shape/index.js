@@ -69,6 +69,15 @@ class Shape extends Component {
                 id={data.id} 
                 {...shapeProps}
             />;
+        } else if (data.shapeType === 2) {
+            const triangleStart = `${shapeProps.x+shapeProps.width/2},${shapeProps.y}`,
+                  triangleMid = `${shapeProps.x},${shapeProps.y+shapeProps.height}`,
+                  triangleEnd = `${shapeProps.x+shapeProps.width},${shapeProps.y+shapeProps.height}`;
+            shapeProps.points = `${triangleStart} ${triangleMid} ${triangleEnd}`;
+            shape = <polygon
+                id={data.id} 
+                {...shapeProps}
+            />;
         } else {
             shape = <text>No Shape Type Set</text>;
         }
