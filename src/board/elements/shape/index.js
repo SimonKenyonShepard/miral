@@ -24,7 +24,7 @@ class Shape extends Component {
         let text = null;
         let shape = null;
         if(elementState.selected) {
-            shapeProps.style = {outline : `${(shapeProps.strokeWidth/2)}px dashed #5086F2`};
+            shapeProps.style = {outline : `${(data.initialZoomLevel)}px dashed #5086F2`};
         }
         if(data.text) {
             const textBody = data.text.split(/\n|\r/).map((line, i) => {
