@@ -81,10 +81,6 @@ class Shape extends Component {
         } else {
             shape = <text>No Shape Type Set</text>;
         }
-
-        if(shapeProps.r) {
-            
-        }
         
         return (
             <g 

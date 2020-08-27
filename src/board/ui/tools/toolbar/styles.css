@@ -75,11 +75,11 @@
 }
 
 .toolbar_line {
-    background-image: url("/icons/trending_up-24px.svg");
+    background-image: url("/icons/arrow_up-24px.svg");
 }
 
-.toolbar_lineAngles {
-    background-image: url("/icons/trending_up-24px.svg");
+.toolbar_lineStraight {
+    background-image: url("/icons/arrow_up-24px.svg");
 }
 
 .toolbar_lineSmooth {

@@ -34,3 +34,9 @@
 .postit {
     cursor: crosshair;
 }
+
+.lineStraight,
+.lineSmooth,
+.lineFreehand {
+    cursor: crosshair;
+}

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import MultiTool from './multiTool';
 
-import LineAngles from "./lineAngles";
+import LineStraight from "./lineStraight";
 import LineSmooth from "./lineSmooth";
 import LineFreehand from "./lineFreehand";
 
@@ -48,7 +48,7 @@ class Line extends Component {
         }
 
         const subMenuTools = [
-            <LineAngles
+            <LineStraight
                 handleToolSelect={this.handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}

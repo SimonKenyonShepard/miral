@@ -15,6 +15,7 @@ import KeyboardManager from './ui/KeyboardManager';
 import Shape from './elements/shape';
 import Text from './elements/text';
 import Postit from './elements/postit';
+import Line from './elements/line';
 
 //HELPERS
 import Shortid from 'shortid';
@@ -391,6 +392,14 @@ class Board extends Component {
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
                 />);
+            } else if (element.type === "line") {
+                return (<Line
+                    key={element.id}
+                    data={element}
+                    elementState={this.state.elementState[element.id]}
+                    handleTextEdit={this.handleTextEdit}
+                    handleSetCurrentElement={this.handleSetCurrentElement}
+                />);
             }
             return null;
         });
@@ -434,6 +443,9 @@ class Board extends Component {
                             <filter height="200%" id="shadow2" width="200%" x="-50%" y="-50%">
                                 <feGaussianBlur in="SourceGraphic" stdDeviation="10"/>
                             </filter>
+                            <marker id="arrow" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0,0 0,5 5,2.5" fill="#000" />
+                            </marker>
                         </defs>
                         <ElementDrag 
                             boundingBox={boundingBox}

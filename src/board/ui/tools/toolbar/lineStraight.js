@@ -5,22 +5,22 @@ import Tool from './tool';
 import './styles.css';
 
 
-class Shape extends Component {
+class LineStraight extends Component {
 
     handleShapeClick(e, dragStartX, dragStartY) {
         const currentState = this.state;
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        const width = 240,
+        const width = 120,
               height = 120;
         newState.elements[newID] = {
             id : newID,
-            type : "shape",
+            type : "line",
             shapeType : 0,
             styles : {
-                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX-((width/2)*currentState.zoomLevel),
-                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-((height/2)*currentState.zoomLevel),
+                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
+                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-(height*currentState.zoomLevel),
                 width : width*currentState.zoomLevel,
                 height: height*currentState.zoomLevel,
                 fillOpacity: 0,
@@ -28,7 +28,8 @@ class Shape extends Component {
                 stroke : "#000000",
                 strokeOpacity : 1,
                 strokeWidth : 2*currentState.zoomLevel,
-                strokeDasharray : "0"
+                strokeDasharray : "0",
+                markerEnd : "url(#arrow)"
             },
             fontStyle : {
                 fontFamily : "",
@@ -111,7 +112,7 @@ class Shape extends Component {
 
         return (
            
-            <Tool type="lineAngles" 
+            <Tool type="lineStraight" 
                 handleToolSelect={handleToolSelect}
                 currentSelectedTool={currentSelectedTool}
                 handleDrawCanvasShow={handleDrawCanvasShow}
@@ -128,4 +129,4 @@ class Shape extends Component {
     
   }
 
-  export default Shape;
+  export default LineStraight;
