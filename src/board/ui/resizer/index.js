@@ -53,13 +53,30 @@ class Resizer extends Component {
             transform : `translate3d(${(boundingBox.cx-8)}px,${(boundingBox.cy-8)}px, 0)`
         };
 
+        const highlightBoxPosition = {
+            x : boundingBox.x,
+            y : boundingBox.y,
+            height : boundingBox.height,
+            width : boundingBox.width
+        };
+
+        if(highlightBoxPosition.width < 0) {
+            highlightBoxPosition.x += highlightBoxPosition.width;
+            highlightBoxPosition.width = highlightBoxPosition.width * -1;
+        }
+
+        if(highlightBoxPosition.height < 0) {
+            highlightBoxPosition.y += highlightBoxPosition.height;
+            highlightBoxPosition.height = highlightBoxPosition.height * -1;
+        }
+
         const elementHighlightStyles = {
             position : "absolute",
-            height : `${boundingBox.height}px`,
-            width : `${boundingBox.width}px`,
+            height : `${highlightBoxPosition.height}px`,
+            width : `${highlightBoxPosition.width}px`,
             top : `0`,
             left : `0`,
-            transform : `translate3d(${(boundingBox.x)}px,${(boundingBox.y)}px, 0)`
+            transform : `translate3d(${(highlightBoxPosition.x)}px,${(highlightBoxPosition.y)}px, 0)`
         };
 
         return (
