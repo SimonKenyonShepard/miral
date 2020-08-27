@@ -63,11 +63,11 @@ class LineStraight extends Component {
         const newID = Shortid.generate();
         newState.elements[newID] = {
             id : newID,
-            type : "shape",
+            type : "line",
             shapeType : 0,
             styles : {
                 x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
-                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
+                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-(height*currentState.zoomLevel),
                 width : width*currentState.zoomLevel,
                 height: height*currentState.zoomLevel,
                 fillOpacity: 0,
@@ -75,7 +75,8 @@ class LineStraight extends Component {
                 stroke : "#000000",
                 strokeOpacity : 1,
                 strokeWidth : 2*currentState.zoomLevel,
-                strokeDasharray : "0"
+                strokeDasharray : "0",
+                markerEnd : "url(#arrow)"
             },
             fontStyle : {
                 fontSize : 24*currentState.zoomLevel,
