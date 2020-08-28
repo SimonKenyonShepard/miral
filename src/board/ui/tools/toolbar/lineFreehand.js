@@ -7,73 +7,29 @@ import './styles.css';
 
 class Shape extends Component {
 
-    handleShapeClick(e, dragStartX, dragStartY) {
-        const currentState = this.state;
-        const newState = {};
-        newState.elements = {...currentState.elements};
-        const newID = Shortid.generate();
-        const width = 240,
-              height = 120;
-        newState.elements[newID] = {
-            id : newID,
-            type : "shape",
-            shapeType : 0,
-            styles : {
-                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX-((width/2)*currentState.zoomLevel),
-                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-((height/2)*currentState.zoomLevel),
-                width : width*currentState.zoomLevel,
-                height: height*currentState.zoomLevel,
-                fillOpacity: 0,
-                fill: "#ffffff",
-                stroke : "#000000",
-                strokeOpacity : 1,
-                strokeWidth : 2*currentState.zoomLevel,
-                strokeDasharray : "0"
-            },
-            fontStyle : {
-                fontFamily : "",
-                fontWeight : "normal",
-                fontStyle : "normal",
-                textDecorationLine : "",
-                color : "#080808",
-                textAlign: "center" 
-            },
-            text : "",
-            initialZoomLevel : currentState.zoomLevel
-        };
-        newState.elementState = {...currentState.elementState};
-        newState.elementState[newID] = {
-            selected : true
-        };
-        newState.dragStartHandler = null;
-        newState.dragMoveHandler = null;
-        newState.dragEndHandler = null;
-        newState.clickHandler = null;
-        newState.tool = "pan";
-        newState.storeUndo = true;
-        this.removeDragHandler("drawCanvas");
-        this.setState(newState);
-    }
-
     handleShapeDragStart(e, dragStartX, dragStartY, width, height) {
+        console.log("here");
         const currentState = this.state;
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
+        const currentX = (dragStartX*currentState.zoomLevel)+currentState.offsetX,
+              currentY = (dragStartY*currentState.zoomLevel)+currentState.offsetY;
         newState.elements[newID] = {
             id : newID,
-            type : "shape",
-            shapeType : 0,
+            type : "line",
+            shapeType : 2,
             styles : {
-                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
-                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
+                x : currentX,
+                y : currentY,
                 width : width*currentState.zoomLevel,
                 height: height*currentState.zoomLevel,
+                d : "",
                 fillOpacity: 0,
                 fill: "#ffffff",
                 stroke : "#000000",
                 strokeOpacity : 1,
-                strokeWidth : 2*currentState.zoomLevel,
+                strokeWidth : currentState.zoomLevel,
                 strokeDasharray : "0"
             },
             fontStyle : {
@@ -90,10 +46,108 @@ class Shape extends Component {
         };
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
-            selected : true
+            selected : true,
+            pathBuffer : [],
+            smoothingLevel : 8,
+            currentPath : `M ${currentX} ${currentY}`
         };
         newState.elementBeingDrawn = newID;
         newState.storeUndo = true;
+        this.setState(newState);
+    }
+
+    handleDragMove(e) {
+
+        var getUpdatedPointsBuffer = function(e, currentState, newElementState) {
+            const {
+                zoomLevel,
+                offsetX,
+                offsetY,
+                elementBeingDrawn
+            } = currentState;
+    
+            const currentElementState = newElementState[elementBeingDrawn];
+    
+            const x = (e.clientX*zoomLevel)+offsetX,
+                  y = (e.clientY*zoomLevel)+offsetY;
+    
+            currentElementState.pathBuffer.push({ x, y });
+    
+            while (currentElementState.pathBuffer.length > currentElementState.smoothingLevel) {
+                currentElementState.pathBuffer.shift();
+            }
+            return newElementState;
+        }
+    
+        var getUpdatedSvgPath = function(currentPath, buffer, smoothingLevel) {
+            var pt = getAveragePoint(0, buffer, smoothingLevel);
+            var tmpPath = "";
+        
+            if (pt) {
+                // Get the smoothed part of the path that will not change
+                currentPath += " L" + pt.x + " " + pt.y;
+        
+                // Get the last part of the path (close to the current mouse position)
+                // This part will change if the mouse moves again
+                
+                for (var offset = 2; offset < buffer.length; offset += 2) {
+                    pt = getAveragePoint(offset, buffer, smoothingLevel);
+                    tmpPath += " L" + pt.x + " " + pt.y;
+                }
+            }
+            return {
+                currentPath,
+                tmpPath
+            };
+        };
+    
+        var getAveragePoint = function(offset, buffer, smoothingLevel) {
+            var len = buffer.length;
+            if (len % 2 === 1 || len >= smoothingLevel) {
+                var totalX = 0;
+                var totalY = 0;
+                var pt, i;
+                var count = 0;
+                for (i = offset; i < len; i++) {
+                    count++;
+                    pt = buffer[i];
+                    totalX += pt.x;
+                    totalY += pt.y;
+                }
+                return {
+                    x: totalX / count,
+                    y: totalY / count
+                }
+            }
+            return null;
+        };
+
+        const currentState = this.state;
+        const newState = {};
+        if(currentState.elementBeingDrawn !== null) {
+            const newElementGraph = {...currentState.elements};
+            let newElementState = {...currentState.elementState};
+
+            newElementState = getUpdatedPointsBuffer(e, currentState, newElementState);
+
+            const currentPath = newElementState[currentState.elementBeingDrawn].currentPath;
+
+            const currentPathBuffer = newElementState[currentState.elementBeingDrawn].pathBuffer;
+            const smoothingLevel = newElementState[currentState.elementBeingDrawn].smoothingLevel;
+            const newPath = getUpdatedSvgPath(currentPath, currentPathBuffer, smoothingLevel);
+
+            newElementGraph[currentState.elementBeingDrawn].styles.d = newPath.currentPath+newPath.tmpPath;
+            newElementState[currentState.elementBeingDrawn].currentPath = newPath.currentPath;
+            
+            newState.elements = newElementGraph;
+            newState.elementState = newElementState;
+        }
+        this.setState(newState);
+    }
+
+    handleDragEnd() {
+        const newState = {};
+        newState.tool = "pan";
         this.setState(newState);
     }
   
@@ -102,12 +156,9 @@ class Shape extends Component {
             handleToolSelect,
             handleDrawCanvasShow,
             registerDragHandler,
-            handleDragMove,
-            handleDragEnd,
             autoActivate,
             currentSelectedTool
         } = this.props;
-
 
         return (
            
@@ -116,10 +167,9 @@ class Shape extends Component {
                 currentSelectedTool={currentSelectedTool}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
-                handleClick={this.handleShapeClick}
                 handleDragStart={this.handleShapeDragStart}
-                handleDragMove={handleDragMove}
-                handleDragEnd={handleDragEnd}
+                handleDragMove={this.handleDragMove}
+                handleDragEnd={this.handleDragEnd}
                 autoActivate={autoActivate}
             />
                    
