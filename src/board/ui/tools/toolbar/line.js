@@ -49,6 +49,7 @@ class Line extends Component {
 
         const subMenuTools = [
             <LineStraight
+                key={"tool_lineStraight"}
                 handleToolSelect={this.handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
@@ -58,6 +59,7 @@ class Line extends Component {
                 autoActivate={autoActivate.shapeRect}
             />,
             <LineSmooth
+                key={"tool_lineSmooth"}
                 handleToolSelect={this.handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
@@ -68,6 +70,7 @@ class Line extends Component {
 
             />,
             <LineFreehand
+                key={"tool_lineFreehand"}
                 handleToolSelect={this.handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}

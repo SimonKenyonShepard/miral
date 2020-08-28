@@ -8,7 +8,6 @@ import './styles.css';
 class Shape extends Component {
 
     handleShapeDragStart(e, dragStartX, dragStartY, width, height) {
-        console.log("here");
         const currentState = this.state;
         const newState = {};
         newState.elements = {...currentState.elements};

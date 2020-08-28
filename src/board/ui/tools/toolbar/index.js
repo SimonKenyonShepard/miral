@@ -6,6 +6,7 @@ import Shape from './shape';
 import Postit from './postit';
 import Text from './text';
 import Line from './line';
+import Image from './image';
 
 import './styles.css';
 
@@ -116,8 +117,15 @@ class Toolbar extends Component {
                         openSubMenu={this.state.openSubMenu}
                         handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                     />
-                    {/* <Tool type="pen" handleToolSelect={handleToolSelect}/>
-                    <Tool type="image" handleToolSelect={handleToolSelect}/>
+                    <Image handleToolSelect={handleToolSelect}
+                        handleDrawCanvasShow={handleDrawCanvasShow}
+                        registerDragHandler={registerDragHandler}
+                        handleDragMove={this.handleElementDragMove}
+                        handleDragEnd={this.handleDragEnd}
+                        currentSelectedTool={currentSelectedTool}
+                    />
+                    {/*
+                    
                     <Tool type="more" handleToolSelect={handleToolSelect}/> */}
                 </div>
             </div>

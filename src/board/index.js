@@ -16,6 +16,7 @@ import Shape from './elements/shape';
 import Text from './elements/text';
 import Postit from './elements/postit';
 import Line from './elements/line';
+import Image from './elements/image';
 
 //HELPERS
 import Shortid from 'shortid';
@@ -394,6 +395,14 @@ class Board extends Component {
                 />);
             } else if (element.type === "line") {
                 return (<Line
+                    key={element.id}
+                    data={element}
+                    elementState={this.state.elementState[element.id]}
+                    handleTextEdit={this.handleTextEdit}
+                    handleSetCurrentElement={this.handleSetCurrentElement}
+                />);
+            } else if (element.type === "image") {
+                return (<Image
                     key={element.id}
                     data={element}
                     elementState={this.state.elementState[element.id]}

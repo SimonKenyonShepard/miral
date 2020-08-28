@@ -48,6 +48,7 @@ class Shape extends Component {
 
         const subMenuTools = [
             <ShapeRect
+                key={"tool_shapeRect"}
                 handleToolSelect={this.handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
@@ -57,6 +58,7 @@ class Shape extends Component {
                 autoActivate={autoActivate.shapeRect}
             />,
             <ShapeCircle
+                key={"tool_shapeCircle"}
                 handleToolSelect={this.handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
@@ -66,7 +68,8 @@ class Shape extends Component {
                 autoActivate={autoActivate.shapeCircle}
 
             />,
-            <ShapeTriangle 
+            <ShapeTriangle
+                key={"tool_shapeTriangle"} 
                 handleToolSelect={this.handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
