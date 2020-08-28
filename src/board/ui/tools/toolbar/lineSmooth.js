@@ -12,15 +12,15 @@ class Shape extends Component {
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        const width = 240,
+        const width = 120,
               height = 120;
         newState.elements[newID] = {
             id : newID,
-            type : "shape",
-            shapeType : 0,
+            type : "line",
+            shapeType : 1,
             styles : {
-                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX-((width/2)*currentState.zoomLevel),
-                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-((height/2)*currentState.zoomLevel),
+                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
+                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-(height*currentState.zoomLevel),
                 width : width*currentState.zoomLevel,
                 height: height*currentState.zoomLevel,
                 fillOpacity: 0,
@@ -28,7 +28,8 @@ class Shape extends Component {
                 stroke : "#000000",
                 strokeOpacity : 1,
                 strokeWidth : 2*currentState.zoomLevel,
-                strokeDasharray : "0"
+                strokeDasharray : "0",
+                markerEnd : "url(#arrow)"
             },
             fontStyle : {
                 fontFamily : "",
@@ -62,11 +63,11 @@ class Shape extends Component {
         const newID = Shortid.generate();
         newState.elements[newID] = {
             id : newID,
-            type : "shape",
-            shapeType : 0,
+            type : "line",
+            shapeType : 1,
             styles : {
                 x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
-                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
+                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-(height*currentState.zoomLevel),
                 width : width*currentState.zoomLevel,
                 height: height*currentState.zoomLevel,
                 fillOpacity: 0,
@@ -74,7 +75,8 @@ class Shape extends Component {
                 stroke : "#000000",
                 strokeOpacity : 1,
                 strokeWidth : 2*currentState.zoomLevel,
-                strokeDasharray : "0"
+                strokeDasharray : "0",
+                markerEnd : "url(#arrow)"
             },
             fontStyle : {
                 fontSize : 24*currentState.zoomLevel,

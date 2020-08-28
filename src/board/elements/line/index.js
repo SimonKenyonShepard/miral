@@ -65,7 +65,7 @@ class Line extends Component {
                 {...shapeProps}
             />;
         } else if (data.shapeType === 1) {
-            
+            shapeProps.d = `M ${shapeProps.x} ${shapeProps.y + shapeProps.height} q 0 ${-shapeProps.height} ${(shapeProps.width)} ${(-shapeProps.height)}`;
             shape = <path
                 id={data.id} 
                 {...shapeProps}
