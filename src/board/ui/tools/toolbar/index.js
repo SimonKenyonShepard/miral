@@ -125,6 +125,17 @@ class Toolbar extends Component {
                         currentSelectedTool={currentSelectedTool}
                     />
                     {/*
+                    <MoreOptions
+                        //Slides
+                        //PDF
+                        //IFRAME
+                        //YOUTUBE
+                        //TRELLO
+                        //TIMER
+                        //VOTE
+
+                    />
+                    
                     
                     <Tool type="more" handleToolSelect={handleToolSelect}/> */}
                 </div>

@@ -22,14 +22,21 @@ selector - done
 multi-selected editor menu - done
 duplicate - done
 multi-select duplicate - done
+reverse-selector - done
+toolbar subtools - done
+lines - done
+Other shapes - done
+Images - done
+
+
 
 Backlog
 
-
-Images
-lines
-Other shapes
+Image url editor
+line resizer
+Menu buttons highlight
 Alternative post-it shapes
+crop & resize
 
 group elements
 
