@@ -1,0 +1,17 @@
+.fontStyle {
+   padding: 8px;
+}
+
+.selected {
+    background-color : #c8c8c8;
+    border-radius: 2px;
+}
+
+.urlLocation {
+    display : flex;
+}
+
+.urlLocation_label {
+    font-size : 8px;
+    padding: 0 8px;
+}

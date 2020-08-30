@@ -13,6 +13,7 @@ import DepthSetter from './editors/depthSetter';
 import ElementLocker from './editors/elementLocker';
 import ElementDeleter from './editors/elementDeleter';
 import ElementEditorMenu from './editors/elementEditorMenu';
+import Url from './editors/url';
 
 
 import './styles.css';
@@ -21,7 +22,8 @@ const shapeTypeEditableFeatures = {
     "postit" : ["predefinedColor", "fontStyle", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
     "shape" : ["customColor", "customBorderColor", "borderStyle", "fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
     "text" : ["fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "line" : ["customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"]
+    "line" : ["customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "image" : ["url", "customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"]
 };
 
 const multiElementEditableFeatures = ["bringForward", "sendBackward", "lock", "delete", "menu"];
@@ -139,6 +141,14 @@ class ElementEditor extends Component {
                         return <ElementDeleter 
                                     key={`${selectedElements[0].id}_${button}`} 
                                     handleDeleteElements={this.props.handleDeleteElements}
+                                />;
+                    case 'url':
+                        return <Url 
+                                    key={`${selectedElements[0].id}_${button}`}
+                                    imgURL={selectedElements[0].imgURL}
+                                    handleUpdateElementProperty={this.handleUpdateElementProperty}
+                                    handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
+                                    currentOpenSubMenu={this.state.currentOpenSubMenu}
                                 />;
                     case 'menu':
                         return <ElementEditorMenu options={shapeTypeEditableFeatures[selectedElements[0].type]} key={`${selectedElements[0].id}_${button}`} />;

@@ -30,7 +30,7 @@ class Image extends Component {
         const imgStyle = {
             backgroundImage : `url(${data.imgURL})`,
             backgroundRepeat : "no-repeat",
-            backgroundSize : "cover",
+            backgroundSize : "contain",
             backgroundPosition : "0 0",
             width : "100%"
         };
