@@ -78,7 +78,8 @@ class Board extends Component {
     handleTextEdit = (id) => {
         const newElements = {...this.state.elements};
         const elementData = {...this.state.elements[id]};
-        const clearTextInRealElement = newElements[id].text = "";
+        //clear Text in real element to prevent shadow
+        newElements[id].text = "";
         this.setState({textEditor : elementData, elements : newElements});
     }
 

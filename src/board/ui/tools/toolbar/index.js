@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-import Pan from './pan';
 import Select from './select';
 import Shape from './shape';
 import Postit from './postit';

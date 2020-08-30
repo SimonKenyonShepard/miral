@@ -51,7 +51,6 @@ class ElementEditor extends Component {
         const containerPosition = {},
             {
                 selectedElements,
-                gridSpace,
                 boundingBox
             } = this.props;
         let containerClass = "elementEditor",
