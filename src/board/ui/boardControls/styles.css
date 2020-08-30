@@ -36,7 +36,7 @@
 
 .share {
     margin-left: 8px;
-    background-image: url("icons/share-24px.svg");
+    background-image: url("/miral/icons/share-24px.svg");
 }
 
 .undoControls {
@@ -50,12 +50,12 @@
 }
 
 .undo {
-    background-image: url("icons/undo-24px.svg");
+    background-image: url("/miral/icons/undo-24px.svg");
     border-right: 1px solid #ccc;
     padding-right: 8px;
 }
 
 .redo {
-    background-image: url("icons/redo-24px.svg");
+    background-image: url("/miral/icons/redo-24px.svg");
     margin-left: 8px;
 }
