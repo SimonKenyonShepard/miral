@@ -18,7 +18,7 @@
 }
 
 .burgerMenu {
-    background-image: url("./icons/menu-24px.svg");
+    background-image: url("icons/menu-24px.svg");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 24px 24px;
