@@ -298,6 +298,12 @@ class Board extends Component {
         this.setState(data);
     }
 
+    updateBoardName = (newBoardName) => {
+        this.setState({
+            boardName : newBoardName
+        });
+    }
+
     calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY) {
         if(selectedElements && selectedElements.length > 0) {
             let width = selectedElements[0].styles.width,
@@ -481,6 +487,7 @@ class Board extends Component {
                         storeUndo={this.state.storeUndo}
                         handleUpdateElementsAndState={this.handleUpdateElementsAndState}
                         boardName={this.state.boardName}
+                        updateBoardName={this.updateBoardName}
                     />
                     <TextEditor 
                         data={textEditor}

@@ -6,14 +6,49 @@ import './styles.css';
 
 
 class BoardControls extends Component {
-  
+
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+          editBoardName : false,
+        };
+      }
+    
+    handleEditBoardName = () => {
+        this.setState({
+            editBoardName : true
+        });
+    };
+
+    handleBlur = (e) => {
+        this.props.updateBoardName(e.target.innerText);
+        this.setState({
+            editBoardName : false
+        });
+    }
     
     render() {
+
+        const {
+            editBoardName
+        } = this.state;
+
+        let contentEditable = false;
+
+        if(editBoardName) {
+            contentEditable = true;
+        }
 
         return (
             <div className={"boardControls"}>
                 <div className={"primaryControls"}>
-                    <span className={"boardName"}>{this.props.boardName}</span>
+                    <span 
+                        className={"boardName"} 
+                        contentEditable={contentEditable}
+                        onClick={this.handleEditBoardName}
+                        onBlur={this.handleBlur}
+                        suppressContentEditableWarning={true}
+                    >{this.props.boardName}</span>
                     <span className={"iconButton share"}></span>
                 </div>
                 <UndoRedo 
