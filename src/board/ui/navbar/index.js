@@ -236,11 +236,8 @@ class Navbar extends Component {
     }
 
     componentDidMount() {
-        const url = (window.location !== window.parent.location)
-            ? document.referrer
-            : document.location.href;
+        const url = document.location.ancestorOrigins[0];
         const isMonday = url.indexOf("monday.com") !== -1;
-        console.log(url, isMonday);
         if(isMonday) {
             this.setState({
                 mondaySaveAvailable : true
