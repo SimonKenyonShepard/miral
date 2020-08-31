@@ -10,8 +10,7 @@ class KeyboardManager extends Component {
     }
 
     handleKeyPress = (e) => {
-
-        if(e.key === "Backspace" && this.props.textEditor === null) {
+        if(e.key === "Backspace" && this.props.textEditor === null && e.target.tagName !== "INPUT") {
             e.preventDefault();
             this.props.handleDeleteElements();
         } else if(
