@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/miral/precache-manifest.0eb33ded371614f30773d4f652df25d8.js"
+  "/miral/precache-manifest.4672ac2681a3e5b5f95c887a45ed0000.js"
 );
 
 self.addEventListener('message', (event) => {
