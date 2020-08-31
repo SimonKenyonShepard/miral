@@ -102,6 +102,32 @@
     background-image: url("/miral/icons/more_horiz-24px.svg");
 }
 
+.toolbar_slide {
+    background-image: url("/miral/icons/slideshow-24px.svg");
+}
+
+.toolbar_pdf {
+    background-image: url("/miral/icons/picture_as_pdf-24px.svg");
+}
+
+.toolbar_iframe {
+    background-image: url("/miral/icons/web-24px.svg");
+}
+
+.toolbar_youtube {
+    background-image: url("/miral/icons/video_library-24px.svg");
+}
+
+.toolbar_timer {
+    background-image: url("/miral/icons/timer-24px.svg");
+}
+
+.toolbar_poll {
+    background-image: url("/miral/icons/poll-24px.svg");
+}
+
+
+
 .toolbar_submenu {
     align-items : center;
     background-color: rgba(255, 255, 255, 0.9);

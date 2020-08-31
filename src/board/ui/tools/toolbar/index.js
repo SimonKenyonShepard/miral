@@ -6,6 +6,7 @@ import Postit from './postit';
 import Text from './text';
 import Line from './line';
 import Image from './image';
+import More from './more';
 
 import './styles.css';
 
@@ -123,20 +124,16 @@ class Toolbar extends Component {
                         handleDragEnd={this.handleDragEnd}
                         currentSelectedTool={currentSelectedTool}
                     />
-                    {/*
-                    <MoreOptions
-                        //Slides
-                        //PDF
-                        //IFRAME
-                        //YOUTUBE
-                        //TRELLO
-                        //TIMER
-                        //VOTE
-
+                    <More 
+                         handleToolSelect={handleToolSelect}
+                         handleDrawCanvasShow={handleDrawCanvasShow}
+                         registerDragHandler={registerDragHandler}
+                         handleDragMove={this.handleElementDragMove}
+                         handleDragEnd={this.handleDragEnd}
+                         currentSelectedTool={currentSelectedTool}
+                         openSubMenu={this.state.openSubMenu}
+                         handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                     />
-                    
-                    
-                    <Tool type="more" handleToolSelect={handleToolSelect}/> */}
                 </div>
             </div>
         );
