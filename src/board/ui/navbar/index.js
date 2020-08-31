@@ -107,46 +107,58 @@ class Navbar extends Component {
             fileName = fileName+"_"+new Date().getHours()+new Date().getMinutes();
         }
         monday.storage.instance.setItem(fileName, JSON.stringify(stateToSave));
-        let checkFileList = monday.storage.instance.getItem("miralFileList");
-        if(!checkFileList) {
-            checkFileList = [fileName];
-        } else {
-            checkFileList = JSON.parse(checkFileList);
-            checkFileList.push(fileName);
-        }
-        monday.storage.instance.setItem("miralFileList", JSON.stringify(checkFileList));
+        monday.storage.instance.getItem("miralFileList")
+            .then((request) => {
+                let checkFileList = [];
+                if(request.data.value === null) {
+                    checkFileList = [fileName];
+                } else {
+                    checkFileList = JSON.parse(request.data.value);
+                    checkFileList.push(fileName);
+                }
+            monday.storage.instance.setItem("miralFileList", JSON.stringify(checkFileList));
+        });
+        
     }
 
     getSavedFromMonday = (e) => {
         const monday = window.mondaySdk();
-        let checkFileList = monday.storage.instance.getItem("miralFileList");
-        let files = checkFileList.map(fileName => {
-            return <FileOption 
-                key={`fileOption_${fileName}`} 
-                fileName={fileName}
-                loadFile={this.loadFileFromMonday} 
-            />
-        });
-
-        if(files.length === 0) {
-            files.push(<div className="navMenu_error">
-                No saved files found on this browser.
-            </div>);
-        }
-        this.setState({
-            subMenu : files
+        monday.storage.instance.getItem("miralFileList").then(request => {
+            let files = [];
+            if(request.data.value) {
+                const fileNames = JSON.parse(request.data.value);
+                files = fileNames.map(fileName => {
+                    return <FileOption 
+                        key={`fileOption_${fileName}`} 
+                        fileName={fileName}
+                        loadFile={this.loadFileFromMonday} 
+                    />
+                });
+            } else {
+                files.push(<div className="navMenu_error">
+                    No saved files found on this browser.
+                </div>);
+            }
+            this.setState({
+                subMenu : files
+            });
         });
     }
 
     loadFileFromMonday = (fileName) => {
         const monday = window.mondaySdk();
-        const file = monday.storage.instance.getItem(fileName);
-        const state = Object.assign({}, this.props.applicationState, JSON.parse(file));
-        this.props.handleUpdateElementsAndState(state);
-        this.setState({
-            menuVisible : false,
-            subMenu : []
+        monday.storage.instance.getItem(fileName)
+        .then(request => {
+            if(request.data.value) {
+                const state = Object.assign({}, this.props.applicationState, JSON.parse(request.data.value));
+                this.props.handleUpdateElementsAndState(state);
+                this.setState({
+                    menuVisible : false,
+                    subMenu : []
+                });
+            }
         });
+        
     }
   
     render() {
@@ -237,11 +249,13 @@ class Navbar extends Component {
 
     componentDidMount() {
         const url = document.location.ancestorOrigins[0];
-        const isMonday = url.indexOf("monday.com") !== -1;
-        if(isMonday) {
-            this.setState({
-                mondaySaveAvailable : true
-            });
+        if(url) {
+            const isMonday = url.indexOf("monday.com") !== -1;
+            if(isMonday) {
+                this.setState({
+                    mondaySaveAvailable : true
+                });
+            }
         }
     }
     
