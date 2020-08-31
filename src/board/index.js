@@ -199,7 +199,7 @@ class Board extends Component {
         newIdsOrder.forEach(id => {
             newElementsData[id] = this.state.elements[id];
         });
-        this.setState({elements : newElementsData});
+        this.setState({elements : newElementsData, storeUndo : true});
     }
 
     handleSelectElementsWithinArea = (x, y, x1, y1) => {
