@@ -97,6 +97,8 @@ class TextEditor extends Component {
         editorKey=this.props.data.id;
             
        }
+
+       console.log(this.state.fontSize, this.props.gridSpace.zoomLevel);
         
         return (
             <div

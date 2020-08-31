@@ -29,7 +29,7 @@ class Image extends Component {
                 strokeWidth : 2*currentState.zoomLevel,
                 strokeDasharray : "0"
             },
-            imgURL : "/icons/insert_photo-noBorder-24px.svg",
+            imgURL : "/miral/icons/insert_photo-noBorder-24px.svg",
             initialZoomLevel : currentState.zoomLevel
         };
         newState.elementState = {...currentState.elementState};
@@ -66,7 +66,7 @@ class Image extends Component {
                 strokeWidth : 2*currentState.zoomLevel,
                 strokeDasharray : "0"
             },
-            imgURL : "/icons/insert_photo-noBorder-24px.svg",
+            imgURL : "/miral/icons/insert_photo-noBorder-24px.svg",
             initialZoomLevel : currentState.zoomLevel
         };
         newState.elementState = {...currentState.elementState};

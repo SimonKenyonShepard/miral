@@ -32,6 +32,7 @@ class LineStraight extends Component {
                 markerEnd : "url(#arrow)"
             },
             fontStyle : {
+                fontSize : 24*currentState.zoomLevel,
                 fontFamily : "",
                 fontWeight : "normal",
                 fontStyle : "normal",
