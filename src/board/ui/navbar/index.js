@@ -5,7 +5,7 @@ import './styles.css';
 class FileOption extends Component {
 
     handleClick = (e) => {
-        this.props.loadFile(this.props.fileName);
+        this.props.loadFileFromBrowser(this.props.fileName);
     }
 
     render() {
@@ -25,7 +25,8 @@ class Navbar extends Component {
         super(props, context);
         this.state = {
           menuVisible : false,
-          subMenu : []
+          subMenu : [],
+          mondaySaveAvailable : false,
         };
       }
     
@@ -55,7 +56,7 @@ class Navbar extends Component {
         window.localStorage.setItem(fileName, JSON.stringify(stateToSave));
     }
 
-    loadFile = (fileName) => {
+    loadFileFromBrowser = (fileName) => {
         const file = window.localStorage.getItem(`miralFile_${fileName}`);
         const state = Object.assign({}, this.props.applicationState, JSON.parse(file));
         this.props.handleUpdateElementsAndState(state);
@@ -74,7 +75,7 @@ class Navbar extends Component {
                     <FileOption 
                         key={`fileOption_${fileName}`} 
                         fileName={fileName}
-                        loadFile={this.loadFile} 
+                        loadFile={this.loadFileFromBrowser} 
                     />
                 );
             }
@@ -88,11 +89,71 @@ class Navbar extends Component {
             subMenu : files
         });
     }
+
+    saveToMonday = (e) => {
+        const monday = window.mondaySdk();
+        const { applicationState } = this.props;
+        const stateToSave = {
+            elements : applicationState.elements,
+            elementState : applicationState.elementState,
+            boardName : applicationState.boardName,
+            zoomLevel : applicationState.zoomLevel,
+            offsetX : applicationCache.offsetX,
+            offsetY : applicationState.offsetY
+        };
+        let fileName = `miralFile_${applicationState.boardName}`;
+        const checkIfAlreadyExists = monday.storage.instance.getItem(fileName);
+        if(checkIfAlreadyExists) {
+            fileName = fileName+"_"+new Date().getHours()+new Date().getMinutes();
+        }
+        monday.storage.instance.setItem(fileName, JSON.stringify(stateToSave));
+        let checkFileList = monday.storage.instance.getItem("miralFileList");
+        if(!checkFileList) {
+            checkFileList = [fileName];
+        } else {
+            checkFileList = JSON.parse(checkFileList);
+            checkFileList.push(fileName);
+        }
+        monday.storage.instance.setItem("miralFileList", JSON.stringify(checkFileList));
+    }
+
+    getSavedFromMonday = (e) => {
+        const monday = window.mondaySdk();
+        let checkFileList = monday.storage.instance.getItem("miralFileList");
+        let files = checkFileList.map(fileName => {
+            return <FileOption 
+                key={`fileOption_${fileName}`} 
+                fileName={fileName}
+                loadFile={this.loadFileFromMonday} 
+            />
+        });
+
+        if(files.length === 0) {
+            files.push(<div className="navMenu_error">
+                No saved files found on this browser.
+            </div>);
+        }
+        this.setState({
+            subMenu : files
+        });
+    }
+
+    loadFileFromMonday = (fileName) => {
+        const monday = window.mondaySdk();
+        const file = monday.storage.instance.getItem(fileName);
+        const state = Object.assign({}, this.props.applicationState, JSON.parse(file));
+        this.props.handleUpdateElementsAndState(state);
+        this.setState({
+            menuVisible : false,
+            subMenu : []
+        });
+    }
   
     render() {
         const { 
             menuVisible,
-            subMenu
+            subMenu,
+            mondaySaveAvailable
         } = this.state;
         let menuCSS = "navBar_menu",
             letFirstMenuHidden = "";
@@ -111,6 +172,36 @@ class Navbar extends Component {
                     <div className={`navBar_menu_sliderWrapper`} >
                         <div className={`navBar_menu_slider ${letFirstMenuHidden}`} >
                             <div className={`navBar_menu_items`} >
+                                {(mondaySaveAvailable &&
+                                    <>
+                                        <div 
+                                            className={"navBar_menu_item"}
+                                            onClick={this.saveToMonday}
+                                        >   
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64">
+                                                <g transform="matrix(3.208255 0 0 3.208255 -35.559129 -63.587202)">
+                                                    <path d="M13.513 35.76a2.433 2.433 0 0 1-2.059-3.723l4.377-6.99a2.432 2.432 0 1 1 4.123 2.582l-4.378 6.99a2.43 2.43 0 0 1-2.063 1.141z" fill="#ff3d57"/>
+                                                    <path d="M21.056 35.76a2.433 2.433 0 0 1-2.063-3.723l4.38-6.99a2.432 2.432 0 1 1 4.117 2.582l-4.372 6.99a2.43 2.43 0 0 1-2.063 1.141z" fill="#ffcb00"/>
+                                                    <ellipse ry="2.375" rx="2.436" cy="33.384" cx="28.597" fill="#00d647"/>
+                                                </g>
+                                            </svg>
+                                            <span>Save to Monday.com</span>
+                                        </div>
+                                        <div 
+                                            className={"navBar_menu_item"}
+                                            onClick={this.loadFromMonday}
+                                        >   
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64">
+                                                <g transform="matrix(3.208255 0 0 3.208255 -35.559129 -63.587202)">
+                                                    <path d="M13.513 35.76a2.433 2.433 0 0 1-2.059-3.723l4.377-6.99a2.432 2.432 0 1 1 4.123 2.582l-4.378 6.99a2.43 2.43 0 0 1-2.063 1.141z" fill="#ff3d57"/>
+                                                    <path d="M21.056 35.76a2.433 2.433 0 0 1-2.063-3.723l4.38-6.99a2.432 2.432 0 1 1 4.117 2.582l-4.372 6.99a2.43 2.43 0 0 1-2.063 1.141z" fill="#ffcb00"/>
+                                                    <ellipse ry="2.375" rx="2.436" cy="33.384" cx="28.597" fill="#00d647"/>
+                                                </g>
+                                            </svg>
+                                            <span>Load from Monday.com</span>
+                                        </div>
+                                    </>
+                                )}
                                 <div 
                                     className={"navBar_menu_item"}
                                     onClick={this.saveToBrowser}
@@ -142,6 +233,18 @@ class Navbar extends Component {
                 </div>
             </div>
         );
+    }
+
+    componentDidMount() {
+        const url = (window.location !== window.parent.location)
+            ? document.referrer
+            : document.location.href;
+        const isMonday = url.indexOf("monday.com") !== -1;
+        if(isMonday) {
+            this.setState({
+                mondaySaveAvailable : true
+            });
+        }
     }
     
   }
