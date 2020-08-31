@@ -54,6 +54,10 @@ class Navbar extends Component {
             fileName = fileName+"_"+new Date().getHours()+new Date().getMinutes();
         }
         window.localStorage.setItem(fileName, JSON.stringify(stateToSave));
+        this.setState({
+            menuVisible : false,
+            subMenu : []
+        });
     }
 
     loadFileFromBrowser = (fileName) => {
@@ -117,6 +121,10 @@ class Navbar extends Component {
                     checkFileList.push(fileName);
                 }
             monday.storage.instance.setItem("miralFileList", JSON.stringify(checkFileList));
+        });
+        this.setState({
+            menuVisible : false,
+            subMenu : []
         });
         
     }
@@ -201,7 +209,7 @@ class Navbar extends Component {
                                         </div>
                                         <div 
                                             className={"navBar_menu_item"}
-                                            onClick={this.loadFromMonday}
+                                            onClick={this.getSavedFromMonday}
                                         >   
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64">
                                                 <g transform="matrix(3.208255 0 0 3.208255 -35.559129 -63.587202)">
