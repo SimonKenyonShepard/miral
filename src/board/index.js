@@ -519,7 +519,8 @@ class Board extends Component {
             "dragMoveHandler" : this.handlePanMove,
             "clickHandler" : this.handleDeselectAllElements
         });
-
+        
+        const monday = window.mondaySdk()
         console.log(monday, window);
 
         
