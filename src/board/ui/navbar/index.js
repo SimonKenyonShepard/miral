@@ -240,6 +240,7 @@ class Navbar extends Component {
             ? document.referrer
             : document.location.href;
         const isMonday = url.indexOf("monday.com") !== -1;
+        console.log(url, isMonday);
         if(isMonday) {
             this.setState({
                 mondaySaveAvailable : true
