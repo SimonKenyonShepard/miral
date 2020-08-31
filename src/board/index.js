@@ -520,6 +520,8 @@ class Board extends Component {
             "clickHandler" : this.handleDeselectAllElements
         });
 
+        console.log(monday, window);
+
         
     }
 
