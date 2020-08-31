@@ -5,7 +5,7 @@ import './styles.css';
 class FileOption extends Component {
 
     handleClick = (e) => {
-        this.props.loadFileFromBrowser(this.props.fileName);
+        this.props.loadFile(this.props.fileName);
     }
 
     render() {
