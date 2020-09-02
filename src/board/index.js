@@ -44,7 +44,8 @@ class Board extends Component {
         textEditor : null,
         storeUndo : false,
         shareBoard : false,
-        multiUserUpdate : false
+        multiUserUpdate : false,
+        pointerPosition : {x : 0, y : 0}
       };
     }
 
@@ -308,6 +309,12 @@ class Board extends Component {
         });
     }
 
+    updatePointerPosition = (coOrds) => {
+        this.setState({
+            pointerPosition : coOrds
+        });
+    }
+
     toggleBoardShare = () => {
         this.setState({shareBoard : !this.state.shareBoard});
     }
@@ -449,8 +456,8 @@ class Board extends Component {
                     offsetY={this.state.offsetY}
                     zoomLevel={this.state.zoomLevel}
                     updateBoardPosition={this.updateBoardPosition}
-                    updateDragPosition={this.updateDragPosition}
                     dragHandlers={this.state.dragHandlers}
+                    updatePointerPosition={this.updatePointerPosition}
                 >
                     <svg id="board" 
                         width={`${width}px`}
@@ -531,6 +538,8 @@ class Board extends Component {
                     elementState={this.state.elementState}
                     handleUpdateElementsAndState={this.handleUpdateElementsAndState}
                     multiUserUpdate={this.state.multiUserUpdate}
+                    pointerPosition={this.state.pointerPosition}
+                    zoomLevel={this.state.zoomLevel}
                 />
             </div>
         );

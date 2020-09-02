@@ -50,6 +50,10 @@ class InteractionManager extends Component {
     }
 
     handleMouseMove = (e) => {
+        this.props.updatePointerPosition({
+            x : (e.clientX*this.props.zoomLevel)+this.props.offsetX,
+            y : (e.clientY*this.props.zoomLevel)+this.props.offsetY
+        });
         if(this.state.drag === "mouseDown" || this.state.drag === "dragging") {
             let wasFirstDrag = false;
             const dragHandlers = this.props.dragHandlers[this.state.elementID];
