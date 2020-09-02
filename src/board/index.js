@@ -10,6 +10,7 @@ import NavBar from './ui/navbar';
 import BoardControls from './ui/boardControls';
 import InteractionManager from './ui/InteractionManager';
 import KeyboardManager from './ui/KeyboardManager';
+import MultiUserManager from './ui/MultiUserManager';
 
 //ELEMENTS
 import Shape from './elements/shape';
@@ -23,6 +24,7 @@ import Shortid from 'shortid';
 import {objectClone} from './utils';
 
 import './styles.css';
+
 
 
 class Board extends Component {
@@ -40,7 +42,9 @@ class Board extends Component {
         elements : {},
         elementState : {},
         textEditor : null,
-        storeUndo : false
+        storeUndo : false,
+        shareBoard : false,
+        multiUserUpdate : false
       };
     }
 
@@ -304,6 +308,10 @@ class Board extends Component {
         });
     }
 
+    toggleBoardShare = () => {
+        this.setState({shareBoard : !this.state.shareBoard});
+    }
+
     calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY) {
         if(selectedElements && selectedElements.length > 0) {
             let width = selectedElements[0].styles.width,
@@ -488,6 +496,7 @@ class Board extends Component {
                         handleUpdateElementsAndState={this.handleUpdateElementsAndState}
                         boardName={this.state.boardName}
                         updateBoardName={this.updateBoardName}
+                        toggleBoardShare={this.toggleBoardShare}
                     />
                     <TextEditor 
                         data={textEditor}
@@ -515,6 +524,13 @@ class Board extends Component {
                     handleDeleteElements={this.handleDeleteElements}
                     handleDuplicateElements={this.handleDuplicateElements}
                     textEditor={textEditor}
+                />
+                <MultiUserManager 
+                    shareBoard={this.state.shareBoard}
+                    elements={this.state.elements}
+                    elementState={this.state.elementState}
+                    handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                    multiUserUpdate={this.state.multiUserUpdate}
                 />
             </div>
         );

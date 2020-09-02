@@ -1,0 +1,35 @@
+.multiUser_UserDock {
+    bottom : 16px;
+    display: flex;
+    flex-direction: row;
+    left: 16px;
+    position: absolute;
+}
+
+.multiUser_UserDockAvatar {
+    background-color: rgba(27,140,166, 0.7);
+    border: 2px solid  rgba(27,140,166, 0.9);
+    border-radius: 32px;
+    color: white;
+    font-size: 12px;
+    padding: 4px;
+    margin-right: 8px;
+}
+
+.multiUser_boardError {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    left: 0;
+    position: absolute;
+    top: 0;
+    user-select: none;
+    width: 100vw;
+}
+
+.multiUser_boardErrorText {
+    color : #fff;
+    font-weight: bold;
+}

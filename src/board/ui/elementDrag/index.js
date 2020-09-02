@@ -18,8 +18,12 @@ class ElementDrag extends Component {
         });
         if(selectedItems.length) {
             selectedItems.forEach(element => {
-                newElementsData[element].styles.x += e.movementX*zoomLevel;
-                newElementsData[element].styles.y += e.movementY*zoomLevel;
+                const newElement = {...newElementsData[element]};
+                const newStyles = {...newElementsData[element].styles};
+                newStyles.x += e.movementX*zoomLevel;
+                newStyles.y += e.movementY*zoomLevel;
+                newElement.styles = newStyles;
+                newElementsData[element] = newElement;
             });
             this.setState({
                 elements : newElementsData
