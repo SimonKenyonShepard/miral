@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import Shortid from 'shortid';
 
 import './styles.css';
-import { nullLiteral } from '@babel/types';
 
 const rfc6902 = require('rfc6902');
 
