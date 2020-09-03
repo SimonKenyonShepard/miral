@@ -6,13 +6,6 @@ import './styles.css';
 
 const rfc6902 = require('rfc6902');
 
-let eventsPerSecond = 0;
-
-const logEventsPerSecond = function() {
-    console.log(eventsPerSecond);
-    eventsPerSecond = 0;
-}
-
 class Cursor extends Component {
 
     constructor(props, context) {
@@ -136,7 +129,6 @@ class MultiUserManager extends Component {
         this.setState({
             socket
         });
-        //setInterval(logEventsPerSecond, 1000);
         setInterval(this.purgeEmitQueue, 500);
     }
 
@@ -344,7 +336,6 @@ class MultiUserManager extends Component {
             const elementsDiffUpdates = rfc6902.createPatch(prevCombinedData, currentCombinedData);
             if(elementsDiffUpdates.length > 0) {
                 this.addToEmitQueue("updateBoard", {boardID, elementsDiffUpdates});
-                //eventsPerSecond += 1;
             }
         } else if (this.props.multiUserUpdate) {
             this.props.handleUpdateElementsAndState({multiUserUpdate : false});
