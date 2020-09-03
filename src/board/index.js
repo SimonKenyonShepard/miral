@@ -97,7 +97,7 @@ class Board extends Component {
         newElement.padding = 8*this.state.zoomLevel;
         
         newElementsData[data.id] = newElement;
-        
+
         this.setState({
             elements : newElementsData,
             storeUndo : true,
@@ -542,6 +542,8 @@ class Board extends Component {
                     handleUpdateElementsAndState={this.handleUpdateElementsAndState}
                     multiUserUpdate={this.state.multiUserUpdate}
                     pointerPosition={this.state.pointerPosition}
+                    offsetX={this.state.offsetX}
+                    offsetY={this.state.offsetY}
                     zoomLevel={this.state.zoomLevel}
                 />
             </div>

@@ -38,13 +38,15 @@ class Cursor extends Component {
 
     componentDidUpdate(prevProps) {
         const {
+            offsetX,
+            offsetY,
             zoomLevel
         } = this.props;
 
-        const currentX = this.props.data.pointerPosition.x/zoomLevel,
-              currentY = this.props.data.pointerPosition.y/zoomLevel,
-              prevX = prevProps.data.pointerPosition.x/prevProps.zoomLevel,
-              prevY = prevProps.data.pointerPosition.y/prevProps.zoomLevel;
+        const currentX = this.props.data.pointerPosition.x/zoomLevel-(offsetX/zoomLevel),
+              currentY = this.props.data.pointerPosition.y/zoomLevel-(offsetY/zoomLevel),
+              prevX = prevProps.data.pointerPosition.x/prevProps.zoomLevel-(prevProps.offsetX/prevProps.zoomLevel),
+              prevY = prevProps.data.pointerPosition.y/prevProps.zoomLevel-(prevProps.offsetY/prevProps.zoomLevel);
         
         const mouseXDidUpdate = (prevX !== currentX);
         const mouseYDidUpdate =  (prevY !== currentY);
@@ -271,6 +273,8 @@ class MultiUserManager extends Component {
                         userCursors.push(<Cursor 
                             key={boardUsers[boardUser].id+"_key"} 
                             data={boardUsers[boardUser]}
+                            offsetX={this.props.offsetX}
+                            offsetY={this.props.offsetY}
                             zoomLevel={this.props.zoomLevel}
                         />);
                     }
