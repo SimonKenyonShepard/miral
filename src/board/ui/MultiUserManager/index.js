@@ -230,7 +230,6 @@ class MultiUserManager extends Component {
         } = this.state;
         Object.keys(this.emitQueue).forEach(event => {
             socket.emit(event, this.emitQueue[event].pop());
-            eventsPerSecond += 1;
             delete this.emitQueue[event];
         });
     }
