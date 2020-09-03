@@ -6,25 +6,70 @@ import './styles.css';
 
 const rfc6902 = require('rfc6902');
 
+let eventsPerSecond = 0;
+
+const logEventsPerSecond = function() {
+    console.log(eventsPerSecond);
+    eventsPerSecond = 0;
+}
+
 class Cursor extends Component {
+
+    constructor(props, context) {
+        super(props, context);
+        this.state = {};
+        this.cursorRef = React.createRef();
+        this.cursorAnimation = null;
+        this.lastUpdate = null;
+    }
+
     render() {
-        const {
-            data,
-            zoomLevel
-        } = this.props;
+        // const {
+        //     data,
+        //     zoomLevel
+        // } = this.props;
 
-        const posX = data.pointerPosition.x/zoomLevel,
-              posY = data.pointerPosition.y/zoomLevel;
+        // const posX = data.pointerPosition.x/zoomLevel,
+        //       posY = data.pointerPosition.y/zoomLevel;
 
-        const cursorPosition = {
-            transform : `translate3d(${posX}px, ${posY}px, 0px)`,
-        }
+        // const cursorPosition = {
+        //     transform : `translate3d(${posX}px, ${posY}px, 0px)`,
+        // }
 
         return (
-            <div className="multiUser_UserCursor" style={cursorPosition}>
+            <div className="multiUser_UserCursor" ref={this.cursorRef}>
                 {this.props.data.initials}
             </div>
         );
+    }
+
+    componentDidUpdate(prevProps) {
+        const {
+            zoomLevel
+        } = this.props;
+
+        const currentX = this.props.data.pointerPosition.x/zoomLevel,
+              currentY = this.props.data.pointerPosition.y/zoomLevel,
+              prevX = prevProps.data.pointerPosition.x/prevProps.zoomLevel,
+              prevY = prevProps.data.pointerPosition.y/prevProps.zoomLevel;
+        
+        const mouseXDidUpdate = (prevX !== currentX);
+        const mouseYDidUpdate =  (prevY !== currentY);
+        const mouseDidUpdate = mouseXDidUpdate || mouseYDidUpdate;
+        if(mouseDidUpdate) {
+            
+            this.cursorRef.current.animate(
+                [
+                    {transform : `translate3d(${prevX}px, ${prevY}px, 0px)`},
+                    {transform : `translate3d(${currentX}px, ${currentY}px, 0px)`}
+                ]
+            , {
+                fill: 'forwards',
+                easing: 'linear',
+                duration: 500
+              });
+
+        }
     }
 }
 
@@ -52,6 +97,7 @@ class MultiUserManager extends Component {
           password : "miral",
           id : Shortid.generate()
       };
+      this.emitQueue = {};
     }
 
     setupShareBoardSocketConnection = () => {
@@ -74,7 +120,7 @@ class MultiUserManager extends Component {
             elements : this.props.elements,
             elementState : this.props.elementState
         };
-        const socket = io(`http://localhost:3001/${companyName}`);
+        const socket = io(`http://192.168.178.30:3001/${companyName}`);
         socket.emit("shareBoard", {
             boardID,
             boardContents,
@@ -83,39 +129,15 @@ class MultiUserManager extends Component {
             duration : 40
         });
 
-        socket.on('userJoin', (userData) => {
-            console.log("userJoin", userData);
-            const newBoardUsers = {...this.state.boardUsers};
-            newBoardUsers[userData.id] = userData;
-            this.setState({
-                boardUsers : newBoardUsers
-            });
-        });
-
-        socket.on('updatePointer', (data) => {
-            const testIfUserJoinedYet = this.state.boardUsers[data.id];
-            if(testIfUserJoinedYet) {
-                const newBoardUsers = {...this.state.boardUsers};
-                newBoardUsers[data.id].pointerPosition = data.pointerPosition;
-                this.setState({
-                    boardUsers : newBoardUsers
-                });
-            }
-        });
-
-        socket.on('updateBoard', (data) => {
-            const newCombinedData = {
-                elements : {...this.props.elements},
-                elementState : {...this.props.elementState},
-                multiUserUpdate : true 
-            };
-            rfc6902.applyPatch(newCombinedData, data.elementsDiffUpdates);
-            this.props.handleUpdateElementsAndState(newCombinedData);
-        });
+        socket.on('userJoin', this.userJoin);
+        socket.on('updatePointer', this.updatePointer);
+        socket.on('updateBoard', this.updateBoard);
 
         this.setState({
             socket
         });
+        //setInterval(logEventsPerSecond, 1000);
+        setInterval(this.purgeEmitQueue, 500);
     }
 
     setupJoinBoardSocketConnection = () => {
@@ -134,50 +156,90 @@ class MultiUserManager extends Component {
         };
 
         const io = window.io;
-        const socket = io(`http://localhost:3001/${companyName}`);
+        const socket = io(`http://192.168.178.30:3001/${companyName}`);
         socket.emit("joinBoard", {
             boardID,
             user,
             password
         });
-        socket.on('initializeBoard', (boardData) => {
-            this.props.handleUpdateElementsAndState(boardData.boardContents);
-            this.setState({
-               boardUsers : boardData.users 
-            });
-        })
-        socket.on('userJoin', (userData) => {
-            const newBoardUsers = {...this.state.boardUsers};
-            newBoardUsers[userData.id] = userData;
-            this.setState({
-                boardUsers : newBoardUsers
-            });
-        });
-        socket.on('updatePointer', (data) => {
-            console.log("recieve pointer update", data);
-            const newBoardUsers = {...this.state.boardUsers};
-            newBoardUsers[data.id].pointerPosition = data.pointerPosition;
-            this.setState({
-                boardUsers : newBoardUsers
-            });
-        });
-        socket.on('updateBoard', (data) => {
-            const newCombinedData = {
-                elements : {...this.props.elements},
-                elementState : {...this.props.elementState},
-                multiUserUpdate : true  
-            };
-            rfc6902.applyPatch(newCombinedData, data.elementsDiffUpdates);
-            this.props.handleUpdateElementsAndState(newCombinedData);
-        });
-        socket.on('shareEnded', (data) => {
-            this.setState({
-                boardError : data.reason
-            });
-        });
+        socket.on('initializeBoard', this.initializeBoard)
+        socket.on('userJoin', this.userJoin);
+        socket.on('updatePointer', this.updatePointer);
+        socket.on('updateBoard', this.updateBoard);
+
+        socket.on('shareEnded', this.shareEnded);
+
         this.setState({
             socket,
             isParticipant : true
+        });
+
+        setInterval(this.purgeEmitQueue, 500);
+    }
+
+    initializeBoard = (boardData) => {
+        this.props.handleUpdateElementsAndState(boardData.boardContents);
+        this.setState({
+           boardUsers : boardData.users 
+        });
+    }
+
+    updatePointer = (data) => {
+        const testIfUserJoinedYet = this.state.boardUsers[data.id];
+        if(testIfUserJoinedYet) {
+            const newBoardUsers = {...this.state.boardUsers};
+            const newBoardUser = {...newBoardUsers[data.id]};
+            newBoardUser.pointerPosition = data.pointerPosition;
+            newBoardUsers[data.id] = newBoardUser;
+            this.setState({
+                boardUsers : newBoardUsers
+            });
+        }
+    }
+
+    userJoin = (userData) => {
+        const newBoardUsers = {...this.state.boardUsers};
+        newBoardUsers[userData.id] = userData;
+        this.setState({
+            boardUsers : newBoardUsers
+        });
+    }
+
+    updateBoard = (data) => {
+        const newCombinedData = {
+            elements : {...this.props.elements},
+            elementState : {...this.props.elementState},
+            multiUserUpdate : true  
+        };
+        rfc6902.applyPatch(newCombinedData, data.elementsDiffUpdates);
+        console.log("recieved update", newCombinedData);
+        this.props.handleUpdateElementsAndState(newCombinedData);
+    }
+
+    shareEnded = (data) => {
+        this.setState({
+            boardError : data.reason
+        });
+    }
+
+    addToEmitQueue = (event, payload) => {
+        const {
+            emitQueue
+        } = this;
+        if(!emitQueue[event]) {
+            emitQueue[event] = [];
+        }
+        emitQueue[event].push(payload);
+    }
+
+    purgeEmitQueue = () => {
+        const {
+            socket
+        } = this.state;
+        Object.keys(this.emitQueue).forEach(event => {
+            socket.emit(event, this.emitQueue[event].pop());
+            eventsPerSecond += 1;
+            delete this.emitQueue[event];
         });
     }
 
@@ -281,7 +343,8 @@ class MultiUserManager extends Component {
             };
             const elementsDiffUpdates = rfc6902.createPatch(prevCombinedData, currentCombinedData);
             if(elementsDiffUpdates.length > 0) {
-                socket.emit("updateBoard", {boardID, elementsDiffUpdates});
+                this.addToEmitQueue("updateBoard", {boardID, elementsDiffUpdates});
+                //eventsPerSecond += 1;
             }
         } else if (this.props.multiUserUpdate) {
             this.props.handleUpdateElementsAndState({multiUserUpdate : false});
@@ -290,7 +353,7 @@ class MultiUserManager extends Component {
         const { pointerPosition } = this.props;
         const mouseMoved = (pointerPosition.x !== prevProps.pointerPosition.x) || (pointerPosition.y !== prevProps.pointerPosition.y);
         if(isInSharedMeeting && mouseMoved) {
-            socket.emit("updatePointer", {boardID, id, pointerPosition});
+            this.addToEmitQueue("updatePointer", {boardID, id, pointerPosition});
         }
     }
 

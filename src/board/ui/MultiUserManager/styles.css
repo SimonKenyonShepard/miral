@@ -41,4 +41,5 @@
     left: 0;
     top : 0;
     width : 2px;
+    /*transition: transform .5s;*/
 }
