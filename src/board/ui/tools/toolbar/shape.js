@@ -7,7 +7,6 @@ import ShapeCircle from './shapeCircle';
 import ShapeRect from './shapeRect';
 import ShapeTriangle from './shapeTriangle';
 
-
 class Shape extends Component {
 
     constructor(props, context) {
