@@ -17,20 +17,17 @@ class Cursor extends Component {
     }
 
     render() {
-        // const {
-        //     data,
-        //     zoomLevel
-        // } = this.props;
+        const color = "#007fff";
 
-        // const posX = data.pointerPosition.x/zoomLevel,
-        //       posY = data.pointerPosition.y/zoomLevel;
-
-        // const cursorPosition = {
-        //     transform : `translate3d(${posX}px, ${posY}px, 0px)`,
-        // }
+        const wrapperCSS = {
+            color
+        };
 
         return (
-            <div className="multiUser_UserCursor" ref={this.cursorRef}>
+            <div className="multiUser_UserCursorWrapper" ref={this.cursorRef} style={wrapperCSS}>
+                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" className="multiUser_UserCursor">
+                    <path fill={color} d="m0.2125,0.101564l5.116674,15.552611c1.603039,-5.720502 1.863999,-7.627336 10.401108,-9.534169l-15.517782,-6.018442z" />
+                </svg>
                 {this.props.data.initials}
             </div>
         );

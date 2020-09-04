@@ -34,12 +34,15 @@
     font-weight: bold;
 }
 
+.multiUser_UserCursorWrapper {
+    position: absolute;
+    padding: 4px 0 0 8px;
+    left: 0;
+    top : 0;
+}
+
 .multiUser_UserCursor {
-    background-color: red;
-    height : 2px;
     position: absolute;
     left: 0;
     top : 0;
-    width : 2px;
-    /*transition: transform .5s;*/
 }

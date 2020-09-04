@@ -65,6 +65,10 @@ Zoom in/out buttons
 grid Scaling
 grid guides
 
+change font color - black/white
+
+comments
+
 
 UPSs :
 
