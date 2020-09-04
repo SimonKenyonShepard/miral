@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2823f83d0a371b625cfe179f94ed1d9d",
+    "revision": "9415c481378b9ebb54b7dc0dc32ae1bf",
     "url": "/miral/index.html"
   },
   {
-    "revision": "a975d7954d700b3dd9ca",
+    "revision": "52c02a04f5498d392b80",
     "url": "/miral/static/css/main.1b2b371d.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/miral/static/js/2.5a21df5e.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a975d7954d700b3dd9ca",
-    "url": "/miral/static/js/main.2d445c62.chunk.js"
+    "revision": "52c02a04f5498d392b80",
+    "url": "/miral/static/js/main.604f6be8.chunk.js"
   },
   {
     "revision": "3669248e26ace2bb62e7",
