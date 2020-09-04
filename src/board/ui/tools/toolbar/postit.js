@@ -2,86 +2,72 @@ import React, {Component} from 'react';
 import Shortid from 'shortid';
 import Tool from './tool';
 
+import {createElementBaseObject} from "./utils";
+
 import './styles.css';
 
 
 class Postit extends Component {
 
-    handlePostitClick(e) {
+    handlePostitClick(e, dragStartX, dragStartY) {
         const currentState = this.state;
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        newState.elements[newID] = {
-            id : newID,
-            type : "postit",
-            subType : "square",
-            fixedRatio : "true",
-            predefinedColor : 3,
-            styles : {
-                x : (e.clientX*currentState.zoomLevel)+currentState.offsetX,
-                y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
-                width : 128*currentState.zoomLevel,
-                height: 128*currentState.zoomLevel,
-                fillOpacity: 0,
-                strokeWidth : 2*currentState.zoomLevel
-            },
-            fontStyle : {
-                fontSize : 24*currentState.zoomLevel,
-                fontWeight : "normal",
-                fontStyle : "normal",
-                textDecorationLine : "",
-                color : "#080808",
-                textAlign: "center" 
-            },
-            text : "",
-        };
+        const widthAndHeight = 128;
+
+        newState.elements[newID] = createElementBaseObject(newID, "postit", currentState.zoomLevel);
+        
+        const newElement = newState.elements[newID];
+        newElement.subType = "square";
+        newElement.fixedRatio = "true";
+        newElement.predefinedColor = 3;
+        
+        newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-((widthAndHeight/2)*currentState.zoomLevel);
+        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-((widthAndHeight/2)*currentState.zoomLevel);
+        newElement.styles.width = widthAndHeight*currentState.zoomLevel;
+        newElement.styles.height = widthAndHeight*currentState.zoomLevel;
+        newElement.styles.strokeOpacity = 0;
+
         newState.elementState = {...currentState.elementState};
-        newState.elementState[newID] = {};
+        newState.elementState[newID] = {
+            selected : true
+        };
         let min = 0,
             max = 3;
         newState.elementState[newID].shapeType = Math.floor(Math.random() * (max - min + 1)) + min;
-        newState.dragStartHandler = null;
-        newState.dragMoveHandler = null;
-        newState.dragEndHandler = null;
-        newState.clickHandler = null;
+       
         newState.tool = "pan";
         newState.storeUndo = true;
         this.removeDragHandler("drawCanvas");
         this.setState(newState);
     }
 
-    handlePostitDragStart(e) {
+    handlePostitDragStart(e, dragStartX, dragStartY) {
         const currentState = this.state;
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        newState.elements[newID] = {
-            id : newID,
-            type : "postit",
-            subType : "square",
-            fixedRatio : "true",
-            predefinedColor : 3,
-            styles : {
-                x : (e.clientX*currentState.zoomLevel)+currentState.offsetX,
-                y : (e.clientY*currentState.zoomLevel)+currentState.offsetY,
-                width : 128*currentState.zoomLevel,
-                height: 128*currentState.zoomLevel,
-                fillOpacity: 0,
-                strokeWidth : 2*currentState.zoomLevel
-            },
-            fontStyle : {
-                fontSize : 24*currentState.zoomLevel,
-                fontWeight : "normal",
-                fontStyle : "normal",
-                textDecorationLine : "",
-                color : "#080808",
-                textAlign: "center" 
-            },
-            text : "",
-        };
+
+        const widthAndHeight = 128;
+
+        newState.elements[newID] = createElementBaseObject(newID, "postit", currentState.zoomLevel);
+        
+        const newElement = newState.elements[newID];
+        newElement.subType = "square";
+        newElement.fixedRatio = "true";
+        newElement.predefinedColor = 3;
+        
+        newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-(widthAndHeight*currentState.zoomLevel);
+        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-(widthAndHeight*currentState.zoomLevel);
+        newElement.styles.width = widthAndHeight*currentState.zoomLevel;
+        newElement.styles.height = widthAndHeight*currentState.zoomLevel;
+        newElement.styles.strokeOpacity = 0;
+
         newState.elementState = {...currentState.elementState};
-        newState.elementState[newID] = {};
+        newState.elementState[newID] = {
+            selected : true
+        };
         let min = 0,
             max = 3;
         newState.elementState[newID].shapeType = Math.floor(Math.random() * (max - min + 1)) + min;

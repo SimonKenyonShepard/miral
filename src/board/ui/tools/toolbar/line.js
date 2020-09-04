@@ -14,7 +14,7 @@ class Line extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-          previousSelectedShapeTool : "shapeRect",
+          previousSelectedShapeTool : "lineStraight",
           menuActivated : false
         };
     }
@@ -38,9 +38,9 @@ class Line extends Component {
         } = this.props;
 
         const autoActivate = {
-            shapeRect : false,
-            shapeCircle : false,
-            shapeTriangle : false
+            lineStraight : false,
+            lineSmooth : false,
+            lineFreehand : false
         };
 
         if(this.state.menuActivated) {
@@ -56,7 +56,7 @@ class Line extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.shapeRect}
+                autoActivate={autoActivate.lineStraight}
             />,
             <LineSmooth
                 key={"tool_lineSmooth"}
@@ -66,7 +66,7 @@ class Line extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.shapeCircle}
+                autoActivate={autoActivate.lineSmooth}
 
             />,
             <LineFreehand
@@ -77,7 +77,7 @@ class Line extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.shapeTriangle}
+                autoActivate={autoActivate.lineFreehand}
             />
         ];
 

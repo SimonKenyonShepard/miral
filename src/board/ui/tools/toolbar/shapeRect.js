@@ -29,10 +29,7 @@ class ShapeRect extends Component {
         newState.elementState[newID] = {
             selected : true
         };
-        newState.dragStartHandler = null;
-        newState.dragMoveHandler = null;
-        newState.dragEndHandler = null;
-        newState.clickHandler = null;
+        
         newState.tool = "pan";
         newState.storeUndo = true;
         this.removeDragHandler("drawCanvas");

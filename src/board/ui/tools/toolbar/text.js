@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import Shortid from 'shortid';
 import Tool from './tool';
 
-import './styles.css';
+import {createElementBaseObject} from "./utils";
 
+import './styles.css';
 
 class Text extends Component {
 
@@ -12,39 +13,25 @@ class Text extends Component {
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        newState.elements[newID] = {
-            id : newID,
-            type : "text",
-            styles : {
-                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
-                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
-                width : 240*currentState.zoomLevel,
-                height: (24*1.4)*currentState.zoomLevel,
-                fillOpacity: 0,
-                fill: "#ffffff",
-                stroke : "#000000",
-                strokeOpacity : 0,
-                strokeWidth : 2*currentState.zoomLevel
-            },
-            fontStyle : {
-                fontSize : 24*currentState.zoomLevel,
-                fontFamily : "",
-                fontWeight : "normal",
-                fontStyle : "normal",
-                textDecorationLine : "",
-                color : "#080808",
-                textAlign: "center"
-            },
-            text : ""
-        };
+
+        const presetWidth = 240,
+              fontSize = 24,
+              lineHeight = 1.4,
+              presetHeight = fontSize*lineHeight;
+
+        newState.elements[newID] = createElementBaseObject(newID, "text", currentState.zoomLevel);
+
+        const newElement = newState.elements[newID];
+        newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-((presetWidth/2)*currentState.zoomLevel);
+        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-((presetHeight/2)*currentState.zoomLevel);
+        newElement.styles.width = presetWidth*currentState.zoomLevel;
+        newElement.styles.height = presetHeight*currentState.zoomLevel;
+        
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
             selected : true
         };
-        newState.dragStartHandler = null;
-        newState.dragMoveHandler = null;
-        newState.dragEndHandler = null;
-        newState.clickHandler = null;
+        
         newState.tool = "pan";
         this.removeDragHandler("drawCanvas");
         this.setState(newState);
@@ -55,31 +42,15 @@ class Text extends Component {
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        newState.elements[newID] = {
-            id : newID,
-            type : "text",
-            styles : {
-                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
-                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
-                width : width*currentState.zoomLevel,
-                height: height*currentState.zoomLevel,
-                fillOpacity: 0,
-                fill: "#ffffff",
-                stroke : "#000000",
-                strokeOpacity : 0,
-                strokeWidth : 2*currentState.zoomLevel
-            },
-            fontStyle : {
-                fontSize : 24*currentState.zoomLevel,
-                fontFamily : "",
-                fontWeight : "normal",
-                fontStyle : "normal",
-                textDecorationLine : "",
-                color : "#080808",
-                textAlign: "center"
-            },
-            text : ""
-        };
+
+        newState.elements[newID] = createElementBaseObject(newID, "text", currentState.zoomLevel);
+
+        const newElement = newState.elements[newID];
+        newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-((width/2)*currentState.zoomLevel);
+        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-((height/2)*currentState.zoomLevel);
+        newElement.styles.width = width*currentState.zoomLevel;
+        newElement.styles.height = height*currentState.zoomLevel;
+
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
             selected : true

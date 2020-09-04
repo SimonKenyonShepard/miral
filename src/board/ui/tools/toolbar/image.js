@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import Shortid from 'shortid';
 import Tool from './tool';
 
+import {createElementBaseObject} from "./utils";
+
 import './styles.css';
 
 
@@ -12,26 +14,18 @@ class Image extends Component {
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        const width = 120,
-              height = 120;
-        newState.elements[newID] = {
-            id : newID,
-            type : "image",
-            styles : {
-                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX-((width/2)*currentState.zoomLevel),
-                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-((height/2)*currentState.zoomLevel),
-                width : width*currentState.zoomLevel,
-                height: height*currentState.zoomLevel,
-                fillOpacity: 0,
-                fill: "#ffffff",
-                stroke : "#000000",
-                strokeOpacity : 1,
-                strokeWidth : 2*currentState.zoomLevel,
-                strokeDasharray : "0"
-            },
-            imgURL : "/miral/icons/insert_photo-noBorder-24px.svg",
-            initialZoomLevel : currentState.zoomLevel
-        };
+        const presetWidthAndHeight = 120;
+        
+        newState.elements[newID] = createElementBaseObject(newID, "image", currentState.zoomLevel);
+        
+        const newElement = newState.elements[newID];
+        newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-((presetWidthAndHeight/2)*currentState.zoomLevel);
+        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-((presetWidthAndHeight/2)*currentState.zoomLevel);
+        newElement.styles.width = presetWidthAndHeight*currentState.zoomLevel;
+        newElement.styles.height = presetWidthAndHeight*currentState.zoomLevel;
+        newElement.styles.strokeOpacity = 0;
+        newElement.imgURL = "/miral/icons/insert_photo-noBorder-24px.svg";
+
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
             selected : true
@@ -51,24 +45,16 @@ class Image extends Component {
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        newState.elements[newID] = {
-            id : newID,
-            type : "image",
-            styles : {
-                x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
-                y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
-                width : width*currentState.zoomLevel,
-                height: height*currentState.zoomLevel,
-                fillOpacity: 0,
-                fill: "#ffffff",
-                stroke : "#000000",
-                strokeOpacity : 1,
-                strokeWidth : 2*currentState.zoomLevel,
-                strokeDasharray : "0"
-            },
-            imgURL : "/miral/icons/insert_photo-noBorder-24px.svg",
-            initialZoomLevel : currentState.zoomLevel
-        };
+        newState.elements[newID] = createElementBaseObject(newID, "image", currentState.zoomLevel);
+        
+        const newElement = newState.elements[newID];
+        newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX;
+        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY;
+        newElement.styles.width = width*currentState.zoomLevel;
+        newElement.styles.height = height*currentState.zoomLevel;
+        newElement.styles.strokeOpacity = 0;
+        newElement.imgURL = "/miral/icons/insert_photo-noBorder-24px.svg";
+
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
             selected : true

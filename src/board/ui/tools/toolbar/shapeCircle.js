@@ -20,6 +20,7 @@ class ShapeCircle extends Component {
         
         const newElement = newState.elements[newID];
         newElement.shapeType = 1;
+        newElement.fixedRatio = "true";
         newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-((presetWidth/2)*currentState.zoomLevel);
         newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-((presetWidth/2)*currentState.zoomLevel);
         newElement.styles.width = presetWidth*currentState.zoomLevel;
@@ -29,10 +30,7 @@ class ShapeCircle extends Component {
         newState.elementState[newID] = {
             selected : true
         };
-        newState.dragStartHandler = null;
-        newState.dragMoveHandler = null;
-        newState.dragEndHandler = null;
-        newState.clickHandler = null;
+       
         newState.tool = "pan";
         newState.storeUndo = true;
         this.removeDragHandler("drawCanvas");
