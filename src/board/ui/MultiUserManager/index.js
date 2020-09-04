@@ -17,7 +17,7 @@ class Cursor extends Component {
     }
 
     render() {
-        const color = "#007fff";
+        const { color } = this.props.data;
 
         const wrapperCSS = {
             color
@@ -67,18 +67,28 @@ class Cursor extends Component {
 
 class Avatar extends Component {
     render() {
+        const { color } = this.props.data;
+
+        const wrapperCSS = {
+            backgroundColor : color
+        };
+
         return (
-            <div className="multiUser_UserDockAvatar">
+            <div className="multiUser_UserDockAvatar" style={wrapperCSS}>
                 {this.props.data.name}
             </div>
         );
     }
 }
 
+const colors = ["#A5DDE8", "#2B9DD6", "#F7DA34", "#F79854", "#E8553F"];
+
 class MultiUserManager extends Component {
 
     constructor(props, context) {
       super(props, context);
+      let min = 0,
+          max = 4;
       this.state = {
           isParticipant : false,
           boardError : null,
@@ -87,7 +97,8 @@ class MultiUserManager extends Component {
           companyName : "unfoldbio",
           boardID : "2eweor3892",
           password : "miral",
-          id : Shortid.generate()
+          id : Shortid.generate(),
+          color : colors[Math.floor(Math.random(Date.now()) * (max - min + 1)) + min]
       };
       this.emitQueue = {};
     }
@@ -97,14 +108,16 @@ class MultiUserManager extends Component {
             companyName,
             boardID,
             password,
-            id
+            id,
+            color
         } = this.state;
 
         const owner = {
             id,
+            color,
             name : "simon",
             initials : "ss",
-            pointerPosition : this.props.pointerPosition
+            pointerPosition : this.props.pointerPosition,
         };
        
         const io = window.io;
@@ -136,11 +149,13 @@ class MultiUserManager extends Component {
             companyName,
             boardID,
             password,
-            id
+            id,
+            color
         } = this.state;
 
         const user = {
             id,
+            color,
             name : "simonJoin",
             initials : "sks",
             pointerPosition : this.props.pointerPosition

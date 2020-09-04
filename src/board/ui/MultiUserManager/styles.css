@@ -7,8 +7,6 @@
 }
 
 .multiUser_UserDockAvatar {
-    background-color: rgba(27,140,166, 0.7);
-    border: 2px solid  rgba(27,140,166, 0.9);
     border-radius: 32px;
     color: white;
     font-size: 12px;
