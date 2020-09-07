@@ -3,6 +3,8 @@ import MultiTool from './multiTool';
 
 import LineStraight from "./lineStraight";
 import LineSmooth from "./lineSmooth";
+import LineStraightArrow from "./lineStraight_arrow";
+import LineSmoothArrow from "./lineSmooth_arrow";
 import LineFreehand from "./lineFreehand";
 
 import './styles.css';
@@ -60,6 +62,27 @@ class Line extends Component {
             />,
             <LineSmooth
                 key={"tool_lineSmooth"}
+                handleToolSelect={this.handleToolSelect}
+                handleDrawCanvasShow={handleDrawCanvasShow}
+                registerDragHandler={registerDragHandler}
+                handleDragMove={handleDragMove}
+                handleDragEnd={handleDragEnd}
+                currentSelectedTool={currentSelectedTool}
+                autoActivate={autoActivate.lineSmooth}
+
+            />,
+            <LineStraightArrow
+                key={"tool_lineStraightArrow"}
+                handleToolSelect={this.handleToolSelect}
+                handleDrawCanvasShow={handleDrawCanvasShow}
+                registerDragHandler={registerDragHandler}
+                handleDragMove={handleDragMove}
+                handleDragEnd={handleDragEnd}
+                currentSelectedTool={currentSelectedTool}
+                autoActivate={autoActivate.lineStraight}
+            />,
+            <LineSmoothArrow
+                key={"tool_lineSmoothArrow"}
                 handleToolSelect={this.handleToolSelect}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}

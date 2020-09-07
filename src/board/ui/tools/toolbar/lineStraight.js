@@ -24,7 +24,6 @@ class LineStraight extends Component {
         newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-(presetWidthAndHeight*currentState.zoomLevel);
         newElement.styles.width = presetWidthAndHeight*currentState.zoomLevel;
         newElement.styles.height = presetWidthAndHeight*currentState.zoomLevel;
-        newElement.styles.markerEnd = "url(#arrow)";
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
@@ -52,7 +51,6 @@ class LineStraight extends Component {
         newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-(presetWidthAndHeight*currentState.zoomLevel);
         newElement.styles.width = presetWidthAndHeight*currentState.zoomLevel;
         newElement.styles.height = presetWidthAndHeight*currentState.zoomLevel;
-        newElement.styles.markerEnd = "url(#arrow)";
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {

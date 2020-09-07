@@ -7,7 +7,7 @@ import {createElementBaseObject} from "./utils";
 import './styles.css';
 
 
-class Shape extends Component {
+class lineSmoothArrow extends Component {
 
     handleShapeClick(e, dragStartX, dragStartY) {
         const currentState = this.state;
@@ -24,6 +24,7 @@ class Shape extends Component {
         newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-(presetWidthAndHeight*currentState.zoomLevel);
         newElement.styles.width = presetWidthAndHeight*currentState.zoomLevel;
         newElement.styles.height = presetWidthAndHeight*currentState.zoomLevel;
+        newElement.styles.markerEnd = "url(#arrow)";
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
@@ -51,6 +52,7 @@ class Shape extends Component {
         newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-(presetWidthAndHeight*currentState.zoomLevel);
         newElement.styles.width = presetWidthAndHeight*currentState.zoomLevel;
         newElement.styles.height = presetWidthAndHeight*currentState.zoomLevel;
+        newElement.styles.markerEnd = "url(#arrow)";
         
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
@@ -75,7 +77,7 @@ class Shape extends Component {
 
         return (
            
-            <Tool type="lineSmooth" 
+            <Tool type="lineSmoothArrow" 
                 handleToolSelect={handleToolSelect}
                 currentSelectedTool={currentSelectedTool}
                 handleDrawCanvasShow={handleDrawCanvasShow}
@@ -92,4 +94,4 @@ class Shape extends Component {
     
   }
 
-  export default Shape;
+  export default lineSmoothArrow;

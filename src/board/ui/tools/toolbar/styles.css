@@ -1,7 +1,7 @@
 .altitude {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius : 2px;
-    box-shadow: 2px 2px 3px #ccc;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
     padding: 8px;
     position: absolute;
     right: 16px;
@@ -11,7 +11,7 @@
 .toolbar {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius : 2px;
-    box-shadow: 2px 2px 3px #ccc;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
     cursor: pointer;
     position: absolute;
     height: 280px;
@@ -79,10 +79,18 @@
 }
 
 .toolbar_lineStraight {
-    background-image: url("/miral/icons/arrow_up-24px.svg");
+    background-image: url("/miral/icons/line_up-24px.svg");
 }
 
 .toolbar_lineSmooth {
+    background-image: url("/miral/icons/smooth_line-24px.svg");
+}
+
+.toolbar_lineStraightArrow {
+    background-image: url("/miral/icons/arrow_up-24px.svg");
+}
+
+.toolbar_lineSmoothArrow {
     background-image: url("/miral/icons/swap_calls-24px.svg");
 }
 
@@ -132,7 +140,7 @@
     align-items : center;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius : 2px;
-    box-shadow: 2px 2px 3px #ccc;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
     left: 55px;
