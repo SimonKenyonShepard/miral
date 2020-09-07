@@ -2,7 +2,7 @@
     align-items : center;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius : 2px;
-    box-shadow: 2px 2px 3px #ccc;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
     display: flex;
     height: 40px;
     opacity: 0;
