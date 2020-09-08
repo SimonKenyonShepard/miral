@@ -14,7 +14,7 @@
     margin-right: 8px;
 }
 
-.multiUser_boardError {
+.multiUser_boardOverlay {
     align-items: center;
     background-color: rgba(0, 0, 0, 0.8);
     display: flex;
@@ -23,13 +23,19 @@
     left: 0;
     position: absolute;
     top: 0;
-    user-select: none;
     width: 100vw;
+}
+
+.multiUser_requestCreds {
+    background: #fff;
+    height : 320px;
+    width: 320px;
 }
 
 .multiUser_boardErrorText {
     color : #fff;
     font-weight: bold;
+    user-select: none;
 }
 
 .multiUser_UserCursorWrapper {

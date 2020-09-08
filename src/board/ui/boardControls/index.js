@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import Share from './share';
 import UndoRedo from './undoRedo';
 
 import './styles.css';
@@ -26,13 +27,6 @@ class BoardControls extends Component {
             editBoardName : false
         });
     }
-
-    handleShareBoard = () => {
-        //TODO : crude flag for local dev, needs removing to config vars
-        if(window.location.href.indexOf("localhost") !== -1) {
-            this.props.toggleBoardShare();
-        }
-    }
     
     render() {
 
@@ -56,9 +50,8 @@ class BoardControls extends Component {
                         onBlur={this.handleBlur}
                         suppressContentEditableWarning={true}
                     >{this.props.boardName}</span>
-                    <span 
-                        className={"iconButton share"}
-                        onClick={this.handleShareBoard}
+                    <Share 
+                        toggleBoardShare={this.props.toggleBoardShare}
                     />
                 </div>
                 <UndoRedo 

@@ -26,7 +26,7 @@
     background-position: center center;
     background-size: 24px 24px;
     cursor: pointer;
-    display: inline-block;
+    display: flex;
     height: 24px;
     width: 24px
 }
@@ -41,7 +41,13 @@
 
 .share {
     margin-left: 8px;
-    background-image: url("/miral/icons/share-24px.svg");
+}
+
+.pulse {
+    animation-name : pulse;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 .share_menu {
@@ -95,10 +101,6 @@
     padding: 8px;
 }
 
-.share_menu_fieldrow label {
-    
-}
-
 .share_menu_input {
     font-size : 16px;
     margin: 0 8px;
@@ -113,6 +115,7 @@
 }
 
 .share_menu_link {
+    max-width: 50%;
     word-break: break-all;
 }
 
@@ -136,4 +139,14 @@
 .redo {
     background-image: url("/miral/icons/redo-24px.svg");
     margin-left: 8px;
+}
+
+@keyframes pulse {
+    0% {
+        opacity : 0.5;
+    }
+
+    100% {
+        opacity : 1;
+    }
 }

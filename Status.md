@@ -68,6 +68,9 @@ grid guides
 change font color - black/white
 
 comments
+tables
+
+arrow keys to move elements around
 
 
 UPSs :

@@ -2,86 +2,16 @@ import React, {Component} from 'react';
 
 import Shortid from 'shortid';
 
+import Avatar from "./avatar";
+import Cursor from "./cursor";
+import Credentials from "./credentials";
+
 import './styles.css';
 
 const rfc6902 = require('rfc6902');
 
-class Cursor extends Component {
-
-    constructor(props, context) {
-        super(props, context);
-        this.state = {};
-        this.cursorRef = React.createRef();
-        this.cursorAnimation = null;
-        this.lastUpdate = null;
-    }
-
-    render() {
-        const { color } = this.props.data;
-
-        const wrapperCSS = {
-            color
-        };
-
-        return (
-            <div className="multiUser_UserCursorWrapper" ref={this.cursorRef} style={wrapperCSS}>
-                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" className="multiUser_UserCursor">
-                    <path fill={color} d="m0.2125,0.101564l5.116674,15.552611c1.603039,-5.720502 1.863999,-7.627336 10.401108,-9.534169l-15.517782,-6.018442z" />
-                </svg>
-                {this.props.data.initials}
-            </div>
-        );
-    }
-
-    componentDidUpdate(prevProps) {
-        const {
-            offsetX,
-            offsetY,
-            zoomLevel
-        } = this.props;
-
-        const currentX = this.props.data.pointerPosition.x/zoomLevel-(offsetX/zoomLevel),
-              currentY = this.props.data.pointerPosition.y/zoomLevel-(offsetY/zoomLevel),
-              prevX = prevProps.data.pointerPosition.x/prevProps.zoomLevel-(prevProps.offsetX/prevProps.zoomLevel),
-              prevY = prevProps.data.pointerPosition.y/prevProps.zoomLevel-(prevProps.offsetY/prevProps.zoomLevel);
-        
-        const mouseXDidUpdate = (prevX !== currentX);
-        const mouseYDidUpdate =  (prevY !== currentY);
-        const mouseDidUpdate = mouseXDidUpdate || mouseYDidUpdate;
-        if(mouseDidUpdate) {
-            
-            this.cursorRef.current.animate(
-                [
-                    {transform : `translate3d(${prevX}px, ${prevY}px, 0px)`},
-                    {transform : `translate3d(${currentX}px, ${currentY}px, 0px)`}
-                ]
-            , {
-                fill: 'forwards',
-                easing: 'linear',
-                duration: 500
-              });
-
-        }
-    }
-}
-
-class Avatar extends Component {
-    render() {
-        const { color } = this.props.data;
-
-        const wrapperCSS = {
-            backgroundColor : color
-        };
-
-        return (
-            <div className="multiUser_UserDockAvatar" style={wrapperCSS}>
-                {this.props.data.name}
-            </div>
-        );
-    }
-}
-
-const colors = ["#A5DDE8", "#2B9DD6", "#F7DA34", "#F79854", "#E8553F"];
+//const colors = ["#A5DDE8", "#2B9DD6", "#F7DA34", "#F79854", "#E8553F"];
+const colors = ["#F2275A", "#1B73B8", "#58BF3B", "#FFE800", "#F26130"];
 
 class MultiUserManager extends Component {
 
@@ -91,32 +21,46 @@ class MultiUserManager extends Component {
           max = 4;
       this.state = {
           isParticipant : false,
+          requestCreds : false,
           boardError : null,
           socket : null,
           boardUsers : {},
           companyName : "unfoldbio",
-          boardID : "2eweor3892",
-          password : "miral",
+          boardID : "",
+          securityCode : "",
+          name : "",
+          initials : "",
           id : Shortid.generate(),
           color : colors[Math.floor(Math.random(Date.now()) * (max - min + 1)) + min]
       };
       this.emitQueue = {};
     }
 
-    setupShareBoardSocketConnection = () => {
+    setJoinCreds = (creds) => {
+        const newState = Object.assign({}, creds, {requestCreds : false});
+        this.setState(newState);
+        this.setupJoinBoardSocketConnection(creds);
+    }
+
+    setupShareBoardSocketConnection = (meetingData) => {
         const {
             companyName,
-            boardID,
-            password,
             id,
             color
         } = this.state;
 
+        const {
+            boardID,
+            securityCode,
+            name,
+            initials
+        } = meetingData;
+
         const owner = {
             id,
             color,
-            name : "simon",
-            initials : "ss",
+            name,
+            initials,
             pointerPosition : this.props.pointerPosition,
         };
        
@@ -130,7 +74,7 @@ class MultiUserManager extends Component {
             boardID,
             boardContents,
             owner,
-            password,
+            securityCode,
             duration : 40
         });
 
@@ -139,34 +83,44 @@ class MultiUserManager extends Component {
         socket.on('updateBoard', this.updateBoard);
 
         this.setState({
-            socket
+            socket,
+            boardID,
+            securityCode,
+            name,
+            initials
         });
         setInterval(this.purgeEmitQueue, 500);
     }
 
-    setupJoinBoardSocketConnection = () => {
-       const {
+    setupJoinBoardSocketConnection = (creds) => {
+        const {
+            securityCode,
+            name,
+            initials
+        } = creds;
+
+        const {
             companyName,
             boardID,
-            password,
             id,
-            color
+            color,
         } = this.state;
 
         const user = {
             id,
             color,
-            name : "simonJoin",
-            initials : "sks",
+            name,
+            initials,
             pointerPosition : this.props.pointerPosition
         };
 
         const io = window.io;
         const socket = io(`http://192.168.178.30:3001/${companyName}`);
+        console.log(socket);
         socket.emit("joinBoard", {
             boardID,
             user,
-            password
+            securityCode
         });
         socket.on('initializeBoard', this.initializeBoard)
         socket.on('userJoin', this.userJoin);
@@ -253,6 +207,7 @@ class MultiUserManager extends Component {
         const {
             boardUsers,
             isParticipant,
+            requestCreds,
             socket,
             boardError
         } = this.state;
@@ -272,8 +227,6 @@ class MultiUserManager extends Component {
             height: "100vh",
             width : "100vw"
         };
-
-        
 
         const isInSharedMeeting = (shareBoard || isParticipant) && socket && boardError === null;
 
@@ -296,6 +249,10 @@ class MultiUserManager extends Component {
                 containerStyles.pointerEvents = "auto";
             }
         }
+
+        if(requestCreds) {
+            containerStyles.pointerEvents = "auto";
+        }
         
         return (
             <div
@@ -313,8 +270,15 @@ class MultiUserManager extends Component {
                 </>
             )}
             {(boardError && 
-                <div className={"multiUser_boardError"}>
+                <div className={"multiUser_boardOverlay"}>
                     <span className={"multiUser_boardErrorText"}>Board unavailable : {boardError}</span>
+                </div>
+            )}
+            {(requestCreds && 
+                <div className={"multiUser_boardOverlay"}>
+                    <Credentials 
+                        setJoinCreds={this.setJoinCreds}
+                    />
                 </div>
             )}
             </div>
@@ -333,7 +297,8 @@ class MultiUserManager extends Component {
         
         if(prevProps.shareBoard !== this.props.shareBoard) {
             if(this.props.shareBoard && !socket) {
-                this.setupShareBoardSocketConnection();
+                console.log(this.props.shareBoard);
+                this.setupShareBoardSocketConnection(this.props.shareBoard);
             } else {
                 //TODO : emit unShareBoard event
             }
@@ -365,8 +330,14 @@ class MultiUserManager extends Component {
 
     componentDidMount(){
         //check if is joining a remote board
-        if(window.location.hash.indexOf("join") !== -1) {
-            this.setupJoinBoardSocketConnection();
+        if(window.location.hash.indexOf("j=") !== -1) {
+            const organisation = window.location.hash.match(/o=([^&$]*)/m)[1];
+            const boardID = window.location.hash.match(/j=([^&$]*)/m)[1];
+            this.setState({
+                companyName : organisation,
+                boardID,
+                requestCreds : true
+            });
         }
     }
 

@@ -318,8 +318,13 @@ class Board extends Component {
         });
     }
 
-    toggleBoardShare = () => {
-        this.setState({shareBoard : !this.state.shareBoard});
+    toggleBoardShare = (data) => {
+        if(data) {
+            this.setState({shareBoard : data});
+        } else {
+            this.setState({shareBoard : false});
+        }
+        
     }
 
     calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY) {

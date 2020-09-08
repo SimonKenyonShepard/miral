@@ -96,5 +96,7 @@ Templates
 Multi-user support & Attention management
 Slides
 
+docker run -d --rm -p 80:80/tcp -p 1935:1935 -p 3478:3478 -p 3478:3478/udp --name bbbServer bigbluebutton/bigbluebutton -h 0.0.0.0
+
 
 
