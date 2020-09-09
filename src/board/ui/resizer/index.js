@@ -8,7 +8,7 @@ class Resizer extends Component {
         const currentState = this.state;
         const selectedElements = [];
         Object.keys(this.state.elementState).forEach(item => {
-            if(this.state.elementState[item].selected) {
+            if(this.state.elementState[item].selected === this.state.userID) {
                 selectedElements.push(this.state.elements[item]);
             }
         });

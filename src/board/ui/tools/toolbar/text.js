@@ -30,7 +30,7 @@ class Text extends Component {
         
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
-            selected : true
+            selected : currentState.userID
         };
         
         newState.tool = "pan";
@@ -55,7 +55,7 @@ class Text extends Component {
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
-            selected : true
+            selected : currentState.userID
         };
         newState.elementBeingDrawn = newID;
         this.setState(newState);

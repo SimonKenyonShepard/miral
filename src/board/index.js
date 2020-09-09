@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 
-import Shortid from 'shortid';
-
 //UI
 import Tools from './ui/tools';
 import Altimeter from './ui/altimeter';
@@ -109,14 +107,20 @@ class Board extends Component {
         });
     }
 
-    handleSetCurrentElement = (elementID, selected, isMultiSelect) => {
+    handleSetCurrentElement = (elementID, isMultiSelect) => {
         const newElementStateData = {...this.state.elementState};
         if(!isMultiSelect) {
             Object.keys(newElementStateData).forEach(item => {
-                newElementStateData[item].selected = false;
+                if(this.isSelected(item)) {
+                    newElementStateData[item].selected = false;
+                }
             });
         }
-        newElementStateData[elementID].selected = !newElementStateData[elementID].selected;
+        if(this.isSelected(elementID)) {
+            newElementStateData[elementID].selected = false;
+        } else if (!this.isSelected(elementID) && newElementStateData[elementID].selected === false) {
+            newElementStateData[elementID].selected = this.state.userID;
+        }
         this.setState({
             elementState : newElementStateData
         });
@@ -125,7 +129,9 @@ class Board extends Component {
     handleDeselectAllElements = () => {
         const newElementStateData = {...this.state.elementState};
         Object.keys(newElementStateData).forEach(item => {
-            newElementStateData[item].selected = false;
+            if(this.isSelected(item)) {
+                newElementStateData[item].selected = false;
+            }
         });
         this.setState({
             elementState : newElementStateData
@@ -184,7 +190,7 @@ class Board extends Component {
         const newElementsData = {...this.state.elements};
         const newElementsState = {...this.state.elementState};
         Object.keys(this.state.elementState).forEach(item => {
-            if(this.state.elementState[item].selected) {
+            if(this.isSelected(item)) {
                 delete newElementsData[item];
                 delete newElementsState[item];
             }
@@ -218,6 +224,7 @@ class Board extends Component {
         const {
             elements,
             elementState,
+            userID,
             zoomLevel,
             offsetX,
             offsetY
@@ -232,7 +239,9 @@ class Board extends Component {
 
         Object.keys(elements).forEach(elementID => {
             const element = elements[elementID];
+            const isSelectable = this.isSelected(elementID) || newElementsState[elementID].selected === false;
             let isWithinArea = false;
+            
             if(
                 element.styles.x >= realSpaceX &&
                 (element.styles.x + element.styles.width) <= realSpaceX1 &&
@@ -241,10 +250,8 @@ class Board extends Component {
                 {
                     isWithinArea = true;
                 }
-            if(isWithinArea) {
-                newElementsState[element.id].selected = true;
-            } else {
-                newElementsState[element.id].selected = false;
+            if(isWithinArea && isSelectable) {
+                newElementsState[elementID].selected = userID;
             }
         });
         this.setState({elementState : newElementsState});
@@ -254,18 +261,13 @@ class Board extends Component {
         const {
             elements,
             elementState,
-            zoomLevel
+            zoomLevel,
+            userID
         } = this.state;
 
         const newElements = {...elements};
         const newElementsState = {...elementState};
-        const selectedElements = [];
-
-        Object.keys(elementState).forEach(element => {
-            if(elementState[element].selected) {
-                selectedElements.push(elements[element]);
-            }
-        });
+        const selectedElements = this.getSelectedElements(elementState, userID);
 
         const duplicatesOffsetMargin = 8;
 
@@ -389,9 +391,35 @@ class Board extends Component {
         };
     }
 
+    isSelected = (elementID) => {
+        const {
+            elementState,
+            userID
+        } = this.state;
+        return elementState[elementID].selected === userID;
+    }
+
+    getSelectedElements(elementState) {
+        const selectedElements = [];
+        Object.keys(elementState).forEach(elementID => {
+            if(this.isSelected(elementID)) {
+                selectedElements.push(this.state.elements[elementID]);
+            }
+        });
+        return selectedElements;
+    }
+
     render() {
         const {width, height} = this.props;
-        const {offsetX, offsetY, zoomLevel, tool, elements, textEditor} = this.state;
+        const {
+            offsetX, 
+            offsetY, 
+            zoomLevel, 
+            tool, 
+            elements,
+            elementState,
+            textEditor
+        } = this.state;
         const zoomedWidth = width*zoomLevel,
         zoomedHeight = height*zoomLevel;
         const viewBox = `${offsetX} ${offsetY} ${zoomedWidth} ${zoomedHeight}`;
@@ -446,14 +474,10 @@ class Board extends Component {
             }
             return null;
         });
-        const selectedElements = [],
-              selectedElementKeys = [];
-        Object.keys(this.state.elementState).forEach(item => {
-            if(this.state.elementState[item].selected) {
-                selectedElements.push(this.state.elements[item]);
-                selectedElementKeys.push(item);
-            }
-        });
+
+        const selectedElements = this.getSelectedElements(elementState);
+        const selectedElementKeys = selectedElements.map(element => element.id);
+        
         const boundingBox = this.calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY);
         const gridPosition = {
             backgroundPosition : `${(offsetX*-1)/zoomLevel}px ${(offsetY*-1)/zoomLevel}px`

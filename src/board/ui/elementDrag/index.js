@@ -10,14 +10,14 @@ class ElementDrag extends Component {
         } = this.state;
 
         const newElementsData = {...this.state.elements};
-        const selectedItems = Object.keys(this.state.elementState).filter(item => {
-            if(this.state.elementState[item].selected) {
+        const selectedItemKeys = Object.keys(this.state.elementState).filter(item => {
+            if(this.isSelected(item)) {
                 return true;
             }
             return false;
         });
-        if(selectedItems.length) {
-            selectedItems.forEach(element => {
+        if(selectedItemKeys.length) {
+            selectedItemKeys.forEach(element => {
                 const newElement = {...newElementsData[element]};
                 const newStyles = {...newElementsData[element].styles};
                 newStyles.x += e.movementX*zoomLevel;

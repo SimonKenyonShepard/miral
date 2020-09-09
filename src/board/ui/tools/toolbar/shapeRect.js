@@ -27,7 +27,7 @@ class ShapeRect extends Component {
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
-            selected : true
+            selected : currentState.userID
         };
         
         newState.tool = "pan";
@@ -53,7 +53,7 @@ class ShapeRect extends Component {
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
-            selected : true
+            selected : currentState.userID
         };
         newState.elementBeingDrawn = newID;
         newState.storeUndo = true;

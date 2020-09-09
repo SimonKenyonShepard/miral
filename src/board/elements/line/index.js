@@ -11,7 +11,7 @@ class Line extends Component {
 
     handleSelect = (e) => {
         const isMultiSelect = e.metaKey;
-        this.props.handleSetCurrentElement(this.props.data.id, true, isMultiSelect);
+        this.props.handleSetCurrentElement(this.props.data.id, isMultiSelect);
     }
 
     handleTextEdit = (e) => {

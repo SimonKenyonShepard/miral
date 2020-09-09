@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 
-import Shortid from 'shortid';
-
 import Avatar from "./avatar";
 import Cursor from "./cursor";
 import Credentials from "./credentials";

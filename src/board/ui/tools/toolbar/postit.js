@@ -31,7 +31,7 @@ class Postit extends Component {
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
-            selected : true
+            selected : currentState.userID
         };
         let min = 0,
             max = 3;
@@ -66,7 +66,7 @@ class Postit extends Component {
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
-            selected : true
+            selected : currentState.userID
         };
         let min = 0,
             max = 3;

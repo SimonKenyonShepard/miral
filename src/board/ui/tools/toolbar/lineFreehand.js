@@ -30,7 +30,7 @@ class Shape extends Component {
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
-            selected : true,
+            selected : currentState.userID,
             pathBuffer : [],
             smoothingLevel : 8,
             currentPath : `M ${currentX} ${currentY}`

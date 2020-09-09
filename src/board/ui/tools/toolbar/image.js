@@ -28,7 +28,7 @@ class Image extends Component {
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
-            selected : true
+            selected : currentState.userID
         };
         newState.dragStartHandler = null;
         newState.dragMoveHandler = null;
@@ -57,7 +57,7 @@ class Image extends Component {
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
-            selected : true
+            selected : currentState.userID
         };
         newState.elementBeingDrawn = newID;
         newState.storeUndo = true;
