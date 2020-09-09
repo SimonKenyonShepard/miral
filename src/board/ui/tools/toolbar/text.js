@@ -26,6 +26,7 @@ class Text extends Component {
         newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-((presetHeight/2)*currentState.zoomLevel);
         newElement.styles.width = presetWidth*currentState.zoomLevel;
         newElement.styles.height = presetHeight*currentState.zoomLevel;
+        newElement.styles.strokeOpacity = 0;
         
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
@@ -50,6 +51,7 @@ class Text extends Component {
         newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-((height/2)*currentState.zoomLevel);
         newElement.styles.width = width*currentState.zoomLevel;
         newElement.styles.height = height*currentState.zoomLevel;
+        newElement.styles.strokeOpacity = 0;
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {

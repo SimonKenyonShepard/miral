@@ -44,9 +44,7 @@ class MultiUserManager extends Component {
 
     setupShareBoardSocketConnection = (meetingData) => {
         const {
-            companyName,
-            id,
-            color
+            companyName
         } = this.state;
 
         const {
@@ -56,32 +54,9 @@ class MultiUserManager extends Component {
             initials
         } = meetingData;
 
-        const owner = {
-            id,
-            color,
-            name,
-            initials,
-            pointerPosition : this.props.pointerPosition,
-        };
-       
         const io = window.io;
-        const boardContents = {
-            elements : this.props.elements,
-            elementState : this.props.elementState
-        };
-        const socket = io(`http://192.168.178.30:3001/${companyName}`);
-        socket.emit("shareBoard", {
-            boardID,
-            boardContents,
-            owner,
-            securityCode,
-            duration : 40
-        });
-
-        socket.on('userJoin', this.userJoin);
-        socket.on('updatePointer', this.updatePointer);
-        socket.on('updateBoard', this.updateBoard);
-
+        
+        const socket = io(`http://192.168.178.30:3001/${companyName}`, {'reconnectionAttempts': 10});
         this.setState({
             socket,
             boardID,
@@ -89,7 +64,15 @@ class MultiUserManager extends Component {
             name,
             initials
         });
-        setInterval(this.purgeEmitQueue, 500);
+
+        socket.on("connect", this.shareBoard);
+        socket.on("connect_error", this.connectionFailed);
+        socket.on('userJoin', this.userJoin);
+        socket.on('updatePointer', this.updatePointer);
+        socket.on('updateBoard', this.updateBoard);
+
+        
+        
     }
 
     setupJoinBoardSocketConnection = (creds) => {
@@ -100,10 +83,82 @@ class MultiUserManager extends Component {
         } = creds;
 
         const {
-            companyName,
-            boardID,
+            companyName
+        } = this.state;
+
+        const io = window.io;
+        const socket = io(`http://192.168.178.30:3001/${companyName}`, {'reconnectionAttempts': 10});
+        
+        this.setState({
+            securityCode,
+            name,
+            initials,
+            socket,
+            isParticipant : true
+        });
+
+        socket.on("connect", this.joinBoard);
+        socket.on("connect_error", this.connectionFailed);
+        socket.on('initializeBoard', this.initializeBoard)
+        socket.on('userJoin', this.userJoin);
+        socket.on('updatePointer', this.updatePointer);
+        socket.on('updateBoard', this.updateBoard);
+
+        socket.on('shareEnded', this.shareEnded);
+       
+    }
+
+    shareBoard = () => {
+        const {
             id,
             color,
+            boardID,
+            securityCode,
+            name,
+            initials,
+            socket
+        } = this.state;
+
+        const owner = {
+            id,
+            color,
+            name,
+            initials,
+            pointerPosition : this.props.pointerPosition,
+        };
+
+        const boardContents = {
+            elements : this.props.elements,
+            elementState : this.props.elementState
+        };
+        
+        socket.emit("shareBoard", {
+            boardID,
+            boardContents,
+            owner,
+            securityCode,
+            duration : 40
+        });
+        setInterval(this.purgeEmitQueue, 500);
+    }
+
+    connectionFailed = (error) => {
+        console.log(error);
+        this.state.socket.disconnect();
+        this.setState({
+            boardError : "connection to sharing server failed"
+        });
+    }
+
+    joinBoard = () => {
+        const {
+            id,
+            color,
+            boardID,
+            securityCode,
+            name,
+            initials,
+            socket
         } = this.state;
 
         const user = {
@@ -114,27 +169,20 @@ class MultiUserManager extends Component {
             pointerPosition : this.props.pointerPosition
         };
 
-        const io = window.io;
-        const socket = io(`http://192.168.178.30:3001/${companyName}`);
-        console.log(socket);
         socket.emit("joinBoard", {
             boardID,
             user,
             securityCode
         });
-        socket.on('initializeBoard', this.initializeBoard)
-        socket.on('userJoin', this.userJoin);
-        socket.on('updatePointer', this.updatePointer);
-        socket.on('updateBoard', this.updateBoard);
-
-        socket.on('shareEnded', this.shareEnded);
-
-        this.setState({
-            socket,
-            isParticipant : true
-        });
 
         setInterval(this.purgeEmitQueue, 500);
+    }
+
+    hideErrorScreen = () => {
+        //this.props.clearSharingData();
+        this.setState({
+            boardError : null
+        });
     }
 
     initializeBoard = (boardData) => {
@@ -250,7 +298,7 @@ class MultiUserManager extends Component {
             }
         }
 
-        if(requestCreds) {
+        if(boardError || requestCreds) {
             containerStyles.pointerEvents = "auto";
         }
         
@@ -272,6 +320,10 @@ class MultiUserManager extends Component {
             {(boardError && 
                 <div className={"multiUser_boardOverlay"}>
                     <span className={"multiUser_boardErrorText"}>Board unavailable : {boardError}</span>
+                    <div 
+                        className={"multiUser_boardErrorReturn"}
+                        onClick={this.hideErrorScreen} 
+                    >Return to Miral</div>
                 </div>
             )}
             {(requestCreds && 
