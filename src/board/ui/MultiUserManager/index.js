@@ -30,7 +30,7 @@ class MultiUserManager extends Component {
           securityCode : "",
           name : "",
           initials : "",
-          id : Shortid.generate(),
+          id : this.props.userID,
           color : colors[Math.floor(Math.random(Date.now()) * (max - min + 1)) + min]
       };
       this.emitQueue = {};

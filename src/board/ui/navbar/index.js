@@ -41,6 +41,7 @@ class Navbar extends Component {
     saveToBrowser = (e) => {
         const { applicationState } = this.props;
         const stateToSave = {
+            userID : applicationState.userID,
             elements : applicationState.elements,
             elementState : applicationState.elementState,
             boardName : applicationState.boardName,
@@ -98,6 +99,7 @@ class Navbar extends Component {
         const monday = window.mondaySdk();
         const { applicationState } = this.props;
         const stateToSave = {
+            userID : applicationState.userID,
             elements : applicationState.elements,
             elementState : applicationState.elementState,
             boardName : applicationState.boardName,

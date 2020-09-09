@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+
+import Shortid from 'shortid';
+
 //UI
 import Tools from './ui/tools';
 import Altimeter from './ui/altimeter';
@@ -33,6 +36,7 @@ class Board extends Component {
       super(props, context);
       this.state = {
         boardName : "new-board-"+new Date().toLocaleDateString().replace(/\//g, ""),
+        userID : Shortid.generate(),
         zoomLevel : 100,
         offsetX : 0,
         offsetY : 0,
@@ -540,7 +544,8 @@ class Board extends Component {
                     handleDuplicateElements={this.handleDuplicateElements}
                     textEditor={textEditor}
                 />
-                <MultiUserManager 
+                <MultiUserManager
+                    userID={this.state.userID} 
                     shareBoard={this.state.shareBoard}
                     elements={this.state.elements}
                     elementState={this.state.elementState}
