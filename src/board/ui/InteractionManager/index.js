@@ -83,7 +83,7 @@ class InteractionManager extends Component {
         if(this.state.drag === "dragging" && !wasProbablyClick) {
             e.stopPropagation();
             if(dragHandlers && dragHandlers.handleDragEnd) {
-                dragHandlers.handleDragEnd();
+                dragHandlers.handleDragEnd(e);
             }
             
             this.setState({

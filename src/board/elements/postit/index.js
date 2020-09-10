@@ -60,7 +60,7 @@ class Postit extends Component {
             });
             const fontStyle = {
                 ...data.fontStyle,
-                lineHeight : `${(shapeProps.fontSize*1.4)}px`,
+                lineHeight : `${(data.fontStyle.fontSize*1.4)}px`,
                 padding : `${data.padding}px`
             };
             text = (

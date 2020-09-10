@@ -31,6 +31,8 @@ class ElementDrag extends Component {
         }
     }
 
+
+
     render() {
         const { boundingBox } = this.props;
 

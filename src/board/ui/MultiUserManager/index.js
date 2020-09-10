@@ -29,7 +29,11 @@ class MultiUserManager extends Component {
           name : "",
           initials : "",
           id : this.props.userID,
-          color : colors[Math.floor(Math.random(Date.now()) * (max - min + 1)) + min]
+          color : colors[Math.floor(Math.random(Date.now()) * (max - min + 1)) + min],
+          prevCombinedBoardData : {
+              elements : {...this.props.elements},
+              elementState : {...this.elementState}
+          }
       };
       this.emitQueue = {};
     }
@@ -138,6 +142,7 @@ class MultiUserManager extends Component {
             duration : 40
         });
         setInterval(this.purgeEmitQueue, 500);
+        setInterval(this.checkBoardForUpdates, 1000);
     }
 
     connectionFailed = (error) => {
@@ -174,6 +179,7 @@ class MultiUserManager extends Component {
         });
 
         setInterval(this.purgeEmitQueue, 500);
+        setInterval(this.checkBoardForUpdates, 1000);
     }
 
     hideErrorScreen = () => {
@@ -214,11 +220,14 @@ class MultiUserManager extends Component {
     updateBoard = (data) => {
         const newCombinedData = {
             elements : {...this.props.elements},
-            elementState : {...this.props.elementState},
-            multiUserUpdate : true  
+            elementState : {...this.props.elementState}
         };
         rfc6902.applyPatch(newCombinedData, data.elementsDiffUpdates);
+        console.log("new patch", data.elementsDiffUpdates);
         console.log("recieved update", newCombinedData);
+        this.setState({
+            prevCombinedBoardData : newCombinedData
+        });
         this.props.handleUpdateElementsAndState(newCombinedData);
     }
 
@@ -243,7 +252,8 @@ class MultiUserManager extends Component {
             socket
         } = this.state;
         Object.keys(this.emitQueue).forEach(event => {
-            socket.emit(event, this.emitQueue[event].pop());
+            const lastItem = this.emitQueue[event].pop();
+            socket.emit(event, lastItem);
             delete this.emitQueue[event];
         });
     }
@@ -336,12 +346,38 @@ class MultiUserManager extends Component {
         );
     }
 
-    componentDidUpdate(prevProps) {
+    checkBoardForUpdates = () => {
         const {
             boardID,
             socket,
             isParticipant,
+            boardError,
+            prevCombinedBoardData
+        } = this.state;
+
+        const isInSharedMeeting = (this.props.shareBoard || isParticipant) && socket && boardError === null;
+
+        if(isInSharedMeeting) {
+            const currentCombinedData = {
+                elements : this.props.elements,
+                elementState : this.props.elementState 
+            };
+            const elementsDiffUpdates = rfc6902.createPatch(prevCombinedBoardData, currentCombinedData);
+            if(elementsDiffUpdates.length > 0) {
+                socket.emit("updateBoard", {boardID, elementsDiffUpdates});
+                this.setState({
+                    prevCombinedBoardData : currentCombinedData
+                });
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const {
+            boardID,
+            socket,
             id,
+            isParticipant,
             boardError
         } = this.state;
         
@@ -354,22 +390,6 @@ class MultiUserManager extends Component {
             }
         }
         const isInSharedMeeting = (this.props.shareBoard || isParticipant) && socket && boardError === null;
-        if(isInSharedMeeting && !this.props.multiUserUpdate) {
-            const prevCombinedData = {
-                elements : prevProps.elements,
-                elementState : prevProps.elementState 
-            };
-            const currentCombinedData = {
-                elements : this.props.elements,
-                elementState : this.props.elementState 
-            };
-            const elementsDiffUpdates = rfc6902.createPatch(prevCombinedData, currentCombinedData);
-            if(elementsDiffUpdates.length > 0) {
-                this.addToEmitQueue("updateBoard", {boardID, elementsDiffUpdates});
-            }
-        } else if (this.props.multiUserUpdate) {
-            this.props.handleUpdateElementsAndState({multiUserUpdate : false});
-        }
         //Evaluate mouseData
         const { pointerPosition } = this.props;
         const mouseMoved = (pointerPosition.x !== prevProps.pointerPosition.x) || (pointerPosition.y !== prevProps.pointerPosition.y);

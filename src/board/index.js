@@ -100,6 +100,8 @@ class Board extends Component {
         
         newElementsData[data.id] = newElement;
 
+        console.log("updating element state with new text", newElement);
+
         this.setState({
             elements : newElementsData,
             storeUndo : true,
@@ -112,15 +114,19 @@ class Board extends Component {
         if(!isMultiSelect) {
             Object.keys(newElementStateData).forEach(item => {
                 if(this.isSelected(item)) {
-                    newElementStateData[item].selected = false;
+                    const newElement = {...newElementStateData[item]};
+                    newElement.selected = false;
+                    newElementStateData[item] = newElement;
                 }
             });
         }
+        const newSelectedElement = {...newElementStateData[elementID]};
         if(this.isSelected(elementID)) {
-            newElementStateData[elementID].selected = false;
+            newSelectedElement.selected = false;
         } else if (!this.isSelected(elementID) && newElementStateData[elementID].selected === false) {
-            newElementStateData[elementID].selected = this.state.userID;
+            newSelectedElement.selected = this.state.userID;
         }
+        newElementStateData[elementID] = newSelectedElement;
         this.setState({
             elementState : newElementStateData
         });
@@ -130,7 +136,9 @@ class Board extends Component {
         const newElementStateData = {...this.state.elementState};
         Object.keys(newElementStateData).forEach(item => {
             if(this.isSelected(item)) {
-                newElementStateData[item].selected = false;
+                const newElement = {...newElementStateData[item]};
+                newElement.selected = false;
+                newElementStateData[item] = newElement;
             }
         });
         this.setState({
