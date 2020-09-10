@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
 import './styles.css';
 
-class Image extends Component {
+class Image extends PureComponent {
 
     constructor(props, context) {
       super(props, context);

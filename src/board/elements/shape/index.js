@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
 import './styles.css';
 
-class Shape extends Component {
+class Shape extends PureComponent {
 
     constructor(props, context) {
       super(props, context);
@@ -80,7 +80,6 @@ class Shape extends Component {
         } else {
             shape = <text>No Shape Type Set</text>;
         }
-        
         return (
             <g 
                 onClick={this.handleSelect}

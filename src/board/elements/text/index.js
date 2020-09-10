@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
 import './styles.css';
 
-class Text extends Component {
+class Text extends PureComponent {
 
     constructor(props, context) {
       super(props, context);

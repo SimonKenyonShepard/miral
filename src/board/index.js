@@ -100,8 +100,6 @@ class Board extends Component {
         
         newElementsData[data.id] = newElement;
 
-        console.log("updating element state with new text", newElement);
-
         this.setState({
             elements : newElementsData,
             storeUndo : true,
@@ -433,13 +431,7 @@ class Board extends Component {
         const viewBox = `${offsetX} ${offsetY} ${zoomedWidth} ${zoomedHeight}`;
         const elementNodes = Object.keys(elements).map(elementID => {
             const element = elements[elementID];
-            if(element.type === "circle") {
-                return (<circle
-                            key={element.id} 
-                            {...element.styles}
-                            style={{cursor: "pointer"}} 
-                    />);
-            } else if (element.type === "shape") {
+            if (element.type === "shape") {
                 return (<Shape
                     key={element.id}
                     data={element}
@@ -507,9 +499,6 @@ class Board extends Component {
                         width={`${width}px`}
                         height={`${height}px`}
                         viewBox={viewBox}
-                        onMouseDown={this.handleMouseDown}
-                        onMouseMove={this.handleMouseMove}
-                        onMouseUp={this.handleMouseUp}
                         >
                         <defs>
                             <filter height="200%" id="shadow1" width="200%" x="-50%" y="-50%">

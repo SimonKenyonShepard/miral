@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {ThemeContext} from '../../../theme-context';
 
 import './styles.css';
@@ -29,7 +29,7 @@ const postItShapeTypes = [
 
 ];
 
-class Postit extends Component {
+class Postit extends PureComponent {
 
     constructor(props, context) {
       super(props, context);
