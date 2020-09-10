@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/miral/static/css/main.bb2e3447.chunk.css",
-    "main.js": "/miral/static/js/main.882961a3.chunk.js",
-    "main.js.map": "/miral/static/js/main.882961a3.chunk.js.map",
+    "main.js": "/miral/static/js/main.c3510acb.chunk.js",
+    "main.js.map": "/miral/static/js/main.c3510acb.chunk.js.map",
     "runtime-main.js": "/miral/static/js/runtime-main.cbcb9d13.js",
     "runtime-main.js.map": "/miral/static/js/runtime-main.cbcb9d13.js.map",
     "static/js/2.0fa9f00e.chunk.js": "/miral/static/js/2.0fa9f00e.chunk.js",
     "static/js/2.0fa9f00e.chunk.js.map": "/miral/static/js/2.0fa9f00e.chunk.js.map",
     "index.html": "/miral/index.html",
-    "precache-manifest.d86a58079ef67c8d2bb2901186522d8c.js": "/miral/precache-manifest.d86a58079ef67c8d2bb2901186522d8c.js",
+    "precache-manifest.587e7336ae2df12e3964f8a9b73f7687.js": "/miral/precache-manifest.587e7336ae2df12e3964f8a9b73f7687.js",
     "service-worker.js": "/miral/service-worker.js",
     "static/css/main.bb2e3447.chunk.css.map": "/miral/static/css/main.bb2e3447.chunk.css.map",
     "static/js/2.0fa9f00e.chunk.js.LICENSE.txt": "/miral/static/js/2.0fa9f00e.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.cbcb9d13.js",
     "static/js/2.0fa9f00e.chunk.js",
     "static/css/main.bb2e3447.chunk.css",
-    "static/js/main.882961a3.chunk.js"
+    "static/js/main.c3510acb.chunk.js"
   ]
 }
