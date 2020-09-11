@@ -38,7 +38,9 @@ class Share extends Component {
                 securityCode
             } = this.state;
 
-            const boardID = Shortid.generate();
+            
+            const boardID = this.removeDifficultCharactersToReadForPeople(Shortid.generate());
+
 
             this.setState({
                 sessionActive : true,
@@ -52,6 +54,10 @@ class Share extends Component {
                 securityCode
             });
         }
+    }
+
+    removeDifficultCharactersToReadForPeople(boardID) {
+        return boardID.replace(/l/g, "L").replace(/I/g, "i");
     }
 
     handleCopyToClipBoard = () => {
