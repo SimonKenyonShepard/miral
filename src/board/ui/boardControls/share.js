@@ -30,7 +30,7 @@ class Share extends Component {
     
     handleShareBoard = () => {
         //TODO : crude flag for local dev, needs removing to config vars
-        if(window.location.href.indexOf(":3000") !== -1) {
+        //if(window.location.href.indexOf(":3000") !== -1) {
 
             const {
                 name,
@@ -53,7 +53,7 @@ class Share extends Component {
                 initials,
                 securityCode
             });
-        }
+        //}
     }
 
     removeDifficultCharactersToReadForPeople(boardID) {

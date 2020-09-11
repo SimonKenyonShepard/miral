@@ -11,6 +11,9 @@ const rfc6902 = require('rfc6902');
 //const colors = ["#A5DDE8", "#2B9DD6", "#F7DA34", "#F79854", "#E8553F"];
 const colors = ["#F2275A", "#1B73B8", "#58BF3B", "#FFE800", "#F26130"];
 
+//const HOST = "http://192.168.178.30:3001/";
+const HOST = "https://miral-server.herokuapp.com/";
+
 class MultiUserManager extends Component {
 
     constructor(props, context) {
@@ -58,7 +61,7 @@ class MultiUserManager extends Component {
 
         const io = window.io;
         
-        const socket = io(`http://192.168.178.30:3001/${companyName}`, {'reconnectionAttempts': 10});
+        const socket = io(`${HOST}${companyName}`, {'reconnectionAttempts': 10});
         this.setState({
             socket,
             boardID,
@@ -70,6 +73,7 @@ class MultiUserManager extends Component {
         socket.on("connect", this.shareBoard);
         socket.on("connect_error", this.connectionFailed);
         socket.on('userJoin', this.userJoin);
+        socket.on('userLeft', this.userLeft);
         socket.on('updatePointer', this.updatePointer);
         socket.on('updateBoard', this.updateBoard);
 
@@ -89,7 +93,7 @@ class MultiUserManager extends Component {
         } = this.state;
 
         const io = window.io;
-        const socket = io(`http://192.168.178.30:3001/${companyName}`, {'reconnectionAttempts': 10});
+        const socket = io(`${HOST}${companyName}`, {'reconnectionAttempts': 10});
         
         this.setState({
             securityCode,
@@ -103,6 +107,7 @@ class MultiUserManager extends Component {
         socket.on("connect_error", this.connectionFailed);
         socket.on('initializeBoard', this.initializeBoard)
         socket.on('userJoin', this.userJoin);
+        socket.on('userLeft', this.userLeft);
         socket.on('updatePointer', this.updatePointer);
         socket.on('updateBoard', this.updateBoard);
 
@@ -212,6 +217,14 @@ class MultiUserManager extends Component {
     userJoin = (userData) => {
         const newBoardUsers = {...this.state.boardUsers};
         newBoardUsers[userData.id] = userData;
+        this.setState({
+            boardUsers : newBoardUsers
+        });
+    }
+
+    userLeft = (userID) => {
+        const newBoardUsers = {...this.state.boardUsers};
+        delete newBoardUsers[userID];
         this.setState({
             boardUsers : newBoardUsers
         });
