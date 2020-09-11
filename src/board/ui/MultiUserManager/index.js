@@ -218,10 +218,10 @@ class MultiUserManager extends Component {
     }
 
     updateBoard = (data) => {
-        const newCombinedData = {
+        const newCombinedData = this.createNewObjectsForChangedElements({
             elements : {...this.props.elements},
             elementState : {...this.props.elementState}
-        };
+        }, data.elementsDiffUpdates);
         rfc6902.applyPatch(newCombinedData, data.elementsDiffUpdates);
         console.log("new patch", data.elementsDiffUpdates);
         console.log("recieved update", newCombinedData);
@@ -229,6 +229,17 @@ class MultiUserManager extends Component {
             prevCombinedBoardData : newCombinedData
         });
         this.props.handleUpdateElementsAndState(newCombinedData);
+    }
+
+    createNewObjectsForChangedElements(newData, patch) {
+        if(patch.length > 0) {
+            patch.forEach(change => {
+                const changePath = change.path.split("/");
+                newData[changePath[1]][changePath[2]] = {...newData[changePath[1]][changePath[2]]};
+
+            })
+        }
+        return newData;
     }
 
     shareEnded = (data) => {

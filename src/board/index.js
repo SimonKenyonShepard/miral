@@ -435,6 +435,8 @@ class Board extends Component {
                 return (<Shape
                     key={element.id}
                     data={element}
+                    styles={element.styles}
+                    fontStyles={element.fontStyles}
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
@@ -443,6 +445,8 @@ class Board extends Component {
                 return (<Text 
                     key={element.id}
                     data={element}
+                    styles={element.styles}
+                    fontStyles={element.fontStyles}
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
@@ -451,6 +455,8 @@ class Board extends Component {
                 return (<Postit
                     key={element.id}
                     data={element}
+                    styles={element.styles}
+                    fontStyles={element.fontStyles}
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
@@ -459,6 +465,8 @@ class Board extends Component {
                 return (<Line
                     key={element.id}
                     data={element}
+                    styles={element.styles}
+                    fontStyles={element.fontStyles}
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
@@ -467,6 +475,7 @@ class Board extends Component {
                 return (<Image
                     key={element.id}
                     data={element}
+                    styles={element.styles}
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
