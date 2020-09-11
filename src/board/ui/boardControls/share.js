@@ -5,7 +5,8 @@ import Shortid from 'shortid';
 import './styles.css';
 
 //const server = "https://workshoppr.com";
-const server = "http://localhost:3000/miral";
+//const server = "http://localhost:3000/miral";
+const server = "https://simonkenyonshepard.github.io/miral";
 
 class Share extends Component {
 
