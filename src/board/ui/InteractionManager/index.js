@@ -50,27 +50,33 @@ class InteractionManager extends Component {
     }
 
     handleMouseMove = (e) => {
+        const {
+            drag,
+            elementID,
+            dragStartX,
+            dragStartY
+        } = this.state;
+        
         this.props.updatePointerPosition({
             x : (e.clientX*this.props.zoomLevel)+this.props.offsetX,
             y : (e.clientY*this.props.zoomLevel)+this.props.offsetY
         });
-        if(this.state.drag === "mouseDown" || this.state.drag === "dragging") {
-            let wasFirstDrag = false;
-            const dragHandlers = this.props.dragHandlers[this.state.elementID];
-            if(this.state.drag === "mouseDown") {
-                wasFirstDrag = true;
+
+        if(drag === "mouseDown" || drag === "dragging") {
+            const dragHandlers = this.props.dragHandlers[elementID];
+            const wasAccidentalMovement = this.wasAccidentalMovement(dragStartX, dragStartY, e.clientX, e.clientY);
+            e.stopPropagation();
+            if(drag === "mouseDown" && !wasAccidentalMovement) {
                 this.setState({
                     drag : "dragging"
                 });
                 if(dragHandlers &&
                     dragHandlers.handleDragStart) {
-                    dragHandlers.handleDragStart(e, this.state.dragStartX, this.state.dragStartY, e.movementX, e.movementY);
+                    dragHandlers.handleDragStart(e, dragStartX, dragStartY, e.movementX, e.movementY);
                 }
                
-            }
-            e.stopPropagation();
-            if(dragHandlers && dragHandlers.handleDragMove && !wasFirstDrag) {
-                dragHandlers.handleDragMove(e, this.state.dragStartX, this.state.dragStartY);
+            } else if(dragHandlers && dragHandlers.handleDragMove && !wasAccidentalMovement) {
+                dragHandlers.handleDragMove(e, dragStartX, dragStartY);
             }
         }
     }
@@ -78,8 +84,8 @@ class InteractionManager extends Component {
     handleMouseUp = (e) => {
         const dragHandlers = this.props.dragHandlers[this.state.elementID];
         const interactionTime = Date.now() - this.state.dragStartTime;
-        const interactionMovement = (this.state.dragStartX+this.state.dragStartY)-(e.clientX+e.clientY);
-        const wasProbablyClick = (interactionMovement > -5 && interactionMovement < 5) && interactionTime < 200;
+        const wasAccidentalMovement = this.wasAccidentalMovement(this.state.dragStartX, this.state.dragStartY, e.clientX, e.clientY);
+        const wasProbablyClick =  wasAccidentalMovement && interactionTime < 200;
         if(this.state.drag === "dragging" && !wasProbablyClick) {
             e.stopPropagation();
             if(dragHandlers && dragHandlers.handleDragEnd) {
@@ -103,6 +109,11 @@ class InteractionManager extends Component {
                 dragStartY : 0
             });
         }
+    }
+
+    wasAccidentalMovement(dragStartX, dragStartY, currentX, currentY) {
+        const interactionMovement = (dragStartX+dragStartY)-(currentX+currentY);
+        return (interactionMovement > -5 && interactionMovement < 5)
     }
 
     render() {

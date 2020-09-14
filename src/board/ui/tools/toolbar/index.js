@@ -29,6 +29,8 @@ class Toolbar extends Component {
         const newState = {};
         if(currentState.elementBeingDrawn !== null) {
             const newElementGraph = {...currentState.elements};
+            const newStyles = {...newElementGraph[currentState.elementBeingDrawn].styles};
+            newElementGraph[currentState.elementBeingDrawn].styles = newStyles;
             if(newElementGraph[currentState.elementBeingDrawn].fixedRatio) {
                 let multiplier = e.movementX;
                 if(e.movementY > multiplier) {

@@ -17,15 +17,21 @@ class Resizer extends Component {
             const newElementsData = {...currentState.elements};
             if(selectedElements.length > 1) {
                 selectedElements.forEach(item => {
+                    const newElementStyles = {...newElementsData[item.id].styles};
+                    newElementsData[item.id].styles = newElementStyles;
                     newElementsData[item.id].styles.width += e.movementX*currentState.zoomLevel;
                     newElementsData[item.id].styles.height += e.movementX*currentState.zoomLevel;
                 });
             } else if(selectedElements.length === 1 && selectedElements[0].fixedRatio) {
                 let elementID = selectedElements[0].id;
+                const newElementStyles = {...newElementsData[elementID].styles};
+                newElementsData[elementID].styles = newElementStyles;
                 newElementsData[elementID].styles.width += e.movementX*currentState.zoomLevel;
                 newElementsData[elementID].styles.height += e.movementX*currentState.zoomLevel;
             } else if(selectedElements.length === 1) {
                 let elementID = selectedElements[0].id;
+                const newElementStyles = {...newElementsData[elementID].styles};
+                newElementsData[elementID].styles = newElementStyles;
                 newElementsData[elementID].styles.width += e.movementX*currentState.zoomLevel;
                 newElementsData[elementID].styles.height += e.movementY*currentState.zoomLevel;
             }
