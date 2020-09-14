@@ -111,6 +111,7 @@ class Shape extends Component {
         if(currentState.elementBeingDrawn !== null) {
             const newElementGraph = {...currentState.elements};
             let newElementState = {...currentState.elementState};
+            newElementGraph[currentState.elementBeingDrawn].styles = {...newElementGraph[currentState.elementBeingDrawn].styles};
 
             newElementState = getUpdatedPointsBuffer(e, currentState, newElementState);
 

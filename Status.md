@@ -72,6 +72,8 @@ tables
 
 arrow keys to move elements around
 
+Markdown editor for post-it's?
+
 
 UPSs :
 
