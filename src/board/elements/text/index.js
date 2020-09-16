@@ -9,11 +9,6 @@ class Text extends PureComponent {
       this.state = {};
     }
 
-    handleSelect = (e) => {
-        const isMultiSelect = e.metaKey;
-        this.props.handleSetCurrentElement(this.props.data.id, isMultiSelect);
-    }
-
     handleTextEdit = () => {
         this.props.handleTextEdit(this.props.data.id);
     }
@@ -55,7 +50,6 @@ class Text extends PureComponent {
         
         return (
             <g 
-                onClick={this.handleSelect}
                 onDoubleClick={this.handleTextEdit}
                 cursor={this.state.cursor}
                 height={shapeProps.height}

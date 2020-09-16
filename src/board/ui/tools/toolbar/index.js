@@ -50,7 +50,9 @@ class Toolbar extends Component {
 
     handleDragEnd() {
         const newState = {};
+
         newState.tool = "pan";
+
         this.setState(newState);
     }
   

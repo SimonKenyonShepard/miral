@@ -4,6 +4,12 @@ import './styles.css';
 
 class ElementDrag extends Component {
 
+    handleSelect(e) {
+        const elementID = e.target.id;
+        const isMultiSelect = e.metaKey;
+        this.handleSetCurrentElement(elementID, isMultiSelect);
+    }
+
     updateElementDragPosition(e) {
         const {
             zoomLevel
@@ -49,18 +55,18 @@ class ElementDrag extends Component {
     }
     
     componentDidUpdate(prevProps) {
-        const currentSelectedElements = this.props.selectedElementKeys,
-              prevSelectedElements = prevProps.selectedElementKeys;
+        const currentElements = this.props.elementKeys,
+              prevElements = prevProps.elementKeys;
 
-        const removedElements = prevSelectedElements.filter(element => {
-            if(currentSelectedElements.indexOf(element) === -1) {
+        const removedElements = prevElements.filter(element => {
+            if(currentElements.indexOf(element) === -1) {
                 return true;
             }
             return false;
         });
 
-        const addedElements = currentSelectedElements.filter(element => {
-            if(prevSelectedElements.indexOf(element) === -1) {
+        const addedElements = currentElements.filter(element => {
+            if(prevElements.indexOf(element) === -1) {
                 return true;
             }
             return false;
@@ -68,14 +74,17 @@ class ElementDrag extends Component {
 
         if(removedElements.length > 0) {
             removedElements.forEach(id => {
+                console.log("remove drag handler", id);
                 this.props.removeDragHandler(id);
             });
         }
 
         if(addedElements.length > 0) {
             addedElements.forEach(id => {
+                console.log("register drag handlers", id);
                 this.props.registerDragHandler(id, {
-                    "dragMoveHandler" : this.updateElementDragPosition
+                    "dragMoveHandler" : this.updateElementDragPosition,
+                    "clickHandler" : this.handleSelect
                 });
             })
         }

@@ -77,8 +77,10 @@ class Board extends Component {
         });
     }
   
-    handleToolSelect = (type) => {
-        this.handleDeselectAllElements(); 
+    handleToolSelect = (type, dontDeselect) => {
+        if(!dontDeselect) {
+            this.handleDeselectAllElements();
+        }
         this.setState({"tool" : type});
     }
 
@@ -161,6 +163,7 @@ class Board extends Component {
             }
             const dragHandlers = {...this.state.dragHandlers};
             dragHandlers[id] = newHandlers;
+            console.log("set drag handlers", dragHandlers);
             this.setState({dragHandlers});
         });
        
@@ -485,7 +488,7 @@ class Board extends Component {
         });
 
         const selectedElements = this.getSelectedElements(elementState);
-        const selectedElementKeys = selectedElements.map(element => element.id);
+        const elementKeys = Object.keys(elements);
         
         const boundingBox = this.calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY);
         const gridPosition = {
@@ -522,7 +525,7 @@ class Board extends Component {
                         </defs>
                         <ElementDrag 
                             boundingBox={boundingBox}
-                            selectedElementKeys={selectedElementKeys}
+                            elementKeys={elementKeys}
                             registerDragHandler={this.registerDragHandler}
                             removeDragHandler={this.removeDragHandler}
                         />

@@ -38,7 +38,8 @@ class Tools extends Component {
             drawCanvasVisible : false
         };
         this.props.removeDragHandler("drawCanvas");
-        this.props.handleToolSelect("pan");
+        const dontDeselectBoardElements = true;
+        this.props.handleToolSelect("pan", dontDeselectBoardElements);
         this.setState(Object.assign({}, resetSelectArea, resetDrawCanvas));
     }
 

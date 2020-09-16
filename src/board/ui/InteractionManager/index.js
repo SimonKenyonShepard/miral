@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
 import './styles.css';
 
-class InteractionManager extends Component {
+class InteractionManager extends PureComponent {
 
     constructor(props, context) {
       super(props, context);
@@ -86,6 +86,7 @@ class InteractionManager extends Component {
         const interactionTime = Date.now() - this.state.dragStartTime;
         const wasAccidentalMovement = this.wasAccidentalMovement(this.state.dragStartX, this.state.dragStartY, e.clientX, e.clientY);
         const wasProbablyClick =  wasAccidentalMovement && interactionTime < 200;
+        console.log(this.state.elementID,this.props.dragHandlers);
         if(this.state.drag === "dragging" && !wasProbablyClick) {
             e.stopPropagation();
             if(dragHandlers && dragHandlers.handleDragEnd) {
@@ -139,6 +140,10 @@ class InteractionManager extends Component {
                 {this.props.children}
             </div>
         );
+    }
+
+    componentDidUpdate(prevProps) {
+        //console.log("did update i man", this.props)
     }
     
   }
