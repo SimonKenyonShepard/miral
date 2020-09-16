@@ -86,7 +86,6 @@ class InteractionManager extends PureComponent {
         const interactionTime = Date.now() - this.state.dragStartTime;
         const wasAccidentalMovement = this.wasAccidentalMovement(this.state.dragStartX, this.state.dragStartY, e.clientX, e.clientY);
         const wasProbablyClick =  wasAccidentalMovement && interactionTime < 200;
-        console.log(this.state.elementID,this.props.dragHandlers);
         if(this.state.drag === "dragging" && !wasProbablyClick) {
             e.stopPropagation();
             if(dragHandlers && dragHandlers.handleDragEnd) {
@@ -140,10 +139,6 @@ class InteractionManager extends PureComponent {
                 {this.props.children}
             </div>
         );
-    }
-
-    componentDidUpdate(prevProps) {
-        //console.log("did update i man", this.props)
     }
     
   }

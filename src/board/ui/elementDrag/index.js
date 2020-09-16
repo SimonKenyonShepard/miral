@@ -74,14 +74,12 @@ class ElementDrag extends Component {
 
         if(removedElements.length > 0) {
             removedElements.forEach(id => {
-                console.log("remove drag handler", id);
                 this.props.removeDragHandler(id);
             });
         }
 
         if(addedElements.length > 0) {
             addedElements.forEach(id => {
-                console.log("register drag handlers", id);
                 this.props.registerDragHandler(id, {
                     "dragMoveHandler" : this.updateElementDragPosition,
                     "clickHandler" : this.handleSelect

@@ -163,7 +163,6 @@ class Board extends Component {
             }
             const dragHandlers = {...this.state.dragHandlers};
             dragHandlers[id] = newHandlers;
-            console.log("set drag handlers", dragHandlers);
             this.setState({dragHandlers});
         });
        
@@ -306,6 +305,7 @@ class Board extends Component {
             newElements[newID] = duplicateElement;
             newElementsState[newID] = duplicateElementState;
             //remove selected status for old items
+            newElementsState[element.id] = {...newElementsState[element.id]};
             newElementsState[element.id].selected = false;
         });
 
