@@ -86,17 +86,19 @@ class Board extends Component {
 
     handleTextEdit = (id) => {
         const newElements = {...this.state.elements};
+        const prevElementData = {...this.state.elements[id]};
         const elementData = {...this.state.elements[id]};
         //clear Text in real element to prevent shadow
-        newElements[id].text = "";
-        this.setState({textEditor : elementData, elements : newElements});
+        elementData.text = "";
+        newElements[id] = elementData;
+        this.setState({textEditor : prevElementData, elements : newElements});
     }
 
     handleUpdatedText = (data) => {
         const newElementsData = {...this.state.elements};
         const newElement = {...newElementsData[data.id]};
         newElement.text = data.newText;
-        newElement.styles.fontSize = data.fontSize;
+        newElement.fontStyle.fontSize = data.fontSize;
         newElement.unScaledFontSize = data.fontSize;
         newElement.padding = 8*this.state.zoomLevel;
         

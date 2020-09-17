@@ -22,6 +22,7 @@ class Postit extends Component {
         newElement.subType = "square";
         newElement.fixedRatio = "true";
         newElement.predefinedColor = 3;
+        newElement.fontSizeAuto = true;
         
         newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-((widthAndHeight/2)*currentState.zoomLevel);
         newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-((widthAndHeight/2)*currentState.zoomLevel);
@@ -57,6 +58,7 @@ class Postit extends Component {
         newElement.subType = "square";
         newElement.fixedRatio = "true";
         newElement.predefinedColor = 3;
+        newElement.fontSizeAuto = true;
         
         newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-(widthAndHeight*currentState.zoomLevel);
         newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-(widthAndHeight*currentState.zoomLevel);

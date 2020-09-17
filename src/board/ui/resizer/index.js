@@ -21,6 +21,10 @@ class Resizer extends Component {
                     newElementsData[item.id].styles = newElementStyles;
                     newElementsData[item.id].styles.width += e.movementX*currentState.zoomLevel;
                     newElementsData[item.id].styles.height += e.movementX*currentState.zoomLevel;
+                    if(newElementsData[item.id].fontSizeAuto) {
+                        const fontStyleIncreaseMultiplier = (newElementsData[item.id].styles.width+ (e.movementX*currentState.zoomLevel)) / newElementsData[item.id].styles.width;
+                        newElementsData[item.id].fontStyle.fontSize = fontStyleIncreaseMultiplier * newElementsData[item.id].fontStyle.fontSize;
+                    }
                 });
             } else if(selectedElements.length === 1 && selectedElements[0].fixedRatio) {
                 let elementID = selectedElements[0].id;
@@ -28,12 +32,20 @@ class Resizer extends Component {
                 newElementsData[elementID].styles = newElementStyles;
                 newElementsData[elementID].styles.width += e.movementX*currentState.zoomLevel;
                 newElementsData[elementID].styles.height += e.movementX*currentState.zoomLevel;
+                if(newElementsData[elementID].fontSizeAuto) {
+                    const fontStyleIncreaseMultiplier = (newElementsData[elementID].styles.width+ (e.movementX*currentState.zoomLevel)) / newElementsData[elementID].styles.width;
+                    newElementsData[elementID].fontStyle.fontSize = fontStyleIncreaseMultiplier * newElementsData[elementID].fontStyle.fontSize;
+                }
             } else if(selectedElements.length === 1) {
                 let elementID = selectedElements[0].id;
                 const newElementStyles = {...newElementsData[elementID].styles};
                 newElementsData[elementID].styles = newElementStyles;
                 newElementsData[elementID].styles.width += e.movementX*currentState.zoomLevel;
                 newElementsData[elementID].styles.height += e.movementY*currentState.zoomLevel;
+                if(newElementsData[elementID].fontSizeAuto) {
+                    const fontStyleIncreaseMultiplier = (newElementsData[elementID].styles.width+ (e.movementX*currentState.zoomLevel)) / newElementsData[elementID].styles.width;
+                    newElementsData[elementID].fontStyle.fontSize = fontStyleIncreaseMultiplier * newElementsData[elementID].fontStyle.fontSize;
+                }
             }
             this.setState({newState});
         }

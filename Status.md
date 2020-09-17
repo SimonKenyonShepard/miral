@@ -11,7 +11,25 @@ Google Cloud, Microsoft teams, AWS & many more.
 An open-source, Enterprise grade, white-label, on-premis, offline, whiteboarding solution built in Europe to keep your data secure & private in your hands. Integratates with :
 Google Cloud, Microsoft teams, AWS & many more.
 
-Don't want the hastle of hosting? Use TeamWall to get a hosted version of Miral. 
+Don't want the hastle of hosting? Use TeamWall to get a hosted version of Miral.
+
+
+Bugs 
+
+Font size in post-it not resizing correctly
+Hand drawn lines not appearing for other users
+When host drops everyone has to reconnect - shift host
+Have URL for share session written to url bar
+Put roomID & org in creds popup
+Highlight elements selected by other users as disabled
+Buggy line creation/menu
+Green share icon for participants
+share icon invisible if server unavailable
+store creds (name initials) in local storage
+basic encryption for data on server
+
+TESTS TESTS TESTS
+
 
 resize window - done
 delete - done
@@ -71,6 +89,8 @@ comments
 tables
 
 arrow keys to move elements around
+
+Move to pointer events & responsive test
 
 Markdown editor for post-it's?
 
