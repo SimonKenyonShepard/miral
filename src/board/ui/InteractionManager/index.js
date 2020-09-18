@@ -46,7 +46,7 @@ class InteractionManager extends PureComponent {
             drag : "mouseDown",
             elementID : e.target.id
         });
-        console.log(e.target);
+        //console.log(e.target);
     }
 
     handleMouseMove = (e) => {
