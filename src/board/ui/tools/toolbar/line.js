@@ -42,7 +42,9 @@ class Line extends Component {
         const autoActivate = {
             lineStraight : false,
             lineSmooth : false,
-            lineFreehand : false
+            lineFreehand : false,
+            lineStraightArrow : false,
+            lineSmoothArrow : false
         };
 
         if(this.state.menuActivated) {
@@ -79,7 +81,7 @@ class Line extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.lineStraight}
+                autoActivate={autoActivate.lineStraightArrow}
             />,
             <LineSmoothArrow
                 key={"tool_lineSmoothArrow"}
@@ -89,7 +91,7 @@ class Line extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.lineSmooth}
+                autoActivate={autoActivate.lineSmoothArrow}
 
             />,
             <LineFreehand

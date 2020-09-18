@@ -16,7 +16,7 @@ Don't want the hastle of hosting? Use TeamWall to get a hosted version of Miral.
 
 Bugs 
 
-Font size in post-it not resizing correctly
+Font size in post-it not resizing correctly - done
 Hand drawn lines not appearing for other users
 When host drops everyone has to reconnect - shift host
 Have URL for share session written to url bar
@@ -45,16 +45,19 @@ toolbar subtools - done
 lines - done
 Other shapes - done
 Images - done
-
+Image url editor - done
+Multi-user - done
+Multi-user updates - done
+Multi-user cursors - done
 
 
 Backlog
 
-Image url editor
+
 line resizer
 Menu buttons highlight
 Alternative post-it shapes
-crop & resize
+Image crop
 
 group elements
 
@@ -66,9 +69,7 @@ autosize horizontal postit note resize
 Slides & link & jump
 Iframes
 
-Multi-user
-Multi-user updates
-Multi-user cursors
+
 Multi-user encryption w PW
 Attention management
 Share

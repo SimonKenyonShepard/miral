@@ -37,6 +37,8 @@
 
 .lineStraight,
 .lineSmooth,
+.lineStraightArrow,
+.lineSmoothArrow,
 .lineFreehand {
     cursor: crosshair;
 }
