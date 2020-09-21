@@ -22,6 +22,7 @@ class PostitRect extends Component {
         const newElement = newState.elements[newID];
         newElement.subType = "rect";
         newElement.predefinedColor = 3;
+        newElement.fixedRatio = "true";
         newElement.fontSizeAuto = true;
         
         newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-((width/2)*currentState.zoomLevel);
@@ -58,6 +59,7 @@ class PostitRect extends Component {
         const newElement = newState.elements[newID];
         newElement.subType = "rect";
         newElement.predefinedColor = 3;
+        newElement.fixedRatio = "true";
         newElement.fontSizeAuto = true;
         
         newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-(width*currentState.zoomLevel);
