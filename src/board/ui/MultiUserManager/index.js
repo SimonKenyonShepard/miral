@@ -285,6 +285,7 @@ class MultiUserManager extends Component {
     render() {
 
         const {
+            boardID,
             boardUsers,
             isParticipant,
             requestCreds,
@@ -360,7 +361,8 @@ class MultiUserManager extends Component {
             )}
             {(requestCreds && 
                 <div className={"multiUser_boardOverlay"}>
-                    <Credentials 
+                    <Credentials
+                        boardID={boardID}
                         setJoinCreds={this.setJoinCreds}
                     />
                 </div>

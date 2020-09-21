@@ -29,6 +29,32 @@ const postItShapeTypes = [
 
 ];
 
+const postItRectShapeTypes = [
+    {
+        path : "m17.62857,2.07068l1181.45387,11.11111l-2.96849,742.5926l-1193.32777,-7.40742l14.84239,-746.29629z",
+        dropShadow : "m38.82956,79.07068l1130.25287,10.22659l-31.085,669.47711l-979.2025,28.18226l-119.96535,-707.88596l-0.00002,0z",
+        filter : "shadow1"
+        
+    },
+    {
+        path : "m1.1446,2.07068l1193.7993,0l4.06449,735.92593l-1198.44443,10.37036l0.58064,-746.29629z",
+        dropShadow : "m38.82956,79.07068l1020.51677,10.29141l95.90519,684.90187c-372.63597,-16.59437 -741.72988,-42.16213 -1086.02936,10.47042l-30.39258,-705.6637l-0.00002,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0z",
+        filter : "shadow2"
+        
+    },
+    {
+        path : "m1.04544,0.07068l1186.07661,7.11111l8.10862,727.5926l-1183.56818,-0.40742l-10.61705,-734.29629z",
+        dropShadow : "m44.90799,62.8746l1026.00134,10.29141l96.42061,684.90187c-352.64362,-34.24142 -695.44185,-12.75037 -1098.15031,14.392l-24.27163,-709.58528l0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 -0.00002,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0z",
+        filter : "shadow2"
+    },
+    {
+        path : "m22.52924,4.07068l1173.55324,9.83101l-10.76579,727.87271l-1180.53051,-9.22069l17.74306,-728.48303z",
+        dropShadow : "m44.90799,62.8746l1076.45309,10.29141l43.9264,667.88059c-369.98423,-34.24142 -615.16788,55.33474 -1066.29656,10.13668l-54.08291,-688.30868l0,0c0,0 0,0 -0.00002,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0z",
+        filter : "shadow2"
+    }
+
+];
+
 class Postit extends PureComponent {
 
     constructor(props, context) {
@@ -45,7 +71,7 @@ class Postit extends PureComponent {
         const {elementState, data} = this.props;
         const shapeProps = {...this.props.data.styles};
         let text = null;
-        const postItBaseWidth = 800;
+        let postItBaseWidth = 800;
         if(elementState.selected) {
             shapeProps.style = {outline : `${(shapeProps.strokeWidth/2)}px dashed #5086F2`};
         }
@@ -76,21 +102,25 @@ class Postit extends PureComponent {
             );
         }
 
-        const postItShapeData = postItShapeTypes[(elementState.shapeType || 0)],
-              postItColor = data.predefinedColor;
-
+        let postItShapeData = "";
+        if(data.subType === "square") {
+            postItShapeData = postItShapeTypes[(elementState.shapeType || 0)];
+        } else if (data.subType === "rect") {
+            postItShapeData = postItRectShapeTypes[(elementState.shapeType || 0)];
+            postItBaseWidth = 1200;
+        }
+        const postItColor = data.predefinedColor;
         
         return (
             <g 
                 onDoubleClick={this.handleTextEdit}
                 cursor={this.state.cursor}
-                height={shapeProps.width}
+                height={shapeProps.height}
                 width={shapeProps.width}
             >
                 <rect
                     id={data.id} 
                     {...shapeProps}
-                    height={shapeProps.width}
                 />
                 <g 
                     transform={`translate(${shapeProps.x} ${shapeProps.y}) scale(${(shapeProps.width/postItBaseWidth)})`}

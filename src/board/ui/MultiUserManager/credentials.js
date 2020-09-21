@@ -9,6 +9,7 @@ class Credentials extends Component {
       super(props, context);
       
       this.state = {
+          boardID : this.props.boardID,
           securityCode : "",
           name : "",
           initials : "",
@@ -18,6 +19,12 @@ class Credentials extends Component {
     handleNicknameUpdate = (e) => {
         this.setState({
             name : e.target.value
+        });
+    }
+
+    handleBoardIDUpdate = (e) => {
+        this.setState({
+            boardID : e.target.value
         });
     }
 
@@ -37,15 +44,16 @@ class Credentials extends Component {
         const {
             securityCode,
             name,
-            initials
+            initials,
+            boardID
         } = this.state;
 
         const creds = {
             securityCode,
             name,
-            initials
+            initials,
+            boardID
         };
-        console.log("submitCred", creds);
        this.props.setJoinCreds(creds);
 
     }
@@ -55,12 +63,22 @@ class Credentials extends Component {
         const {
             securityCode,
             name,
-            initials
+            initials,
+            boardID
         } = this.state;
         
         return (
             <div className={"multiUser_requestCreds"}>
                 <h3>Enter session credentials</h3>
+                <div className="share_menu_fieldrow">
+                    <label>Board ID : </label>
+                    <input 
+                        className="share_menu_input"
+                        placeholder="xxxxxx"
+                        value={boardID}
+                        onChange={this.handleBoardIDUpdate}
+                    />
+                </div>
                 <div className="share_menu_fieldrow">
                     <label>your nickname : </label>
                     <input 

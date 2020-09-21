@@ -39,8 +39,15 @@ class Share extends Component {
                 securityCode
             } = this.state;
 
-            
-            const boardID = this.removeDifficultCharactersToReadForPeople(Shortid.generate());
+            let {
+                boardID
+            } = this.state;
+
+            if(!boardID) {
+                boardID = this.removeDifficultCharactersToReadForPeople(Shortid.generate());
+            }
+
+            window.location.hash = `h=${boardID}&o=unfoldbio`
 
 
             this.setState({
@@ -73,6 +80,12 @@ class Share extends Component {
     handleNameUpdate = (e) => {
         this.setState({
             name : e.target.value
+        });
+    }
+
+    handleNameBoardID = (e) => {
+        this.setState({
+            boardID : e.target.value
         });
     }
 
@@ -131,6 +144,18 @@ class Share extends Component {
                     <div className={`share_menu_sliderWrapper`} >
                         <div className={`share_menu_slider ${letFirstMenuHidden}`} >
                             <h3>Collaboration session setup:</h3>
+                            {boardID && (
+                            <div className="share_menu_fieldrow">
+                                 <label>Board ID : </label>
+                                 <input 
+                                     className="share_menu_input"
+                                     placeholder="xxxxxxxx"
+                                     value={boardID}
+                                     onChange={this.handleNameBoardID}
+                                 />
+                            </div>
+                            )}
+                           
                             <div className="share_menu_fieldrow">
                                 <label>name : </label>
                                 <input 
@@ -204,6 +229,17 @@ class Share extends Component {
                 </div>
             </div>
         );
+    }
+
+    componentDidMount() {
+        if(window.location.hash.indexOf("h=") !== -1) {
+            const organisation = window.location.hash.match(/o=([^&$]*)/m)[1];
+            const boardID = window.location.hash.match(/h=([^&$]*)/m)[1];
+            this.setState({
+                companyName : organisation,
+                boardID
+            });
+        }
     }
     
   }
