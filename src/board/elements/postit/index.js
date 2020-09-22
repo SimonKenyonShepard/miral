@@ -55,6 +55,32 @@ const postItRectShapeTypes = [
 
 ];
 
+const postItRectVShapeTypes = [
+    {
+        path : "m1.04585,1195.29546l3.45387,-1192.88889l746.53151,13.5926l-9.32777,1181.59258l-740.65761,-2.29629z",
+        dropShadow : "m754.08243,96.29727l27.915,980.47711l-708.2025,119.18226l9.03465,-1130.88596l671.25285,31.22659z",
+        filter : "shadow1"
+        
+    },
+    {
+        path : "m0.3946,4.07068l736.5493,-3.75l10.06449,1198.42593l-746.44443,-0.87964l-0.16936,-1193.79629z",
+        dropShadow : "m73.29892,130.81302l693.9526,-100.54906c-23.63597,115.40563 -48.72988,863.83787 1.97064,1090.47042l-706.15792,32.70747l10.23468,-1022.62883z",
+        filter : "shadow2"
+        
+    },
+    {
+        path : "m12.04544,11.07068l728.07661,-8.88889l-1.89138,1182.5926l-735.56818,11.59258l9.38295,-1185.29629z",
+        dropShadow : "m71.90933,126.41601l690.42061,-99.09813c-47.64362,326.75858 -4.44185,938.24963 9.84969,1099.392l-708.27064,23.63328l8.00034,-1023.92715z",
+        filter : "shadow2"
+    },
+    {
+        path : "m15.52924,6.07068l732.55324,10.83101l-11.76579,1179.87271l-728.53051,-17.22069l7.74306,-1173.48303z",
+        dropShadow : "m83.36108,54.81461l663.9264,-43.76801c-37.98423,384.30965 72.83212,820.15195 1.70344,1168.13671l-591.04146,-3.2778l-74.58838,-1121.0909z",
+        filter : "shadow2"
+    }
+
+];
+
 class Postit extends PureComponent {
 
     constructor(props, context) {
@@ -108,6 +134,9 @@ class Postit extends PureComponent {
         } else if (data.subType === "rect") {
             postItShapeData = postItRectShapeTypes[(elementState.shapeType || 0)];
             postItBaseWidth = 1200;
+        } else if (data.subType === "rectv") {
+            postItShapeData = postItRectVShapeTypes[(elementState.shapeType || 0)];
+            postItBaseWidth = 730;
         }
         const postItColor = data.predefinedColor;
         

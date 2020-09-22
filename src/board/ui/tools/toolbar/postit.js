@@ -5,6 +5,7 @@ import './styles.css';
 
 import PostitSquare from './postit_square';
 import PostitRect from './postit_rect';
+import PostitRectV from './postit_rect_v';
 
 class Postit extends Component {
 
@@ -36,7 +37,8 @@ class Postit extends Component {
 
         const autoActivate = {
             postitRect : false,
-            postitSquare : false
+            postitSquare : false,
+            postitRectV : false,
         };
 
         if(this.state.menuActivated) {
@@ -63,6 +65,17 @@ class Postit extends Component {
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
                 autoActivate={autoActivate.postitRect}
+
+            />,
+            <PostitRectV
+                key={"tool_postitRectV"}
+                handleToolSelect={this.handleToolSelect}
+                handleDrawCanvasShow={handleDrawCanvasShow}
+                registerDragHandler={registerDragHandler}
+                handleDragMove={handleDragMove}
+                handleDragEnd={handleDragEnd}
+                currentSelectedTool={currentSelectedTool}
+                autoActivate={autoActivate.postitRectV}
 
             />
         ];

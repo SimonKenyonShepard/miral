@@ -54,6 +54,10 @@
     background-image: url("/miral/icons/sticky_note_long_2-24px.svg");
 }
 
+.toolbar_postitRectV {
+    background-image: url("/miral/icons/sticky_note_long_V_2-24px.svg");
+}
+
 .toolbar_postitSquare {
     background-image: url("/miral/icons/sticky_note_2-24px.svg");
 }

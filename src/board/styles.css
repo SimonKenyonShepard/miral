@@ -31,7 +31,10 @@
     cursor: crosshair;
 }
 
-.postit {
+.postit,
+.postitRect,
+.postitSquare,
+.postitRectV {
     cursor: crosshair;
 }
 
