@@ -14,8 +14,8 @@ class PostitRect extends Component {
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        const height = 168,
-              width = 256;
+        const height = 128,
+              width = 206;
 
         newState.elements[newID] = createElementBaseObject(newID, "postit", currentState.zoomLevel);
         

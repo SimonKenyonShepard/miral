@@ -50,8 +50,8 @@ class PostitRectV extends Component {
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
 
-        const height = 256,
-              width = 168;
+        const height = 200,
+              width =120
 
         newState.elements[newID] = createElementBaseObject(newID, "postit", currentState.zoomLevel);
         
