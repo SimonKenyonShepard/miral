@@ -124,18 +124,20 @@ class TextEditor extends Component {
     }
 
    componentDidUpdate(prevProps, prevState) {
-        this.textInput.focus();
-        const moveCaretToEnd = this.props.data ? this.props.data.text.length > 0 : false;
+       if(this.props.data) {
+            this.textInput.focus();
+            const moveCaretToEnd = this.props.data ? this.props.data.text.length > 0 : false;
 
-        if(moveCaretToEnd && document.createRange) {
-            let range = document.createRange();
-            range.selectNodeContents(this.textInput);
-            range.collapse(false);
-            let selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-        }
-
+            if(moveCaretToEnd && document.createRange) {
+                let range = document.createRange();
+                range.selectNodeContents(this.textInput);
+                range.collapse(false);
+                let selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+       }
+        
         // if(this.props.data && this.props.data.unScaledFontSize && this.props.data.unScaledFontSize !== this.state.fontSize) {
         //     this.setState({fontSize : this.props.data.unScaledFontSize});
         // }

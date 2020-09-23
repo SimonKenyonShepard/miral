@@ -74,10 +74,11 @@ class Text extends PureComponent {
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.handleTextEdit();
-        }, 300);
-        
+        if(this.props.isSelected(this.props.data.id)) {
+            setTimeout(() => {
+                    this.handleTextEdit();
+            }, 300);
+        }
     }
     
   }
