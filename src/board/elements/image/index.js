@@ -18,8 +18,16 @@ class Image extends PureComponent {
         const shapeProps = {...this.props.data.styles};
         let image = null;
         let shape = null;
-        if(elementState.selected) {
+        let overlay = null;
+        if(this.props.isSelected(data.id)) {
             shapeProps.style = {outline : `${(data.initialZoomLevel)}px dashed #5086F2`};
+        } else if(elementState.selected) {
+            shapeProps.style = {outline : `${(data.initialZoomLevel)}px solid #666`};
+            overlay = (<rect 
+                {...shapeProps}
+                fillOpacity={"0.3"}
+                fill="#000000"
+            />);
         }
             
         const imgStyle = {
@@ -57,6 +65,7 @@ class Image extends PureComponent {
             >
                 {shape}
                 {image}
+                {overlay}
             </g>
         );
     }

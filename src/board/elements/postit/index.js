@@ -98,8 +98,16 @@ class Postit extends PureComponent {
         const shapeProps = {...this.props.data.styles};
         let text = null;
         let postItBaseWidth = 800;
-        if(elementState.selected) {
-            shapeProps.style = {outline : `${(shapeProps.strokeWidth/2)}px dashed #5086F2`};
+        let overlay = null;
+        if(this.props.isSelected(data.id)) {
+            shapeProps.style = {outline : `${(data.initialZoomLevel)}px dashed #5086F2`};
+        } else if(elementState.selected) {
+            shapeProps.style = {outline : `${(data.initialZoomLevel)}px solid #666`};
+            overlay = (<rect 
+                {...shapeProps}
+                fillOpacity={"0.3"}
+                fill="#000000"
+            />);
         }
         if(data.text) {
             const textBody = data.text.split(/\n|\r/).map((line, i) => {
@@ -166,6 +174,7 @@ class Postit extends PureComponent {
                     />
                 </g>
                 {text}
+                {overlay}
             </g>
         );
     }

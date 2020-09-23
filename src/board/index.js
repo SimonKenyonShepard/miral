@@ -445,6 +445,7 @@ class Board extends Component {
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
+                    isSelected={this.isSelected}
                 />);
             } else if (element.type === "text") {
                 return (<Text 
@@ -455,6 +456,7 @@ class Board extends Component {
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
+                    isSelected={this.isSelected}
                 />);
             } else if (element.type === "postit") {
                 return (<Postit
@@ -465,6 +467,7 @@ class Board extends Component {
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
+                    isSelected={this.isSelected}
                 />);
             } else if (element.type === "line") {
                 return (<Line
@@ -475,6 +478,7 @@ class Board extends Component {
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
+                    isSelected={this.isSelected}
                 />);
             } else if (element.type === "image") {
                 return (<Image
@@ -484,6 +488,7 @@ class Board extends Component {
                     elementState={this.state.elementState[element.id]}
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
+                    isSelected={this.isSelected}
                 />);
             }
             return null;
