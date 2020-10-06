@@ -17,7 +17,7 @@ class More extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-          previousSelectedShapeTool : "shapeRect",
+          previousSelectedShapeTool : "slide",
           menuActivated : false
         };
     }
@@ -41,9 +41,12 @@ class More extends Component {
         } = this.props;
 
         const autoActivate = {
-            shapeRect : false,
-            shapeCircle : false,
-            shapeTriangle : false
+            slide : false,
+            pdf : false,
+            iframe : false,
+            youtube : false,
+            timer : false,
+            poll : false
         };
 
         if(this.state.menuActivated) {
@@ -59,7 +62,7 @@ class More extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.shapeRect}
+                autoActivate={autoActivate.slide}
             />,
             <PDF
                 key={"tool_pdf"}
@@ -69,7 +72,7 @@ class More extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.shapeCircle}
+                autoActivate={autoActivate.pdf}
 
             />,
             <Iframe
@@ -90,7 +93,7 @@ class More extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.shapeTriangle}
+                autoActivate={autoActivate.youtube}
             />,
             <Timer
                 key={"tool_timer"}
@@ -100,7 +103,7 @@ class More extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.shapeTriangle}
+                autoActivate={autoActivate.timer}
             />,
             <Poll
                 key={"tool_poll"}
@@ -110,7 +113,7 @@ class More extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.shapeTriangle}
+                autoActivate={autoActivate.poll}
             />
         ];
 

@@ -19,6 +19,7 @@ import Text from './elements/text';
 import Postit from './elements/postit';
 import Line from './elements/line';
 import Image from './elements/image';
+import Slide from './elements/slide';
 
 //HELPERS
 import Shortid from 'shortid';
@@ -52,16 +53,9 @@ class Board extends Component {
     }
 
     handlePanStart(e, dragStartX, dragStartY) {
-        const {
-            offsetX,
-            offsetY,
-            zoomLevel
-        } = this.state;
-
-        this.setState({
-            offsetX : offsetX + ((dragStartX+e.movementX)*-zoomLevel),
-            offsetY : offsetY + ((dragStartY+e.movementY)*-zoomLevel)
-        });
+        this.panEventTimeStamp = Date.now();
+        this.velocityX = 0;
+        this.velocityY = 0;
     }
 
     handlePanMove(e) {
@@ -73,9 +67,101 @@ class Board extends Component {
 
         this.setState({
             offsetX : offsetX + ((e.movementX)*-zoomLevel),
-            offsetY : offsetY + ((e.movementY)*-zoomLevel)
+            offsetY : offsetY + ((e.movementY)*-zoomLevel),
         });
+
+        const currentTimeStamp = Date.now();
+        const elapsedTime = currentTimeStamp - this.panEventTimeStamp;
+        this.velocityX_pixelsPerMilliSecond = e.movementX/elapsedTime;
+        this.velocityY_pixelsPerMilliSecond = e.movementY/elapsedTime;
+        this.panEventTimeStamp = currentTimeStamp;
     }
+
+    handlePanEnd(e) {
+        const {
+            offsetX,
+            offsetY,
+            zoomLevel
+        } = this.state;
+
+        //calculate velocity of pan and final destination
+        const momentumDuration = 300;
+
+        const finalPosition = {
+            offsetX : offsetX + ((this.velocityX_pixelsPerMilliSecond*momentumDuration)*-zoomLevel),
+            offsetY : offsetY + ((this.velocityY_pixelsPerMilliSecond*momentumDuration)*-zoomLevel)
+        };
+
+        //this.animateToPosition(finalPosition, 1);
+
+    }
+
+    animateToElement = (elementID, duration) => {
+        console.log("animate to", elementID, duration);
+        const {
+            offsetX,
+            offsetY,
+            zoomLevel,
+            elements
+        } = this.state;
+
+        //get element position
+
+        const elementData = elements[elementID];
+
+        const elementCenterPointX = elementData.styles.x+(elementData.styles.width/2),
+              elementCenterPointY = elementData.styles.y+(elementData.styles.height/2);
+
+        const finalPosition = {
+            offsetX : elementCenterPointX-((this.props.width/2)*zoomLevel),
+            offsetY : elementCenterPointY-((this.props.height/2)*zoomLevel)
+        };
+
+        //call animateToPosition
+        this.animateToPosition(finalPosition, duration);
+
+    }
+
+    animateToPosition(finalPosition, duration) {
+        const {
+            offsetX,
+            offsetY
+        } = this.state;
+
+        const FPS = 30,
+              durationMs = duration*1000,
+              stepCount = durationMs / FPS,
+              endValueX = finalPosition.offsetX,
+              endValueY = finalPosition.offsetY,
+              valueIncrementX = (endValueX - offsetX) / stepCount,
+              valueIncrementY = (endValueY - offsetY) / stepCount,
+              sinValueIncrement = Math.PI / stepCount;
+
+        let currentValueX = offsetX,
+            currentValueY = offsetY,
+            currentSinValue = 0,
+            counter = 0;
+
+        do {
+            counter++;
+            currentSinValue += sinValueIncrement;
+            currentValueX += valueIncrementX * (Math.sin(currentSinValue) ** 2) * 2;
+            currentValueY += valueIncrementY * (Math.sin(currentSinValue) ** 2) * 2;
+            let time = stepCount*counter;
+
+            (function(newOffsetX, newOffsetY, incrementDelay) {
+                setTimeout(() => {
+                    this.setState({
+                        offsetX : newOffsetX,
+                        offsetY : newOffsetY,
+                    });
+                }, incrementDelay);
+            }.bind(this)(currentValueX, currentValueY, time));
+
+        } while (currentSinValue < Math.PI)
+
+    }
+
   
     handleToolSelect = (type, dontDeselect) => {
         if(!dontDeselect) {
@@ -434,6 +520,8 @@ class Board extends Component {
         const zoomedWidth = width*zoomLevel,
         zoomedHeight = height*zoomLevel;
         const viewBox = `${offsetX} ${offsetY} ${zoomedWidth} ${zoomedHeight}`;
+        const slides = [];
+
         const elementNodes = Object.keys(elements).map(elementID => {
             const element = elements[elementID];
             if (element.type === "shape") {
@@ -490,6 +578,17 @@ class Board extends Component {
                     handleSetCurrentElement={this.handleSetCurrentElement}
                     isSelected={this.isSelected}
                 />);
+            } else if (element.type === "slide") {
+                slides.push(element.id);
+                return (<Slide
+                    key={element.id}
+                    data={element}
+                    styles={element.styles}
+                    elementState={this.state.elementState[element.id]}
+                    handleTextEdit={this.handleTextEdit}
+                    handleSetCurrentElement={this.handleSetCurrentElement}
+                    isSelected={this.isSelected}
+                />);
             }
             return null;
         });
@@ -526,6 +625,9 @@ class Board extends Component {
                             <filter height="200%" id="shadow2" width="200%" x="-50%" y="-50%">
                                 <feGaussianBlur in="SourceGraphic" stdDeviation="10"/>
                             </filter>
+                            <filter id="shadow3">
+                                <feDropShadow ddx="0" dy="0" stdDeviation="0.5"/>
+                            </filter>
                             <marker id="arrow" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto" markerUnits="strokeWidth">
                                 <polygon points="0,0 0,5 5,2.5" fill="#000" />
                             </marker>
@@ -556,6 +658,8 @@ class Board extends Component {
                         boardName={this.state.boardName}
                         updateBoardName={this.updateBoardName}
                         toggleBoardShare={this.toggleBoardShare}
+                        slides={slides}
+                        animateToElement={this.animateToElement}
                     />
                     <TextEditor 
                         data={textEditor}
@@ -566,6 +670,7 @@ class Board extends Component {
                     <ElementEditor 
                         selectedElements={selectedElements}
                         gridSpace={{offsetX, offsetY, zoomLevel}}
+                        slides={slides}
                         handleUpdateElementProperty={this.handleUpdateElementProperty}
                         handleDeleteElements={this.handleDeleteElements}
                         handleShiftElementPosition={this.handleShiftElementPosition}
@@ -602,8 +707,9 @@ class Board extends Component {
 
     componentDidMount(){
         this.registerDragHandler("board", {
-            //"dragStartHandler" : this.handlePanStart,
+            "dragStartHandler" : this.handlePanStart,
             "dragMoveHandler" : this.handlePanMove,
+            "dragEndHandler" : this.handlePanEnd,
             "clickHandler" : this.handleDeselectAllElements
         });
 

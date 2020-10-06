@@ -8,6 +8,7 @@ export const themes = {
       // "#C8DE02", //green
       // "#EBE000", //yellow
       // "#F2A105" //orange
+      "#ffffff", //white
       "#F28D95", //pink
       "#7EBFD9", //blue
       "#BBF244", //green

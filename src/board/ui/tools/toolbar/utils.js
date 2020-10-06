@@ -24,6 +24,7 @@ export function createElementBaseObject(id, type, initialZoomLevel) {
             textAlign: "center" 
         },
         text : "",
-        initialZoomLevel
+        initialZoomLevel,
+        link : ""
     };
 }

@@ -14,23 +14,6 @@ Google Cloud, Microsoft teams, AWS & many more.
 Don't want the hastle of hosting? Use TeamWall to get a hosted version of Miral.
 
 
-Bugs 
-
-Font size in post-it not resizing correctly - done
-Hand drawn lines not appearing for other users
-When host drops everyone has to reconnect - shift host
-Have URL for share session written to url bar
-Put roomID & org in creds popup
-Highlight elements selected by other users as disabled
-Buggy line creation/menu
-Green share icon for participants
-share icon invisible if server unavailable
-store creds (name initials) in local storage
-basic encryption for data on server
-
-TESTS TESTS TESTS
-
-
 resize window - done
 delete - done
 move forward/backwards - done 
@@ -50,23 +33,45 @@ Multi-user - done
 Multi-user updates - done
 Multi-user cursors - done
 
+Font size in post-it not resizing correctly - done
+Hand drawn lines not appearing for other users
+Resizing elements is not transferred to other users - done
+When host drops everyone has to reconnect - shift host
+Have URL for share session written to url bar - done
+Put roomID & org in creds popup - done
+Highlight elements selected by other users as disabled - done
+Buggy line creation/menu - done
+Alternative post-it shapes - done
+autosize horizontal postit note resize - done
+
+Bugs 
+
+
+
+Green share icon for participants
+share icon invisible if server unavailable
+store creds (name initials) in local storage
+basic encryption for data on server
+
+TESTS TESTS TESTS
+
 
 Backlog
 
 
-line resizer
-Menu buttons highlight
-Alternative post-it shapes
-Image crop
+line resizer - hard
+Menu buttons highlight - easy
+Image crop - medium
 
-group elements
+group elements - hard
 
-lock elements
-multi-select lock
-multi-select align
-custom colors/font color
-autosize horizontal postit note resize
-Slides & link & jump
+lock elements - easy
+multi-select lock - easy
+multi-select align - easy
+custom colors/font color - medium
+
+Slides & link & jump - hard
+smooth zoom & inertia pan - hard
 Iframes
 
 
@@ -89,6 +94,7 @@ change font color - black/white
 comments
 tables
 
+ctrl-c & ctrl v copy/paste
 arrow keys to move elements around
 
 Move to pointer events & responsive test

@@ -1,82 +1,68 @@
 import React, {Component} from 'react';
-//import Shortid from 'shortid';
+import Shortid from 'shortid';
 import Tool from './tool';
+
+import {createElementBaseObject} from "./utils";
 
 import './styles.css';
 
 
 class Slide extends Component {
 
-    handleShapeClick(e, dragStartX, dragStartY) {
-        alert("Thanks for your click! We are still working on this feature - but now that we know you want it, we will get it done faster!")
-        // const currentState = this.state;
-        // const newState = {};
-        // newState.elements = {...currentState.elements};
-        // const newID = Shortid.generate();
-        // const width = 120,
-        //       height = 120;
-        // newState.elements[newID] = {
-        //     id : newID,
-        //     type : "image",
-        //     styles : {
-        //         x : (dragStartX*currentState.zoomLevel)+currentState.offsetX-((width/2)*currentState.zoomLevel),
-        //         y : (dragStartY*currentState.zoomLevel)+currentState.offsetY-((height/2)*currentState.zoomLevel),
-        //         width : width*currentState.zoomLevel,
-        //         height: height*currentState.zoomLevel,
-        //         fillOpacity: 0,
-        //         fill: "#ffffff",
-        //         stroke : "#000000",
-        //         strokeOpacity : 1,
-        //         strokeWidth : 2*currentState.zoomLevel,
-        //         strokeDasharray : "0"
-        //     },
-        //     imgURL : "/miral/icons/insert_photo-noBorder-24px.svg",
-        //     initialZoomLevel : currentState.zoomLevel
-        // };
-        // newState.elementState = {...currentState.elementState};
-        // newState.elementState[newID] = {
-        //     selected : true
-        // };
-        // newState.dragStartHandler = null;
-        // newState.dragMoveHandler = null;
-        // newState.dragEndHandler = null;
-        // newState.clickHandler = null;
-        // newState.tool = "pan";
-        // newState.storeUndo = true;
-        // this.removeDragHandler("drawCanvas");
-        // this.setState(newState);
+    handleSlideClick(e, dragStartX, dragStartY) {
+        const currentState = this.state;
+        const newState = {};
+        newState.elements = {...currentState.elements};
+        const newID = Shortid.generate();
+        const height = 360,
+              width = 480;
+        
+        newState.elements[newID] = createElementBaseObject(newID, "slide", currentState.zoomLevel);
+        
+        const newElement = newState.elements[newID];
+        newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-((height/2)*currentState.zoomLevel);
+        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-((width/2)*currentState.zoomLevel);
+        newElement.styles.width = width*currentState.zoomLevel;
+        newElement.styles.height = height*currentState.zoomLevel;
+        newElement.styles.strokeOpacity = 0;
+        newElement.slideName = "Slide title";
+
+        newState.elementState = {...currentState.elementState};
+        newState.elementState[newID] = {
+            selected : currentState.userID
+        };
+        newState.dragStartHandler = null;
+        newState.dragMoveHandler = null;
+        newState.dragEndHandler = null;
+        newState.clickHandler = null;
+        newState.tool = "pan";
+        newState.storeUndo = true;
+        this.removeDragHandler("drawCanvas");
+        this.setState(newState);
     }
 
-    handleShapeDragStart(e, dragStartX, dragStartY, width, height) {
-        // const currentState = this.state;
-        // const newState = {};
-        // newState.elements = {...currentState.elements};
-        // const newID = Shortid.generate();
-        // newState.elements[newID] = {
-        //     id : newID,
-        //     type : "image",
-        //     styles : {
-        //         x : (dragStartX*currentState.zoomLevel)+currentState.offsetX,
-        //         y : (dragStartY*currentState.zoomLevel)+currentState.offsetY,
-        //         width : width*currentState.zoomLevel,
-        //         height: height*currentState.zoomLevel,
-        //         fillOpacity: 0,
-        //         fill: "#ffffff",
-        //         stroke : "#000000",
-        //         strokeOpacity : 1,
-        //         strokeWidth : 2*currentState.zoomLevel,
-        //         strokeDasharray : "0"
-        //     },
-        //     imgURL : "/miral/icons/insert_photo-noBorder-24px.svg",
-        //     initialZoomLevel : currentState.zoomLevel
-        // };
-        // newState.elementState = {...currentState.elementState};
-        // newState.elementState[newID] = {
-        //     selected : true
-        // };
-        // newState.elementBeingDrawn = newID;
-        // newState.storeUndo = true;
-        // this.setState(newState);
+    handleSlideDragStart(e, dragStartX, dragStartY, width, height) {
+        const currentState = this.state;
+        const newState = {};
+        newState.elements = {...currentState.elements};
+        const newID = Shortid.generate();
+        newState.elements[newID] = createElementBaseObject(newID, "slide", currentState.zoomLevel);
+        
+        const newElement = newState.elements[newID];
+        newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX;
+        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY;
+        newElement.styles.width = width*currentState.zoomLevel;
+        newElement.styles.height = height*currentState.zoomLevel;
+        newElement.styles.strokeOpacity = 0;
+        newElement.slideName = "Slide title";
+
+        newState.elementState = {...currentState.elementState};
+        newState.elementState[newID] = {
+            selected : currentState.userID
+        };
+        newState.elementBeingDrawn = newID;
+        newState.storeUndo = true;
+        this.setState(newState);
     }
   
     render() {
@@ -98,8 +84,8 @@ class Slide extends Component {
                 currentSelectedTool={currentSelectedTool}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
-                handleClick={this.handleShapeClick}
-                handleDragStart={this.handleShapeDragStart}
+                handleClick={this.handleSlideClick}
+                handleDragStart={this.handleSlideDragStart}
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 autoActivate={autoActivate}

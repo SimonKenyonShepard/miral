@@ -19,11 +19,13 @@ import Url from './editors/url';
 import './styles.css';
 
 const shapeTypeEditableFeatures = {
-    "postit" : ["predefinedColor", "fontStyle", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "shape" : ["customColor", "customBorderColor", "borderStyle", "fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "text" : ["fontStyle", "textAlignment", /* "link", */ "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "postit" : ["predefinedColor", "fontStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "shape" : ["customColor", "customBorderColor", "borderStyle", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "text" : ["fontStyle", "textAlignment", "bringForward", "sendBackward", "lock", "delete", "menu"],
     "line" : ["customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "image" : ["url", "customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"]
+    "image" : ["url", "customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "slide" : ["customColor", "fontStyle", "textAlignment", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "link" : ["link", "lock", "delete", "menu"]
 };
 
 const multiElementEditableFeatures = ["bringForward", "sendBackward", "lock", "delete", "menu"];
@@ -51,7 +53,8 @@ class ElementEditor extends Component {
         const containerPosition = {},
             {
                 selectedElements,
-                boundingBox
+                boundingBox,
+                slides
             } = this.props;
         let containerClass = "elementEditor",
             editButtonTypes = null,
@@ -119,7 +122,14 @@ class ElementEditor extends Component {
                                     currentOpenSubMenu={this.state.currentOpenSubMenu}
                                 />;
                     case 'link':
-                        return <Link key={`${selectedElements[0].id}_${button}`}/>;
+                        return <Link 
+                                    key={`${selectedElements[0].id}_${button}`}
+                                    link={selectedElements[0].link}
+                                    slides={slides}
+                                    handleUpdateElementProperty={this.handleUpdateElementProperty}
+                                    handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
+                                    currentOpenSubMenu={this.state.currentOpenSubMenu}
+                                />;
                     case 'bringForward':
                         return <DepthSetter 
                                     type="forward" 

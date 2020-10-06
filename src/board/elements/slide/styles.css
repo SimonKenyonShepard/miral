@@ -1,0 +1,26 @@
+.svg_slideContainer_foreignObject {
+    pointer-events: none;
+    user-select: none;
+}
+
+.svg_SlideWrapper {
+    display:flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.svg_slideHeader {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.svg_slideBackground {
+    flex: 1;
+    background-color: #fff;
+    pointer-events: none;
+    user-select: none;
+    width: 100%;
+}

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import Share from './share';
 import UndoRedo from './undoRedo';
+import SlideNavigator from './slideNavigator';
 
 import './styles.css';
 
@@ -59,6 +60,11 @@ class BoardControls extends Component {
                     elements={this.props.elements}
                     elementState={this.props.elementState}
                     storeUndo={this.props.storeUndo}
+                />
+
+                <SlideNavigator 
+                    slides={this.props.slides}
+                    animateToElement={this.props.animateToElement}
                 />
             </div>
         );
