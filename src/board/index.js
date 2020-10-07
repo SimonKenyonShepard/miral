@@ -78,29 +78,27 @@ class Board extends Component {
     }
 
     handlePanEnd(e) {
-        const {
-            offsetX,
-            offsetY,
-            zoomLevel
-        } = this.state;
+        // const {
+        //     offsetX,
+        //     offsetY,
+        //     zoomLevel
+        // } = this.state;
 
-        //calculate velocity of pan and final destination
-        const momentumDuration = 300;
+        // //calculate velocity of pan and final destination
+        // const momentumDuration = 300;
 
-        const finalPosition = {
-            offsetX : offsetX + ((this.velocityX_pixelsPerMilliSecond*momentumDuration)*-zoomLevel),
-            offsetY : offsetY + ((this.velocityY_pixelsPerMilliSecond*momentumDuration)*-zoomLevel)
-        };
+        // // const finalPosition = {
+        // //     offsetX : offsetX + ((this.velocityX_pixelsPerMilliSecond*momentumDuration)*-zoomLevel),
+        // //     offsetY : offsetY + ((this.velocityY_pixelsPerMilliSecond*momentumDuration)*-zoomLevel)
+        // // };
 
-        //this.animateToPosition(finalPosition, 1);
+        // //this.animateToPosition(finalPosition, 1);
 
     }
 
     animateToElement = (elementID, duration) => {
         console.log("animate to", elementID, duration);
         const {
-            offsetX,
-            offsetY,
             zoomLevel,
             elements
         } = this.state;

@@ -104,7 +104,7 @@ class Navbar extends Component {
             elementState : applicationState.elementState,
             boardName : applicationState.boardName,
             zoomLevel : applicationState.zoomLevel,
-            offsetX : applicationCache.offsetX,
+            offsetX : applicationState.offsetX,
             offsetY : applicationState.offsetY
         };
         let fileName = `miralFile_${applicationState.boardName}`;

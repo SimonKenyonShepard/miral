@@ -131,18 +131,18 @@
 }
 
 .undo {
-    background-image: url("/miral/icons/undo-24px.svg");
+    background-image: url("/icons/undo-24px.svg");
     border-right: 1px solid #ccc;
     padding-right: 8px;
 }
 
 .redo {
-    background-image: url("/miral/icons/redo-24px.svg");
+    background-image: url("/icons/redo-24px.svg");
     margin-left: 8px;
 }
 
 .forward {
-    background-image: url("/miral/icons/arrow_forward-24px.svg");
+    background-image: url("/icons/arrow_forward-24px.svg");
     background-position: center right;
     border-left: 1px solid #ccc;
     margin-left: 8px;
@@ -150,7 +150,7 @@
 }
 
 .backward {
-    background-image: url("/miral/icons/arrow_back-24px.svg");
+    background-image: url("/icons/arrow_back-24px.svg");
     background-position: center left;
     border-right: 1px solid #ccc;
     padding-right: 8px;

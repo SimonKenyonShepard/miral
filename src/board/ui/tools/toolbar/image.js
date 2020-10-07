@@ -24,7 +24,7 @@ class Image extends Component {
         newElement.styles.width = presetWidthAndHeight*currentState.zoomLevel;
         newElement.styles.height = presetWidthAndHeight*currentState.zoomLevel;
         newElement.styles.strokeOpacity = 0;
-        newElement.imgURL = "/miral/icons/insert_photo-noBorder-24px.svg";
+        newElement.imgURL = "/icons/insert_photo-noBorder-24px.svg";
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
@@ -53,7 +53,7 @@ class Image extends Component {
         newElement.styles.width = width*currentState.zoomLevel;
         newElement.styles.height = height*currentState.zoomLevel;
         newElement.styles.strokeOpacity = 0;
-        newElement.imgURL = "/miral/icons/insert_photo-noBorder-24px.svg";
+        newElement.imgURL = "/icons/insert_photo-noBorder-24px.svg";
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {

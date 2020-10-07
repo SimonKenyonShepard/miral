@@ -39,111 +39,111 @@
 }
 
 .toolbar_pan {
-    background-image: url("/miral/icons/pan_tool-24px.svg");
+    background-image: url("/icons/pan_tool-24px.svg");
 }
 
 .toolbar_select {
-    background-image: url("/miral/icons/highlight_alt-24px.svg");
+    background-image: url("/icons/highlight_alt-24px.svg");
 }
 
 .toolbar_postit {
-    background-image: url("/miral/icons/sticky_note_2-24px.svg");
+    background-image: url("/icons/sticky_note_2-24px.svg");
 }
 
 .toolbar_postitRect {
-    background-image: url("/miral/icons/sticky_note_long_2-24px.svg");
+    background-image: url("/icons/sticky_note_long_2-24px.svg");
 }
 
 .toolbar_postitRectV {
-    background-image: url("/miral/icons/sticky_note_long_V_2-24px.svg");
+    background-image: url("/icons/sticky_note_long_V_2-24px.svg");
 }
 
 .toolbar_postitSquare {
-    background-image: url("/miral/icons/sticky_note_2-24px.svg");
+    background-image: url("/icons/sticky_note_2-24px.svg");
 }
 
 .toolbar_text {
-    background-image: url("/miral/icons/title-24px.svg");
+    background-image: url("/icons/title-24px.svg");
 }
 
 /* .toolbar_shape {
-    background-image: url("/miral/icons/category-24px.svg");
+    background-image: url("/icons/category-24px.svg");
 } */
 
 .toolbar_shape {
-    background-image: url("/miral/icons/check_box_outline_blank-24px.svg");
+    background-image: url("/icons/check_box_outline_blank-24px.svg");
 }
 
 .toolbar_shapeRect {
-    background-image: url("/miral/icons/check_box_outline_blank-24px.svg");
+    background-image: url("/icons/check_box_outline_blank-24px.svg");
 }
 
 .toolbar_shapeCircle {
-    background-image: url("/miral/icons/radio_button_unchecked-24px.svg");
+    background-image: url("/icons/radio_button_unchecked-24px.svg");
 }
 
 .toolbar_shapeTriangle {
-    background-image: url("/miral/icons/triangle.svg");
+    background-image: url("/icons/triangle.svg");
 }
 
 .toolbar_line {
-    background-image: url("/miral/icons/arrow_up-24px.svg");
+    background-image: url("/icons/arrow_up-24px.svg");
 }
 
 .toolbar_lineStraight {
-    background-image: url("/miral/icons/line_up-24px.svg");
+    background-image: url("/icons/line_up-24px.svg");
 }
 
 .toolbar_lineSmooth {
-    background-image: url("/miral/icons/smooth_line-24px.svg");
+    background-image: url("/icons/smooth_line-24px.svg");
 }
 
 .toolbar_lineStraightArrow {
-    background-image: url("/miral/icons/arrow_up-24px.svg");
+    background-image: url("/icons/arrow_up-24px.svg");
 }
 
 .toolbar_lineSmoothArrow {
-    background-image: url("/miral/icons/swap_calls-24px.svg");
+    background-image: url("/icons/swap_calls-24px.svg");
 }
 
 .toolbar_lineFreehand {
-    background-image: url("/miral/icons/edit-24px.svg");
+    background-image: url("/icons/edit-24px.svg");
 }
 
 .toolbar_pen {
-    background-image: url("/miral/icons/edit-24px.svg");
+    background-image: url("/icons/edit-24px.svg");
 }
 
 .toolbar_image {
-    background-image: url("/miral/icons/insert_photo-24px.svg");
+    background-image: url("/icons/insert_photo-24px.svg");
 }
 
 .toolbar_more {
-    background-image: url("/miral/icons/more_horiz-24px.svg");
+    background-image: url("/icons/more_horiz-24px.svg");
 }
 
 .toolbar_slide {
-    background-image: url("/miral/icons/slideshow-24px.svg");
+    background-image: url("/icons/slideshow-24px.svg");
 }
 
 .toolbar_pdf {
-    background-image: url("/miral/icons/picture_as_pdf-24px.svg");
+    background-image: url("/icons/picture_as_pdf-24px.svg");
 }
 
 .toolbar_iframe {
-    background-image: url("/miral/icons/web-24px.svg");
+    background-image: url("/icons/web-24px.svg");
 }
 
 .toolbar_youtube {
-    background-image: url("/miral/icons/video_library-24px.svg");
+    background-image: url("/icons/video_library-24px.svg");
 }
 
 .toolbar_timer {
-    background-image: url("/miral/icons/timer-24px.svg");
+    background-image: url("/icons/timer-24px.svg");
 }
 
 .toolbar_poll {
-    background-image: url("/miral/icons/poll-24px.svg");
+    background-image: url("/icons/poll-24px.svg");
 }
 
 
