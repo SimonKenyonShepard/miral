@@ -47,7 +47,7 @@ class Slide extends PureComponent {
                                 lineHeight,
                                 padding : `0 ${(16*data.initialZoomLevel)}px`
                             }}
-                        >{data.slideName}</div>
+                        >{data.slideName} {this.props.slideNumber}</div>
                     </div>
                     <div 
                         className="svg_slideBackground"

@@ -586,6 +586,7 @@ class Board extends Component {
                     handleTextEdit={this.handleTextEdit}
                     handleSetCurrentElement={this.handleSetCurrentElement}
                     isSelected={this.isSelected}
+                    slideNumber={slides.length}
                 />);
             }
             return null;
