@@ -187,7 +187,7 @@ class Navbar extends Component {
         }
         return (
             <div className={"navBar"}>
-                <span className={"companyName"}>Your company name</span>
+                <span className={"companyName"}>Workshoppr.com</span>
                 <span className={"burgerMenu"} onClick={this.handleOpenMenu}></span>
                 <div className={menuCSS}>
                     <div className={"navBar_menu_arrow"} />
