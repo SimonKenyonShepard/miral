@@ -14,12 +14,7 @@ import KeyboardManager from './ui/KeyboardManager';
 import MultiUserManager from './ui/MultiUserManager';
 
 //ELEMENTS
-import Shape from './elements/shape';
-import Text from './elements/text';
-import Postit from './elements/postit';
-import Line from './elements/line';
-import Image from './elements/image';
-import Slide from './elements/slide';
+import Elements from './elements';
 
 //HELPERS
 import Shortid from 'shortid';
@@ -518,79 +513,14 @@ class Board extends Component {
         const zoomedWidth = width*zoomLevel,
         zoomedHeight = height*zoomLevel;
         const viewBox = `${offsetX} ${offsetY} ${zoomedWidth} ${zoomedHeight}`;
-        const slides = [];
 
-        const elementNodes = Object.keys(elements).map(elementID => {
-            const element = elements[elementID];
-            if (element.type === "shape") {
-                return (<Shape
-                    key={element.id}
-                    data={element}
-                    styles={element.styles}
-                    fontStyles={element.fontStyles}
-                    elementState={this.state.elementState[element.id]}
-                    handleTextEdit={this.handleTextEdit}
-                    handleSetCurrentElement={this.handleSetCurrentElement}
-                    isSelected={this.isSelected}
-                />);
-            } else if (element.type === "text") {
-                return (<Text 
-                    key={element.id}
-                    data={element}
-                    styles={element.styles}
-                    fontStyles={element.fontStyles}
-                    elementState={this.state.elementState[element.id]}
-                    handleTextEdit={this.handleTextEdit}
-                    handleSetCurrentElement={this.handleSetCurrentElement}
-                    isSelected={this.isSelected}
-                />);
-            } else if (element.type === "postit") {
-                return (<Postit
-                    key={element.id}
-                    data={element}
-                    styles={element.styles}
-                    fontStyles={element.fontStyles}
-                    elementState={this.state.elementState[element.id]}
-                    handleTextEdit={this.handleTextEdit}
-                    handleSetCurrentElement={this.handleSetCurrentElement}
-                    isSelected={this.isSelected}
-                />);
-            } else if (element.type === "line") {
-                return (<Line
-                    key={element.id}
-                    data={element}
-                    styles={element.styles}
-                    fontStyles={element.fontStyles}
-                    elementState={this.state.elementState[element.id]}
-                    handleTextEdit={this.handleTextEdit}
-                    handleSetCurrentElement={this.handleSetCurrentElement}
-                    isSelected={this.isSelected}
-                />);
-            } else if (element.type === "image") {
-                return (<Image
-                    key={element.id}
-                    data={element}
-                    styles={element.styles}
-                    elementState={this.state.elementState[element.id]}
-                    handleTextEdit={this.handleTextEdit}
-                    handleSetCurrentElement={this.handleSetCurrentElement}
-                    isSelected={this.isSelected}
-                />);
-            } else if (element.type === "slide") {
-                slides.push(element.id);
-                return (<Slide
-                    key={element.id}
-                    data={element}
-                    styles={element.styles}
-                    elementState={this.state.elementState[element.id]}
-                    handleTextEdit={this.handleTextEdit}
-                    handleSetCurrentElement={this.handleSetCurrentElement}
-                    isSelected={this.isSelected}
-                    slideNumber={slides.length}
-                />);
+        const slides = Object.keys(elements).filter((elementID) => {
+            if(elements[elementID].type === "slide") {
+                return true;
+            } else {
+                return false;
             }
-            return null;
-        });
+        })
 
         const selectedElements = this.getSelectedElements(elementState);
         const elementKeys = Object.keys(elements);
@@ -637,7 +567,13 @@ class Board extends Component {
                             registerDragHandler={this.registerDragHandler}
                             removeDragHandler={this.removeDragHandler}
                         />
-                        {elementNodes}
+                        <Elements 
+                            elements={elements}
+                            elementState={elementState}
+                            handleTextEdit={this.handleTextEdit}
+                            handleSetCurrentElement={this.handleSetCurrentElement}
+                            isSelected={this.isSelected}
+                        />
                     </svg>
                     <Resizer 
                         isVisible={(selectedElements.length > 0)}

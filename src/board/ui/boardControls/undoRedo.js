@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
 import './styles.css';
 
 const rfc6902 = require('rfc6902');
 
-class UndoRedo extends Component {
+class UndoRedo extends PureComponent {
 
     constructor(props, context) {
         super(props, context);

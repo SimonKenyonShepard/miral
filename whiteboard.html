@@ -43,6 +43,21 @@
             draw.viewbox(offsetX, offsetY, zoomedWidth, zoomedHeight);
         }
 
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
     
         window.addEventListener("wheel", function(e) {
 
@@ -85,7 +100,13 @@
 
         var draw = SVG().size(width, height).addTo('body');
 
-        let backgroundOverlay = draw.circle(20000).fill('rgba(0,0,0,0.6)').move(200, 300);
+        for(var i = 0; i < 20000; i++) {
+            let x = getRandomInt(0, height*zoomLevel);
+            let y = getRandomInt(0, width*zoomLevel);
+            let backgroundOverlay = draw.circle(2000).fill(getRandomColor()).move(x, y);
+            
+        }
+        
 
 
         zoomAndPan();
