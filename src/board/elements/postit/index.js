@@ -94,11 +94,12 @@ class Postit extends PureComponent {
   
     render() {
         const theme = this.context;
-        const {elementState, data} = this.props;
+        const {elementState, data, lowDetail} = this.props;
         const shapeProps = {...this.props.data.styles};
         let text = null;
         let postItBaseWidth = 800;
         let overlay = null;
+        let shadow = null;
         if(this.props.isSelected(data.id)) {
             shapeProps.style = {outline : `${(data.initialZoomLevel)}px dashed #5086F2`};
         } else if(elementState.selected) {
@@ -109,7 +110,7 @@ class Postit extends PureComponent {
                 fill="#000000"
             />);
         }
-        if(data.text) {
+        if(data.text && !lowDetail) {
             const textBody = data.text.split(/\n|\r/).map((line, i) => {
                 return(<div key={`${data.id}_${line}_${i}`}>{line}</div>);
             });
@@ -147,6 +148,15 @@ class Postit extends PureComponent {
             postItBaseWidth = 730;
         }
         const postItColor = data.predefinedColor;
+
+        if(!lowDetail) {
+            shadow = (<path 
+                d={postItShapeData.dropShadow} 
+                fill="rgba(0,0,0, 0.4)" 
+                filter={`url(#${postItShapeData.filter})`}
+            />);
+        }
+        
         
         return (
             <g 
@@ -163,11 +173,7 @@ class Postit extends PureComponent {
                     transform={`translate(${shapeProps.x} ${shapeProps.y}) scale(${(shapeProps.width/postItBaseWidth)})`}
                     pointerEvents={"none"}
                 >
-                    <path 
-                        d={postItShapeData.dropShadow} 
-                        fill="rgba(0,0,0, 0.4)" 
-                        filter={`url(#${postItShapeData.filter})`}
-                    />
+                    {shadow}
                     <path 
                         d={postItShapeData.path} 
                         fill={(theme.preDefinedColors[postItColor])}

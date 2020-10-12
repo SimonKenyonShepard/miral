@@ -24,13 +24,15 @@ class Elements extends PureComponent {
             elementState,
             handleTextEdit,
             handleSetCurrentElement,
-            isSelected
+            isSelected,
+            zoomLevel
         } = this.props;
 
         const slides = [];
 
         const elementNodes = Object.keys(elements).map(elementID => {
             const element = elements[elementID];
+            const lowDetail = (element.styles.width/zoomLevel < 20) && (element.styles.height/zoomLevel < 20);
             if (element.type === "shape") {
                 return (<Shape
                     key={element.id}
@@ -41,6 +43,7 @@ class Elements extends PureComponent {
                     handleTextEdit={handleTextEdit}
                     handleSetCurrentElement={handleSetCurrentElement}
                     isSelected={isSelected}
+                    lowDetail={lowDetail}
                 />);
             } else if (element.type === "text") {
                 return (<Text 
@@ -52,6 +55,7 @@ class Elements extends PureComponent {
                     handleTextEdit={handleTextEdit}
                     handleSetCurrentElement={handleSetCurrentElement}
                     isSelected={isSelected}
+                    lowDetail={lowDetail}
                 />);
             } else if (element.type === "postit") {
                 return (<Postit
@@ -63,6 +67,7 @@ class Elements extends PureComponent {
                     handleTextEdit={handleTextEdit}
                     handleSetCurrentElement={handleSetCurrentElement}
                     isSelected={isSelected}
+                    lowDetail={lowDetail}
                 />);
             } else if (element.type === "line") {
                 return (<Line
@@ -74,6 +79,7 @@ class Elements extends PureComponent {
                     handleTextEdit={handleTextEdit}
                     handleSetCurrentElement={handleSetCurrentElement}
                     isSelected={isSelected}
+                    lowDetail={lowDetail}
                 />);
             } else if (element.type === "image") {
                 return (<Image
@@ -85,6 +91,7 @@ class Elements extends PureComponent {
                     handleTextEdit={handleTextEdit}
                     handleSetCurrentElement={handleSetCurrentElement}
                     isSelected={isSelected}
+                    lowDetail={lowDetail}
                 />);
             } else if (element.type === "slide") {
                 slides.push(element.id);
@@ -98,6 +105,7 @@ class Elements extends PureComponent {
                     handleSetCurrentElement={handleSetCurrentElement}
                     isSelected={isSelected}
                     slideNumber={slides.length}
+                    lowDetail={lowDetail}
                 />);
             }
             return null;

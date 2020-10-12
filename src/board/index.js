@@ -585,6 +585,7 @@ class Board extends Component {
                             handleTextEdit={this.handleTextEdit}
                             handleSetCurrentElement={this.handleSetCurrentElement}
                             isSelected={this.isSelected}
+                            zoomLevel={zoomLevel}
                         />
                     </svg>
                     <Resizer 
