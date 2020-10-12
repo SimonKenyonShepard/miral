@@ -499,6 +499,26 @@ class Board extends Component {
         return selectedElements;
     }
 
+    getState = () => {
+
+        return this.state;
+
+    }
+
+    getSlides = () => {
+        const {
+            elements
+        } = this.state;
+
+        return Object.keys(elements).filter((elementID) => {
+            if(elements[elementID].type === "slide") {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    }
+
     render() {
         const {width, height} = this.props;
         const {
@@ -513,14 +533,6 @@ class Board extends Component {
         const zoomedWidth = width*zoomLevel,
         zoomedHeight = height*zoomLevel;
         const viewBox = `${offsetX} ${offsetY} ${zoomedWidth} ${zoomedHeight}`;
-
-        const slides = Object.keys(elements).filter((elementID) => {
-            if(elements[elementID].type === "slide") {
-                return true;
-            } else {
-                return false;
-            }
-        })
 
         const selectedElements = this.getSelectedElements(elementState);
         const elementKeys = Object.keys(elements);
@@ -581,7 +593,7 @@ class Board extends Component {
                         boundingBox={boundingBox}
                     />
                     <NavBar 
-                        applicationState={this.state}
+                        getState={this.getState}
                         handleUpdateElementsAndState={this.handleUpdateElementsAndState}
                     />
                     <Altimeter zoomLevel={zoomLevel} />
@@ -593,7 +605,7 @@ class Board extends Component {
                         boardName={this.state.boardName}
                         updateBoardName={this.updateBoardName}
                         toggleBoardShare={this.toggleBoardShare}
-                        slides={slides}
+                        getSlides={this.getSlides}
                         animateToElement={this.animateToElement}
                     />
                     <TextEditor 
@@ -605,7 +617,7 @@ class Board extends Component {
                     <ElementEditor 
                         selectedElements={selectedElements}
                         gridSpace={{offsetX, offsetY, zoomLevel}}
-                        slides={slides}
+                        getSlides={this.getSlides}
                         handleUpdateElementProperty={this.handleUpdateElementProperty}
                         handleDeleteElements={this.handleDeleteElements}
                         handleShiftElementPosition={this.handleShiftElementPosition}

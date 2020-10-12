@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
 import Toolbar from './toolbar';
 
 import './styles.css';
 
-class Tools extends Component {
+class Tools extends PureComponent {
 
     constructor(props, context) {
         super(props, context);

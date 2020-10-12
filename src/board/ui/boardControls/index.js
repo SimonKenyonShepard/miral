@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
 import Share from './share';
 import UndoRedo from './undoRedo';
@@ -7,7 +7,7 @@ import SlideNavigator from './slideNavigator';
 import './styles.css';
 
 
-class BoardControls extends Component {
+class BoardControls extends PureComponent {
 
     constructor(props, context) {
         super(props, context);
@@ -30,7 +30,6 @@ class BoardControls extends Component {
     }
     
     render() {
-
         const {
             editBoardName
         } = this.state;
@@ -63,7 +62,7 @@ class BoardControls extends Component {
                 />
 
                 <SlideNavigator 
-                    slides={this.props.slides}
+                    getSlides={this.props.getSlides}
                     animateToElement={this.props.animateToElement}
                 />
             </div>

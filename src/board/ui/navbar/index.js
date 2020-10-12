@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 
 import './styles.css';
 
@@ -19,7 +19,7 @@ class FileOption extends Component {
 }
 
 
-class Navbar extends Component {
+class Navbar extends PureComponent {
 
     constructor(props, context) {
         super(props, context);
@@ -39,7 +39,7 @@ class Navbar extends Component {
     }
     
     saveToBrowser = (e) => {
-        const { applicationState } = this.props;
+        const applicationState = this.props.getState();
         const stateToSave = {
             userID : applicationState.userID,
             elements : applicationState.elements,

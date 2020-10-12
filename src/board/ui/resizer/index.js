@@ -61,9 +61,20 @@ class Resizer extends Component {
         
     }
 
+    shouldComponentUpdate(nextProps) {
+        const needsUpdate = (nextProps.boundingBox.height !== this.props.boundingBox.height) ||
+        (nextProps.boundingBox.width !== this.props.boundingBox.width) ||
+        (nextProps.boundingBox.x !== this.props.boundingBox.x) ||
+        (nextProps.boundingBox.y !== this.props.boundingBox.y) ||
+        (nextProps.boundingBox.cx !== this.props.boundingBox.cx) ||
+        (nextProps.boundingBox.cy !== this.props.boundingBox.cy) ||
+        (nextProps.isVisible !== this.props.isVisible);
+
+        return needsUpdate;
+    }
+
     render() {
         const { boundingBox, isVisible } = this.props;
-
         const wrapperStyles = {
             display: "none"
         };

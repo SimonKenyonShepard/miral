@@ -37,11 +37,18 @@ class ElementDrag extends Component {
         }
     }
 
+    shouldComponentUpdate(nextProps) {
+        const needsUpdate = (nextProps.boundingBox.rawHeight !== this.props.boundingBox.rawHeight) ||
+        (nextProps.boundingBox.rawWidth !== this.props.boundingBox.rawWidth) ||
+        (nextProps.boundingBox.rawX !== this.props.boundingBox.rawX) ||
+        (nextProps.boundingBox.rawY !== this.props.boundingBox.rawY) ||
+        (nextProps.elementKeys.length !== this.props.elementKeys.length);
 
+        return needsUpdate;
+    }
 
     render() {
         const { boundingBox } = this.props;
-
         return (
             <rect 
                 id={"elementSelectionArea"}
@@ -55,6 +62,7 @@ class ElementDrag extends Component {
     }
     
     componentDidUpdate(prevProps) {
+        
         const currentElements = this.props.elementKeys,
               prevElements = prevProps.elementKeys;
 

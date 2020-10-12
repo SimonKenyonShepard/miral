@@ -75,7 +75,8 @@ class InteractionManager extends PureComponent {
                     dragHandlers.handleDragStart(e, dragStartX, dragStartY, e.movementX, e.movementY);
                 }
                
-            } else if(dragHandlers && dragHandlers.handleDragMove && !wasAccidentalMovement) {
+            } else 
+            if(dragHandlers && dragHandlers.handleDragMove && !wasAccidentalMovement) {
                 dragHandlers.handleDragMove(e, dragStartX, dragStartY);
             }
         }

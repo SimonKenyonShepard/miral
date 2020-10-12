@@ -66,6 +66,18 @@ class TextEditor extends Component {
         });
     }
 
+    shouldComponentUpdate(nextProps) {
+        const {
+            data
+        } = nextProps;
+
+        const needsUpdate = (data !== this.props.data);
+        if(needsUpdate) {
+            return true;
+        }
+        return false;
+    }
+
     render() {
        const {data, gridSpace} = this.props;
        const styles = {
@@ -127,7 +139,6 @@ class TextEditor extends Component {
        if(this.props.data) {
             this.textInput.focus();
             const moveCaretToEnd = this.props.data ? this.props.data.text.length > 0 : false;
-
             if(moveCaretToEnd && document.createRange) {
                 let range = document.createRange();
                 range.selectNodeContents(this.textInput);
@@ -136,6 +147,7 @@ class TextEditor extends Component {
                 selection.removeAllRanges();
                 selection.addRange(range);
             }
+            
        }
         
         // if(this.props.data && this.props.data.unScaledFontSize && this.props.data.unScaledFontSize !== this.state.fontSize) {

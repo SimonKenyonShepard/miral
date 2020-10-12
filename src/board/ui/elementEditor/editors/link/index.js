@@ -65,7 +65,7 @@ class Link extends Component {
                         list={"frameNames"}
                       />
                       <datalist id="frameNames">
-                        {this.props.slides.map((slideName) =>  <option value={slideName} />)}
+                        {this.props.getSlides().map((slideName) =>  <option value={slideName} />)}
                       </datalist>
                     </div>
                 </div>

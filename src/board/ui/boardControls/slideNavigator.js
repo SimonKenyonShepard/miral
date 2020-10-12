@@ -18,13 +18,15 @@ class SlideNavigator extends Component {
 
         const nextSlide = currentSlide+1;
 
-        const nextSlideID = this.props.slides[nextSlide];
+        const slides = this.props.getSlides();
+
+        const nextSlideID = slides[nextSlide];
 
         if(nextSlideID) {
             this.props.animateToElement(nextSlideID, 1);
             this.setState({currentSlide : nextSlide});
         } else {
-            this.props.animateToElement(this.props.slides[currentSlide], 1);
+            this.props.animateToElement(slides[currentSlide], 1);
         }
 
         
@@ -37,19 +39,23 @@ class SlideNavigator extends Component {
 
         const nextSlide = currentSlide-1;
 
-        const nextSlideID = this.props.slides[nextSlide];
+        const slides = this.props.getSlides();
+
+        const nextSlideID = slides[nextSlide];
 
         if(nextSlideID) {
             this.props.animateToElement(nextSlideID, 1);
             this.setState({currentSlide : nextSlide});
         } else {
-            this.props.animateToElement(this.props.slides[currentSlide], 1);
+            this.props.animateToElement(slides[currentSlide], 1);
         }
     } 
   
     render() {
 
-        const slidesPossible = this.props.slides.length > 0;
+        const slides = this.props.getSlides();
+
+        const slidesPossible = slides.length > 0;
 
         const slidesNavStyles = {
             visibility : "visible"
@@ -65,7 +71,7 @@ class SlideNavigator extends Component {
                     className={"iconButton backward"}
                     onClick={this.handleSlideBackwards}
                 />
-                <span>Slide {(this.state.currentSlide+1)} of {this.props.slides.length}</span>
+                <span>Slide {(this.state.currentSlide+1)} of {slides.length}</span>
                 <span 
                     className={"iconButton forward"}
                     onClick={this.handleSlideForward}

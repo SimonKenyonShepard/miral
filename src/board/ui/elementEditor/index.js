@@ -48,13 +48,21 @@ class ElementEditor extends Component {
         this.setState({currentOpenSubMenu});
     }
 
-    render() {
+    shouldComponentUpdate(nextProps) {
+        const shouldUpdate = (this.props.selectedElements.length !== nextProps.selectedElements.length) || (nextProps.selectedElements.length > 0);
+        if(shouldUpdate) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    render() {
         const containerPosition = {},
             {
                 selectedElements,
                 boundingBox,
-                slides
+                getSlides
             } = this.props;
         let containerClass = "elementEditor",
             editButtonTypes = null,
@@ -125,7 +133,7 @@ class ElementEditor extends Component {
                         return <Link 
                                     key={`${selectedElements[0].id}_${button}`}
                                     link={selectedElements[0].link}
-                                    slides={slides}
+                                    getSlides={getSlides}
                                     handleUpdateElementProperty={this.handleUpdateElementProperty}
                                     handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                                     currentOpenSubMenu={this.state.currentOpenSubMenu}

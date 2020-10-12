@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
 
-class KeyboardManager extends Component {
+class KeyboardManager extends PureComponent {
 
     constructor(props, context) {
       super(props, context);
@@ -13,7 +13,6 @@ class KeyboardManager extends Component {
         
         const isTextBox = this.props.textEditor !== null || e.target.tagName === "INPUT" || e.target.getAttribute("contentEditable") === "true";
         if(e.key === "Backspace" && !isTextBox) {
-            console.log("backspace");
             e.preventDefault();
             this.props.handleDeleteElements();
         } else if(
@@ -27,7 +26,6 @@ class KeyboardManager extends Component {
     }
 
     render() {
-        
         return (
             <div
                 id="keyboardManager"
