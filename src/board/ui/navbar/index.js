@@ -72,7 +72,7 @@ class Navbar extends PureComponent {
             offsetX : applicationState.offsetX,
             offsetY : applicationState.offsetY
         };
-        let fileName = `whiteboardFile_${applicationState.boardName}`;
+        let fileName = `whiteboardFile_${applicationState.boardName}.wswb`;
         var a = document.createElement("a");
         var file = new Blob([JSON.stringify(stateToSave)], {type: 'text/plain'});
         a.href = URL.createObjectURL(file);
@@ -88,6 +88,33 @@ class Navbar extends PureComponent {
         const file = window.localStorage.getItem(`miralFile_${fileName}`);
         const state = Object.assign({}, this.props.applicationState, JSON.parse(file));
         this.props.handleUpdateElementsAndState(state);
+        this.setState({
+            menuVisible : false,
+            subMenu : []
+        });
+    }
+
+    loadFile = () => {
+        const readFile = (e) => {
+            var file = e.target.files[0];
+            if (!file) {
+                return;
+            }
+            var reader = new FileReader();
+            const loader = (e) => {
+                var file = e.target.result;
+                const state = Object.assign({}, this.props.applicationState, JSON.parse(file));
+                this.props.handleUpdateElementsAndState(state);
+            }
+            reader.onload = loader;
+            reader.readAsText(file);
+        }
+        const fileInput = document.createElement("input");
+        fileInput.type='file';
+        fileInput.accept=".wswb";
+        fileInput.onchange=readFile;
+        fileInput.click();
+
         this.setState({
             menuVisible : false,
             subMenu : []
@@ -271,11 +298,22 @@ class Navbar extends PureComponent {
                                     className={"navBar_menu_item"}
                                     onClick={this.saveToFile}
                                 >   
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                                        <path d="M0 0h24v24H0V0z" fill="none"/>
-                                        <path d="M17 3H3v18h18V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                                   
+                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24">
+                                        <path d="m19.4,5.7l-9.8,0l0,12.6l12.6,0l0,-9.8l-2.8,-2.8zm-3.5,11.2c-1.162,0 -2.1,-0.938 -2.1,-2.1s0.938,-2.1 2.1,-2.1s2.1,0.938 2.1,2.1s-0.938,2.1 -2.1,2.1zm2.1,-7l-7,0l0,-2.8l7,0l0,2.8z" />
+                                        <path d="m2.59,15.12475l2.97298,-3.17475l-2.97298,-3.17475l0.91526,-0.97525l3.89474,4.15l-3.89474,4.15l-0.91526,-0.97525z"  />
                                     </svg>
-                                    <span>Save to File</span>
+                                    <span>Save to file</span>
+                                </div>
+                                <div 
+                                    className={"navBar_menu_item"}
+                                    onClick={this.loadFile}
+                                >   
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                        <path d="m19.4,5.7l-9.8,0l0,12.6l12.6,0l0,-9.8l-2.8,-2.8zm-3.5,11.2c-1.162,0 -2.1,-0.938 -2.1,-2.1s0.938,-2.1 2.1,-2.1s2.1,0.938 2.1,2.1s-0.938,2.1 -2.1,2.1zm2.1,-7l-7,0l0,-2.8l7,0l0,2.8z" />
+                                        <path d="m7.4,8.77525l-2.97298,3.17475l2.97298,3.17475l-0.91526,0.97525l-3.89474,-4.15l3.89474,-4.15l0.91526,0.97525z" />
+                                    </svg>
+                                    <span>Load from file</span>
                                 </div>
                             </div>
                             <div className={"navBar_menu_items"} >
