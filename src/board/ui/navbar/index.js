@@ -61,6 +61,29 @@ class Navbar extends PureComponent {
         });
     }
 
+    saveToFile = (e) => {
+        const applicationState = this.props.getState();
+        const stateToSave = {
+            userID : applicationState.userID,
+            elements : applicationState.elements,
+            elementState : applicationState.elementState,
+            boardName : applicationState.boardName,
+            zoomLevel : applicationState.zoomLevel,
+            offsetX : applicationState.offsetX,
+            offsetY : applicationState.offsetY
+        };
+        let fileName = `whiteboardFile_${applicationState.boardName}`;
+        var a = document.createElement("a");
+        var file = new Blob([JSON.stringify(stateToSave)], {type: 'text/plain'});
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
+        this.setState({
+            menuVisible : false,
+            subMenu : []
+        });
+    }
+
     loadFileFromBrowser = (fileName) => {
         const file = window.localStorage.getItem(`miralFile_${fileName}`);
         const state = Object.assign({}, this.props.applicationState, JSON.parse(file));
@@ -243,6 +266,16 @@ class Navbar extends PureComponent {
                                         <path d="m12.75,11.67l2.59,-2.58l1.41,1.41l-5,5l-5,-5l1.41,-1.41l2.59,2.58l0,-9.67l2,0c0,3.223333 0,6.446667 0,9.67z" fill="black" id="svg_3" transform="rotate(180 11.75 8.75)"/>
                                     </svg>
                                     <span>Load from Browser</span>
+                                </div>
+                                <div 
+                                    className={"navBar_menu_item"}
+                                    onClick={this.saveToFile}
+                                >   
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                                        <path d="M19 12v7H5v-7H3v9h18v-9h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/>
+                                    </svg>
+                                    <span>Save to File</span>
                                 </div>
                             </div>
                             <div className={"navBar_menu_items"} >

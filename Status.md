@@ -52,12 +52,17 @@ Green share icon for participants
 share icon invisible if server unavailable
 store creds (name initials) in local storage
 basic encryption for data on server
+Slides & link & jump - hard
 
 TESTS TESTS TESTS
 
 
 Backlog
 
+slides - autozoom 
+
+Rotate elements
+Link to slides
 
 line resizer - hard
 Menu buttons highlight - easy
@@ -69,15 +74,18 @@ lock elements - easy
 multi-select lock - easy
 multi-select align - easy
 custom colors/font color - medium
+change element visibility - easy
 
-Slides & link & jump - hard
 smooth zoom & inertia pan - hard
 Iframes
 
 
 Multi-user encryption w PW
-Attention management
+Attention management - easy
 Share
+Share exact location on board
+
+Share board when offline
 
 Save as Image
 Save as file
@@ -96,6 +104,7 @@ tables
 
 ctrl-c & ctrl v copy/paste
 arrow keys to move elements around
+ctrl-z undo
 
 Move to pointer events & responsive test
 
