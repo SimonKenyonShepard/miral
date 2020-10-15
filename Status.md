@@ -43,6 +43,9 @@ Highlight elements selected by other users as disabled - done
 Buggy line creation/menu - done
 Alternative post-it shapes - done
 autosize horizontal postit note resize - done
+Slides & jump - hard - done
+Save as file - done
+Load from file - done
 
 Bugs 
 
@@ -52,7 +55,7 @@ Green share icon for participants
 share icon invisible if server unavailable
 store creds (name initials) in local storage
 basic encryption for data on server
-Slides & link & jump - hard
+
 
 TESTS TESTS TESTS
 
@@ -88,8 +91,7 @@ Share exact location on board
 Share board when offline
 
 Save as Image
-Save as file
-Load from file
+
 Save to gDrive
 
 Zoom in/out buttons

@@ -21,6 +21,14 @@ class KeyboardManager extends PureComponent {
         ) {
             e.preventDefault();
             this.props.handleDuplicateElements();
+        } else if (e.key === "ArrowDown") {
+            this.props.shuntSelectedElements("down");
+        } else if (e.key === "ArrowUp") {
+            this.props.shuntSelectedElements("up");
+        } else if (e.key === "ArrowLeft") {
+            this.props.shuntSelectedElements("left");
+        } else if (e.key === "ArrowRight") {
+            this.props.shuntSelectedElements("right");
         }
         
     }

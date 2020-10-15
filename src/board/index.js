@@ -519,6 +519,30 @@ class Board extends Component {
         });
     }
 
+    shuntSelectedElements = (direction) => {
+        const {
+            elements,
+            elementState,
+            zoomLevel
+        } = this.state;
+        const newElements = {...elements};
+        const selectedElements = this.getSelectedElements(elementState);
+        selectedElements.forEach(element => {
+            const newElementStyles = {...element.styles};
+            newElements[element.id].styles = newElementStyles;
+            if(direction === "down") {
+                newElementStyles.y += zoomLevel;
+            } else if(direction === "up") {
+                newElementStyles.y -= zoomLevel;
+            } else if(direction === "left") {
+                newElementStyles.x -= zoomLevel;
+            } else if(direction === "right") {
+                newElementStyles.x += zoomLevel;
+            }
+        });
+        this.setState({elements : newElements});
+    } 
+
     render() {
         const {width, height} = this.props;
         const {
@@ -635,6 +659,7 @@ class Board extends Component {
                 <KeyboardManager 
                     handleDeleteElements={this.handleDeleteElements}
                     handleDuplicateElements={this.handleDuplicateElements}
+                    shuntSelectedElements={this.shuntSelectedElements}
                     textEditor={textEditor}
                 />
                 <MultiUserManager
