@@ -46,6 +46,7 @@ autosize horizontal postit note resize - done
 Slides & jump - hard - done
 Save as file - done
 Load from file - done
+arrow keys to move elements around - done
 
 Bugs 
 
@@ -105,7 +106,7 @@ comments
 tables
 
 ctrl-c & ctrl v copy/paste
-arrow keys to move elements around
+
 ctrl-z undo
 
 Move to pointer events & responsive test

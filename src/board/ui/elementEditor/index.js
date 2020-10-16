@@ -117,6 +117,7 @@ class ElementEditor extends Component {
                         return <FontStyle 
                                     key={`${selectedElements[0].id}_${button}`}
                                     fontStyle={selectedElements[0].fontStyle}
+                                    initialZoomLevel={selectedElements[0].initialZoomLevel}
                                     handleUpdateElementProperty={this.handleUpdateElementProperty}
                                     handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                                     currentOpenSubMenu={this.state.currentOpenSubMenu}

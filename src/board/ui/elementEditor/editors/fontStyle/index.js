@@ -101,6 +101,13 @@ class FontStyle extends Component {
       }
     }
 
+    handleSizeChange = (e) => {
+      this.props.handleUpdateElementProperty({
+        property : "fontStyle",
+        value : {...this.props.fontStyle, fontSize : (e.target.value*this.props.initialZoomLevel)} 
+      });
+    }
+
     render() {
         
         let submenuCSS = "predefinedColorPicker_submenu";
@@ -155,6 +162,17 @@ class FontStyle extends Component {
                         >
                           {FONT_FAMILIES.map(font => <option key={`fontSelector_${font}`}>{font}</option>)}
                         </select>
+                    </div>
+                    <div className="picker">
+                      <div  className="picker_label" >size:</div>
+                      <input 
+                        type="number"
+                        id="fontSize" 
+                        name="fontSize" 
+                        step="8"
+                        onChange={this.handleSizeChange}
+                        value={(this.props.fontStyle.fontSize/this.props.initialZoomLevel)}
+                      />
                     </div>
                 </div>
             </div>

@@ -14,3 +14,16 @@
 .fontFamily option {
     padding: 4px;
 }
+
+.picker {
+    display : flex;
+}
+
+.picker_label {
+    font-size : 8px;
+    padding: 0 8px;
+}
+
+.picker input {
+    width : 56px
+}
