@@ -61,6 +61,12 @@ class Resizer extends Component {
         
     }
 
+    handleResizeEnd() {
+        this.setState({
+            storeUndo : true
+        });
+    }
+
     shouldComponentUpdate(nextProps) {
         const needsUpdate = (nextProps.boundingBox.height !== this.props.boundingBox.height) ||
         (nextProps.boundingBox.width !== this.props.boundingBox.width) ||
@@ -140,7 +146,8 @@ class Resizer extends Component {
 
     componentDidMount() {
         this.props.registerDragHandler("resizerHandle", {
-            "dragMoveHandler" : this.handleMouseMove
+            "dragMoveHandler" : this.handleMouseMove,
+            "dragEndHandler" : this.handleResizeEnd
         });
     }
 }

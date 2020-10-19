@@ -1,5 +1,7 @@
 import React, {PureComponent} from 'react';
 
+import {createNewObjectsForChangedElements} from "../../utils";
+
 import './styles.css';
 
 const rfc6902 = require('rfc6902');
@@ -11,7 +13,11 @@ class UndoRedo extends PureComponent {
         this.state = {
           undo : [],
           redo : [],
-          updates : []
+          updates : [],
+          prevCombinedData : {
+            elements : {...this.props.elements},
+            elementState : {...this.props.elementState}
+          }
         };
       }
 
@@ -23,12 +29,13 @@ class UndoRedo extends PureComponent {
         const lastUpdateAction = newUpdates.pop();
         const newRedo = [...this.state.redo, lastUpdateAction];
         
-        const newCombinedData = {
+        const newCombinedData = createNewObjectsForChangedElements({
             elements : {...this.props.elements},
-            elementState : {...this.props.elementState} 
-        };
-  
+            elementState : {...this.props.elementState}
+        }, lastUndoAction);
+
         rfc6902.applyPatch(newCombinedData, lastUndoAction);
+
         this.setState({
             undo : newUndo,
             redo : newRedo,
@@ -43,11 +50,11 @@ class UndoRedo extends PureComponent {
     handleRedo = () => {
         const newRedo = [...this.state.redo];
         const lastRedoAction = newRedo.pop();
-        
-        const newCombinedData = {
+
+        const newCombinedData = createNewObjectsForChangedElements({
             elements : {...this.props.elements},
-            elementState : {...this.props.elementState} 
-        };
+            elementState : {...this.props.elementState}
+        }, lastRedoAction);
         
         rfc6902.applyPatch(newCombinedData, lastRedoAction);
         
@@ -113,24 +120,32 @@ class UndoRedo extends PureComponent {
         );
     }
 
-    componentDidUpdate(prevProps) {
-        const prevCombinedData = {
-            elements : prevProps.elements,
-            elementState : prevProps.elementState 
-        };
-        const currentCombinedData = {
-            elements : this.props.elements,
-            elementState : this.props.elementState 
-        };
-        const elementsDiffUpdates = rfc6902.createPatch(prevCombinedData, currentCombinedData);
-        const elementsDiffUndo = rfc6902.createPatch(currentCombinedData, prevCombinedData);
-        
-        if(elementsDiffUndo.length > 0 && elementsDiffUpdates.length > 0 && this.props.storeUndo) {
-            this.setState({
-                undo : [...this.state.undo, elementsDiffUndo],
-                updates : [...this.state.updates, elementsDiffUpdates]
-            });
-            this.props.handleUpdateElementsAndState({storeUndo : false})
+    componentDidUpdate() {
+        const {
+            storeUndo
+        } = this.props;
+        const {
+            prevCombinedData
+        } = this.state;
+
+        if(storeUndo) {
+            const currentCombinedData = {
+                elements : this.props.elements,
+                elementState : this.props.elementState 
+            };
+            const elementsDiffUpdates = rfc6902.createPatch(prevCombinedData, currentCombinedData);
+            const elementsDiffUndo = rfc6902.createPatch(currentCombinedData, prevCombinedData);
+            if(elementsDiffUndo.length > 0 && elementsDiffUpdates.length > 0) {
+                this.setState({
+                    prevCombinedData : {
+                        elements : {...this.props.elements},
+                        elementState : {...this.props.elementState}
+                    },
+                    undo : [...this.state.undo, elementsDiffUndo],
+                    updates : [...this.state.updates, elementsDiffUpdates]
+                });
+                this.props.handleUpdateElementsAndState({storeUndo : false})
+            }
         }
     }
     

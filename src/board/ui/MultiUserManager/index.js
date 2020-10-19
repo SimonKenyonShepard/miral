@@ -4,6 +4,8 @@ import Avatar from "./avatar";
 import Cursor from "./cursor";
 import Credentials from "./credentials";
 
+import {createNewObjectsForChangedElements} from "../../utils";
+
 import './styles.css';
 
 const rfc6902 = require('rfc6902');
@@ -231,7 +233,7 @@ class MultiUserManager extends Component {
     }
 
     updateBoard = (data) => {
-        const newCombinedData = this.createNewObjectsForChangedElements({
+        const newCombinedData = createNewObjectsForChangedElements({
             elements : {...this.props.elements},
             elementState : {...this.props.elementState}
         }, data.elementsDiffUpdates);
@@ -242,17 +244,6 @@ class MultiUserManager extends Component {
             prevCombinedBoardData : newCombinedData
         });
         this.props.handleUpdateElementsAndState(newCombinedData);
-    }
-
-    createNewObjectsForChangedElements(newData, patch) {
-        if(patch.length > 0) {
-            patch.forEach(change => {
-                const changePath = change.path.split("/");
-                newData[changePath[1]][changePath[2]] = {...newData[changePath[1]][changePath[2]]};
-
-            })
-        }
-        return newData;
     }
 
     shareEnded = (data) => {

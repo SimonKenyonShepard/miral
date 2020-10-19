@@ -7,3 +7,14 @@ export function objectClone(obj) {
     });
     return clone;
 }
+
+export function createNewObjectsForChangedElements(newData, patch) {
+  if(patch.length > 0) {
+      patch.forEach(change => {
+          const changePath = change.path.split("/");
+          newData[changePath[1]][changePath[2]] = {...newData[changePath[1]][changePath[2]]};
+
+      })
+  }
+  return newData;
+}

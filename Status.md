@@ -47,6 +47,7 @@ Slides & jump - hard - done
 Save as file - done
 Load from file - done
 arrow keys to move elements around - done
+change font size - done
 
 Bugs 
 

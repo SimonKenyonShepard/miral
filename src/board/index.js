@@ -182,7 +182,6 @@ class Board extends Component {
         newElement.padding = 8*this.state.zoomLevel;
         
         newElementsData[data.id] = newElement;
-
         this.setState({
             elements : newElementsData,
             storeUndo : true,

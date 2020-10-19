@@ -61,7 +61,6 @@ class InteractionManager extends PureComponent {
             x : (e.clientX*this.props.zoomLevel)+this.props.offsetX,
             y : (e.clientY*this.props.zoomLevel)+this.props.offsetY
         });
-
         if(drag === "mouseDown" || drag === "dragging") {
             const dragHandlers = this.props.dragHandlers[elementID];
             const wasAccidentalMovement = this.wasAccidentalMovement(dragStartX, dragStartY, e.clientX, e.clientY);

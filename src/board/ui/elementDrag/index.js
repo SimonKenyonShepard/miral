@@ -37,6 +37,12 @@ class ElementDrag extends Component {
         }
     }
 
+    handleElementDragEnd() {
+        this.setState({
+            storeUndo : true
+        });
+    }
+
     shouldComponentUpdate(nextProps) {
         const needsUpdate = (nextProps.boundingBox.rawHeight !== this.props.boundingBox.rawHeight) ||
         (nextProps.boundingBox.rawWidth !== this.props.boundingBox.rawWidth) ||
@@ -90,6 +96,7 @@ class ElementDrag extends Component {
             addedElements.forEach(id => {
                 this.props.registerDragHandler(id, {
                     "dragMoveHandler" : this.updateElementDragPosition,
+                    "dragEndHandler" : this.handleElementDragEnd,
                     "clickHandler" : this.handleSelect
                 });
             })
@@ -100,7 +107,8 @@ class ElementDrag extends Component {
 
     componentDidMount() {
         this.props.registerDragHandler("elementSelectionArea", {
-            "dragMoveHandler" : this.updateElementDragPosition
+            "dragMoveHandler" : this.updateElementDragPosition,
+            "dragEndHandler" : this.handleElementDragEnd
         });
     }
 }
