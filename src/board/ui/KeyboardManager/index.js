@@ -29,6 +29,24 @@ class KeyboardManager extends PureComponent {
             this.props.shuntSelectedElements("left");
         } else if (e.key === "ArrowRight") {
             this.props.shuntSelectedElements("right");
+        } else if (
+            (e.ctrlKey === true && e.key === "c") ||
+            (e.metaKey === true && e.key === "c")
+        ) {
+            e.preventDefault();
+            this.props.copy();
+        } else if (
+            (e.ctrlKey === true && e.key === "x") ||
+            (e.metaKey === true && e.key === "x")
+        ) {
+            e.preventDefault();
+            this.props.cut();
+        } else if (
+            (e.ctrlKey === true && e.key === "v") ||
+            (e.metaKey === true && e.key === "v")
+        ) {
+            e.preventDefault();
+            this.props.paste();
         }
         
     }

@@ -43,7 +43,12 @@ class Board extends Component {
         storeUndo : false,
         shareBoard : false,
         multiUserUpdate : false,
-        pointerPosition : {x : 0, y : 0}
+        pointerPosition : {x : 0, y : 0},
+        pasteBuffer : {
+            type : null,
+            elements : [],
+            elementState : []
+        },
       };
     }
 
@@ -476,7 +481,11 @@ class Board extends Component {
             x : 0,
             y : 0,
             cx : 0,
-            cy : 0
+            cy : 0,
+            rawX : 0,
+            rawY : 0,
+            rawHeight : 0,
+            rawWidth : 0
         };
     }
 
@@ -541,6 +550,104 @@ class Board extends Component {
         });
         this.setState({elements : newElements});
     }
+
+    copy = () => {
+        const {
+            elementState,
+            userID,
+            zoomLevel,
+            offsetX,
+            offsetY
+        } = this.state;
+        
+        const selectedElements = this.getSelectedElements(elementState, userID);
+
+        const pasteBuffer = {
+            type : "copy",
+            elements : selectedElements,
+            elementState : {},
+            boundingBox : this.calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY)
+        };
+
+        selectedElements.forEach(element => {
+            pasteBuffer.elementState[element.id] = {...elementState[element.id]};
+        });
+
+        this.setState({
+            pasteBuffer
+        });
+
+    }
+
+    cut = () => {
+        const {
+            elements,
+            elementState,
+            userID,
+            zoomLevel,
+            offsetX,
+            offsetY
+        } = this.state;
+        
+        const selectedElements = this.getSelectedElements(elementState, userID);
+        const pasteBuffer = {
+            type : "cut",
+            elements : [],
+            elementState : {},
+            boundingBox : this.calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY)
+        }
+
+        const newElements = {...elements};
+        const newElementState = {...elementState};
+
+        selectedElements.forEach(element => {
+            pasteBuffer.elements.push({...element});
+            pasteBuffer.elementState[element.id] = {...elementState[element.id]};
+            delete newElements[element.id];
+            delete newElementState[element.id]
+        });
+        
+        this.setState({
+            elements : newElements,
+            elementState : newElementState,
+            pasteBuffer
+        });
+    }
+
+    paste = () => {
+        const {
+            elements,
+            elementState,
+            pointerPosition,
+            pasteBuffer
+        } = this.state;
+        
+        const newElements = {...elements};
+        const newElementState = {...elementState};
+
+        pasteBuffer.elements.forEach(element => {
+            const newID = Shortid.generate();
+            newElements[newID] = {...element};
+            newElements[newID].id = newID;
+
+            newElementState[newID] = {...pasteBuffer.elementState[element.id]};
+            newElementState[element.id] = {...newElementState[element.id]};
+            newElementState[element.id].selected = false;
+
+            newElements[newID].styles = {...element.styles};
+            const newX = pointerPosition.x + (pasteBuffer.boundingBox.rawX - element.styles.x);
+            const newY = pointerPosition.y + (pasteBuffer.boundingBox.rawY - element.styles.y);
+            newElements[newID].styles.x = newX;
+            newElements[newID].styles.y = newY;
+        })
+
+        this.setState({
+            elements : newElements,
+            elementState : newElementState,
+        })
+    }
+
+
 
     render() {
         const {width, height} = this.props;
@@ -661,6 +768,9 @@ class Board extends Component {
                         handleDuplicateElements={this.handleDuplicateElements}
                         shuntSelectedElements={this.shuntSelectedElements}
                         textEditor={textEditor}
+                        copy={this.copy}
+                        cut={this.cut}
+                        paste={this.paste}
                     />
                     <MultiUserManager
                         userID={this.state.userID} 
