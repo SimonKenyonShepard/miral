@@ -148,6 +148,41 @@ class UndoRedo extends PureComponent {
             }
         }
     }
+
+    handleKeyPress = (e) => {
+        
+        if(
+            (e.ctrlKey === true && e.key === "z") ||
+            (e.metaKey === true && e.key === "z")
+        ) {
+            e.preventDefault();
+            const undoIsPossible = this.state.undo.length > 0;
+              
+            if(undoIsPossible) {
+                this.handleUndo();
+            }
+            
+        } else if (
+            (e.ctrlKey === true && e.key === "y") ||
+            (e.metaKey === true && e.key === "y")
+        ) {
+            e.preventDefault();
+            const redoIsPossible = this.state.redo.length > 0;
+            if(redoIsPossible) {
+                this.handleRedo();
+            }
+            
+        }
+        
+    }
+
+    componentDidMount(){
+        document.addEventListener('keydown', this.handleKeyPress);
+    }
+
+    componentWillUnmount(){
+        document.removeEventListener('keydown', this.handleKeyPress);
+    }
     
   }
 

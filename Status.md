@@ -48,6 +48,7 @@ Save as file - done
 Load from file - done
 arrow keys to move elements around - done
 change font size - done
+Fix undo  - done
 
 Bugs 
 
@@ -55,7 +56,7 @@ Bugs
 
 Green share icon for participants
 share icon invisible if server unavailable
-store creds (name initials) in local storage
+store creds (name initials) in local storage *
 basic encryption for data on server
 
 
@@ -64,10 +65,12 @@ TESTS TESTS TESTS
 
 Backlog
 
+Templates - 25 templates
+
 slides - autozoom 
 
 Rotate elements
-Link to slides
+Link to slides - with animated border*
 
 line resizer - hard
 Menu buttons highlight - easy
@@ -82,37 +85,43 @@ custom colors/font color - medium
 change element visibility - easy
 
 smooth zoom & inertia pan - hard
-Iframes
+Iframes - easy *
 
 
 Multi-user encryption w PW
 Attention management - easy
 Share
-Share exact location on board
+Share exact location on board 
 
 Share board when offline
 
 Save as Image
 
-Save to gDrive
+Save to gDrive 
 
 Zoom in/out buttons
 
 grid Scaling
 grid guides
 
-change font color - black/white
+change font color - black/white *
 
 comments
 tables
 
-ctrl-c & ctrl v copy/paste
+ctrl-c & ctrl v copy/paste *
 
-ctrl-z undo
+ctrl-z undo *
 
-Move to pointer events & responsive test
+ctrl-s - save
+
+Move to pointer events & responsive test *
 
 Markdown editor for post-it's?
+
+Workshop agenda?
+
+* required for release
 
 
 UPSs :

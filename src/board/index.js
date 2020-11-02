@@ -540,7 +540,7 @@ class Board extends Component {
             }
         });
         this.setState({elements : newElements});
-    } 
+    }
 
     render() {
         const {width, height} = this.props;
@@ -565,115 +565,116 @@ class Board extends Component {
             backgroundPosition : `${(offsetX*-1)/zoomLevel}px ${(offsetY*-1)/zoomLevel}px`
         };
         return (
-            <div 
-                className={`boardWrapper ${tool}`} 
-                style={gridPosition}
-            >
-                <InteractionManager
-                    offsetX={this.state.offsetX}
-                    offsetY={this.state.offsetY}
-                    zoomLevel={this.state.zoomLevel}
-                    updateBoardPosition={this.updateBoardPosition}
-                    dragHandlers={this.state.dragHandlers}
-                    updatePointerPosition={this.updatePointerPosition}
+                <div 
+                    className={`boardWrapper ${tool}`} 
+                    style={gridPosition}
                 >
-                    <svg id="board" 
-                        width={`${width}px`}
-                        height={`${height}px`}
-                        viewBox={viewBox}
-                        >
-                        <defs>
-                            <filter height="200%" id="shadow1" width="200%" x="-50%" y="-50%">
-                                <feGaussianBlur in="SourceGraphic" stdDeviation="20"/>
-                            </filter>
-                            <filter height="200%" id="shadow2" width="200%" x="-50%" y="-50%">
-                                <feGaussianBlur in="SourceGraphic" stdDeviation="10"/>
-                            </filter>
-                            <filter id="shadow3">
-                                <feDropShadow ddx="0" dy="0" stdDeviation="0.5"/>
-                            </filter>
-                            <marker id="arrow" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto" markerUnits="strokeWidth">
-                                <polygon points="0,0 0,5 5,2.5" fill="#000" />
-                            </marker>
-                        </defs>
-                        <ElementDrag 
+                    <InteractionManager
+                        offsetX={this.state.offsetX}
+                        offsetY={this.state.offsetY}
+                        zoomLevel={this.state.zoomLevel}
+                        updateBoardPosition={this.updateBoardPosition}
+                        dragHandlers={this.state.dragHandlers}
+                        updatePointerPosition={this.updatePointerPosition}
+                    >
+                        <svg id="board" 
+                            width={`${width}px`}
+                            height={`${height}px`}
+                            viewBox={viewBox}
+                            >
+                            <defs>
+                                <filter height="200%" id="shadow1" width="200%" x="-50%" y="-50%">
+                                    <feGaussianBlur in="SourceGraphic" stdDeviation="20"/>
+                                </filter>
+                                <filter height="200%" id="shadow2" width="200%" x="-50%" y="-50%">
+                                    <feGaussianBlur in="SourceGraphic" stdDeviation="10"/>
+                                </filter>
+                                <filter id="shadow3">
+                                    <feDropShadow ddx="0" dy="0" stdDeviation="0.5"/>
+                                </filter>
+                                <marker id="arrow" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                    <polygon points="0,0 0,5 5,2.5" fill="#000" />
+                                </marker>
+                            </defs>
+                            <ElementDrag 
+                                boundingBox={boundingBox}
+                                elementKeys={elementKeys}
+                                registerDragHandler={this.registerDragHandler}
+                                removeDragHandler={this.removeDragHandler}
+                            />
+                            <Elements 
+                                elements={elements}
+                                elementState={elementState}
+                                handleTextEdit={this.handleTextEdit}
+                                handleSetCurrentElement={this.handleSetCurrentElement}
+                                isSelected={this.isSelected}
+                                zoomLevel={zoomLevel}
+                            />
+                        </svg>
+                        <Resizer 
+                            isVisible={(selectedElements.length > 0)}
+                            registerDragHandler={this.registerDragHandler}
                             boundingBox={boundingBox}
-                            elementKeys={elementKeys}
+                        />
+                        <NavBar 
+                            getState={this.getState}
+                            handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                        />
+                        <Altimeter zoomLevel={zoomLevel} />
+                        <BoardControls
+                            elements={this.state.elements}
+                            elementState={this.state.elementState}
+                            storeUndo={this.state.storeUndo}
+                            handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                            boardName={this.state.boardName}
+                            updateBoardName={this.updateBoardName}
+                            toggleBoardShare={this.toggleBoardShare}
+                            getSlides={this.getSlides}
+                            animateToElement={this.animateToElement}
+                        />
+                        <TextEditor 
+                            data={textEditor}
+                            gridSpace={{offsetX, offsetY, zoomLevel}}
+                            handleUpdatedText={this.handleUpdatedText}
+                            handleSetElementHeight={this.handleSetElementHeight}
+                        />
+                        <ElementEditor 
+                            selectedElements={selectedElements}
+                            gridSpace={{offsetX, offsetY, zoomLevel}}
+                            getSlides={this.getSlides}
+                            handleUpdateElementProperty={this.handleUpdateElementProperty}
+                            handleDeleteElements={this.handleDeleteElements}
+                            handleShiftElementPosition={this.handleShiftElementPosition}
+                            boundingBox={boundingBox}
+                        />
+                        <Tools
+                            handleToolSelect={this.handleToolSelect} 
                             registerDragHandler={this.registerDragHandler}
                             removeDragHandler={this.removeDragHandler}
+                            handleSelectElementsWithinArea={this.handleSelectElementsWithinArea}
+                            currentSelectedTool={this.state.tool}
                         />
-                        <Elements 
-                            elements={elements}
-                            elementState={elementState}
-                            handleTextEdit={this.handleTextEdit}
-                            handleSetCurrentElement={this.handleSetCurrentElement}
-                            isSelected={this.isSelected}
-                            zoomLevel={zoomLevel}
-                        />
-                    </svg>
-                    <Resizer 
-                        isVisible={(selectedElements.length > 0)}
-                        registerDragHandler={this.registerDragHandler}
-                        boundingBox={boundingBox}
+                    </InteractionManager>
+                    <KeyboardManager
+                        keyboardHandlers={this.state.keyboardHandlers}
+                        handleDeleteElements={this.handleDeleteElements}
+                        handleDuplicateElements={this.handleDuplicateElements}
+                        shuntSelectedElements={this.shuntSelectedElements}
+                        textEditor={textEditor}
                     />
-                    <NavBar 
-                        getState={this.getState}
-                        handleUpdateElementsAndState={this.handleUpdateElementsAndState}
-                    />
-                    <Altimeter zoomLevel={zoomLevel} />
-                    <BoardControls
+                    <MultiUserManager
+                        userID={this.state.userID} 
+                        shareBoard={this.state.shareBoard}
                         elements={this.state.elements}
                         elementState={this.state.elementState}
-                        storeUndo={this.state.storeUndo}
                         handleUpdateElementsAndState={this.handleUpdateElementsAndState}
-                        boardName={this.state.boardName}
-                        updateBoardName={this.updateBoardName}
-                        toggleBoardShare={this.toggleBoardShare}
-                        getSlides={this.getSlides}
-                        animateToElement={this.animateToElement}
+                        multiUserUpdate={this.state.multiUserUpdate}
+                        pointerPosition={this.state.pointerPosition}
+                        offsetX={this.state.offsetX}
+                        offsetY={this.state.offsetY}
+                        zoomLevel={this.state.zoomLevel}
                     />
-                    <TextEditor 
-                        data={textEditor}
-                        gridSpace={{offsetX, offsetY, zoomLevel}}
-                        handleUpdatedText={this.handleUpdatedText}
-                        handleSetElementHeight={this.handleSetElementHeight}
-                    />
-                    <ElementEditor 
-                        selectedElements={selectedElements}
-                        gridSpace={{offsetX, offsetY, zoomLevel}}
-                        getSlides={this.getSlides}
-                        handleUpdateElementProperty={this.handleUpdateElementProperty}
-                        handleDeleteElements={this.handleDeleteElements}
-                        handleShiftElementPosition={this.handleShiftElementPosition}
-                        boundingBox={boundingBox}
-                    />
-                    <Tools
-                        handleToolSelect={this.handleToolSelect} 
-                        registerDragHandler={this.registerDragHandler}
-                        removeDragHandler={this.removeDragHandler}
-                        handleSelectElementsWithinArea={this.handleSelectElementsWithinArea}
-                        currentSelectedTool={this.state.tool}
-                    />
-                </InteractionManager>
-                <KeyboardManager 
-                    handleDeleteElements={this.handleDeleteElements}
-                    handleDuplicateElements={this.handleDuplicateElements}
-                    shuntSelectedElements={this.shuntSelectedElements}
-                    textEditor={textEditor}
-                />
-                <MultiUserManager
-                    userID={this.state.userID} 
-                    shareBoard={this.state.shareBoard}
-                    elements={this.state.elements}
-                    elementState={this.state.elementState}
-                    handleUpdateElementsAndState={this.handleUpdateElementsAndState}
-                    multiUserUpdate={this.state.multiUserUpdate}
-                    pointerPosition={this.state.pointerPosition}
-                    offsetX={this.state.offsetX}
-                    offsetY={this.state.offsetY}
-                    zoomLevel={this.state.zoomLevel}
-                />
-            </div>
+                </div>
         );
     }
 
@@ -684,7 +685,6 @@ class Board extends Component {
             "dragEndHandler" : this.handlePanEnd,
             "clickHandler" : this.handleDeselectAllElements
         });
-
         
     }
 
