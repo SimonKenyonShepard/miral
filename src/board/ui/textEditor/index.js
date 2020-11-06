@@ -109,7 +109,14 @@ class TextEditor extends Component {
                 return(<div key={`editor_${data.id}_${line}_${i}`}>{line}</div>);
             });
         }
-        textStyles.textAlign = data.fontStyle.textAlign;
+        if(data.fontStyle.textAlign) {
+            textStyles.textAlign = data.fontStyle.textAlign;
+            if(data.fontStyle.textAlign === "left") {
+                styles.justifyContent = "flex-start";
+            } else if (data.fontStyle.textAlign === "right") {
+                styles.justifyContent = "flex-end";
+            }
+        }
         editorKey=this.props.data.id;
             
        }
