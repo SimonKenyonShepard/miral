@@ -20,7 +20,7 @@ import './styles.css';
 
 const shapeTypeEditableFeatures = {
     "postit" : ["predefinedColor", "fontStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "shape" : ["customColor", "customBorderColor", "borderStyle", "fontStyle", "textAlignment", "link", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "shape" : ["customColor", "customBorderColor", "borderStyle", "fontStyle", "textAlignment", "bringForward", "sendBackward", "lock", "delete", "menu"],
     "text" : ["fontStyle", "textAlignment", "bringForward", "sendBackward", "lock", "delete", "menu"],
     "line" : ["customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
     "image" : ["url", "customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
@@ -55,6 +55,24 @@ class ElementEditor extends Component {
         } else {
             return false;
         }
+    }
+
+    
+
+    handleKeyPress = (e) => {
+        
+        const isTextBox = this.props.textEditor !== null || e.target.tagName === "INPUT" || e.target.getAttribute("contentEditable") === "true";
+        if(e.key === "Backspace" && !isTextBox) {
+            e.preventDefault();
+            this.handleDeleteElements();
+        } else if(
+            (e.ctrlKey === true && e.key === "d") ||
+            (e.metaKey === true && e.key === "d")
+        ) {
+            e.preventDefault();
+            this.handleDuplicateElements();
+        }
+        
     }
 
     render() {
