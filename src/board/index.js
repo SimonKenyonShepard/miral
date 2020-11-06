@@ -344,6 +344,7 @@ class Board extends Component {
                     isWithinArea = true;
                 }
             if(isWithinArea && isSelectable) {
+                newElementsState[elementID] = {...newElementsState[elementID]};
                 newElementsState[elementID].selected = userID;
             }
         });
