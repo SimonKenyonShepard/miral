@@ -21,13 +21,13 @@ class KeyboardManager extends PureComponent {
         ) {
             e.preventDefault();
             this.props.handleDuplicateElements();
-        } else if (e.key === "ArrowDown") {
+        } else if (e.key === "ArrowDown" && !isTextBox) {
             this.props.shuntSelectedElements("down");
-        } else if (e.key === "ArrowUp") {
+        } else if (e.key === "ArrowUp" && !isTextBox) {
             this.props.shuntSelectedElements("up");
-        } else if (e.key === "ArrowLeft") {
+        } else if (e.key === "ArrowLeft" && !isTextBox) {
             this.props.shuntSelectedElements("left");
-        } else if (e.key === "ArrowRight") {
+        } else if (e.key === "ArrowRight" && !isTextBox) {
             this.props.shuntSelectedElements("right");
         } else if (
             ((e.ctrlKey === true && e.key === "c") ||
