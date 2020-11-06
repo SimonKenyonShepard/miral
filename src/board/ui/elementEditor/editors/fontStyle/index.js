@@ -169,7 +169,7 @@ class FontStyle extends Component {
                         type="number"
                         id="fontSize" 
                         name="fontSize" 
-                        step="8"
+                        step="2"
                         max="104"
                         onChange={this.handleSizeChange}
                         value={(this.props.fontStyle.fontSize/this.props.initialZoomLevel)}
