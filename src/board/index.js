@@ -302,9 +302,9 @@ class Board extends Component {
             const arrayPosition = newIdsOrder.indexOf(id);
             newIdsOrder.splice(arrayPosition, 1);
             if(type === "forward") {
-                newIdsOrder.splice(arrayPosition+1, 0, id);
+                newIdsOrder.splice(newIdsOrder.length, 0, id);
             } else if (type === "backward") {
-                newIdsOrder.splice(arrayPosition-1, 0, id);
+                newIdsOrder.splice(0, 0, id);
             }
         });
         newIdsOrder.forEach(id => {
