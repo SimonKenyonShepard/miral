@@ -87,6 +87,9 @@ class TextEditor extends Component {
            justifyContent : "center",
            visibility: "hidden"
        };
+       const textStyles = {
+            fontSize : this.state.fontSize/this.props.gridSpace.zoomLevel
+       };
        let starterText = "";
        let editorKey = "blank";
        if(data && data.id && data.styles) {
@@ -106,6 +109,7 @@ class TextEditor extends Component {
                 return(<div key={`editor_${data.id}_${line}_${i}`}>{line}</div>);
             });
         }
+        textStyles.textAlign = data.fontStyle.textAlign;
         editorKey=this.props.data.id;
             
        }
@@ -125,9 +129,7 @@ class TextEditor extends Component {
                     onFocus={this.handleGotFocus}
                     onPaste={this.handlePaste}
                     suppressContentEditableWarning={true}
-                    style={{
-                        fontSize : this.state.fontSize/this.props.gridSpace.zoomLevel
-                    }}
+                    style={textStyles}
                 >
                     {starterText}
                 </div>
