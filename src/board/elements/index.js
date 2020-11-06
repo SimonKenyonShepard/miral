@@ -25,6 +25,7 @@ class Elements extends PureComponent {
             handleTextEdit,
             handleSetCurrentElement,
             isSelected,
+            isUniqueSelected,
             zoomLevel
         } = this.props;
 
@@ -55,6 +56,7 @@ class Elements extends PureComponent {
                     handleTextEdit={handleTextEdit}
                     handleSetCurrentElement={handleSetCurrentElement}
                     isSelected={isSelected}
+                    isUniqueSelected={isUniqueSelected}
                     lowDetail={lowDetail}
                 />);
             } else if (element.type === "postit") {

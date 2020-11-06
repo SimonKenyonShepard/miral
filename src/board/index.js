@@ -497,6 +497,22 @@ class Board extends Component {
         return elementState[elementID].selected === userID;
     }
 
+    isUniqueSelected = (elementID) => {
+        const {
+            elementState,
+            userID
+        } = this.state;
+        const isSelected = elementState[elementID].selected === userID;
+        let selectedCount = 0;
+        Object.keys(elementState).forEach(elementID => {
+            if(this.isSelected(elementID)) {
+                selectedCount++;
+            }
+        });
+        const isUniqueSelcted = isSelected && selectedCount === 1;
+        return isUniqueSelcted;
+    }
+
     getSelectedElements(elementState) {
         const selectedElements = [];
         Object.keys(elementState).forEach(elementID => {
@@ -715,6 +731,7 @@ class Board extends Component {
                                 handleTextEdit={this.handleTextEdit}
                                 handleSetCurrentElement={this.handleSetCurrentElement}
                                 isSelected={this.isSelected}
+                                isUniqueSelected={this.isUniqueSelected}
                                 zoomLevel={zoomLevel}
                             />
                         </svg>
