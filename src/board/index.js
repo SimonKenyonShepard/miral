@@ -296,7 +296,8 @@ class Board extends Component {
     }
 
     handleShiftElementPosition = (type, ids) => {
-        const newElementsData = {};
+        const newElementsData = {},
+              newElementState = {};
         const newIdsOrder = Object.keys(this.state.elements);
         ids.forEach(id => {
             const arrayPosition = newIdsOrder.indexOf(id);
@@ -309,8 +310,13 @@ class Board extends Component {
         });
         newIdsOrder.forEach(id => {
             newElementsData[id] = this.state.elements[id];
+            newElementState[id] = this.state.elementState[id];
         });
-        this.setState({elements : newElementsData, storeUndo : true});
+        this.setState({
+            elementState : newElementState,
+            elements : newElementsData,
+            storeUndo : true
+        });
     }
 
     handleSelectElementsWithinArea = (x, y, x1, y1) => {

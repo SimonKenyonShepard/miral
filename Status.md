@@ -121,6 +121,10 @@ Markdown editor for post-it's?
 
 Workshop agenda?
 
+Presenter mode - all follow your viewport
+
+tab between elements
+
 * required for release
 
 
