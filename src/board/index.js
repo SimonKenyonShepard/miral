@@ -50,9 +50,11 @@ class Board extends Component {
             elementState : []
         },
       };
+      this.canvasAnimations = [];
     }
 
     handlePanStart(e, dragStartX, dragStartY) {
+        this.clearCanvasAnimations();
         this.panEventTimeStamp = Date.now();
         this.velocityX = 0;
         this.velocityY = 0;
@@ -139,6 +141,8 @@ class Board extends Component {
             currentValueY = offsetY,
             currentSinValue = 0,
             counter = 0;
+        
+        this.clearCanvasAnimations();
 
         do {
             counter++;
@@ -148,16 +152,23 @@ class Board extends Component {
             let time = stepCount*counter;
 
             (function(newOffsetX, newOffsetY, incrementDelay) {
-                setTimeout(() => {
+                this.canvasAnimations.push(setTimeout(() => {
                     this.setState({
                         offsetX : newOffsetX,
                         offsetY : newOffsetY,
                     });
-                }, incrementDelay);
+                }, incrementDelay));
             }.bind(this)(currentValueX, currentValueY, time));
 
         } while (currentSinValue < Math.PI)
 
+    }
+
+    clearCanvasAnimations = () => {
+        this.canvasAnimations.forEach(animation => {
+            clearTimeout(animation);
+        });
+        this.canvasAnimations = [];
     }
 
   

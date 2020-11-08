@@ -125,6 +125,8 @@ Presenter mode - all follow your viewport
 
 tab between elements
 
+multi-select of same elements allows mass changes (e.g. color)
+
 * required for release
 
 
