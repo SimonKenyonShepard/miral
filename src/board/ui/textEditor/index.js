@@ -22,36 +22,33 @@ class TextEditor extends Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
-        fontSize : 24*props.gridSpace.zoomLevel
+        fontSize : 24,
+        elementHeight : 0
       };
+      this.sizeCheckerInterval = null;
     }
 
     handleLostFocus = (e) => {
         this.props.handleUpdatedText({
             id : this.props.data.id,
             newText : (this.textInput.innerText || this.textInput.textContent).trim(),
-            fontSize : this.state.fontSize
+            fontSize : this.state.fontSize*this.props.gridSpace.zoomLevel
         });
-        // this.setState({
-        //     fontSize : 24*this.props.gridSpace.zoomLevel
-        // });
     }
 
-    handleKeyPress = () => {
+    sizeChecker = () => {
 
         const { isAutoResize, isExpandToFit } = ELEMENT_TYPE_PROPERTIES[this.props.data.type];
 
         if(isAutoResize && (this.textContainer.scrollHeight > this.textContainer.clientHeight)) {
             let newFontSize = 0;
-            if(this.state.fontSize > 8*this.props.gridSpace.zoomLevel) {
-                newFontSize = this.state.fontSize - 8*this.props.gridSpace.zoomLevel;
-                
-            } else {
-                newFontSize = this.state.fontSize/2;
-            }
+            newFontSize = (this.state.fontSize/3)*2;
             this.setState({fontSize : newFontSize});
         } else if(isExpandToFit && (this.textContainer.scrollHeight > this.textContainer.clientHeight)) {
-            this.props.handleSetElementHeight(this.props.data.id, this.textContainer.scrollHeight);
+            if(this.state.elementHeight !== this.textContainer.scrollHeight) {
+                this.props.handleSetElementHeight(this.props.data.id, this.textContainer.scrollHeight);
+                this.setState({elementHeight : this.textContainer.scrollHeight});
+            }
         }
     }
 
@@ -66,13 +63,21 @@ class TextEditor extends Component {
         });
     }
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps, nextState) {
         const {
             data
         } = nextProps;
 
-        const needsUpdate = (data !== this.props.data);
-        if(needsUpdate) {
+        const {
+            fontSize,
+            elementHeight
+        } = nextState;
+
+        const needsUpdateData = (data !== this.props.data);
+        const needsUpdateFont = (fontSize !== this.state.fontSize);
+        const needsUpdateLayout = (elementHeight !== this.state.elementHeight);
+
+        if(needsUpdateData || needsUpdateFont || needsUpdateLayout) {
             return true;
         }
         return false;
@@ -88,7 +93,7 @@ class TextEditor extends Component {
            visibility: "hidden"
        };
        const textStyles = {
-            fontSize : this.state.fontSize/this.props.gridSpace.zoomLevel
+            fontSize : this.state.fontSize
        };
        let starterText = "";
        let editorKey = "blank";
@@ -97,7 +102,7 @@ class TextEditor extends Component {
         let x = ((componentStyles.x || componentStyles.cx)/gridSpace.zoomLevel)-(gridSpace.offsetX/gridSpace.zoomLevel),
             y = ((componentStyles.y || componentStyles.cy)/gridSpace.zoomLevel)-(gridSpace.offsetY/gridSpace.zoomLevel),
             width = componentStyles.width/gridSpace.zoomLevel,
-            height = componentStyles.height/gridSpace.zoomLevel;
+            height = this.state.elementHeight;
         styles.top = `${y}px`;
         styles.left = `${x}px`; 
         styles.height = `${height}px`; 
@@ -124,7 +129,6 @@ class TextEditor extends Component {
         return (
             <div
                 style={styles}
-                onKeyPress={this.handleKeyPress}
                 ref={(container) => { this.textContainer = container; }}
             >
                 <div 
@@ -145,7 +149,7 @@ class TextEditor extends Component {
     }
 
    componentDidUpdate(prevProps, prevState) {
-       if(this.props.data) {
+       if(this.props.data && this.props.data.id) {
             this.textInput.focus();
             const moveCaretToEnd = this.props.data ? this.props.data.text.length > 0 : false;
             if(moveCaretToEnd && document.createRange) {
@@ -156,15 +160,18 @@ class TextEditor extends Component {
                 selection.removeAllRanges();
                 selection.addRange(range);
             }
+            if(!prevProps.data || (this.props.data.id !== prevProps.data.id)) {
+                this.setState({
+                    fontSize :  this.props.data.fontStyle.fontSize/this.props.gridSpace.zoomLevel,
+                    elementHeight : this.props.data.styles.height/this.props.gridSpace.zoomLevel
+                });
+                this.sizeCheckerInterval = setInterval(this.sizeChecker, 100);
+            }
             
+       } else {
+           clearInterval(this.sizeCheckerInterval);
        }
-        
-        // if(this.props.data && this.props.data.unScaledFontSize && this.props.data.unScaledFontSize !== this.state.fontSize) {
-        //     this.setState({fontSize : this.props.data.unScaledFontSize});
-        // }
-        //Can't remember why this was needed.
    }
-
     
   }
 

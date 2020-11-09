@@ -25,7 +25,7 @@ class Resizer extends Component {
                     newElement.styles.height += e.movementX*currentState.zoomLevel;
                     if(newElement.fontSizeAuto) {
                         newElement.fontStyle = {...newElement.fontStyle};
-                        const fontStyleIncreaseMultiplier = (newElementsData[item.id].styles.width+ (e.movementX*currentState.zoomLevel)) / newElementsData[item.id].styles.width;
+                        const fontStyleIncreaseMultiplier = (newElementsData[item.id].styles.width + (e.movementX*currentState.zoomLevel)) / newElementsData[item.id].styles.width;
                         newElementsData[item.id].fontStyle.fontSize = fontStyleIncreaseMultiplier * newElementsData[item.id].fontStyle.fontSize;
                     }
                 });
@@ -39,7 +39,7 @@ class Resizer extends Component {
                 newElementStyles.height += e.movementX*currentState.zoomLevel;
                 if(element.fontSizeAuto) {
                     newElement.fontStyle = {...newElement.fontStyle};
-                    const fontStyleIncreaseMultiplier = (newElement.styles.width+ (e.movementX*currentState.zoomLevel)) / newElement.styles.width;
+                    const fontStyleIncreaseMultiplier = (newElement.styles.width + (e.movementX*currentState.zoomLevel)) / newElement.styles.width;
                     newElement.fontStyle.fontSize = fontStyleIncreaseMultiplier * newElement.fontStyle.fontSize;
                 }
             } else if(selectedElements.length === 1) {

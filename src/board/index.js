@@ -273,9 +273,14 @@ class Board extends Component {
     }
 
     handleSetElementHeight = (elementID, height) => {
-        const newElementsData = {...this.state.elements};
-        newElementsData[elementID].styles.height = Number(height)*this.state.zoomLevel;
-        this.setState(newElementsData); //HOW DOES THIS WORK?
+        const newHeight  = Number(height)*this.state.zoomLevel;
+        if(this.state.elements[elementID].styles.height !== newHeight) {
+            const newElementsData = {...this.state.elements};
+            newElementsData[elementID] = {...newElementsData[elementID]};
+            newElementsData[elementID].styles = {...newElementsData[elementID].styles};
+            newElementsData[elementID].styles.height = newHeight;
+            this.setState({elements : newElementsData});
+        }
     };
 
     handleUpdateElementProperty = (data) => {
