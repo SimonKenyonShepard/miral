@@ -6,6 +6,7 @@ import PredefinedColorPicker from './editors/predefinedColorPicker';
 import CustomColorPicker from './editors/customColorPicker';
 import CustomBorderColorPicker from './editors/customBorderColorPicker';
 import BorderStyle from './editors/borderStyle';
+import TextFormat from './editors/textFormat';
 import FontStyle from './editors/fontStyle';
 import TextAlignment from './editors/textAlignment';
 import Link from './editors/link';
@@ -19,12 +20,12 @@ import Url from './editors/url';
 import './styles.css';
 
 const shapeTypeEditableFeatures = {
-    "postit" : ["predefinedColor", "fontStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "shape" : ["customColor", "customBorderColor", "borderStyle", "fontStyle", "textAlignment", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "text" : ["fontStyle", "textAlignment", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "postit" : ["predefinedColor", "textFormat", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "shape" : ["customColor", "customBorderColor", "borderStyle", "fontStyle", "textFormat",  "textAlignment", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "text" : ["fontStyle", "textFormat", "textAlignment", "bringForward", "sendBackward", "lock", "delete", "menu"],
     "line" : ["customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
     "image" : ["url", "customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "slide" : ["customColor", "fontStyle", "textAlignment", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "slide" : ["customColor", "bringForward", "sendBackward", "lock", "delete", "menu"],
     "link" : ["link", "lock", "delete", "menu"]
 };
 
@@ -131,6 +132,15 @@ class ElementEditor extends Component {
                                     handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                                     currentOpenSubMenu={this.state.currentOpenSubMenu}
                                 />;
+                    case 'textFormat':
+                    return <TextFormat 
+                                key={`${selectedElements[0].id}_${button}`}
+                                fontStyle={selectedElements[0].fontStyle}
+                                initialZoomLevel={selectedElements[0].initialZoomLevel}
+                                handleUpdateElementProperty={this.handleUpdateElementProperty}
+                                handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
+                                currentOpenSubMenu={this.state.currentOpenSubMenu}
+                            />;
                     case 'fontStyle':
                         return <FontStyle 
                                     key={`${selectedElements[0].id}_${button}`}
