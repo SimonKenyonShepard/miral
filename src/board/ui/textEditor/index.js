@@ -122,6 +122,10 @@ class TextEditor extends Component {
                 styles.justifyContent = "flex-end";
             }
         }
+        if(data.fontStyle.color) {
+            textStyles.color = data.fontStyle.color;
+        }
+
         editorKey=this.props.data.id;
             
        }

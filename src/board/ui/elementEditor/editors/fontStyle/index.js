@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import {ThemeContext} from '../../../../../theme-context';
+
 import './styles.css';
 
 const iconColor = "#333";
@@ -23,6 +25,22 @@ const FONT_FAMILIES = [
   "Verdana"
 ];
 
+class CustomColorOption extends Component {
+
+  handleSelectColor = () => {
+   this.props.handleUpdateColor(this.props.color);
+  }
+
+  render() {
+      return <div 
+              className={"availableColor"} 
+              style={{backgroundColor: this.props.color}}
+              onClick={this.handleSelectColor}  
+            />
+  }
+
+}
+
 class FontStyle extends Component {
 
     constructor(props, context) {
@@ -43,6 +61,13 @@ class FontStyle extends Component {
       }
     }
 
+    handleUpdateColor = (color) => {
+      this.props.handleUpdateElementProperty({
+        property : "fontStyle",
+        value : {...this.props.fontStyle, "color" : color} 
+      });
+    }
+
     handleFontChange = (e) => {
       let {fontFamily} = this.props.fontStyle;
       if(fontFamily !== e.target.value) {
@@ -61,7 +86,8 @@ class FontStyle extends Component {
     }
 
     render() {
-        
+        const theme = this.context;
+
         let submenuCSS = "predefinedColorPicker_submenu";
         if(this.state.subMenuOpen) {
           submenuCSS += " isVisible";
@@ -82,6 +108,16 @@ class FontStyle extends Component {
                   className={submenuCSS}
                 >
                     <div className={"arrow"} />
+                    {
+                      theme.fontColors.map((color, i) => {
+                        return <CustomColorOption 
+                                key={('fontColorOption_'+color)}
+                                color={color} 
+                                colorID={i}
+                                handleUpdateColor={this.handleUpdateColor}
+                              />
+                      })
+                    }
                     <div className="fontFamily">
                         <select 
                           value={this.props.fontStyle.fontFamily}
@@ -110,5 +146,7 @@ class FontStyle extends Component {
 
     
   }
+
+  FontStyle.contextType = ThemeContext;
 
   export default FontStyle;

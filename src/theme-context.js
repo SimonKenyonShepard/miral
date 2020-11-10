@@ -20,6 +20,11 @@ export const themes = {
       "#000000", //black
       "#999", //grey
     ],
+    fontColors : [
+      "#ffffff", //white
+      "#999", //grey
+      "#080808" //text grey/black
+    ],
   },
   dark: {
     
