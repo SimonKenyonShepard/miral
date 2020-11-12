@@ -32,6 +32,7 @@ class Link extends Component {
       property : "link",
       value : e.target.value
     });
+
   }
 
   render() {
@@ -65,7 +66,7 @@ class Link extends Component {
                         list={"frameNames"}
                       />
                       <datalist id="frameNames">
-                        {this.props.getSlides().map((slideName) =>  <option value={slideName} />)}
+                        {this.props.getSlides().map((slideName, i) =>  <option value={`element://${slideName}`} key={`linkOption_${slideName}`}>Slide {(i+1)}</option>)}
                       </datalist>
                     </div>
                 </div>

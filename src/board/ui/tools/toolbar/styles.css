@@ -122,6 +122,10 @@
     background-image: url("/icons/more_horiz-24px.svg");
 }
 
+.toolbar_link {
+    background-image: url("/icons/insert_link-24px.svg");
+}
+
 .toolbar_slide {
     background-image: url("/icons/slideshow-24px.svg");
 }

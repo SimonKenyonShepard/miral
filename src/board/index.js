@@ -20,6 +20,9 @@ import Elements from './elements';
 import Shortid from 'shortid';
 import {objectClone} from './utils';
 
+//SVG
+import Pattern from './pattern';
+
 import './styles.css';
 
 
@@ -99,7 +102,6 @@ class Board extends Component {
     }
 
     animateToElement = (elementID, duration) => {
-        console.log("animate to", elementID, duration);
         const {
             zoomLevel,
             elements
@@ -742,6 +744,9 @@ class Board extends Component {
                                     <polygon points="0,0 0,5 5,2.5" fill="#000" />
                                 </marker>
                             </defs>
+                            <Pattern 
+                                zoomLevel={zoomLevel}
+                            />
                             <ElementDrag 
                                 boundingBox={boundingBox}
                                 elementKeys={elementKeys}
@@ -755,6 +760,7 @@ class Board extends Component {
                                 handleSetCurrentElement={this.handleSetCurrentElement}
                                 isSelected={this.isSelected}
                                 isUniqueSelected={this.isUniqueSelected}
+                                animateToElement={this.animateToElement}
                                 zoomLevel={zoomLevel}
                             />
                         </svg>

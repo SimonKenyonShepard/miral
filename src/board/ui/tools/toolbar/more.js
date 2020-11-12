@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import MultiTool from './multiTool';
 
 import Slide from "./slide";
+import Link from "./link";
 import PDF from "./pdf";
 import Iframe from "./iframe";
 import Youtube from "./youtube";
@@ -42,6 +43,7 @@ class More extends Component {
 
         const autoActivate = {
             slide : false,
+            link : false,
             pdf : false,
             iframe : false,
             youtube : false,
@@ -63,6 +65,16 @@ class More extends Component {
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
                 autoActivate={autoActivate.slide}
+            />,
+            <Link
+                key={"tool_link"}
+                handleToolSelect={this.handleToolSelect}
+                handleDrawCanvasShow={handleDrawCanvasShow}
+                registerDragHandler={registerDragHandler}
+                handleDragMove={handleDragMove}
+                handleDragEnd={handleDragEnd}
+                currentSelectedTool={currentSelectedTool}
+                autoActivate={autoActivate.link}
             />,
             <PDF
                 key={"tool_pdf"}

@@ -50,6 +50,10 @@ arrow keys to move elements around - done
 change font size - done
 Fix undo  - done
 
+ctrl-c & ctrl v copy/paste *
+ctrl-z undo *
+change font color - black/white *
+
 Bugs 
 
 
@@ -104,14 +108,8 @@ Zoom in/out buttons
 grid Scaling
 grid guides
 
-change font color - black/white *
-
 comments
 tables
-
-ctrl-c & ctrl v copy/paste *
-
-ctrl-z undo *
 
 ctrl-s - save
 

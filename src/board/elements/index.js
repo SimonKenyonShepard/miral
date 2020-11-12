@@ -7,6 +7,7 @@ import Postit from './postit';
 import Line from './line';
 import Image from './image';
 import Slide from './slide';
+import Link from './link';
 
 
 class Elements extends PureComponent {
@@ -26,7 +27,8 @@ class Elements extends PureComponent {
             handleSetCurrentElement,
             isSelected,
             isUniqueSelected,
-            zoomLevel
+            zoomLevel,
+            animateToElement
         } = this.props;
 
         const slides = [];
@@ -108,6 +110,19 @@ class Elements extends PureComponent {
                     isSelected={isSelected}
                     slideNumber={slides.length}
                     lowDetail={lowDetail}
+                />);
+            } else if (element.type === "link") {
+                slides.push(element.id);
+                return (<Link
+                    key={element.id}
+                    data={element}
+                    styles={element.styles}
+                    fontStyles={element.fontStyles}
+                    elementState={elementState[element.id]}
+                    handleSetCurrentElement={handleSetCurrentElement}
+                    isSelected={isSelected}
+                    lowDetail={lowDetail}
+                    animateToElement={animateToElement}
                 />);
             }
             return null;

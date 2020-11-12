@@ -2,23 +2,29 @@ import React, {PureComponent} from 'react';
 
 import './styles.css';
 
-class Shape extends PureComponent {
+class Link extends PureComponent {
 
     constructor(props, context) {
       super(props, context);
       this.state = {};
     }
 
-    handleTextEdit = (e) => {
-        this.props.handleTextEdit(this.props.data.id);
+    handleLinkClick = (e) => {
+        if(this.props.data.link.indexOf("element://") !== -1) {
+            const element = this.props.data.link.split("://")[1];
+            this.props.animateToElement(element, 1);
+        } else if (this.props.data.link.indexOf("http") !== -1) {
+            window.open(this.props.data.link,'_blank');
+        }
+        
     }
   
     render() {
         const {elementState, data} = this.props;
         const shapeProps = {...this.props.data.styles};
-        let text = null;
         let shape = null;
         let overlay = null;
+        let linkHitArea = null;
         if(this.props.isSelected(data.id)) {
             shapeProps.style = {outline : `${(data.initialZoomLevel)}px dashed #5086F2`};
         } else if(elementState.selected) {
@@ -29,33 +35,15 @@ class Shape extends PureComponent {
                 fill="#000000"
             />);
         }
-        if(data.text) {
-            const textBody = data.text.split(/\n|\r/).map((line, i) => {
-                return(<div key={`${data.id}_${line}_${i}`}>{line}</div>);
-            });
-            const fontStyle = {
-                ...data.fontStyle,
-                lineHeight : `${(data.fontStyle.fontSize*1.4)}px`,
-                padding : `${data.padding}px`,
-                width : "100%"
-            };
-            text = (
-                <foreignObject
-                    className="svg_textContainer_foreignObject"
-                    x={shapeProps.x}
-                    y={shapeProps.y}
-                    height={shapeProps.height}
-                    width={shapeProps.width}
-                >
-                    <div
-                        className="svg_textContainer"
-                    >
-                        <div className="svg_textContainer_line" style={fontStyle}>{textBody}</div>
-                    </div>
-                    
-                </foreignObject>
-            );
-        }
+
+        const strokeWidth = 20*data.initialZoomLevel;
+
+        shapeProps.fill = "url(#diagonalHatch)";
+        shapeProps.fillOpacity = "1";
+        shapeProps.stroke = "#ccc";
+        shapeProps.strokeOpacity = "0.3";
+        shapeProps.strokeWidth = strokeWidth;
+        
 
         if(data.shapeType === 0) {
             shape = <rect
@@ -83,14 +71,28 @@ class Shape extends PureComponent {
         } else {
             shape = <text>No Shape Type Set</text>;
         }
+
+        if(data.link) {
+            
+            linkHitArea = (<rect 
+                height={shapeProps.height-strokeWidth}
+                width={shapeProps.width-strokeWidth}
+                x={shapeProps.x+(strokeWidth/2)}
+                y={shapeProps.y+(strokeWidth/2)}
+                fillOpacity={0}
+                onClick={this.handleLinkClick}
+                cursor={"pointer"}
+            />);
+
+        }
+
         return (
             <g 
-                onDoubleClick={this.handleTextEdit}
                 height={shapeProps.height}
                 width={shapeProps.width}
             >
                 {shape}
-                {text}
+                {linkHitArea}
                 {overlay}
             </g>
         );
@@ -98,4 +100,4 @@ class Shape extends PureComponent {
     
   }
 
-  export default Shape;
+  export default Link;
