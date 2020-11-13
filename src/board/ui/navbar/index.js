@@ -87,7 +87,9 @@ class Navbar extends PureComponent {
 
     loadFileFromBrowser = (fileName) => {
         const file = window.localStorage.getItem(`miralFile_${fileName}`);
-        const state = Object.assign({}, this.props.applicationState, JSON.parse(file));
+        const dataToLoad = JSON.parse(file);
+        dataToLoad.boardName = fileName;
+        const state = Object.assign({}, this.props.applicationState, dataToLoad);
         this.props.handleUpdateElementsAndState(state);
         this.setState({
             menuVisible : false,
