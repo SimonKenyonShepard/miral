@@ -19,6 +19,16 @@
     border-right: 1px solid #ccc;
     cursor: text;
     padding-right: 8px;
+    white-space: nowrap;
+}
+
+.boardName br {
+    display:none;
+}
+
+.boardName * {
+    display:inline;
+    white-space:nowrap;
 }
 
 .iconButton {
