@@ -12,6 +12,7 @@ class FileOption extends Component {
         return(<div
             className={"navBar_menu_item"}
             onClick={this.handleClick}
+            onDoubleClick={this.handleDblClick}
         >
             {this.props.fileName}
         </div>);
@@ -131,6 +132,7 @@ class Navbar extends PureComponent {
                         key={`fileOption_${fileName}`} 
                         fileName={fileName}
                         loadFile={this.loadFileFromBrowser} 
+                        deleteFile={this.deleteFileFromLocalStorage}
                     />
                 );
             }
@@ -220,6 +222,34 @@ class Navbar extends PureComponent {
         });
         
     }
+
+    deleteFileFromLocalStorage = () => {
+        const applicationState = this.props.getState();
+        const {
+            boardName 
+        } = applicationState;
+
+        window.localStorage.removeItem(`miralFile_${boardName}`);
+        this.newFile();
+    }
+
+    newFile = () => {
+        const applicationState = this.props.getState();
+        const blankState = {
+            elements : {},
+            elementState : {},
+            boardName : "newBoard",
+            zoomLevel : 100,
+            offsetX : 0,
+            offsetY : 0
+        };
+        const state = Object.assign({}, applicationState, blankState);
+        this.props.handleUpdateElementsAndState(state);
+        this.setState({
+            menuVisible : false,
+            subMenu : []
+        });
+    }
   
     render() {
         const { 
@@ -276,6 +306,16 @@ class Navbar extends PureComponent {
                                 )}
                                 <div 
                                     className={"navBar_menu_item"}
+                                    onClick={this.newFile}
+                                >   
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                                        <path d="M4.01 2L4 22h16V8l-6-6H4.01zM13 9V3.5L18.5 9H13z"/>
+                                    </svg>
+                                    <span>New board</span>
+                                </div>
+                                <div 
+                                    className={"navBar_menu_item"}
                                     onClick={this.saveToBrowser}
                                 >   
                                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
@@ -314,6 +354,16 @@ class Navbar extends PureComponent {
                                         <path d="m7.4,8.77525l-2.97298,3.17475l2.97298,3.17475l-0.91526,0.97525l-3.89474,-4.15l3.89474,-4.15l0.91526,0.97525z" />
                                     </svg>
                                     <span>Load from file</span>
+                                </div>
+                                <div 
+                                    className={"navBar_menu_item"}
+                                    onClick={this.deleteFileFromLocalStorage}
+                                >   
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                                        <path d="M6 21h12V7H6v14zm2.46-9.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4h-3.5z"/>
+                                    </svg>
+                                    <span>Delete board</span>
                                 </div>
                             </div>
                             <div className={"navBar_menu_items"} >
