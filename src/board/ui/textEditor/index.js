@@ -39,7 +39,7 @@ class TextEditor extends Component {
     sizeChecker = () => {
 
         const { isAutoResize, isExpandToFit } = ELEMENT_TYPE_PROPERTIES[this.props.data.type];
-
+        //HOW TO FIGURE OUT IF THE TEXT GOT SHORTER AGAIN & INCREASE FONT SIZE
         if(isAutoResize && (this.textContainer.scrollHeight > this.textContainer.clientHeight)) {
             let newFontSize = 0;
             newFontSize = (this.state.fontSize/3)*2;

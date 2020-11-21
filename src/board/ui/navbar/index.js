@@ -30,6 +30,18 @@ class Navbar extends PureComponent {
           mondaySaveAvailable : false,
         };
       }
+
+    deselectElements(elementState) {
+        const newElementStateData = {...elementState};
+        Object.keys(newElementStateData).forEach(item => {
+            if(item.selected !== false) {
+                const newElement = {...newElementStateData[item]};
+                newElement.selected = false;
+                newElementStateData[item] = newElement;
+            }
+        });
+        return newElementStateData;
+    }
     
     handleOpenMenu = (e) => {
         e.stopPropagation();
@@ -41,8 +53,8 @@ class Navbar extends PureComponent {
     
     saveToBrowser = (e) => {
         const applicationState = this.props.getState();
+        applicationState.elementState = this.deselectElements(applicationState.elementState);
         const stateToSave = {
-            userID : applicationState.userID,
             elements : applicationState.elements,
             elementState : applicationState.elementState,
             boardName : applicationState.boardName,
@@ -64,8 +76,8 @@ class Navbar extends PureComponent {
 
     saveToFile = (e) => {
         const applicationState = this.props.getState();
+        applicationState.elementState = this.deselectElements(applicationState.elementState);
         const stateToSave = {
-            userID : applicationState.userID,
             elements : applicationState.elements,
             elementState : applicationState.elementState,
             boardName : applicationState.boardName,
@@ -151,9 +163,9 @@ class Navbar extends PureComponent {
 
     saveToMonday = (e) => {
         const monday = window.mondaySdk();
-        const { applicationState } = this.props;
+        const applicationState = this.props.getState();
+        applicationState.elementState = this.deselectElements(applicationState.elementState);
         const stateToSave = {
-            userID : applicationState.userID,
             elements : applicationState.elements,
             elementState : applicationState.elementState,
             boardName : applicationState.boardName,

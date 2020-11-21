@@ -28,7 +28,8 @@ class Elements extends PureComponent {
             isSelected,
             isUniqueSelected,
             zoomLevel,
-            animateToElement
+            animateToElement,
+            loadRemoteBoard
         } = this.props;
 
         const slides = [];
@@ -123,6 +124,7 @@ class Elements extends PureComponent {
                     isSelected={isSelected}
                     lowDetail={lowDetail}
                     animateToElement={animateToElement}
+                    loadRemoteBoard={loadRemoteBoard}
                 />);
             }
             return null;

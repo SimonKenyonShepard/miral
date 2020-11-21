@@ -33,6 +33,7 @@ class Board extends Component {
       super(props, context);
       this.state = {
         boardName : "new-board-"+new Date().toLocaleDateString().replace(/\//g, ""),
+        boardID : Shortid.generate(),
         userID : Shortid.generate(),
         zoomLevel : 100,
         offsetX : 0,
@@ -550,7 +551,7 @@ class Board extends Component {
 
     getState = () => {
 
-        return this.state;
+        return {...this.state};
 
     }
 
@@ -688,7 +689,15 @@ class Board extends Component {
         })
     }
 
-
+    loadRemoteBoard = (url) => {
+        fetch(url)
+            .then((resp) => resp.json())
+            .then((data) => {
+                const newState = Object.assign({}, this.state, data);
+                this.setState(newState);
+            })
+            .catch(e => console.log(e));
+    }
 
     render() {
         const {width, height} = this.props;
@@ -761,6 +770,7 @@ class Board extends Component {
                                 isSelected={this.isSelected}
                                 isUniqueSelected={this.isUniqueSelected}
                                 animateToElement={this.animateToElement}
+                                loadRemoteBoard={this.loadRemoteBoard}
                                 zoomLevel={zoomLevel}
                             />
                         </svg>

@@ -13,6 +13,9 @@ class Link extends PureComponent {
         if(this.props.data.link.indexOf("element://") !== -1) {
             const element = this.props.data.link.split("://")[1];
             this.props.animateToElement(element, 1);
+        } else if (this.props.data.link.indexOf("wswb") !== -1) {
+            const realURL = this.props.data.link.replace(/wswb/, "http");
+            this.props.loadRemoteBoard(realURL);
         } else if (this.props.data.link.indexOf("http") !== -1) {
             window.open(this.props.data.link,'_blank');
         }
