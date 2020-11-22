@@ -5,7 +5,7 @@ import './styles.css';
 class FileOption extends Component {
 
     handleClick = (e) => {
-        this.props.loadFile(this.props.fileName);
+        this.props.loadFile(`miralFile_${this.props.fileName}`);
     }
 
     render() {
@@ -19,6 +19,7 @@ class FileOption extends Component {
     }
 }
 
+const autosave_fileName = `miral_autoSave`;
 
 class Navbar extends PureComponent {
 
@@ -50,10 +51,31 @@ class Navbar extends PureComponent {
             subMenu : []
         });
     }
+
+    autoSave = () => {
+        const applicationState = this.props.getState();
+        applicationState.elementState = this.deselectElements(applicationState.elementState);
+        if(Object.keys(applicationState.elements).length > 0) {
+            const stateToSave = {
+                elements : applicationState.elements,
+                elementState : applicationState.elementState,
+                boardName : applicationState.boardName,
+                zoomLevel : applicationState.zoomLevel,
+                offsetX : applicationState.offsetX,
+                offsetY : applicationState.offsetY
+            };
+            window.localStorage.setItem(autosave_fileName, JSON.stringify(stateToSave));
+        } else {
+            window.localStorage.removeItem(autosave_fileName);
+        }
+       
+        
+    }
     
     saveToBrowser = (e) => {
         const applicationState = this.props.getState();
         applicationState.elementState = this.deselectElements(applicationState.elementState);
+
         const stateToSave = {
             elements : applicationState.elements,
             elementState : applicationState.elementState,
@@ -62,11 +84,8 @@ class Navbar extends PureComponent {
             offsetX : applicationState.offsetX,
             offsetY : applicationState.offsetY
         };
+        
         let fileName = `miralFile_${applicationState.boardName}`;
-        const checkIfAlreadyExists = window.localStorage.getItem(fileName);
-        if(checkIfAlreadyExists) {
-            fileName = fileName+"_"+new Date().getHours()+new Date().getMinutes();
-        }
         window.localStorage.setItem(fileName, JSON.stringify(stateToSave));
         this.setState({
             menuVisible : false,
@@ -98,9 +117,8 @@ class Navbar extends PureComponent {
     }
 
     loadFileFromBrowser = (fileName) => {
-        const file = window.localStorage.getItem(`miralFile_${fileName}`);
+        const file = window.localStorage.getItem(fileName);
         const dataToLoad = JSON.parse(file);
-        dataToLoad.boardName = fileName;
         const state = Object.assign({}, this.props.applicationState, dataToLoad);
         this.props.handleUpdateElementsAndState(state);
         this.setState({
@@ -248,21 +266,29 @@ class Navbar extends PureComponent {
     }
 
     newFile = () => {
-        const applicationState = this.props.getState();
-        const blankState = {
-            elements : {},
-            elementState : {},
-            boardName : "newBoard",
-            zoomLevel : 100,
-            offsetX : 0,
-            offsetY : 0
-        };
-        const state = Object.assign({}, applicationState, blankState);
-        this.props.handleUpdateElementsAndState(state);
-        this.setState({
-            menuVisible : false,
-            subMenu : []
-        });
+        //TODO write robust mechanism to determine whether file has changed.
+        const checkWillLoseChanges = window.localStorage.getItem(autosave_fileName);
+        let userConfirmation = true;
+        if(checkWillLoseChanges) {
+            userConfirmation = window.confirm("All changes in current board will be lost, are you sure?");
+        }
+        if(userConfirmation) {
+            const applicationState = this.props.getState();
+            const blankState = {
+                elements : {},
+                elementState : {},
+                boardName : "new-board-"+new Date().toLocaleDateString().replace(/\//g, ""),
+                zoomLevel : 100,
+                offsetX : 0,
+                offsetY : 0
+            };
+            const state = Object.assign({}, applicationState, blankState);
+            this.props.handleUpdateElementsAndState(state);
+            this.setState({
+                menuVisible : false,
+                subMenu : []
+            });
+        }
     }
   
     render() {
@@ -288,6 +314,16 @@ class Navbar extends PureComponent {
                     <div className={`navBar_menu_sliderWrapper`} >
                         <div className={`navBar_menu_slider ${letFirstMenuHidden}`} >
                             <div className={`navBar_menu_items`} >
+                                <div 
+                                    className={"navBar_menu_item"}
+                                    onClick={this.newFile}
+                                >   
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                                        <path d="M4.01 2L4 22h16V8l-6-6H4.01zM13 9V3.5L18.5 9H13z"/>
+                                    </svg>
+                                    <span>New board</span>
+                                </div>
                                 {(mondaySaveAvailable &&
                                     <>
                                         <div 
@@ -318,36 +354,30 @@ class Navbar extends PureComponent {
                                         </div>
                                     </>
                                 )}
-                                <div 
-                                    className={"navBar_menu_item"}
-                                    onClick={this.newFile}
-                                >   
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                                        <path d="M0 0h24v24H0V0z" fill="none"/>
-                                        <path d="M4.01 2L4 22h16V8l-6-6H4.01zM13 9V3.5L18.5 9H13z"/>
-                                    </svg>
-                                    <span>New board</span>
-                                </div>
-                                <div 
-                                    className={"navBar_menu_item"}
-                                    onClick={this.saveToBrowser}
-                                >   
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                                        <path d="M0 0h24v24H0V0z" fill="none"/>
-                                        <path d="M19 12v7H5v-7H3v9h18v-9h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/>
-                                    </svg>
-                                    <span>Save to Browser</span>
-                                </div>
-                                <div 
-                                    className={"navBar_menu_item"}
-                                    onClick={this.getSavedFromBrowser}
-                                >
-                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="m19,12l0,7l-14,0l0,-7l-2,0l0,9l18,0l0,-9l-2,0z" fill="black" id="svg_2"/>
-                                        <path d="m12.75,11.67l2.59,-2.58l1.41,1.41l-5,5l-5,-5l1.41,-1.41l2.59,2.58l0,-9.67l2,0c0,3.223333 0,6.446667 0,9.67z" fill="black" id="svg_3" transform="rotate(180 11.75 8.75)"/>
-                                    </svg>
-                                    <span>Load from Browser</span>
-                                </div>
+                                {(!mondaySaveAvailable &&
+                                    <>
+                                        <div 
+                                            className={"navBar_menu_item"}
+                                            onClick={this.saveToBrowser}
+                                        >   
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                                <path d="M0 0h24v24H0V0z" fill="none"/>
+                                                <path d="M19 12v7H5v-7H3v9h18v-9h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/>
+                                            </svg>
+                                            <span>Save to Browser</span>
+                                        </div>
+                                        <div 
+                                            className={"navBar_menu_item"}
+                                            onClick={this.getSavedFromBrowser}
+                                        >
+                                            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="m19,12l0,7l-14,0l0,-7l-2,0l0,9l18,0l0,-9l-2,0z" fill="black" id="svg_2"/>
+                                                <path d="m12.75,11.67l2.59,-2.58l1.41,1.41l-5,5l-5,-5l1.41,-1.41l2.59,2.58l0,-9.67l2,0c0,3.223333 0,6.446667 0,9.67z" fill="black" id="svg_3" transform="rotate(180 11.75 8.75)"/>
+                                            </svg>
+                                            <span>Load from Browser</span>
+                                        </div>
+                                    </>
+                                )}
                                 <div 
                                     className={"navBar_menu_item"}
                                     onClick={this.saveToFile}
@@ -393,6 +423,7 @@ class Navbar extends PureComponent {
     }
 
     componentDidMount() {
+        //enable monday.com save options & disable browser save
         const url = document.location.ancestorOrigins[0];
         if(url) {
             const isMonday = url.indexOf("monday.com") !== -1;
@@ -402,6 +433,14 @@ class Navbar extends PureComponent {
                 });
             }
         }
+        //load previous autosave
+        const checkIfAlreadyExists = window.localStorage.getItem(autosave_fileName);
+        if(checkIfAlreadyExists) {
+            this.loadFileFromBrowser(autosave_fileName);
+        }
+        //start autosave
+        setInterval(this.autoSave, 5000);
+
     }
     
   }
