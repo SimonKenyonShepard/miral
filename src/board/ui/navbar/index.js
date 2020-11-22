@@ -439,7 +439,7 @@ class Navbar extends PureComponent {
             this.loadFileFromBrowser(autosave_fileName);
         }
         //start autosave
-        setInterval(this.autoSave, 5000);
+        //setInterval(this.autoSave, 5000);
 
     }
     

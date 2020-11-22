@@ -851,6 +851,11 @@ class Board extends Component {
             "dragEndHandler" : this.handlePanEnd,
             "clickHandler" : this.handleDeselectAllElements
         });
+        const isNotFirstUse = window.localStorage.getItem("miral_isFirstUse");
+        if(!isNotFirstUse) {
+            this.loadRemoteBoard("https://raw.githubusercontent.com/SimonKenyonShepard/miral_templates/main/whiteboardFile_splashScreen.wswb");
+            window.localStorage.setItem("miral_isFirstUse", true);
+        }
         
     }
 
