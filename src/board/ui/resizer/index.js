@@ -16,13 +16,22 @@ class Resizer extends Component {
         if(selectedElements) {
             const newElementsData = {...currentState.elements};
             if(selectedElements.length > 1) {
+                const boundingBox = this.calculateSelectedElementsBoundingBox(selectedElements, currentState.zoomLevel, currentState.offsetX, currentState.offsetY);
+                const xPercentageIncrease = (boundingBox.rawWidth + (e.movementX*currentState.zoomLevel))/boundingBox.rawWidth,
+                      yPercentageIncrease = (boundingBox.rawHeight + (e.movementY*currentState.zoomLevel))/boundingBox.rawHeight;
                 selectedElements.forEach(item => {
                     const newElement = {...newElementsData[item.id]};
                     newElementsData[item.id] = newElement;
                     const newElementStyles = {...newElement.styles};
                     newElement.styles = newElementStyles;
-                    newElement.styles.width += e.movementX*currentState.zoomLevel;
-                    newElement.styles.height += e.movementX*currentState.zoomLevel;
+                    newElement.styles.width *= xPercentageIncrease;
+                    newElement.styles.height *= yPercentageIncrease;
+                    const relativeXOffset = newElement.styles.x-boundingBox.rawX,
+                          relativeYOffset = newElement.styles.y-boundingBox.rawY;
+
+                    newElement.styles.x = (newElement.styles.x-relativeXOffset)+(relativeXOffset*xPercentageIncrease);
+                    newElement.styles.y = (newElement.styles.y-relativeYOffset)+(relativeYOffset*yPercentageIncrease);
+
                     if(newElement.fontSizeAuto) {
                         newElement.fontStyle = {...newElement.fontStyle};
                         const fontStyleIncreaseMultiplier = (newElementsData[item.id].styles.width + (e.movementX*currentState.zoomLevel)) / newElementsData[item.id].styles.width;
