@@ -8,6 +8,7 @@ import Line from './line';
 import Image from './image';
 import Slide from './slide';
 import Link from './link';
+import Youtube from './youtube';
 
 
 class Elements extends PureComponent {
@@ -125,6 +126,18 @@ class Elements extends PureComponent {
                     lowDetail={lowDetail}
                     animateToElement={animateToElement}
                     loadRemoteBoard={loadRemoteBoard}
+                />);
+            } else if (element.type === "youtube") {
+                return (<Youtube
+                    key={element.id}
+                    data={element}
+                    styles={element.styles}
+                    fontStyles={element.fontStyles}
+                    elementState={elementState[element.id]}
+                    handleTextEdit={handleTextEdit}
+                    handleSetCurrentElement={handleSetCurrentElement}
+                    isSelected={isSelected}
+                    lowDetail={lowDetail}
                 />);
             }
             return null;

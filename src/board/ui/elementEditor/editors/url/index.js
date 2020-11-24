@@ -29,7 +29,7 @@ class URL extends Component {
     handleURLChange = (e) => {
       
       this.props.handleUpdateElementProperty({
-        property : "imgURL",
+        property : "URL",
         value : e.target.value
       });
     }
@@ -61,7 +61,7 @@ class URL extends Component {
                       <input  
                         name="imgURL" 
                         onChange={this.handleURLChange}
-                        value={this.props.imgURL}
+                        value={this.props.URL}
                       />
                     </div>
                 </div>

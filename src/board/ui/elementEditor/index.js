@@ -26,7 +26,8 @@ const shapeTypeEditableFeatures = {
     "line" : ["customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
     "image" : ["url", "customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
     "slide" : ["customColor", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "link" : ["link", "lock", "delete", "menu"]
+    "link" : ["link", "lock", "delete", "menu"],
+    "youtube" : ["url", "lock", "delete", "menu"]
 };
 
 const multiElementEditableFeatures = ["bringForward", "sendBackward", "lock", "delete", "menu"];
@@ -191,7 +192,7 @@ class ElementEditor extends Component {
                     case 'url':
                         return <Url 
                                     key={`${selectedElements[0].id}_${button}`}
-                                    imgURL={selectedElements[0].imgURL}
+                                    URL={selectedElements[0].URL}
                                     handleUpdateElementProperty={this.handleUpdateElementProperty}
                                     handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                                     currentOpenSubMenu={this.state.currentOpenSubMenu}

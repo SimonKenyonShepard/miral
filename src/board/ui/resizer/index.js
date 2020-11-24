@@ -24,6 +24,7 @@ class Resizer extends Component {
                     newElementsData[item.id] = newElement;
                     const newElementStyles = {...newElement.styles};
                     newElement.styles = newElementStyles;
+                    //TOTEST : Multi-selected elements resize correctly 
                     newElement.styles.width *= xPercentageIncrease;
                     newElement.styles.height *= yPercentageIncrease;
                     const relativeXOffset = newElement.styles.x-boundingBox.rawX,
@@ -39,6 +40,7 @@ class Resizer extends Component {
                     }
                 });
             } else if(selectedElements.length === 1 && selectedElements[0].fixedRatio) {
+                //TOTEST : Fixed ratio elements resize correctly 
                 let element = newElementsData[selectedElements[0].id];
                 const newElement = {...element};
                 newElementsData[selectedElements[0].id] = newElement;
@@ -52,6 +54,7 @@ class Resizer extends Component {
                     newElement.fontStyle.fontSize = fontStyleIncreaseMultiplier * newElement.fontStyle.fontSize;
                 }
             } else if(selectedElements.length === 1) {
+                //TOTEST : Single elements resize correctly
                 let element = newElementsData[selectedElements[0].id];
                 const newElement = {...element};
                 newElementsData[selectedElements[0].id] = newElement;

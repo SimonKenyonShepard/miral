@@ -31,7 +31,7 @@ class Image extends PureComponent {
         }
             
         const imgStyle = {
-            backgroundImage : `url(${data.imgURL})`,
+            backgroundImage : `url(${data.URL})`,
             backgroundRepeat : "no-repeat",
             backgroundSize : "contain",
             backgroundPosition : "0 0",
