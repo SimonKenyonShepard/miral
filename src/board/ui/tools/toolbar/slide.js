@@ -25,6 +25,7 @@ class Slide extends Component {
         newElement.styles.width = width*currentState.zoomLevel;
         newElement.styles.height = height*currentState.zoomLevel;
         newElement.styles.strokeOpacity = 0;
+        newElement.styles.fill = "#fdfcfa";
         newElement.slideName = "Slide";
 
         newState.elementState = {...currentState.elementState};
@@ -54,6 +55,7 @@ class Slide extends Component {
         newElement.styles.width = width*currentState.zoomLevel;
         newElement.styles.height = height*currentState.zoomLevel;
         newElement.styles.strokeOpacity = 0;
+        newElement.styles.fill = "#fdfcfa";
         newElement.slideName = "Slide";
 
         newState.elementState = {...currentState.elementState};
