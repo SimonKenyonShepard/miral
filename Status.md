@@ -53,6 +53,7 @@ Fix undo  - done
 ctrl-c & ctrl v copy/paste *
 ctrl-z undo *
 change font color - black/white *
+Link to slides - with animated border*
 
 Bugs 
 
@@ -64,6 +65,7 @@ store creds (name initials) in local storage *
 basic encryption for data on server
 
 
+
 TESTS TESTS TESTS
 
 
@@ -71,10 +73,13 @@ Backlog
 
 Templates - 25 templates
 
-slides - autozoom 
+slides - autozoom
+slides - templates
+slides - edit name
+
+align text - top/bottom/middle
 
 Rotate elements
-Link to slides - with animated border*
 
 line resizer - hard
 Menu buttons highlight - easy
@@ -124,6 +129,12 @@ Presenter mode - all follow your viewport
 tab between elements
 
 multi-select of same elements allows mass changes (e.g. color)
+
+Persona
+ 
+user Journey
+
+Multi-select alignment tools
 
 * required for release
 

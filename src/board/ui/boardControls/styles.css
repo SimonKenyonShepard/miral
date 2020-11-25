@@ -167,6 +167,11 @@
     margin-right: 8px;
 }
 
+.buttonDisabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 @keyframes pulse {
     0% {
         opacity : 0.5;
