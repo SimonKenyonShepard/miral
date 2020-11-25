@@ -21,7 +21,8 @@ export function createElementBaseObject(id, type, initialZoomLevel) {
             fontStyle : "normal",
             textDecorationLine : "",
             color : "#080808",
-            textAlign: "center" 
+            textAlign: "center",
+            alignItems : "center" 
         },
         text : "",
         initialZoomLevel,

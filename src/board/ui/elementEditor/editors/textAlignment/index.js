@@ -30,6 +30,30 @@ function RightIcon(props) {
   );
 }
 
+function AlignTopIcon(props) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+      <path fill={props.iconColor} d="M8 11h3v10h2V11h3l-4-4-4 4zM4 3v2h16V3H4z"/>
+    </svg>
+  );
+}
+
+function AlignCenterIcon(props) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+      <path fill={props.iconColor} d="M8 19h3v4h2v-4h3l-4-4-4 4zm8-14h-3V1h-2v4H8l4 4 4-4zM4 11v2h16v-2H4z"/>
+    </svg>
+  );
+}
+
+function AlignBottomIcon(props) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+      <path fill={props.iconColor} d="M16 13h-3V3h-2v10H8l4 4 4-4zM4 19v2h16v-2H4z"/>
+    </svg>
+  );
+}
+
 
 class TextAlignment extends Component {
 
@@ -71,6 +95,28 @@ class TextAlignment extends Component {
         value : {...this.props.fontStyle, "textAlign" : "center"}
       });
     }
+
+    handleAlignTop = () => {
+      this.props.handleUpdateElementProperty({
+        property : "fontStyle",
+        value : {...this.props.fontStyle, "alignItems" : "top"}
+      });
+    }
+
+    handleAlignCenter = () => {
+      this.props.handleUpdateElementProperty({
+        property : "fontStyle",
+        value : {...this.props.fontStyle, "alignItems" : "center"}
+      });
+    }
+
+    handleAlignBottom = () => {
+      this.props.handleUpdateElementProperty({
+        property : "fontStyle",
+        value : {...this.props.fontStyle, "alignItems" : "bottom"}
+      });
+    }
+
     render() {
 
         let submenuCSS = "predefinedColorPicker_submenu";
@@ -80,7 +126,10 @@ class TextAlignment extends Component {
 
         let leftSelected = (this.props.fontStyle.textAlign === "left") ? "selected" : null,
             centerSelected = (this.props.fontStyle.textAlign === "center") ? "selected" : null,
-            rightSelected = (this.props.fontStyle.textAlign === "right") ? "selected" : null;
+            rightSelected = (this.props.fontStyle.textAlign === "right") ? "selected" : null,
+            topAlignSelected = (this.props.fontStyle.alignItems === "top") ? "selected" : null,
+            centerAlignSelected = (this.props.fontStyle.alignItems === "center") ? "selected" : null,
+            bottomAlignSelected = (this.props.fontStyle.alignItems === "bottom") ? "selected" : null;
         
         let currentIcon = <CenterIcon iconColor={iconColor} />;
 
@@ -112,6 +161,15 @@ class TextAlignment extends Component {
                     </div>
                     <div className={`editor_subMenu_icon ${rightSelected}`} onClick={this.handleRightChange}>
                       <RightIcon iconColor={iconColor} />
+                    </div>
+                    <div className={`editor_subMenu_icon ${topAlignSelected}`} onClick={this.handleAlignTop}>
+                      <AlignTopIcon iconColor={iconColor} />
+                    </div>
+                    <div className={`editor_subMenu_icon ${centerAlignSelected}`} onClick={this.handleAlignCenter}>
+                      <AlignCenterIcon iconColor={iconColor} />
+                    </div>
+                    <div className={`editor_subMenu_icon ${bottomAlignSelected}`} onClick={this.handleAlignBottom}>
+                      <AlignBottomIcon iconColor={iconColor} />
                     </div>
                     
                 </div>

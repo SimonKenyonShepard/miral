@@ -39,6 +39,12 @@ class Shape extends PureComponent {
                 padding : `${data.padding}px`,
                 width : "100%"
             };
+            let textAlign = "center";
+            if(data.fontStyle.alignItems === "top") {
+                textAlign = "flex-start";
+            } else if(data.fontStyle.alignItems === "bottom") {
+                textAlign = "flex-end";
+            }
             text = (
                 <foreignObject
                     className="svg_textContainer_foreignObject"
@@ -49,6 +55,9 @@ class Shape extends PureComponent {
                 >
                     <div
                         className="svg_textContainer"
+                        style={{
+                            alignItems : textAlign
+                        }}
                     >
                         <div className="svg_textContainer_line" style={fontStyle}>{textBody}</div>
                     </div>

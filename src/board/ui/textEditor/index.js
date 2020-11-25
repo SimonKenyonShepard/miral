@@ -39,7 +39,7 @@ class TextEditor extends Component {
     sizeChecker = () => {
 
         const { isAutoResize, isExpandToFit } = ELEMENT_TYPE_PROPERTIES[this.props.data.type];
-        //HOW TO FIGURE OUT IF THE TEXT GOT SHORTER AGAIN & INCREASE FONT SIZE
+        //TODO : HOW TO FIGURE OUT IF THE TEXT GOT SHORTER AGAIN & INCREASE FONT SIZE
         if(isAutoResize && (this.textContainer.scrollHeight > this.textContainer.clientHeight)) {
             let newFontSize = 0;
             newFontSize = (this.state.fontSize/3)*2;
@@ -120,6 +120,16 @@ class TextEditor extends Component {
                 styles.justifyContent = "flex-start";
             } else if (data.fontStyle.textAlign === "right") {
                 styles.justifyContent = "flex-end";
+            }
+        }
+
+        //TOTEST : text aligns correctly
+        if(data.fontStyle.alignItems) {
+            textStyles.alignItems = "center";
+            if(data.fontStyle.alignItems === "top") {
+                styles.alignItems = "flex-start";
+            } else if (data.fontStyle.alignItems === "bottom") {
+                styles.alignItems = "flex-end";
             }
         }
         if(data.fontStyle.color) {

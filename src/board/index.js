@@ -386,6 +386,7 @@ class Board extends Component {
 
         
         const selectedElements = this.getSelectedElements(elementState, userID);
+        //TOTEST : nothing happens when no elements selected
         if(selectedElements.length) { 
             const newElements = {...elements};
             const newElementsState = {...elementState};
