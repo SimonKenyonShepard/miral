@@ -384,48 +384,50 @@ class Board extends Component {
             userID
         } = this.state;
 
-        const newElements = {...elements};
-        const newElementsState = {...elementState};
+        
         const selectedElements = this.getSelectedElements(elementState, userID);
+        if(selectedElements.length) { 
+            const newElements = {...elements};
+            const newElementsState = {...elementState};
+            const duplicatesOffsetMargin = 8;
 
-        const duplicatesOffsetMargin = 8;
+            const duplicatesOffsetPosition = {
+                x : selectedElements[0].styles.x,
+                x1 : selectedElements[0].styles.x + selectedElements[0].styles.width + (duplicatesOffsetMargin*zoomLevel)
+            };
 
-        const duplicatesOffsetPosition = {
-            x : selectedElements[0].styles.x,
-            x1 : selectedElements[0].styles.x + selectedElements[0].styles.width + (duplicatesOffsetMargin*zoomLevel)
-        };
+            //get position for new duplicate elements
+            selectedElements.forEach(element => {
+                if(element.styles.x < duplicatesOffsetPosition.x) {
+                    duplicatesOffsetPosition.x = element.styles.x;
+                }
+                const elementX1 = element.styles.x + element.styles.width;
+                if(elementX1 > duplicatesOffsetPosition.x1) {
+                    duplicatesOffsetPosition.x1 = elementX1+(duplicatesOffsetMargin*zoomLevel);
+                }
+            });
 
-        //get position for new duplicate elements
-        selectedElements.forEach(element => {
-            if(element.styles.x < duplicatesOffsetPosition.x) {
-                duplicatesOffsetPosition.x = element.styles.x;
-            }
-            const elementX1 = element.styles.x + element.styles.width;
-            if(elementX1 > duplicatesOffsetPosition.x1) {
-                duplicatesOffsetPosition.x1 = elementX1+(duplicatesOffsetMargin*zoomLevel);
-            }
-        });
+            //duplicate elements & state
+            selectedElements.forEach(element => {
+                const newID = Shortid.generate();
+                const duplicateElement = objectClone(element);
+                const duplicateElementState = objectClone(elementState[element.id]);
+                duplicateElement.id = newID;
+                duplicateElement.styles.x = duplicatesOffsetPosition.x1 + (duplicateElement.styles.x - duplicatesOffsetPosition.x);
+                newElements[newID] = duplicateElement;
+                newElementsState[newID] = duplicateElementState;
+                //remove selected status for old items
+                newElementsState[element.id] = {...newElementsState[element.id]};
+                newElementsState[element.id].selected = false;
+            });
 
-        //duplicate elements & state
-        selectedElements.forEach(element => {
-            const newID = Shortid.generate();
-            const duplicateElement = objectClone(element);
-            const duplicateElementState = objectClone(elementState[element.id]);
-            duplicateElement.id = newID;
-            duplicateElement.styles.x = duplicatesOffsetPosition.x1 + (duplicateElement.styles.x - duplicatesOffsetPosition.x);
-            newElements[newID] = duplicateElement;
-            newElementsState[newID] = duplicateElementState;
-            //remove selected status for old items
-            newElementsState[element.id] = {...newElementsState[element.id]};
-            newElementsState[element.id].selected = false;
-        });
-
-        this.setState(
-            {
-                elementState : newElementsState,
-                elements : newElements
-            }
-        );
+            this.setState(
+                {
+                    elementState : newElementsState,
+                    elements : newElements
+                }
+            );
+        }
     }
 
     updateBoardPosition = (data) => {
