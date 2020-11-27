@@ -54,6 +54,7 @@ ctrl-c & ctrl v copy/paste *
 ctrl-z undo *
 change font color - black/white *
 Link to slides - with animated border*
+align text - top/bottom/middle
 
 Bugs 
 
@@ -77,7 +78,7 @@ slides - autozoom
 slides - templates
 slides - edit name
 
-align text - top/bottom/middle
+
 
 Rotate elements
 
@@ -104,7 +105,8 @@ Share exact location on board
 
 Share board when offline
 
-Save as Image
+export as Image
+export as SVG
 
 Save to gDrive 
 

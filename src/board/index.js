@@ -697,9 +697,15 @@ class Board extends Component {
             .then((resp) => resp.json())
             .then((data) => {
                 const newState = Object.assign({}, this.state, data);
+                console.log(this.state.offsetX, this.state.offsetY);
+                console.log(data.offsetX, data.offsetY);
                 this.setState(newState);
             })
             .catch(e => console.log(e));
+    }
+
+    loadTemplatesAndTutorials = () => {
+        this.loadRemoteBoard("https://raw.githubusercontent.com/SimonKenyonShepard/miral_templates/main/whiteboardFile_splashScreen.wswb");
     }
 
     render() {
@@ -785,6 +791,7 @@ class Board extends Component {
                         <NavBar 
                             getState={this.getState}
                             handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                            loadTemplatesAndTutorials={this.loadTemplatesAndTutorials}
                         />
                         <Altimeter zoomLevel={zoomLevel} />
                         <BoardControls
@@ -856,7 +863,7 @@ class Board extends Component {
         });
         const isNotFirstUse = window.localStorage.getItem("miral_isFirstUse");
         if(!isNotFirstUse) {
-            this.loadRemoteBoard("https://raw.githubusercontent.com/SimonKenyonShepard/miral_templates/main/whiteboardFile_splashScreen.wswb");
+            this.loadTemplatesAndTutorials();
             window.localStorage.setItem("miral_isFirstUse", true);
         }
         
