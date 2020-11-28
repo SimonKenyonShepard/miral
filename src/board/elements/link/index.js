@@ -39,7 +39,7 @@ class Link extends PureComponent {
             />);
         }
 
-        const strokeWidth = 20*data.initialZoomLevel;
+        const strokeWidth = 15*data.initialZoomLevel;
 
         shapeProps.fill = "url(#diagonalHatch)";
         shapeProps.fillOpacity = "1";
