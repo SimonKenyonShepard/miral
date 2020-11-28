@@ -680,8 +680,8 @@ class Board extends Component {
             newElementState[element.id].selected = false;
 
             newElements[newID].styles = {...element.styles};
-            const newX = pointerPosition.x + (pasteBuffer.boundingBox.rawX - element.styles.x);
-            const newY = pointerPosition.y + (pasteBuffer.boundingBox.rawY - element.styles.y);
+            const newX = pointerPosition.x + (element.styles.x - pasteBuffer.boundingBox.rawX);
+            const newY = pointerPosition.y + (element.styles.y - pasteBuffer.boundingBox.rawY);
             newElements[newID].styles.x = newX;
             newElements[newID].styles.y = newY;
         })
