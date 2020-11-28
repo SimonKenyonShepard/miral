@@ -697,8 +697,6 @@ class Board extends Component {
             .then((resp) => resp.json())
             .then((data) => {
                 const newState = Object.assign({}, this.state, data);
-                console.log(this.state.offsetX, this.state.offsetY);
-                console.log(data.offsetX, data.offsetY);
                 this.setState(newState);
             })
             .catch(e => console.log(e));
@@ -727,8 +725,14 @@ class Board extends Component {
         const elementKeys = Object.keys(elements);
         
         const boundingBox = this.calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY);
+        const gridSizeMin = 24,
+              gridSizeMax = 96;
+        const gridRange = gridSizeMax-gridSizeMin;
+        const percentageGridSize = (zoomLevel-(Math.floor(zoomLevel/100)*100))/100;
+        const backgroundGridSize = gridSizeMax-(gridRange*percentageGridSize);
         const gridPosition = {
-            backgroundPosition : `${(offsetX*-1)/zoomLevel}px ${(offsetY*-1)/zoomLevel}px`
+            backgroundPosition : `${(offsetX*-1)/zoomLevel}px ${(offsetY*-1)/zoomLevel}px`,
+            backgroundSize : `${backgroundGridSize}px ${backgroundGridSize}px`
         };
         return (
                 <div 
