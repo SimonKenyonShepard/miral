@@ -24,23 +24,27 @@ class Tools extends PureComponent {
         this.setState({drawCanvasVisible : true});
     }
 
-    handleDrawCanvasHide = () => {
-        const resetSelectArea = {
-            selectAreaVisible : false,
-            selectAreaPosition : {
-                x : 0,
-                y : 0,
-                width : 0,
-                height : 0,
-            }
-        };
-        const resetDrawCanvas = {
-            drawCanvasVisible : false
-        };
-        this.props.removeDragHandler("drawCanvas");
-        const dontDeselectBoardElements = true;
-        this.props.handleToolSelect("pan", dontDeselectBoardElements);
-        this.setState(Object.assign({}, resetSelectArea, resetDrawCanvas));
+    handleDrawCanvasHide = (e) => {
+        console.log("handleDrawCanvasHide", e.target);
+        if(this.state.drawCanvasVisible) {
+            console.log("handleDrawCanvasHide if");
+            const resetSelectArea = {
+                selectAreaVisible : false,
+                selectAreaPosition : {
+                    x : 0,
+                    y : 0,
+                    width : 0,
+                    height : 0,
+                }
+            };
+            const resetDrawCanvas = {
+                drawCanvasVisible : false
+            };
+            this.props.removeDragHandler("drawCanvas");
+            const dontDeselectBoardElements = true;
+            this.props.handleToolSelect("pan", dontDeselectBoardElements);
+            this.setState(Object.assign({}, resetSelectArea, resetDrawCanvas));
+        }
     }
 
     handleShowSelectionArea = (visible, event, dragStartX, dragStartY) => {
@@ -112,6 +116,7 @@ class Tools extends PureComponent {
                     id="drawCanvas" 
                     style={drawCanvasStyles}
                     onMouseUp={this.handleDrawCanvasHide}
+                    //onPointerOut={this.handleDrawCanvasHide}
                 >
                     <div className={"selectionArea"} style={selectAreaStyle}/>
                 </div>
