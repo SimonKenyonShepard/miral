@@ -9,7 +9,7 @@ const ELEMENT_TYPE_PROPERTIES = {
     },
     shape : {
         isExpandToFit : false,
-        isAutoResize : true
+        isAutoResize : false
     },
     postit : {
         isExpandToFit : false,
