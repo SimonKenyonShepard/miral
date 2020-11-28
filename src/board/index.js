@@ -686,10 +686,20 @@ class Board extends Component {
             newElements[newID].styles.y = newY;
         })
 
-        this.setState({
+        const newState = {
             elements : newElements,
-            elementState : newElementState,
-        })
+            elementState : newElementState
+        };
+
+        if(pasteBuffer.type === "cut") {
+            newState.pasteBuffer = {
+                type : null,
+                elements : [],
+                elementState : []
+            };
+        }
+
+        this.setState(newState);
     }
 
     loadRemoteBoard = (url) => {
