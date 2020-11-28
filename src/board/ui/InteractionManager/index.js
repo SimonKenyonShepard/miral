@@ -98,7 +98,6 @@ class InteractionManager extends PureComponent {
             });
             
         } else if(this.state.drag === "normal" || this.state.drag === "mouseDown" || (this.state.drag === "dragging" && wasProbablyClick)) {
-
             if(dragHandlers && dragHandlers.handleClick) {
                 dragHandlers.handleClick(e, this.state.dragStartX, this.state.dragStartY);
             }
@@ -138,6 +137,17 @@ class InteractionManager extends PureComponent {
                 {this.props.children}
             </div>
         );
+    }
+
+    componentDidMount() {
+        document.addEventListener("mouseleave", (e) => {
+            const {
+                drag
+            } = this.state;
+            if(drag === "mouseDown" || drag === "dragging") {
+                //this.handleMouseUp(e); TODO Figure out how to do this while still keeping toolbar happy.
+            }
+        });
     }
     
   }
