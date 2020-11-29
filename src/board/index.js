@@ -734,14 +734,17 @@ class Board extends Component {
         const selectedElements = this.getSelectedElements(elementState);
         const elementKeys = Object.keys(elements);
         
-        const boundingBox = this.calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY);
-        const gridSizeMin = 24,
-              gridSizeMax = 96;
-        const gridRange = gridSizeMax-gridSizeMin;
-        const percentageGridSize = (zoomLevel-(Math.floor(zoomLevel/100)*100))/100;
-        const backgroundGridSize = gridSizeMax-(gridRange*percentageGridSize);
+        const boundingBox = this.calculateSelectedElementsBoundingBox(selectedElements, zoomLevel, offsetX, offsetY),
+              gridSizeMin = 24,
+              gridSizeMax = 96,
+              gridRange = gridSizeMax-gridSizeMin,
+              percentageGridSize = (zoomLevel-(Math.floor(zoomLevel/100)*100))/100,
+              backgroundGridSize = gridSizeMax-(gridRange*percentageGridSize),
+              backgroundPositionX = ((offsetX*-1)/zoomLevel)-percentageGridSize,
+              backgroundPositionY = ((offsetY*-1)/zoomLevel)-percentageGridSize;
+
         const gridPosition = {
-            backgroundPosition : `${(offsetX*-1)/zoomLevel}px ${(offsetY*-1)/zoomLevel}px`,
+            backgroundPosition : `${backgroundPositionX}px ${backgroundPositionY}px`,
             backgroundSize : `${backgroundGridSize}px ${backgroundGridSize}px`
         };
         return (

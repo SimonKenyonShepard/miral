@@ -21,7 +21,7 @@ class InteractionManager extends PureComponent {
         } = this.props;
 
         const dir = Math.sign(e.deltaY),
-        nextZoomLevel = zoomLevel + dir > 0 ? zoomLevel + dir : 1,
+        nextZoomLevel = zoomLevel + dir > 0 ? zoomLevel + (dir*3) : 1,
         currentCursorPositionX = e.clientX*zoomLevel,
         currentCursorPositionY = e.clientY*zoomLevel,
         cursorPositionXAfterZoom = e.clientX*nextZoomLevel,
