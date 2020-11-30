@@ -232,7 +232,14 @@ class Board extends Component {
     };
 
     handleDeselectAllElements = () => {
-        const newElementStateData = {...this.state.elementState};
+        const newElementStateData = this.deselectElements(this.state.elementState);
+        this.setState({
+            elementState : newElementStateData
+        });
+    }
+
+    deselectElements = (elementState) => {
+        const newElementStateData = {...elementState};
         Object.keys(newElementStateData).forEach(item => {
             if(this.isSelected(item)) {
                 const newElement = {...newElementStateData[item]};
@@ -240,9 +247,7 @@ class Board extends Component {
                 newElementStateData[item] = newElement;
             }
         });
-        this.setState({
-            elementState : newElementStateData
-        });
+        return newElementStateData;
     }
 
     registerDragHandler = (id, newDragHandlers) => {
@@ -668,7 +673,7 @@ class Board extends Component {
         } = this.state;
         
         const newElements = {...elements};
-        const newElementState = {...elementState};
+        const newElementState = this.deselectElements(elementState);
 
         pasteBuffer.elements.forEach(element => {
             const newID = Shortid.generate();

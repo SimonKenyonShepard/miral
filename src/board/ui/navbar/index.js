@@ -454,7 +454,7 @@ class Navbar extends PureComponent {
         //load previous autosave
         const checkIfAlreadyExists = window.localStorage.getItem(autosave_fileName);
         if(checkIfAlreadyExists) {
-            this.loadFileFromBrowser(autosave_fileName);
+            //this.loadFileFromBrowser(autosave_fileName);
         }
         //start autosave
         //setInterval(this.autoSave, 5000);
