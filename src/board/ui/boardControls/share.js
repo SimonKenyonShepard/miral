@@ -239,6 +239,13 @@ class Share extends Component {
                 companyName : organisation,
                 boardID
             });
+        } else if (window.location.hash.indexOf("boardId=") !== -1) {
+            const organisation = window.location.hash.match(/boardViewId=([^&$]*)/m)[1];
+            const boardID = window.location.hash.match(/boardId=([^&$]*)/m)[1];
+            this.setState({
+                companyName : organisation,
+                boardID
+            });
         }
     }
     
