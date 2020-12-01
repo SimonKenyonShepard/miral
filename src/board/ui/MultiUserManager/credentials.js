@@ -111,6 +111,12 @@ class Credentials extends Component {
                         onClick={this.handleSubmitCredentials}
                     >Join board</button>
                 </div>
+                <div className="share_menu_fieldrow">
+                    <button 
+                        className="share_menu_button"
+                        onClick={this.props.cancelJoinCreds}
+                    >Cancel</button>
+                </div>
             </div>
         );
     }

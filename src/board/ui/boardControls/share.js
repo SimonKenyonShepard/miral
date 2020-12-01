@@ -100,6 +100,10 @@ class Share extends Component {
             securityCode : e.target.value
         });
     }
+
+    handleJoinBoard = (e) => {
+        window.workshoppr.joinBoard(this.state.organisation, this.state.boardID);
+    }
   
     render() {
 
@@ -194,6 +198,12 @@ class Share extends Component {
                                     className="share_menu_button"
                                     onClick={this.handleShareBoard}
                                 >Share board now</button>
+                            </div>
+                            <div className="share_menu_fieldrow">
+                                <button 
+                                    className="share_menu_button"
+                                    onClick={this.handleJoinBoard}
+                                >Join existing session</button>
                             </div>
                         </div>
                         <div className={`share_menu_slider ${letFirstMenuHidden}`} >

@@ -43,10 +43,28 @@ class MultiUserManager extends Component {
       this.emitQueue = {};
     }
 
+    getJoinCreds = (organisation, boardID) => {
+        const newState = {
+            requestCreds : true
+        };
+        if(organisation) {
+            newState.organisation = organisation;
+        }
+        if(boardID) {
+            newState.boardID = boardID;
+        }
+        this.setState(newState);
+    }
+
     setJoinCreds = (creds) => {
         const newState = Object.assign({}, creds, {requestCreds : false});
         this.setState(newState);
         this.setupJoinBoardSocketConnection(creds);
+    }
+
+    cancelJoinCreds = () => {
+        const newState =  {requestCreds : false};
+        this.setState(newState);
     }
 
     setupShareBoardSocketConnection = (meetingData) => {
@@ -347,7 +365,7 @@ class MultiUserManager extends Component {
                     <div 
                         className={"multiUser_boardErrorReturn"}
                         onClick={this.hideErrorScreen} 
-                    >Return to Miral</div>
+                    >Back</div>
                 </div>
             )}
             {(requestCreds && 
@@ -355,6 +373,7 @@ class MultiUserManager extends Component {
                     <Credentials
                         boardID={boardID}
                         setJoinCreds={this.setJoinCreds}
+                        cancelJoinCreds={this.cancelJoinCreds}
                     />
                 </div>
             )}
@@ -426,6 +445,8 @@ class MultiUserManager extends Component {
                 requestCreds : true
             });
         }
+        window.workshoppr = {};
+        window.workshoppr.joinBoard = this.getJoinCreds;
     }
 
     componentWillUnmount(){
