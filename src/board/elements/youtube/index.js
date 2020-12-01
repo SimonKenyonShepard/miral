@@ -80,6 +80,7 @@ class Youtube extends PureComponent {
                     src={data.URL} 
                     frameBorder="0" 
                     allow="clipboard-write; encrypted-media; picture-in-picture"
+                    allowFullScreen={true}
                     style={{
                         transform : `scale(${data.initialZoomLevel})`,
                         transformOrigin : "top",
@@ -98,7 +99,7 @@ class Youtube extends PureComponent {
             width={shapeProps.width}
             fillOpacity={0}
         />);
-
+        // CHANGE THIS SO THERE IS TEXT WHEN IT IS GREYED OUT SAYING DOUBLE CLICK TO ACIVATE, 
         if(this.state.iframePointerEvents === "none") {
             playArea = (
                 <rect
