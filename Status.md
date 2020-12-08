@@ -56,9 +56,7 @@ change font color - black/white *
 Link to slides - with animated border*
 align text - top/bottom/middle
 
-Bugs 
-
-
+Bugs
 
 Green share icon for participants
 share icon invisible if server unavailable
@@ -137,6 +135,12 @@ Persona
 user Journey
 
 Multi-select alignment tools
+
+fix arrows to work properly
+
+full decentralised mode & merge changes
+
+touchpad controls
 
 * required for release
 

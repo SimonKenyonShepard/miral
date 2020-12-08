@@ -2,6 +2,128 @@ import React, {Component} from 'react';
 
 import './styles.css';
 
+class Guides extends Component {
+
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+          leftGuideVisible : false,
+          rightGuideVisible : false,
+          topGuideVisible : false,
+          bottomGuideVisible : false
+        };
+        this.previousUpdateTimeStamp = Date.now();
+        this.hideGuidesTimeout = null;
+    }
+
+    hideGuides = () => {
+        this.setState({
+            leftGuideVisible : false,
+            rightGuideVisible : false,
+            topGuideVisible : false,
+            bottomGuideVisible : false,
+        });
+    }
+
+    render() {
+        const {
+            boundingBox
+        } = this.props;
+
+        const {
+            leftGuideVisible,
+            rightGuideVisible,
+            topGuideVisible,
+            bottomGuideVisible
+        } = this.state;
+
+        const leftGuideStyles = {
+            height : `100vh`,
+            width : `1px`,
+            transform : `translate3d(${(boundingBox.x)}px, 0px, 0)`
+        };
+
+        const rightGuideStyles = {
+            height : `100vh`,
+            width : `1px`,
+            transform : `translate3d(${(boundingBox.x+boundingBox.width)}px, 0px, 0)`
+        };
+
+        const topGuideStyles = {
+            height : `1px`,
+            width : `100vw`,
+            transform : `translate3d(0px, ${(boundingBox.y)}px, 0)`
+        };
+
+        const bottomGuideStyles = {
+            height : `1px`,
+            width : `100vw`,
+            transform : `translate3d(0px, ${(boundingBox.y+boundingBox.height)}px, 0)`
+        };
+
+        if(leftGuideVisible) {
+            leftGuideStyles.opacity = 0.5;
+        }
+
+        if(rightGuideVisible) {
+            rightGuideStyles.opacity = 0.5;
+        }
+
+        if(topGuideVisible) {
+            topGuideStyles.opacity = 0.5;
+        }
+
+        if(bottomGuideVisible) {
+            bottomGuideStyles.opacity = 0.5;
+        }
+
+        return (
+            <div className="guides">
+                <div className="guide" style={leftGuideStyles} />
+                <div className="guide" style={rightGuideStyles} />
+                <div className="guide" style={topGuideStyles} />
+                <div className="guide" style={bottomGuideStyles} />
+            </div>
+        );
+    }
+
+    componentDidUpdate(prevProps) {
+        const movingRight = this.props.boundingBox.x > prevProps.boundingBox.x,
+              movingLeft = this.props.boundingBox.x < prevProps.boundingBox.x,
+              movingUp = this.props.boundingBox.y < prevProps.boundingBox.y,
+              movingDown = this.props.boundingBox.y > prevProps.boundingBox.y,
+              newState = {};
+        
+        if(movingRight) {
+            newState.rightGuideVisible = true;
+            newState.leftGuideVisible = true;
+            clearTimeout(this.hideGuidesTimeout);
+            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, 5000);
+        } else if (movingLeft) {
+            newState.rightGuideVisible = true;
+            newState.leftGuideVisible = true;
+            clearTimeout(this.hideGuidesTimeout);
+            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, 5000);
+        }
+
+        if (movingUp) {
+            newState.topGuideVisible = true;
+            newState.bottomGuideVisible = true;
+            clearTimeout(this.hideGuidesTimeout);
+            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, 5000);
+        } else if(movingDown) {
+            newState.topGuideVisible = true;
+            newState.bottomGuideVisible = true;
+            clearTimeout(this.hideGuidesTimeout);
+            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, 5000);
+        }
+        
+        if(Object.keys(newState).length > 0) {
+            this.setState(newState);
+        }
+    }
+}
+
 class Resizer extends Component {
 
     handleMouseMove(e) {
@@ -136,6 +258,10 @@ class Resizer extends Component {
         };
 
         return (
+            <>
+            <Guides 
+                boundingBox={boundingBox}
+            />
             <div className="resizerWrapper" style={wrapperStyles}>
                 <div className="elementsHightlight" style={elementHighlightStyles}/>
                 <svg style={resizerStyles} height="16" width="16" viewBox="-8 -8 16 16">
@@ -152,7 +278,8 @@ class Resizer extends Component {
                     </circle>
                 </svg>
             </div>
-           
+            
+           </>
         );
     }
 
