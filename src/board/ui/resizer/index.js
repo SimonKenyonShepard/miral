@@ -12,7 +12,6 @@ class Guides extends Component {
           topGuideVisible : false,
           bottomGuideVisible : false
         };
-        this.previousUpdateTimeStamp = Date.now();
         this.hideGuidesTimeout = null;
     }
 
@@ -92,32 +91,33 @@ class Guides extends Component {
               movingLeft = this.props.boundingBox.x < prevProps.boundingBox.x,
               movingUp = this.props.boundingBox.y < prevProps.boundingBox.y,
               movingDown = this.props.boundingBox.y > prevProps.boundingBox.y,
-              newState = {};
+              newState = {},
+              hideTimeout = 3500;
         
         if(movingRight) {
             newState.rightGuideVisible = true;
             newState.leftGuideVisible = true;
             clearTimeout(this.hideGuidesTimeout);
-            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, 5000);
+            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, hideTimeout);
         } else if (movingLeft) {
             newState.rightGuideVisible = true;
             newState.leftGuideVisible = true;
             clearTimeout(this.hideGuidesTimeout);
-            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, 5000);
+            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, hideTimeout);
         }
 
         if (movingUp) {
             newState.topGuideVisible = true;
             newState.bottomGuideVisible = true;
             clearTimeout(this.hideGuidesTimeout);
-            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, 5000);
+            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, hideTimeout);
         } else if(movingDown) {
             newState.topGuideVisible = true;
             newState.bottomGuideVisible = true;
             clearTimeout(this.hideGuidesTimeout);
-            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, 5000);
+            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, hideTimeout);
         }
-        
+
         if(Object.keys(newState).length > 0) {
             this.setState(newState);
         }
