@@ -61,19 +61,19 @@ class Guides extends Component {
         };
 
         if(leftGuideVisible) {
-            leftGuideStyles.opacity = 0.5;
+            leftGuideStyles.opacity = 0.3;
         }
 
         if(rightGuideVisible) {
-            rightGuideStyles.opacity = 0.5;
+            rightGuideStyles.opacity = 0.3;
         }
 
         if(topGuideVisible) {
-            topGuideStyles.opacity = 0.5;
+            topGuideStyles.opacity = 0.3;
         }
 
         if(bottomGuideVisible) {
-            bottomGuideStyles.opacity = 0.5;
+            bottomGuideStyles.opacity = 0.3;
         }
 
         return (
@@ -89,8 +89,10 @@ class Guides extends Component {
     componentDidUpdate(prevProps) {
         const movingRight = this.props.boundingBox.x > prevProps.boundingBox.x,
               movingLeft = this.props.boundingBox.x < prevProps.boundingBox.x,
+              resizingWidth = (this.props.boundingBox.width !== prevProps.boundingBox.width),
               movingUp = this.props.boundingBox.y < prevProps.boundingBox.y,
               movingDown = this.props.boundingBox.y > prevProps.boundingBox.y,
+              resizingHeight = (this.props.boundingBox.height !== prevProps.boundingBox.height),
               newState = {},
               hideTimeout = 3500;
         
@@ -104,6 +106,11 @@ class Guides extends Component {
             newState.leftGuideVisible = true;
             clearTimeout(this.hideGuidesTimeout);
             this.hideGuidesTimeout = window.setTimeout(this.hideGuides, hideTimeout);
+        } else if (resizingWidth) {
+            newState.rightGuideVisible = true;
+            newState.leftGuideVisible = true;
+            clearTimeout(this.hideGuidesTimeout);
+            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, hideTimeout);
         }
 
         if (movingUp) {
@@ -112,6 +119,11 @@ class Guides extends Component {
             clearTimeout(this.hideGuidesTimeout);
             this.hideGuidesTimeout = window.setTimeout(this.hideGuides, hideTimeout);
         } else if(movingDown) {
+            newState.topGuideVisible = true;
+            newState.bottomGuideVisible = true;
+            clearTimeout(this.hideGuidesTimeout);
+            this.hideGuidesTimeout = window.setTimeout(this.hideGuides, hideTimeout);
+        } else if(resizingHeight) {
             newState.topGuideVisible = true;
             newState.bottomGuideVisible = true;
             clearTimeout(this.hideGuidesTimeout);
