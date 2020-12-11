@@ -28,6 +28,8 @@ class Slide extends PureComponent {
 
         const fontSize = `${16*data.initialZoomLevel}px`,
               lineHeight = `${16*data.initialZoomLevel*1.4}px`;
+
+        const slideTitle = (data.slideName === "Unnamed") ? `Slide ${this.props.slideNumber}` : data.slideName;
             
         background = (
             <foreignObject
@@ -47,7 +49,7 @@ class Slide extends PureComponent {
                                 lineHeight,
                                 padding : `0 ${(16*data.initialZoomLevel)}px`
                             }}
-                        >{data.slideName} {this.props.slideNumber}</div>
+                        >{slideTitle}</div>
                     </div>
                     <div 
                         className="svg_slideBackground"

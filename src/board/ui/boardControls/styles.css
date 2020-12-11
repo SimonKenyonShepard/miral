@@ -138,6 +138,7 @@
     display: flex;
     margin-left: 16px;
     padding: 8px;
+    position: relative;
 }
 
 .undo {
@@ -155,7 +156,6 @@
     background-image: url("/icons/arrow_forward-24px.svg");
     background-position: center right;
     border-left: 1px solid #ccc;
-    margin-left: 8px;
     padding-left: 8px;
 }
 
@@ -167,9 +167,44 @@
     margin-right: 8px;
 }
 
+.dropDown {
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    background-image: url("/icons/arrow_drop_down-24px.svg");
+    background-position: center right;
+    cursor: pointer;
+    padding-right: 24px;
+}
+
 .buttonDisabled {
     opacity: 0.5;
     pointer-events: none;
+}
+
+.slideList.dropDown_open {
+    display: block;
+}
+
+.slideList {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius : 2px;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
+    display: none;
+    left: 0;
+    overflow : scroll;
+    position : absolute;
+    top: 105%;
+    max-height : 240px;
+    width : 100%;
+}
+
+.slideList_name {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.slideList_name:hover {
+    background-color: #ccc;
 }
 
 @keyframes pulse {

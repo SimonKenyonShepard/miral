@@ -52,7 +52,7 @@ class Board extends Component {
             type : null,
             elements : [],
             elementState : []
-        },
+        }
       };
       this.canvasAnimations = [];
     }
@@ -568,13 +568,22 @@ class Board extends Component {
             elements
         } = this.state;
 
-        return Object.keys(elements).filter((elementID) => {
+        const slideKeys = Object.keys(elements).filter((elementID) => {
             if(elements[elementID].type === "slide") {
                 return true;
             } else {
                 return false;
             }
         });
+
+        const slides = slideKeys.map(slideKey => {
+            return {
+                id : slideKey,
+                slideName : elements[slideKey].slideName
+            }
+        });
+
+        return slides;
     }
 
     shuntSelectedElements = (direction) => {
