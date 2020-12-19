@@ -170,10 +170,14 @@
 .dropDown {
     background-repeat: no-repeat;
     background-size: 24px 24px;
-    background-image: url("/icons/arrow_drop_down-24px.svg");
+    background-image: url("/icons/expand_more-24px.svg");
     background-position: center right;
     cursor: pointer;
     padding-right: 24px;
+}
+
+.dropDown.openIcon {
+    background-image: url("/icons/expand_less-24px.svg");
 }
 
 .buttonDisabled {
@@ -199,13 +203,64 @@
 }
 
 .slideList_name {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 8px;
     cursor: pointer;
+    text-align: left;
 }
 
 .slideList_name:hover {
     background-color: #ccc;
 }
+
+.slideList_tools {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slideList_editName {
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-image: url("/icons/edit-24px.svg");
+    background-position: center right;
+    display: inline-block;
+    height : 16px;
+    width : 16px;
+}
+
+.slideList_close {
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-image: url("/icons/close-24px.svg");
+    background-position: center center;
+    display: inline-block;
+    height : 16px;
+    width : 16px;
+}
+
+.slideList_moveUp {
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-image: url("/icons/arrow_drop_up-24px.svg");
+    background-position: center right;
+    display: inline-block;
+    height : 16px;
+    width : 16px;
+}
+
+.slideList_moveDown {
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-image: url("/icons/arrow_drop_down-24px.svg");
+    background-position: center right;
+    display: inline-block;
+    height : 16px;
+    width : 16px;
+}
+
 
 @keyframes pulse {
     0% {

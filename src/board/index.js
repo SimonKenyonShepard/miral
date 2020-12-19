@@ -586,6 +586,17 @@ class Board extends Component {
         return slides;
     }
 
+    changeSlideName = (slideID, newName) => {
+        const {
+            elements
+        } = this.state;
+        const newElements = {...elements};
+        const newSlideElement = {...elements[slideID]};
+        newSlideElement.slideName = newName;
+        newElements[slideID] = newSlideElement;
+        this.setState({elements : newElements});
+    } 
+
     shuntSelectedElements = (direction) => {
         const {
             elements,
@@ -754,8 +765,8 @@ class Board extends Component {
               gridRange = gridSizeMax-gridSizeMin,
               percentageGridSize = (zoomLevel-(Math.floor(zoomLevel/100)*100))/100,
               backgroundGridSize = gridSizeMax-(gridRange*percentageGridSize),
-              backgroundPositionX = ((offsetX*-1)/zoomLevel)-percentageGridSize,
-              backgroundPositionY = ((offsetY*-1)/zoomLevel)-percentageGridSize;
+              backgroundPositionX = ((offsetX)/zoomLevel*-1)-percentageGridSize,
+              backgroundPositionY = ((offsetY)/zoomLevel*-1)-percentageGridSize;
 
         const gridPosition = {
             backgroundPosition : `${backgroundPositionX}px ${backgroundPositionY}px`,
@@ -766,6 +777,17 @@ class Board extends Component {
                     className={`boardWrapper ${tool}`} 
                     style={gridPosition}
                 >
+                    {/* <div
+                        style={{
+                            backgroundColor : "red",
+                            width : "5px",
+                            height: "5px",
+                            position : "absolute",
+                            top : 0,
+                            left: 0,
+                            transform : `translate3d(${backgroundPositionX}px, ${backgroundPositionY}px, 0)`
+                        }}
+                    ></div> */}
                     <InteractionManager
                         offsetX={this.state.offsetX}
                         offsetY={this.state.offsetY}
@@ -819,23 +841,6 @@ class Board extends Component {
                             registerDragHandler={this.registerDragHandler}
                             boundingBox={boundingBox}
                         />
-                        <NavBar 
-                            getState={this.getState}
-                            handleUpdateElementsAndState={this.handleUpdateElementsAndState}
-                            loadTemplatesAndTutorials={this.loadTemplatesAndTutorials}
-                        />
-                        <Altimeter zoomLevel={zoomLevel} />
-                        <BoardControls
-                            elements={this.state.elements}
-                            elementState={this.state.elementState}
-                            storeUndo={this.state.storeUndo}
-                            handleUpdateElementsAndState={this.handleUpdateElementsAndState}
-                            boardName={this.state.boardName}
-                            updateBoardName={this.updateBoardName}
-                            toggleBoardShare={this.toggleBoardShare}
-                            getSlides={this.getSlides}
-                            animateToElement={this.animateToElement}
-                        />
                         <TextEditor 
                             data={textEditor}
                             gridSpace={{offsetX, offsetY, zoomLevel}}
@@ -859,6 +864,24 @@ class Board extends Component {
                             currentSelectedTool={this.state.tool}
                         />
                     </InteractionManager>
+                    <Altimeter zoomLevel={zoomLevel} />
+                    <BoardControls
+                        elements={this.state.elements}
+                        elementState={this.state.elementState}
+                        storeUndo={this.state.storeUndo}
+                        handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                        boardName={this.state.boardName}
+                        updateBoardName={this.updateBoardName}
+                        toggleBoardShare={this.toggleBoardShare}
+                        getSlides={this.getSlides}
+                        changeSlideName={this.changeSlideName}
+                        animateToElement={this.animateToElement}
+                    />
+                    <NavBar 
+                        getState={this.getState}
+                        handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                        loadTemplatesAndTutorials={this.loadTemplatesAndTutorials}
+                    />
                     <KeyboardManager
                         keyboardHandlers={this.state.keyboardHandlers}
                         handleDeleteElements={this.handleDeleteElements}

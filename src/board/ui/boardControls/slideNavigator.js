@@ -4,17 +4,64 @@ import './styles.css';
 
 class SlideListItem extends Component {
 
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            editMode : false
+        };
+    }
+
+    handleToggleEditMode = (e) => {
+        e.stopPropagation();
+        this.setState({
+            editMode : !this.state.editMode
+        });
+    }
+
     handleJumpToSlide = () => {
         this.props.handleJumpToSlide(this.props.slideID, this.props.slideNumber);
     }
 
+    handleSlideNameChange = (e) => {
+        this.props.changeSlideName(this.props.slideID, e.target.value);
+    }
+
     render() {
+        const {
+            editMode
+        } = this.state;
         return (
             <div 
                 key={`slideList_name_${this.props.slideNumber}`} 
-                className={"slideList_name"}
-                onClick={this.handleJumpToSlide}
-            >Slide {this.props.slideNumber+1} - {this.props.slideName}</div>)
+            >
+            {editMode 
+                ? (
+                    <div
+                        className={"slideList_name"}
+                    >
+                        <span className={"slideList_identifier"}>
+                            <input value={this.props.slideName} onChange={this.handleSlideNameChange} />
+                        </span>
+                        <div className={"slideList_tools"}>
+                            <span className={"slideList_close"} onClick={this.handleToggleEditMode} />
+                        </div>
+                    </div>
+                ) : (
+                    <div 
+                        className={"slideList_name"}
+                        onClick={this.handleJumpToSlide}
+                    >
+                        <span className={"slideList_identifier"}>
+                            {this.props.slideNumber+1} - {this.props.slideName}
+                        </span>
+                        <div className={"slideList_tools"}>
+                            <span className={"slideList_editName"} onClick={this.handleToggleEditMode} />
+                        </div>
+                    </div>
+                ) 
+            }
+            
+            </div>)
     }
 }
 
@@ -110,7 +157,8 @@ class SlideNavigator extends Component {
             slideForwardsDisabled = "";
         }
 
-        const slideNavVisible = slideNav ? "dropDown_open" : "";
+        const slideNavVisible = slideNav ? "dropDown_open" : "",
+              slideNavIcon = slideNav ? "openIcon" : "";
 
         const slideNames = slides.map((slide, i) => {
             return (
@@ -120,6 +168,7 @@ class SlideNavigator extends Component {
                 slideName={slide.slideName}
                 slideID={slide.id}
                 handleJumpToSlide={this.handleJumpToSlide}
+                changeSlideName={this.props.changeSlideName}
             />);
         });
 
@@ -130,7 +179,7 @@ class SlideNavigator extends Component {
                     onClick={this.handleSlideBackwards}
                 />
                 <span
-                    className={`dropDown`}
+                    className={`dropDown ${slideNavIcon}`}
                     onClick={this.toggleSlideList}
                 >Slide {(this.state.currentSlide+1)} of {slides.length}
                 </span>

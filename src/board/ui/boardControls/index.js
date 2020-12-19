@@ -63,6 +63,7 @@ class BoardControls extends PureComponent {
 
                 <SlideNavigator 
                     getSlides={this.props.getSlides}
+                    changeSlideName={this.props.changeSlideName}
                     animateToElement={this.props.animateToElement}
                 />
             </div>
