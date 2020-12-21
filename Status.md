@@ -49,12 +49,15 @@ Load from file - done
 arrow keys to move elements around - done
 change font size - done
 Fix undo  - done
+grid guides - done
+ctrl-c & ctrl v copy/paste - done
+ctrl-z undo - done
+change font color - black/white - done
+Link to slides - with animated border - done - no animated border
+align text - top/bottom/middle - done
+slides - edit name - done
+Workshop agenda - done with slide naming?
 
-ctrl-c & ctrl v copy/paste *
-ctrl-z undo *
-change font color - black/white *
-Link to slides - with animated border*
-align text - top/bottom/middle
 
 Bugs
 
@@ -64,19 +67,17 @@ store creds (name initials) in local storage *
 basic encryption for data on server
 
 
-
 TESTS TESTS TESTS
 
 
 Backlog
 
+escape to cancel toolbar
+
 Templates - 25 templates
 
 slides - autozoom
 slides - templates
-slides - edit name
-
-
 
 Rotate elements
 
@@ -99,7 +100,8 @@ Iframes - easy *
 Multi-user encryption w PW
 Attention management - easy
 Share
-Share exact location on board 
+Share exact location on board
+
 
 Share board when offline
 
@@ -111,7 +113,7 @@ Save to gDrive
 Zoom in/out buttons
 
 grid Scaling
-grid guides
+
 
 comments
 tables
@@ -122,7 +124,7 @@ Move to pointer events & responsive test *
 
 Markdown editor for post-it's?
 
-Workshop agenda?
+
 
 Presenter mode - all follow your viewport
 
@@ -138,7 +140,11 @@ Multi-select alignment tools
 
 fix arrows to work properly
 
-full decentralised mode & merge changes
+full decentralised mode & merge changes over webRTC
+
+Proximity chat
+
+Flip elements
 
 touchpad controls
 
