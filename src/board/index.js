@@ -108,16 +108,32 @@ class Board extends Component {
             elements
         } = this.state;
 
-        //get element position
+        
 
         const elementData = elements[elementID];
+
+        //get correct zoomLevel
+
+        const elementHeightInReal = elementData.styles.height/zoomLevel,
+              elementWidthInReal = elementData.styles.width/zoomLevel;
+
+        let heightZoomLevel = zoomLevel,
+            widthZoomLevel = zoomLevel;
+        
+        heightZoomLevel = ((elementHeightInReal/this.props.height)*1.3)*zoomLevel;
+        widthZoomLevel = ((elementWidthInReal/this.props.width)*1.3)*zoomLevel;
+
+        const finalZoomLevel = Math.round(Math.max(heightZoomLevel, widthZoomLevel));
+
+        //get element position
 
         const elementCenterPointX = elementData.styles.x+(elementData.styles.width/2),
               elementCenterPointY = elementData.styles.y+(elementData.styles.height/2);
 
         const finalPosition = {
-            offsetX : elementCenterPointX-((this.props.width/2)*zoomLevel),
-            offsetY : elementCenterPointY-((this.props.height/2)*zoomLevel)
+            offsetX : elementCenterPointX-((this.props.width/2)*finalZoomLevel),
+            offsetY : elementCenterPointY-((this.props.height/2)*finalZoomLevel),
+            zoomLevel : finalZoomLevel
         };
 
         //call animateToPosition
@@ -128,7 +144,8 @@ class Board extends Component {
     animateToPosition(finalPosition, duration) {
         const {
             offsetX,
-            offsetY
+            offsetY,
+            zoomLevel
         } = this.state;
 
         const FPS = 30,
@@ -136,12 +153,15 @@ class Board extends Component {
               stepCount = durationMs / FPS,
               endValueX = finalPosition.offsetX,
               endValueY = finalPosition.offsetY,
+              endZoomLevel = finalPosition.zoomLevel,
               valueIncrementX = (endValueX - offsetX) / stepCount,
               valueIncrementY = (endValueY - offsetY) / stepCount,
+              valueIncrementZoom = (endZoomLevel - zoomLevel) / stepCount,
               sinValueIncrement = Math.PI / stepCount;
 
         let currentValueX = offsetX,
             currentValueY = offsetY,
+            currentZoomLevel = zoomLevel,
             currentSinValue = 0,
             counter = 0;
         
@@ -150,18 +170,20 @@ class Board extends Component {
         do {
             counter++;
             currentSinValue += sinValueIncrement;
+            currentZoomLevel += Math.round(valueIncrementZoom * (Math.sin(currentSinValue) ** 2) * 2);
             currentValueX += valueIncrementX * (Math.sin(currentSinValue) ** 2) * 2;
             currentValueY += valueIncrementY * (Math.sin(currentSinValue) ** 2) * 2;
             let time = stepCount*counter;
 
-            (function(newOffsetX, newOffsetY, incrementDelay) {
+            (function(newOffsetX, newOffsetY, newZoomLevel, incrementDelay) {
                 this.canvasAnimations.push(setTimeout(() => {
                     this.setState({
                         offsetX : newOffsetX,
                         offsetY : newOffsetY,
+                        zoomLevel : newZoomLevel
                     });
                 }, incrementDelay));
-            }.bind(this)(currentValueX, currentValueY, time));
+            }.bind(this)(currentValueX, currentValueY, currentZoomLevel, time));
 
         } while (currentSinValue < Math.PI)
 
