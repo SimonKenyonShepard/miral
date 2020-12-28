@@ -57,6 +57,8 @@ Link to slides - with animated border - done - no animated border
 align text - top/bottom/middle - done
 slides - edit name - done
 Workshop agenda - done with slide naming?
+slides - autozoom - done
+Multi-user encryption w PW - done
 
 
 Bugs
@@ -76,7 +78,7 @@ escape to cancel toolbar
 
 Templates - 25 templates
 
-slides - autozoom
+slides - into main toolbar
 slides - templates
 
 Rotate elements
@@ -97,7 +99,7 @@ smooth zoom & inertia pan - hard
 Iframes - easy *
 
 
-Multi-user encryption w PW
+
 Attention management - easy
 Share
 Share exact location on board
@@ -123,8 +125,6 @@ ctrl-s - save
 Move to pointer events & responsive test *
 
 Markdown editor for post-it's?
-
-
 
 Presenter mode - all follow your viewport
 
@@ -159,4 +159,11 @@ Remote youtube controls
 Link to other parts of the board
 Simple uncluttered
 Integrates with tech diagrams - sequence diagrams
+Decentralized
+Proximity chat
+Embeddable timer
+PDF import
+TEMPLATES
+Kinetic shapes
+Helpful guide lines
 Open source, no secrets

@@ -13,6 +13,19 @@ class InteractionManager extends PureComponent {
       };
     }
 
+    handleMouseWheel = (e) => {
+        if (e.ctrlKey) {
+            e.preventDefault();
+            this.handleZoom(e);
+        } else {
+            const simulatedPanEvent = {
+                movementX : e.deltaX*-1,
+                movementY : e.deltaY*-1
+            };
+            this.props.handlePanMove(simulatedPanEvent);
+        }
+    }
+
     handleZoom = (e) => {
         const {
             offsetX,
@@ -127,11 +140,9 @@ class InteractionManager extends PureComponent {
         return (
             <div
                 style={styles}
-
                 onMouseDown={this.handleMouseDown}
                 onMouseMove={this.handleMouseMove}
                 onMouseUp={this.handleMouseUp}
-                onWheel={this.handleZoom}
                 id="interActionManager"
             >
                 {this.props.children}
@@ -148,6 +159,7 @@ class InteractionManager extends PureComponent {
                 //this.handleMouseUp(e); TODO Figure out how to do this while still keeping toolbar happy.
             }
         });
+        document.addEventListener('wheel', this.handleMouseWheel,{ passive: false });
     }
     
   }

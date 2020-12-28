@@ -57,14 +57,14 @@ class Board extends Component {
       this.canvasAnimations = [];
     }
 
-    handlePanStart(e, dragStartX, dragStartY) {
+    handlePanStart = (e, dragStartX, dragStartY) => {
         this.clearCanvasAnimations();
         this.panEventTimeStamp = Date.now();
         this.velocityX = 0;
         this.velocityY = 0;
     }
 
-    handlePanMove(e) {
+    handlePanMove = (e) => {
         const {
             offsetX,
             offsetY,
@@ -817,6 +817,7 @@ class Board extends Component {
                         updateBoardPosition={this.updateBoardPosition}
                         dragHandlers={this.state.dragHandlers}
                         updatePointerPosition={this.updatePointerPosition}
+                        handlePanMove={this.handlePanMove}
                     >
                         <svg id="board" 
                             width={`${width}px`}
