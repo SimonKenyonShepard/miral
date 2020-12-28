@@ -115,7 +115,7 @@ class Tools extends PureComponent {
                 <div 
                     id="drawCanvas" 
                     style={drawCanvasStyles}
-                    onMouseUp={this.handleDrawCanvasHide}
+                    onPointerUp={this.handleDrawCanvasHide}
                     //onPointerOut={this.handleDrawCanvasHide}
                 >
                     <div className={"selectionArea"} style={selectAreaStyle}/>

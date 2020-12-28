@@ -140,9 +140,9 @@ class InteractionManager extends PureComponent {
         return (
             <div
                 style={styles}
-                onMouseDown={this.handleMouseDown}
-                onMouseMove={this.handleMouseMove}
-                onMouseUp={this.handleMouseUp}
+                onPointerDown={this.handleMouseDown}
+                onPointerMove={this.handleMouseMove}
+                onPointerUp={this.handleMouseUp}
                 id="interActionManager"
             >
                 {this.props.children}

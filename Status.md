@@ -59,6 +59,7 @@ slides - edit name - done
 Workshop agenda - done with slide naming?
 slides - autozoom - done
 Multi-user encryption w PW - done
+touchpad controls - done
 
 
 Bugs
@@ -146,7 +147,7 @@ Proximity chat
 
 Flip elements
 
-touchpad controls
+
 
 * required for release
 
