@@ -11,6 +11,8 @@ class InteractionManager extends PureComponent {
         dragStartX : 0,
         dragStartY : 0
       };
+      this.SAFARIHACK_SCREENX = 0;
+      this.SAFARIHACK_SCREENY = 0;
     }
 
     handleMouseWheel = (e) => {
@@ -59,6 +61,9 @@ class InteractionManager extends PureComponent {
             drag : "mouseDown",
             elementID : e.target.id
         });
+        this.SAFARIHACK_SCREENX = e.screenX;
+        this.SAFARIHACK_SCREENY = e.screenY;
+        
     }
 
     handleMouseMove = (e) => {
@@ -88,6 +93,14 @@ class InteractionManager extends PureComponent {
                
             } else 
             if(dragHandlers && dragHandlers.handleDragMove && !wasAccidentalMovement) {
+                //THIS BROWSER HACK IS NEEDED BECAUSE SAFARI POINTERMOVE EVENT DOES NOT SUPPORT MOVEMENTX or MOVEMENTY - PLEASE REMOVE IF NO LONGER NEEDED (i raised a ticket with apple)
+                const movementX = e.screenX-this.SAFARIHACK_SCREENX;
+                const movementY = e.screenY-this.SAFARIHACK_SCREENY;
+                this.SAFARIHACK_SCREENX = e.screenX;
+                this.SAFARIHACK_SCREENY = e.screenY;
+                e.movementX = movementX;
+                e.movementY = movementY;
+                //END BROWSER HACK
                 dragHandlers.handleDragMove(e, dragStartX, dragStartY);
             }
         }
@@ -130,11 +143,13 @@ class InteractionManager extends PureComponent {
     render() {
 
         const styles={
+            cursor : "pointer",
             position : "absolute",
             top : 0,
             left : 0,
             height : "100vh",
-            width : "100vw"
+            width : "100vw",
+            touchAction : "none"
         }
         
         return (
