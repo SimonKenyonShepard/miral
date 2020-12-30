@@ -799,17 +799,6 @@ class Board extends Component {
                     className={`boardWrapper ${tool}`} 
                     style={gridPosition}
                 >
-                    {/* <div
-                        style={{
-                            backgroundColor : "red",
-                            width : "5px",
-                            height: "5px",
-                            position : "absolute",
-                            top : 0,
-                            left: 0,
-                            transform : `translate3d(${backgroundPositionX}px, ${backgroundPositionY}px, 0)`
-                        }}
-                    ></div> */}
                     <InteractionManager
                         offsetX={this.state.offsetX}
                         offsetY={this.state.offsetY}

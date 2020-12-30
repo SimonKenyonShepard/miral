@@ -13,6 +13,7 @@ class InteractionManager extends PureComponent {
       };
       this.SAFARIHACK_SCREENX = 0;
       this.SAFARIHACK_SCREENY = 0;
+      this.containerElement = null;
     }
 
     handleMouseWheel = (e) => {
@@ -159,6 +160,7 @@ class InteractionManager extends PureComponent {
                 onPointerMove={this.handleMouseMove}
                 onPointerUp={this.handleMouseUp}
                 id="interActionManager"
+                ref={(container) => { this.containerElement = container; }}
             >
                 {this.props.children}
             </div>
@@ -174,7 +176,7 @@ class InteractionManager extends PureComponent {
                 //this.handleMouseUp(e); TODO Figure out how to do this while still keeping toolbar happy.
             }
         });
-        document.addEventListener('wheel', this.handleMouseWheel,{ passive: false });
+        this.containerElement.addEventListener('wheel', this.handleMouseWheel,{ passive: false });
     }
     
   }
