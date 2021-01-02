@@ -27,10 +27,11 @@ class Link extends Component {
   }
 
   handleLinkChange = (e) => {
-    
+
     this.props.handleUpdateElementProperty({
-      property : "link",
-      value : e.target.value
+      update : {
+        link : e.target.value
+      }
     });
 
   }

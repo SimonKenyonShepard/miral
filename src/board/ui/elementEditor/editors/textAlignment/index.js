@@ -71,8 +71,11 @@ class TextAlignment extends Component {
 
     handleLeftChange = () => {
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, "textAlign" : "left"}
+        update : {
+          fontStyle : {
+            "textAlign" : "left"
+          }
+        }
       });
     }
 
@@ -84,36 +87,51 @@ class TextAlignment extends Component {
 
     handleRightChange = () => {
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, "textAlign" : "right"}
+        update : {
+          fontStyle : {
+            "textAlign" : "right"
+          }
+        }
       });
     }
 
     handleCenterChange = () => {
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, "textAlign" : "center"}
+        update : {
+          fontStyle : {
+            "textAlign" : "center"
+          }
+        }
       });
     }
 
     handleAlignTop = () => {
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, "alignItems" : "top"}
+        update : {
+          fontStyle : {
+            "alignItems" : "top"
+          }
+        }
       });
     }
 
     handleAlignCenter = () => {
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, "alignItems" : "center"}
+        update : {
+          fontStyle : {
+            "alignItems" : "center"
+          }
+        }
       });
     }
 
     handleAlignBottom = () => {
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, "alignItems" : "bottom"}
+        update : {
+          fontStyle : {
+            "alignItems" : "bottom"
+          }
+        }
       });
     }
 

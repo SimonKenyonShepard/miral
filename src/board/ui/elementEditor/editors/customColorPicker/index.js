@@ -54,20 +54,27 @@ class CustomColorPicker extends Component {
     }
 
     handleUpdateColor = (color) => {
-      let newFillOpacity = this.props.currentStyles.fillOpacity;
+      let newFillOpacity = this.props.currentStyles[0].styles.fillOpacity;
       if (newFillOpacity === 0) {
         newFillOpacity = 1;
       }
       this.props.handleUpdateElementProperty({
-        property : "styles",
-        value : {...this.props.currentStyles, "fill" : color, fillOpacity : newFillOpacity} 
+        update : {
+          styles : {
+            fill : color,
+            fillOpacity : newFillOpacity
+          }
+        }
       });
     }
 
     handleOpacityChange = (e) => {
       this.props.handleUpdateElementProperty({
-        property : "styles",
-        value : {...this.props.currentStyles, fillOpacity : e.target.value} 
+        update : {
+          styles : {
+            fillOpacity : e.target.value
+          }
+        }
       });
     }
 
@@ -79,13 +86,18 @@ class CustomColorPicker extends Component {
 
     render() {
         const theme = this.context;
-        const selectedColor = {
-          backgroundColor : this.props.currentStyles.fill 
-        };
+        
         let submenuCSS = "predefinedColorPicker_submenu";
         if(this.state.subMenuOpen) {
           submenuCSS += " isVisible";
         }
+
+        const fillOpacity = this.props.currentStyles[0].styles.fillOpacity;
+
+        const selectedColor = {
+          backgroundColor : this.props.currentStyles[0].styles.fill 
+        };
+
         
         return (
             <div className={"predefinedColorPicker"}>
@@ -125,7 +137,7 @@ class CustomColorPicker extends Component {
                         max="1"
                         step="0.1"
                         onChange={this.handleOpacityChange}
-                        value={(this.props.currentStyles.fillOpacity || 0)}
+                        value={(fillOpacity || 0)}
                       />
                     </div>
                 </div>

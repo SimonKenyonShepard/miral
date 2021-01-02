@@ -27,10 +27,10 @@ class URL extends Component {
     }
 
     handleURLChange = (e) => {
-      
       this.props.handleUpdateElementProperty({
-        property : "URL",
-        value : e.target.value
+        update : {
+          URL : e.target.value
+        }
       });
     }
 

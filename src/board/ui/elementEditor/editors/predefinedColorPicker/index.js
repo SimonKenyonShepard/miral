@@ -7,9 +7,10 @@ class PredefinedColorOption extends Component {
 
   handleSelectColor = () => {
     this.props.handleUpdateElementProperty({
-      property : "predefinedColor",
-      value : this.props.colorID
-    })
+      update : {
+        predefinedColor : this.props.colorID
+      }
+    });
   }
 
   render() {

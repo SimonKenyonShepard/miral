@@ -63,8 +63,11 @@ class FontStyle extends Component {
 
     handleUpdateColor = (color) => {
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, "color" : color} 
+        update : {
+          fontStyle : {
+            color
+          }
+        }
       });
     }
 
@@ -72,16 +75,22 @@ class FontStyle extends Component {
       let {fontFamily} = this.props.fontStyle;
       if(fontFamily !== e.target.value) {
         this.props.handleUpdateElementProperty({
-          property : "fontStyle",
-          value : {...this.props.fontStyle, fontFamily : e.target.value}
+          update : {
+            fontStyle : {
+              fontFamily : e.target.value
+            }
+          }
         });
       }
     }
 
     handleSizeChange = (e) => {
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, fontSize : (e.target.value*this.props.initialZoomLevel)} 
+        update : {
+          fontStyle : {
+            fontSize : (e.target.value*this.props.initialZoomLevel)
+          }
+        }
       });
     }
 

@@ -18,3 +18,20 @@ export function createNewObjectsForChangedElements(newData, patch) {
   }
   return newData;
 }
+
+export function isObjectAndNotNull(item) {
+  return typeof item === 'object' && item !== null;
+};
+
+export function mergeObjects(primaryObject, mergeObject) {
+  const mergedObject = {...primaryObject};
+  Object.keys(mergeObject).forEach(key => {
+    
+    if(isObjectAndNotNull(mergeObject[key]) && isObjectAndNotNull(primaryObject[key])) {
+      mergedObject[key] = mergeObjects(primaryObject[key], mergeObject[key]);
+    } else {
+      mergedObject[key] = mergeObject[key];
+    }
+  });
+  return mergedObject;
+}

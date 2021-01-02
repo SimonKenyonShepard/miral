@@ -30,7 +30,7 @@ const shapeTypeEditableFeatures = {
     "youtube" : ["url", "lock", "delete", "menu"]
 };
 
-const multiElementEditableFeatures = ["bringForward", "sendBackward", "lock", "delete", "menu"];
+const multiElementEditableFeatures = ["customColor", "bringForward", "sendBackward", "lock", "delete", "menu"];
 
 class ElementEditor extends Component {
 
@@ -42,7 +42,7 @@ class ElementEditor extends Component {
     }
 
     handleUpdateElementProperty = (data) => {
-        data.id = this.props.selectedElements[0].id;
+        data.id = this.props.selectedElements.map((element) => element.id);
         this.props.handleUpdateElementProperty(data);
     }
 
@@ -111,7 +111,7 @@ class ElementEditor extends Component {
                     case 'customColor':
                         return <CustomColorPicker 
                                     key={`${selectedElements[0].id}_${button}`}
-                                    currentStyles={selectedElements[0].styles}
+                                    currentStyles={selectedElements}
                                     handleUpdateElementProperty={this.handleUpdateElementProperty}
                                     handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                                     currentOpenSubMenu={this.state.currentOpenSubMenu}

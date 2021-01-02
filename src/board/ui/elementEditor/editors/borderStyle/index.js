@@ -30,8 +30,11 @@ class BorderStyle extends Component {
       const strokeDasharray = "0";
       
       this.props.handleUpdateElementProperty({
-        property : "styles",
-        value : {...this.props.currentStyles, strokeDasharray}
+        update : {
+          styles : {
+            strokeDasharray
+          }
+        }
       });
     }
 
@@ -39,8 +42,11 @@ class BorderStyle extends Component {
       const strokeDasharray = (4*this.props.initialZoomLevel)+" "+(2*this.props.initialZoomLevel);
       
       this.props.handleUpdateElementProperty({
-        property : "styles",
-        value : {...this.props.currentStyles, strokeDasharray}
+        update : {
+          styles : {
+            strokeDasharray
+          }
+        }
       });
     }
 
@@ -48,16 +54,22 @@ class BorderStyle extends Component {
       const strokeDasharray = String(2*this.props.initialZoomLevel);
       
       this.props.handleUpdateElementProperty({
-        property : "styles",
-        value : {...this.props.currentStyles, strokeDasharray}
+        update : {
+          styles : {
+            strokeDasharray
+          }
+        }
       });
     }
 
 
     handleWidthChange = (e) => {
       this.props.handleUpdateElementProperty({
-        property : "styles",
-        value : {...this.props.currentStyles, strokeWidth : (e.target.value*this.props.initialZoomLevel)} 
+        update : {
+          styles : {
+            strokeWidth : (e.target.value*this.props.initialZoomLevel)
+          }
+        }
       });
     }
 

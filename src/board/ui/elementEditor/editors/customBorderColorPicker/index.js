@@ -59,15 +59,22 @@ class CustomBorderColorPicker extends Component {
         newStrokeOpacity = 1;
       }
       this.props.handleUpdateElementProperty({
-        property : "styles",
-        value : {...this.props.currentStyles, "stroke" : color, strokeOpacity : newStrokeOpacity} 
+        update : {
+          styles : {
+            stroke : color,
+            strokeOpacity : newStrokeOpacity
+          }
+        }
       });
     }
 
     handleOpacityChange = (e) => {
       this.props.handleUpdateElementProperty({
-        property : "styles",
-        value : {...this.props.currentStyles, strokeOpacity : e.target.value} 
+        update : {
+          styles : {
+            strokeOpacity : e.target.value
+          }
+        }
       });
     }
 

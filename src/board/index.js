@@ -18,7 +18,7 @@ import Elements from './elements';
 
 //HELPERS
 import Shortid from 'shortid';
-import {objectClone} from './utils';
+import {objectClone, mergeObjects} from './utils';
 
 //SVG
 import Pattern from './pattern';
@@ -315,9 +315,10 @@ class Board extends Component {
 
     handleUpdateElementProperty = (data) => {
         const newElementsData = {...this.state.elements};
-        const newElement = {...newElementsData[data.id]};
-        newElement[data.property] = data.value;
-        newElementsData[data.id] = newElement;
+        data.id.forEach((id) => {
+            const newElement = mergeObjects(newElementsData[id], data.update);
+            newElementsData[id] = newElement;
+        });
         this.setState({elements : newElementsData, storeUndo : true});
     }
 

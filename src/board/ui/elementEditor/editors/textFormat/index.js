@@ -32,8 +32,11 @@ class TextFormat extends Component {
         newFontWeight = "bold";
       }
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, "fontWeight" : newFontWeight}
+        update : {
+          fontStyle : {
+            "fontWeight" : newFontWeight
+          }
+        }
       });
     }
 
@@ -43,8 +46,11 @@ class TextFormat extends Component {
         newFontStyle = "italic";
       }
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, "fontStyle" : newFontStyle}
+        update : {
+          fontStyle : {
+            "fontStyle" : newFontStyle
+          }
+        }
       });
     }
 
@@ -56,8 +62,11 @@ class TextFormat extends Component {
         textDecorationLine = textDecorationLine.replace("underline", "");
       }
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, textDecorationLine}
+        update : {
+          fontStyle : {
+            textDecorationLine
+          }
+        }
       });
     }
 
@@ -69,8 +78,11 @@ class TextFormat extends Component {
         textDecorationLine = textDecorationLine.replace("line-through", "");
       }
       this.props.handleUpdateElementProperty({
-        property : "fontStyle",
-        value : {...this.props.fontStyle, textDecorationLine}
+        update : {
+          fontStyle : {
+            textDecorationLine
+          }
+        }
       });
     }
 
