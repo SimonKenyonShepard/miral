@@ -64,7 +64,7 @@ class Youtube extends PureComponent {
         }
 
         
-        const youtubeIDMatcher = /(?:embed\/|v=)\b(.+?)\b/g;
+        const youtubeIDMatcher = /(?:embed\/|v=)\b(.+?)(?![\w-])/g;
         const videoID = youtubeIDMatcher.exec(data.URL);
         const youtubeURL = "https://www.youtube.com/embed/"+videoID[1];
         
