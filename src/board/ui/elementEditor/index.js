@@ -30,7 +30,7 @@ const shapeTypeEditableFeatures = {
     "youtube" : ["url", "lock", "delete", "menu"]
 };
 
-const multiElementEditableFeatures = ["customColor", "bringForward", "sendBackward", "lock", "delete", "menu"];
+const multiElementEditableFeatures = ["bringForward", "sendBackward", "lock", "delete", "menu"];
 
 class ElementEditor extends Component {
 
@@ -58,8 +58,6 @@ class ElementEditor extends Component {
             return false;
         }
     }
-
-    
 
     handleKeyPress = (e) => {
         
@@ -95,7 +93,16 @@ class ElementEditor extends Component {
         if(selectedElements.length === 1) {
             editButtonTypes = shapeTypeEditableFeatures[selectedElements[0].type];
         } else if (selectedElements.length > 1) {
-            editButtonTypes = multiElementEditableFeatures;
+            editButtonTypes = [...multiElementEditableFeatures];
+            let areAllShapes = true;
+            selectedElements.forEach(element => {
+                if(element.type !== "shape") {
+                    areAllShapes = false;
+                }
+            });
+            if(areAllShapes) {
+                editButtonTypes.unshift("customColor");
+            }
         }
         if(editButtonTypes) {
             editButtons = editButtonTypes.map(button => {
