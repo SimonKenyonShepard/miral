@@ -62,6 +62,11 @@ class Youtube extends PureComponent {
         if(this.state.iframePointerEvents === "none") {
             iframeOpacity = 0.6;
         }
+
+        
+        const youtubeIDMatcher = /(?:embed\/|v=)\b(.+?)\b/g;
+        const videoID = youtubeIDMatcher.exec(data.URL);
+        const youtubeURL = "https://www.youtube.com/embed/"+videoID[1];
         
         iframe = 
             <foreignObject
@@ -77,7 +82,7 @@ class Youtube extends PureComponent {
                     title={"youtubeVideo"+data.id}
                     width={(shapeProps.width/data.initialZoomLevel)}
                     height={(shapeProps.height/data.initialZoomLevel)} 
-                    src={data.URL} 
+                    src={youtubeURL} 
                     frameBorder="0" 
                     allow="clipboard-write; encrypted-media; picture-in-picture"
                     allowFullScreen={true}
