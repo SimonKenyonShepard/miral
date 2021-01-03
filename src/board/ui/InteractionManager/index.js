@@ -60,6 +60,7 @@ class InteractionManager extends PureComponent {
             dragStartY : e.clientY,
             dragStartTime : Date.now(),
             drag : "mouseDown",
+            isSelected : this.props.isSelected(e.target.id),
             elementID : e.target.id
         });
         this.SAFARIHACK_SCREENX = e.screenX;
@@ -71,6 +72,7 @@ class InteractionManager extends PureComponent {
         const {
             drag,
             elementID,
+            isSelected,
             dragStartX,
             dragStartY
         } = this.state;
@@ -79,11 +81,19 @@ class InteractionManager extends PureComponent {
             x : (e.clientX*this.props.zoomLevel)+this.props.offsetX,
             y : (e.clientY*this.props.zoomLevel)+this.props.offsetY
         });
+        
         if(drag === "mouseDown" || drag === "dragging") {
-            const dragHandlers = this.props.dragHandlers[elementID];
+            let dragHandlers = this.props.dragHandlers[elementID];
             const wasAccidentalMovement = this.wasAccidentalMovement(dragStartX, dragStartY, e.clientX, e.clientY);
             e.stopPropagation();
-            if(drag === "mouseDown" && !wasAccidentalMovement) {
+            const wasStartOfDrag = (drag === "mouseDown" && !wasAccidentalMovement);
+            const wasMiddleOfDrag = (dragHandlers && dragHandlers.handleDragMove && !wasAccidentalMovement);
+            const wasCanvasDrag = (!wasAccidentalMovement && !isSelected);
+            if(wasCanvasDrag) {
+                dragHandlers = this.props.dragHandlers["board"];
+                this.setState({elementID : "board"});
+            }
+            if(wasStartOfDrag) {
                 this.setState({
                     drag : "dragging"
                 });
@@ -92,8 +102,7 @@ class InteractionManager extends PureComponent {
                     dragHandlers.handleDragStart(e, dragStartX, dragStartY, e.movementX, e.movementY);
                 }
                
-            } else 
-            if(dragHandlers && dragHandlers.handleDragMove && !wasAccidentalMovement) {
+            } else if(wasMiddleOfDrag) {
                 //THIS BROWSER HACK IS NEEDED BECAUSE SAFARI POINTERMOVE EVENT DOES NOT SUPPORT MOVEMENTX or MOVEMENTY - PLEASE REMOVE IF NO LONGER NEEDED (i raised a ticket with apple)
                 const movementX = e.screenX-this.SAFARIHACK_SCREENX;
                 const movementY = e.screenY-this.SAFARIHACK_SCREENY;

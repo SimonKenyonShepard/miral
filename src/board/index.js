@@ -551,7 +551,14 @@ class Board extends Component {
             elementState,
             userID
         } = this.state;
-        return elementState[elementID].selected === userID;
+        
+        let isSelected = false;
+
+        if(elementState[elementID] && elementState[elementID].selected === userID) {
+            isSelected = true;
+        }
+        
+        return isSelected;
     }
 
     isUniqueSelected = (elementID) => {
@@ -808,6 +815,7 @@ class Board extends Component {
                         dragHandlers={this.state.dragHandlers}
                         updatePointerPosition={this.updatePointerPosition}
                         handlePanMove={this.handlePanMove}
+                        isSelected={this.isSelected}
                     >
                         <svg id="board" 
                             width={`${width}px`}
