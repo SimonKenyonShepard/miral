@@ -15,18 +15,19 @@ import ElementLocker from './editors/elementLocker';
 import ElementDeleter from './editors/elementDeleter';
 import ElementEditorMenu from './editors/elementEditorMenu';
 import Url from './editors/url';
+import ElementVisibility from './editors/elementVisibility';
 
 
 import './styles.css';
 
 const shapeTypeEditableFeatures = {
-    "postit" : ["predefinedColor", "textFormat", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "shape" : ["customColor", "customBorderColor", "borderStyle", "fontStyle", "textFormat",  "textAlignment", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "text" : ["fontStyle", "textFormat", "textAlignment", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "postit" : ["predefinedColor", "textFormat", "bringForward", "sendBackward", "visibility", "lock", "delete", "menu"],
+    "shape" : ["customColor", "customBorderColor", "borderStyle", "fontStyle", "textFormat",  "textAlignment", "bringForward", "sendBackward", "visibility", "lock", "delete", "menu"],
+    "text" : ["fontStyle", "textFormat", "textAlignment", "bringForward", "sendBackward", "visibility", "lock", "delete", "menu"],
     "line" : ["customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "image" : ["url", "customBorderColor", "borderStyle", "bringForward", "sendBackward", "lock", "delete", "menu"],
+    "image" : ["url", "customBorderColor", "borderStyle", "bringForward", "sendBackward", "visibility", "lock", "delete", "menu"],
     "slide" : ["customColor", "bringForward", "sendBackward", "lock", "delete", "menu"],
-    "link" : ["link", "lock", "delete", "menu"],
+    "link" : ["link", "visibility", "lock", "delete", "menu"],
     "youtube" : ["url", "lock", "delete", "menu"]
 };
 
@@ -189,6 +190,12 @@ class ElementEditor extends Component {
                                     handleShiftElementPosition={this.props.handleShiftElementPosition}
                                     ids={selectedIDs}
                                 />;
+                    case 'visibility':
+                        return <ElementVisibility 
+                            key={`${selectedElements[0].id}_${button}`}
+                            isHidden={selectedElements[0].hidden}
+                            handleUpdateElementProperty={this.handleUpdateElementProperty}
+                        />;
                     case 'lock':
                         return <ElementLocker key={`${selectedElements[0].id}_${button}`} />;
                     case 'delete':

@@ -26,6 +26,7 @@ export function createElementBaseObject(id, type, initialZoomLevel) {
         },
         text : "",
         initialZoomLevel,
-        link : ""
+        link : "",
+        hidden : false
     };
 }

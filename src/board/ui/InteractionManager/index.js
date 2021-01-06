@@ -88,7 +88,7 @@ class InteractionManager extends PureComponent {
             e.stopPropagation();
             const wasStartOfDrag = (drag === "mouseDown" && !wasAccidentalMovement);
             const wasMiddleOfDrag = (dragHandlers && dragHandlers.handleDragMove && !wasAccidentalMovement);
-            const wasCanvasDrag = (!wasAccidentalMovement && !isSelected && elementID !== "drawCanvas" && elementID !==  "resizerHandle");
+            const wasCanvasDrag = (!wasAccidentalMovement && !isSelected && elementID !== "drawCanvas" && elementID !== "resizerHandle");
             if(wasCanvasDrag) {
                 dragHandlers = this.props.dragHandlers["board"];
                 this.setState({elementID : "board"});

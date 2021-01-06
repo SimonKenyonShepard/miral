@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import VisibilityOverlay from '../shared/visibilityOverlay';
 
 import './styles.css';
 
@@ -78,6 +79,11 @@ class Text extends PureComponent {
                 />
                 {text}
                 {overlay}
+                {data.hidden && (
+                    <VisibilityOverlay 
+                        shapeProps={shapeProps}
+                    />
+                )}
             </g>
         );
     }

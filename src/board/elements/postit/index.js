@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {ThemeContext} from '../../../theme-context';
+import VisibilityOverlay from '../shared/visibilityOverlay';
 
 import './styles.css';
 
@@ -181,6 +182,11 @@ class Postit extends PureComponent {
                 </g>
                 {text}
                 {overlay}
+                {data.hidden && (
+                    <VisibilityOverlay 
+                        shapeProps={shapeProps}
+                    />
+                )}
             </g>
         );
     }

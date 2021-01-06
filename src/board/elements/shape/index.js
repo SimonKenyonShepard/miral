@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import VisibilityOverlay from '../shared/visibilityOverlay';
 
 import './styles.css';
 
@@ -19,6 +20,7 @@ class Shape extends PureComponent {
         let text = null;
         let shape = null;
         let overlay = null;
+        let visibility = null;
         if(this.props.isSelected(data.id)) {
             shapeProps.style = {outline : `${(data.initialZoomLevel)}px dashed #5086F2`};
         } else if(elementState.selected) {
@@ -92,6 +94,7 @@ class Shape extends PureComponent {
         } else {
             shape = <text>No Shape Type Set</text>;
         }
+
         return (
             <g 
                 onDoubleClick={this.handleTextEdit}
@@ -101,6 +104,12 @@ class Shape extends PureComponent {
                 {shape}
                 {text}
                 {overlay}
+                {visibility}
+                {data.hidden && (
+                    <VisibilityOverlay 
+                        shapeProps={shapeProps}
+                    />
+                )}
             </g>
         );
     }

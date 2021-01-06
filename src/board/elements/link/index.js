@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import VisibilityOverlay from '../shared/visibilityOverlay';
 
 import './styles.css';
 
@@ -97,6 +98,11 @@ class Link extends PureComponent {
                 {shape}
                 {linkHitArea}
                 {overlay}
+                {data.hidden && (
+                    <VisibilityOverlay 
+                        shapeProps={shapeProps}
+                    />
+                )}
             </g>
         );
     }
