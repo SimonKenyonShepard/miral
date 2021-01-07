@@ -6,10 +6,6 @@ const iconColor = "#333";
 
 class ElementVisibility extends Component {
 
-    constructor(props, context) {
-      super(props, context);
-    }
-
     handleToggleLock = () => {
       this.props.handleUpdateElementProperty({
         update : {
