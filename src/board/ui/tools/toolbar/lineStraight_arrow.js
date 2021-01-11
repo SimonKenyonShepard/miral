@@ -65,7 +65,7 @@ class LineStraightArrow extends Component {
   
     render() {
         const {
-            handleToolSelect,
+            handleDeselectAllElements,
             handleDrawCanvasShow,
             registerDragHandler,
             handleDragMove,
@@ -78,7 +78,7 @@ class LineStraightArrow extends Component {
         return (
            
             <Tool type="lineStraightArrow" 
-                handleToolSelect={handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 currentSelectedTool={currentSelectedTool}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}

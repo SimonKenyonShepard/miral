@@ -66,7 +66,7 @@ class Image extends Component {
   
     render() {
         const {
-            handleToolSelect,
+            handleDeselectAllElements,
             handleDrawCanvasShow,
             registerDragHandler,
             handleDragMove,
@@ -79,7 +79,7 @@ class Image extends Component {
         return (
            
             <Tool type="image" 
-                handleToolSelect={handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 currentSelectedTool={currentSelectedTool}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}

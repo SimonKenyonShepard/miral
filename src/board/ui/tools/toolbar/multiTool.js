@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { store } from '../../../context/tools';
 
 import './styles.css';
 
@@ -11,12 +12,44 @@ class MultiTool extends Component {
         };
     }
   
-    handleOpenSubMenu = (e) => {
+    handleToggleSubMenu = (e) => {
         e.stopPropagation();
-        this.setState({
-            toolSubMenuOpen : !this.state.toolSubMenuOpen
-        });
-        this.props.handleSetCurrentOpenSubMenu(this.props.type);
+        const {
+            toolSubMenuOpen
+        } = this.state;
+
+        if(toolSubMenuOpen) {
+
+            this.setState({
+                toolSubMenuOpen : false
+            });
+            this.context.dispatch(
+                {
+                    type : "activateSubMenu", 
+                    data : {
+                        subMenu : null
+                    }
+                }
+            );
+
+        } else {
+
+            this.setState({
+                toolSubMenuOpen : true
+            });
+
+            this.context.dispatch(
+                {
+                    type : "activateSubMenu", 
+                    data : {
+                        subMenu : this.props.type,
+                        defaultTool : this.props.defaultTool
+                    }
+                }
+            );
+        }
+        
+        
     }
   
     render() {
@@ -26,26 +59,59 @@ class MultiTool extends Component {
           submenuCSS += " toolbar_isVisible";
         }
 
+        const itemColumnLimit = 5;
+        const subMenuItemColumns = [[]];
+        let counter = 0,
+            columnCounter = 0;
+        this.props.subMenuItems.forEach((item) => {
+            if(counter < itemColumnLimit) {
+                subMenuItemColumns[columnCounter].push(item);
+                counter++;
+            } else {
+                counter = 0;
+                columnCounter++;
+                subMenuItemColumns[columnCounter] = [];
+                subMenuItemColumns[columnCounter].push(item);
+                counter++;
+            }
+        });
+
+        let toolbarIcon = `toolbar_${this.props.type}`;
+
+        if(this.context.state.previousSelectedTools[this.props.type]) {
+            toolbarIcon = `toolbar_${this.context.state.previousSelectedTools[this.props.type]}`;
+        }
+
         return (
             <div 
-                className={`toolbar_tool toolbar_${this.props.type}`}
-                onClick={this.handleOpenSubMenu}
+                className={`toolbar_tool ${toolbarIcon}`}
+                onClick={this.handleToggleSubMenu}
             >
                 <div className={submenuCSS}>
                     <div className={"leftArrow"} />
-                    {this.props.subMenuItems}
+                    <div className={"toolbar_submenu_scrollContainer"}>
+                    {
+                        subMenuItemColumns.map((column, i) => (
+                            <div className="toolbar_subMenu_column" key={`subMenu_column_${i}`}>
+                                {column.map(item => item)}
+                            </div>
+                        ))
+                    }
+                    </div>
                 </div>
             </div>
         );
     }
 
     componentDidUpdate() {
-        if( this.state.toolSubMenuOpen &&
-            this.props.openSubMenu !== this.props.type) {
-                this.setState({toolSubMenuOpen : false});
+        const shouldAutoCloseMenu = this.context.state.currentOpenSubMenu !== this.props.type;
+        if(shouldAutoCloseMenu && this.state.toolSubMenuOpen) {
+            this.setState({toolSubMenuOpen : false});
         }
     }
     
   }
+
+  MultiTool.contextType = store;
 
   export default MultiTool;

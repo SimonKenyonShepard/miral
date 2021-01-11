@@ -64,7 +64,7 @@ class Link extends Component {
   
     render() {
         const {
-            handleToolSelect,
+            handleDeselectAllElements,
             handleDrawCanvasShow,
             registerDragHandler,
             handleDragMove,
@@ -77,7 +77,7 @@ class Link extends Component {
         return (
            
             <Tool type="link" 
-                handleToolSelect={handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 currentSelectedTool={currentSelectedTool}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}

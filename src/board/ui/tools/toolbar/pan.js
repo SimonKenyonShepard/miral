@@ -45,14 +45,14 @@ class Pan extends Component {
   
     render() {
         const {
-            handleToolSelect,
+            handleDeselectAllElements,
             handleDrawCanvasShow,
             registerDragHandler
         } = this.props;
        
         return (
             <Tool type="pan" 
-                handleToolSelect={handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleClick={this.handlePanClick}

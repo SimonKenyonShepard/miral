@@ -3,6 +3,7 @@ import './App.css';
 import Board from './board/';
 
 import {ThemeContext, themes} from './theme-context';
+import { ToolsProvider } from './board/context/tools.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -25,9 +26,11 @@ class App extends React.Component {
 
     return (
       <ThemeContext.Provider value={themes.light}>
-        <div className="App">
-            <Board width={width} height={height} />
-        </div>
+        <ToolsProvider>
+          <div className="App">
+              <Board width={width} height={height} />
+          </div>
+        </ToolsProvider>
       </ThemeContext.Provider>
     );
   }

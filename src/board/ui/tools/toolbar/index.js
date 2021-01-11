@@ -5,6 +5,7 @@ import Shape from './shape';
 import Postit from './postit';
 import Text from './text';
 import Line from './line';
+import Emojis from './emojis';
 import Image from './image';
 import More from './more';
 
@@ -21,6 +22,7 @@ class Toolbar extends Component {
 
 
     handleSetCurrentOpenSubMenu = (openSubMenu) => {
+        this.props.handleDeselectAllElements();
         this.setState({openSubMenu});
     }
 
@@ -58,7 +60,7 @@ class Toolbar extends Component {
   
     render() {
         const {
-            handleToolSelect,
+            handleDeselectAllElements,
             registerDragHandler,
             handleShowSelectionArea,
             handleUpdateSelectionArea,
@@ -68,10 +70,11 @@ class Toolbar extends Component {
         } = this.props;
 
         return (
-            <div className="toolbar_container">
+            <div className="toolbar_container"
+            >
                 <div className="toolbar">
                     <Select 
-                        handleToolSelect={handleToolSelect}
+                        handleDeselectAllElements={handleDeselectAllElements}
                         handleDrawCanvasShow={handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
                         handleShowSelectionArea={handleShowSelectionArea}
@@ -82,7 +85,7 @@ class Toolbar extends Component {
                         handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                     />
                     <Shape
-                        handleToolSelect={handleToolSelect}
+                        handleDeselectAllElements={handleDeselectAllElements}
                         handleDrawCanvasShow={handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
                         handleDragMove={this.handleElementDragMove}
@@ -92,7 +95,7 @@ class Toolbar extends Component {
                         handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                     />
                     <Postit
-                        handleToolSelect={handleToolSelect}
+                        handleDeselectAllElements={handleDeselectAllElements}
                         handleDrawCanvasShow={handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
                         handleDragMove={this.handleElementDragMove}
@@ -102,7 +105,7 @@ class Toolbar extends Component {
                         handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                     />
                     <Text
-                        handleToolSelect={handleToolSelect}
+                        handleDeselectAllElements={handleDeselectAllElements}
                         handleDrawCanvasShow={handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
                         handleDragMove={this.handleElementDragMove}
@@ -112,7 +115,7 @@ class Toolbar extends Component {
                         handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                     />
                     <Line
-                        handleToolSelect={handleToolSelect}
+                        handleDeselectAllElements={handleDeselectAllElements}
                         handleDrawCanvasShow={handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
                         handleDragMove={this.handleElementDragMove}
@@ -121,7 +124,17 @@ class Toolbar extends Component {
                         openSubMenu={this.state.openSubMenu}
                         handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
                     />
-                    <Image handleToolSelect={handleToolSelect}
+                    <Emojis
+                        handleDeselectAllElements={handleDeselectAllElements}
+                        handleDrawCanvasShow={handleDrawCanvasShow}
+                        registerDragHandler={registerDragHandler}
+                        handleDragMove={this.handleElementDragMove}
+                        handleDragEnd={this.handleDragEnd}
+                        currentSelectedTool={currentSelectedTool}
+                        openSubMenu={this.state.openSubMenu}
+                        handleSetCurrentOpenSubMenu={this.handleSetCurrentOpenSubMenu}
+                    />
+                    <Image handleDeselectAllElements={handleDeselectAllElements}
                         handleDrawCanvasShow={handleDrawCanvasShow}
                         registerDragHandler={registerDragHandler}
                         handleDragMove={this.handleElementDragMove}
@@ -129,7 +142,7 @@ class Toolbar extends Component {
                         currentSelectedTool={currentSelectedTool}
                     />
                     <More 
-                         handleToolSelect={handleToolSelect}
+                         handleDeselectAllElements={handleDeselectAllElements}
                          handleDrawCanvasShow={handleDrawCanvasShow}
                          registerDragHandler={registerDragHandler}
                          handleDragMove={this.handleElementDragMove}

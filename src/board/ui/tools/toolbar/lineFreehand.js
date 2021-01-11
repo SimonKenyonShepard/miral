@@ -138,7 +138,7 @@ class Shape extends Component {
   
     render() {
         const {
-            handleToolSelect,
+            handleDeselectAllElements,
             handleDrawCanvasShow,
             registerDragHandler,
             autoActivate,
@@ -148,7 +148,7 @@ class Shape extends Component {
         return (
            
             <Tool type="lineFreehand" 
-                handleToolSelect={handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 currentSelectedTool={currentSelectedTool}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}

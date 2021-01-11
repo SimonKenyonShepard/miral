@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 //UI
 import Tools from './ui/tools';
+import DrawCanvas from './ui/tools/drawCanvas';
 import Altimeter from './ui/altimeter';
 import TextEditor from './ui/textEditor';
 import ElementEditor from './ui/elementEditor';
@@ -194,14 +195,6 @@ class Board extends Component {
             clearTimeout(animation);
         });
         this.canvasAnimations = [];
-    }
-
-  
-    handleToolSelect = (type, dontDeselect) => {
-        if(!dontDeselect) {
-            this.handleDeselectAllElements();
-        }
-        this.setState({"tool" : type});
     }
 
     handleTextEdit = (id) => {
@@ -557,7 +550,7 @@ class Board extends Component {
         if(elementState[elementID] && elementState[elementID].selected === userID) {
             isSelected = true;
         }
-        
+
         return isSelected;
     }
 
@@ -877,12 +870,9 @@ class Board extends Component {
                             handleShiftElementPosition={this.handleShiftElementPosition}
                             boundingBox={boundingBox}
                         />
-                        <Tools
-                            handleToolSelect={this.handleToolSelect} 
-                            registerDragHandler={this.registerDragHandler}
-                            removeDragHandler={this.removeDragHandler}
+                        <DrawCanvas 
                             handleSelectElementsWithinArea={this.handleSelectElementsWithinArea}
-                            currentSelectedTool={this.state.tool}
+                            removeDragHandler={this.removeDragHandler}
                         />
                     </InteractionManager>
                     <Altimeter zoomLevel={zoomLevel} />
@@ -924,6 +914,12 @@ class Board extends Component {
                         offsetX={this.state.offsetX}
                         offsetY={this.state.offsetY}
                         zoomLevel={this.state.zoomLevel}
+                    />
+                    <Tools
+                        handleDeselectAllElements={this.handleDeselectAllElements} 
+                        registerDragHandler={this.registerDragHandler}
+                        removeDragHandler={this.removeDragHandler}
+                        currentSelectedTool={this.state.tool}
                     />
                 </div>
         );

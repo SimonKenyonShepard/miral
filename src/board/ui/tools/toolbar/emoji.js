@@ -7,7 +7,7 @@ import {createElementBaseObject} from "./utils";
 import './styles.css';
 
 
-class LineStraight extends Component {
+class Emoji extends Component {
 
     handleShapeClick(e, dragStartX, dragStartY) {
         const currentState = this.state;
@@ -15,21 +15,25 @@ class LineStraight extends Component {
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
         const presetWidthAndHeight = 120;
-
-        newState.elements[newID] = createElementBaseObject(newID, "line", currentState.zoomLevel);
-
+        
+        newState.elements[newID] = createElementBaseObject(newID, "emoji", currentState.zoomLevel);
+        
         const newElement = newState.elements[newID];
-        newElement.shapeType = 0;
-        newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX;
-        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-(presetWidthAndHeight*currentState.zoomLevel);
+        newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX-((presetWidthAndHeight/2)*currentState.zoomLevel);
+        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-((presetWidthAndHeight/2)*currentState.zoomLevel);
         newElement.styles.width = presetWidthAndHeight*currentState.zoomLevel;
         newElement.styles.height = presetWidthAndHeight*currentState.zoomLevel;
+        newElement.styles.strokeOpacity = 0;
+        newElement.URL = "/icons/insert_photo-noBorder-24px.svg";
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
             selected : currentState.userID
         };
-        
+        newState.dragStartHandler = null;
+        newState.dragMoveHandler = null;
+        newState.dragEndHandler = null;
+        newState.clickHandler = null;
         newState.tool = "pan";
         newState.storeUndo = true;
         this.removeDragHandler("drawCanvas");
@@ -41,16 +45,15 @@ class LineStraight extends Component {
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        const presetWidthAndHeight = 120;
-
-        newState.elements[newID] = createElementBaseObject(newID, "line", currentState.zoomLevel);
-
+        newState.elements[newID] = createElementBaseObject(newID, "emoji", currentState.zoomLevel);
+        
         const newElement = newState.elements[newID];
-        newElement.shapeType = 0;
         newElement.styles.x = (dragStartX*currentState.zoomLevel)+currentState.offsetX;
-        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY-(presetWidthAndHeight*currentState.zoomLevel);
-        newElement.styles.width = presetWidthAndHeight*currentState.zoomLevel;
-        newElement.styles.height = presetWidthAndHeight*currentState.zoomLevel;
+        newElement.styles.y = (dragStartY*currentState.zoomLevel)+currentState.offsetY;
+        newElement.styles.width = width*currentState.zoomLevel;
+        newElement.styles.height = height*currentState.zoomLevel;
+        newElement.styles.strokeOpacity = 0;
+        newElement.URL = "/icons/insert_photo-noBorder-24px.svg";
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
@@ -63,7 +66,8 @@ class LineStraight extends Component {
   
     render() {
         const {
-            handleDeselectAllElements,
+            emojiCharacter,
+            handleToolSelect,
             handleDrawCanvasShow,
             registerDragHandler,
             handleDragMove,
@@ -75,8 +79,9 @@ class LineStraight extends Component {
 
         return (
            
-            <Tool type="lineStraight" 
-                handleDeselectAllElements={handleDeselectAllElements}
+            <Tool type={"emoji_"+emojiCharacter}
+                content={emojiCharacter}
+                handleToolSelect={handleToolSelect}
                 currentSelectedTool={currentSelectedTool}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
@@ -92,4 +97,4 @@ class LineStraight extends Component {
     
   }
 
-  export default LineStraight;
+  export default Emoji;

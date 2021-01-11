@@ -81,7 +81,7 @@ class PostitRectV extends Component {
   
     render() {
         const {
-            handleToolSelect,
+            handleDeselectAllElements,
             handleDrawCanvasShow,
             registerDragHandler,
             handleDragMove,
@@ -92,7 +92,7 @@ class PostitRectV extends Component {
 
         return (
             <Tool type="postitRectV" 
-                handleToolSelect={handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleClick={this.handlePostitClick}

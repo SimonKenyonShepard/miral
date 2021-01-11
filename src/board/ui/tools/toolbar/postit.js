@@ -17,12 +17,15 @@ class Postit extends Component {
         };
     }
 
-    handleToolSelect = (tool) => {
-        if(this.props.currentSelectedTool !== tool) {
+    componentDidUpdate = () => {
+        const {
+            menuActivated,
+            previousSelectedShapeTool
+        } = this.state
+        if(menuActivated && this.context.state.tool !== previousSelectedShapeTool) {
             this.setState({
-                previousSelectedShapeTool : tool
+                previousSelectedShapeTool : this.context.state.tool
             });
-            this.props.handleToolSelect(tool);
         }
     }
   
@@ -32,7 +35,8 @@ class Postit extends Component {
             registerDragHandler,
             handleDragMove,
             handleDragEnd,
-            currentSelectedTool
+            currentSelectedTool,
+            handleDeselectAllElements
         } = this.props;
 
         const autoActivate = {
@@ -48,7 +52,7 @@ class Postit extends Component {
         const subMenuTools = [
             <PostitSquare
                 key={"tool_postitSquare"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -58,7 +62,7 @@ class Postit extends Component {
             />,
             <PostitRect
                 key={"tool_postitRect"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -69,7 +73,7 @@ class Postit extends Component {
             />,
             <PostitRectV
                 key={"tool_postitRectV"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}

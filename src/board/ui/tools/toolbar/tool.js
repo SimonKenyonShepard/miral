@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
+import { store } from '../../../context/tools';
 
 import './styles.css';
 
 class Tool extends Component {
+
+    constructor(props, context) {
+        super(props, context);
+        this.state = {};
+    }
   
     handleToolSelect = (e) => {
-        this.props.handleToolSelect(this.props.type);
-        this.props.handleDrawCanvasShow();
+        this.context.dispatch({type : "activateTool", data : {tool : this.props.type}});
+        this.props.handleDeselectAllElements();
         this.props.registerDragHandler("drawCanvas", {
             "dragStartHandler" : this.props.handleDragStart,
             "dragMoveHandler" : this.props.handleDragMove,
@@ -32,18 +38,22 @@ class Tool extends Component {
             <div 
                 className={`toolbar_tool toolbar_${this.props.type} ${isSelectedCSS}`}
                 onClick={this.handleToolSelect}
-            ></div>
+            >{(this.props.content || null)}</div>
         );
     }
 
     componentDidUpdate() {
 
-        if(this.props.autoActivate) {
+        if(this.context.state.autoActivate === this.props.type) {
             this.handleToolSelect();
+            this.context.dispatch({type : "resetAutoActivate"});
         }
 
     }
     
   }
+
+
+  Tool.contextType = store;
 
   export default Tool;

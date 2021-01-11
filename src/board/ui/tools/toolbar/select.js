@@ -64,7 +64,7 @@ class Select extends Component {
   
     render() {
         const {
-            handleToolSelect,
+            handleDeselectAllElements,
             handleDrawCanvasShow,
             registerDragHandler,
             currentSelectedTool
@@ -72,7 +72,7 @@ class Select extends Component {
        
         return (
             <Tool type="select" 
-                handleToolSelect={handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragStart={this.handleSelectStart}

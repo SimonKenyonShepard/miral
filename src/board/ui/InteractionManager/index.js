@@ -65,6 +65,8 @@ class InteractionManager extends PureComponent {
         });
         this.SAFARIHACK_SCREENX = e.screenX;
         this.SAFARIHACK_SCREENY = e.screenY;
+
+        console.log(e.target.id);
         
     }
 

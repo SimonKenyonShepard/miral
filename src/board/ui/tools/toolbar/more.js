@@ -23,12 +23,15 @@ class More extends Component {
         };
     }
 
-    handleToolSelect = (tool) => {
-        if(this.props.currentSelectedTool !== tool) {
+    componentDidUpdate = () => {
+        const {
+            menuActivated,
+            previousSelectedShapeTool
+        } = this.state
+        if(menuActivated && this.context.state.tool !== previousSelectedShapeTool) {
             this.setState({
-                previousSelectedShapeTool : tool
+                previousSelectedShapeTool : this.context.state.tool
             });
-            this.props.handleToolSelect(tool);
         }
     }
   
@@ -38,7 +41,8 @@ class More extends Component {
             registerDragHandler,
             handleDragMove,
             handleDragEnd,
-            currentSelectedTool
+            currentSelectedTool,
+            handleDeselectAllElements
         } = this.props;
 
         const autoActivate = {
@@ -58,7 +62,7 @@ class More extends Component {
         const subMenuTools = [
             <Slide
                 key={"tool_slide"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -68,7 +72,7 @@ class More extends Component {
             />,
             <Link
                 key={"tool_link"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -78,7 +82,7 @@ class More extends Component {
             />,
             <PDF
                 key={"tool_pdf"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -89,7 +93,7 @@ class More extends Component {
             />,
             <Iframe
                 key={"tool_iframe"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -99,7 +103,7 @@ class More extends Component {
             />,
             <Youtube
                 key={"tool_youtube"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -109,7 +113,7 @@ class More extends Component {
             />,
             <Timer
                 key={"tool_timer"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -119,7 +123,7 @@ class More extends Component {
             />,
             <Poll
                 key={"tool_poll"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}

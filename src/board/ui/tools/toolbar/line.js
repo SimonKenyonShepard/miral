@@ -21,12 +21,15 @@ class Line extends Component {
         };
     }
 
-    handleToolSelect = (tool) => {
-        if(this.props.currentSelectedTool !== tool) {
+    componentDidUpdate = () => {
+        const {
+            menuActivated,
+            previousSelectedShapeTool
+        } = this.state
+        if(menuActivated && this.context.state.tool !== previousSelectedShapeTool) {
             this.setState({
-                previousSelectedShapeTool : tool
+                previousSelectedShapeTool : this.context.state.tool
             });
-            this.props.handleToolSelect(tool);
         }
     }
   
@@ -36,7 +39,8 @@ class Line extends Component {
             registerDragHandler,
             handleDragMove,
             handleDragEnd,
-            currentSelectedTool
+            currentSelectedTool,
+            handleDeselectAllElements
         } = this.props;
 
         const autoActivate = {
@@ -54,7 +58,7 @@ class Line extends Component {
         const subMenuTools = [
             <LineStraight
                 key={"tool_lineStraight"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -64,7 +68,7 @@ class Line extends Component {
             />,
             <LineSmooth
                 key={"tool_lineSmooth"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -75,7 +79,7 @@ class Line extends Component {
             />,
             <LineStraightArrow
                 key={"tool_lineStraightArrow"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -85,7 +89,7 @@ class Line extends Component {
             />,
             <LineSmoothArrow
                 key={"tool_lineSmoothArrow"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
@@ -96,7 +100,7 @@ class Line extends Component {
             />,
             <LineFreehand
                 key={"tool_lineFreehand"}
-                handleToolSelect={this.handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
                 handleDragMove={handleDragMove}
