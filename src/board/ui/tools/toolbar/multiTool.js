@@ -78,7 +78,7 @@ class MultiTool extends Component {
 
         let toolbarIcon = `toolbar_${this.props.type}`;
 
-        if(this.context.state.previousSelectedTools[this.props.type]) {
+        if(this.context.state.previousSelectedTools[this.props.type] && !this.props.noIconChange) {
             toolbarIcon = `toolbar_${this.context.state.previousSelectedTools[this.props.type]}`;
         }
 

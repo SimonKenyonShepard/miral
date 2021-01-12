@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import MultiTool from './multiTool';
+import { store } from '../../../context/tools';
 
 import './styles.css';
 
@@ -11,22 +12,8 @@ class Postit extends Component {
 
     constructor(props, context) {
         super(props, context);
-        this.state = {
-          previousSelectedShapeTool : "postitSquare",
-          menuActivated : false
-        };
-    }
-
-    componentDidUpdate = () => {
-        const {
-            menuActivated,
-            previousSelectedShapeTool
-        } = this.state
-        if(menuActivated && this.context.state.tool !== previousSelectedShapeTool) {
-            this.setState({
-                previousSelectedShapeTool : this.context.state.tool
-            });
-        }
+        this.state = {};
+        this.subMenuType = "postit";
     }
   
     render() {
@@ -39,16 +26,6 @@ class Postit extends Component {
             handleDeselectAllElements
         } = this.props;
 
-        const autoActivate = {
-            postitRect : false,
-            postitSquare : false,
-            postitRectV : false,
-        };
-
-        if(this.state.menuActivated) {
-            autoActivate[this.state.previousSelectedShapeTool] = true;
-        }
-
         const subMenuTools = [
             <PostitSquare
                 key={"tool_postitSquare"}
@@ -58,7 +35,6 @@ class Postit extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.postitSquare}
             />,
             <PostitRect
                 key={"tool_postitRect"}
@@ -68,7 +44,6 @@ class Postit extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.postitRect}
 
             />,
             <PostitRectV
@@ -79,7 +54,6 @@ class Postit extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.postitRectV}
 
             />
         ];
@@ -87,23 +61,16 @@ class Postit extends Component {
         return (
            
             <MultiTool 
-                type="postit" 
+                type={this.subMenuType}
                 subMenuItems={subMenuTools}
-                openSubMenu={this.props.openSubMenu}
-                handleSetCurrentOpenSubMenu={this.props.handleSetCurrentOpenSubMenu} 
+                defaultTool={"postitSquare"}
             />
                    
         );
     }
-
-    componentDidUpdate(prevProps) {
-        if(this.props.openSubMenu !== prevProps.openSubMenu && this.props.openSubMenu === "postit") {
-            this.setState({menuActivated : true});
-        } else if (this.state.menuActivated) {
-            this.setState({menuActivated : false});
-        }
-    }   
     
   }
+  
+  Postit.contextType = store;
 
   export default Postit;

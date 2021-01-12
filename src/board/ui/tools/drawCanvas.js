@@ -24,9 +24,7 @@ class DrawCanvas extends PureComponent {
             drawCanvasVisible : false
         };
         this.props.removeDragHandler("drawCanvas");
-        const dontDeselectBoardElements = true;
         this.context.dispatch({type : "resetToolbar"});
-
         this.setState(Object.assign({}, resetSelectArea, resetDrawCanvas));
     }
   

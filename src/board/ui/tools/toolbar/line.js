@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import MultiTool from './multiTool';
+import { store } from '../../../context/tools';
 
 import LineStraight from "./lineStraight";
 import LineSmooth from "./lineSmooth";
@@ -9,28 +10,12 @@ import LineFreehand from "./lineFreehand";
 
 import './styles.css';
 
-
-
 class Line extends Component {
 
     constructor(props, context) {
         super(props, context);
-        this.state = {
-          previousSelectedShapeTool : "lineStraight",
-          menuActivated : false
-        };
-    }
-
-    componentDidUpdate = () => {
-        const {
-            menuActivated,
-            previousSelectedShapeTool
-        } = this.state
-        if(menuActivated && this.context.state.tool !== previousSelectedShapeTool) {
-            this.setState({
-                previousSelectedShapeTool : this.context.state.tool
-            });
-        }
+        this.state = {};
+        this.subMenuType = "line";
     }
   
     render() {
@@ -43,18 +28,6 @@ class Line extends Component {
             handleDeselectAllElements
         } = this.props;
 
-        const autoActivate = {
-            lineStraight : false,
-            lineSmooth : false,
-            lineFreehand : false,
-            lineStraightArrow : false,
-            lineSmoothArrow : false
-        };
-
-        if(this.state.menuActivated) {
-            autoActivate[this.state.previousSelectedShapeTool] = true;
-        }
-
         const subMenuTools = [
             <LineStraight
                 key={"tool_lineStraight"}
@@ -64,7 +37,6 @@ class Line extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.lineStraight}
             />,
             <LineSmooth
                 key={"tool_lineSmooth"}
@@ -74,7 +46,6 @@ class Line extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.lineSmooth}
 
             />,
             <LineStraightArrow
@@ -85,7 +56,6 @@ class Line extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.lineStraightArrow}
             />,
             <LineSmoothArrow
                 key={"tool_lineSmoothArrow"}
@@ -95,7 +65,6 @@ class Line extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.lineSmoothArrow}
 
             />,
             <LineFreehand
@@ -106,30 +75,22 @@ class Line extends Component {
                 handleDragMove={handleDragMove}
                 handleDragEnd={handleDragEnd}
                 currentSelectedTool={currentSelectedTool}
-                autoActivate={autoActivate.lineFreehand}
             />
         ];
 
         return (
            
             <MultiTool 
-                type="line" 
+                type={this.subMenuType}
                 subMenuItems={subMenuTools}
-                openSubMenu={this.props.openSubMenu}
-                handleSetCurrentOpenSubMenu={this.props.handleSetCurrentOpenSubMenu} 
+                defaultTool={"lineStraight"}
             />
                    
         );
     }
-
-    componentDidUpdate(prevProps) {
-        if(this.props.openSubMenu !== prevProps.openSubMenu && this.props.openSubMenu === "line") {
-            this.setState({menuActivated : true});
-        } else if (this.state.menuActivated) {
-            this.setState({menuActivated : false});
-        }
-    }   
     
   }
+
+  Line.contextType = store;
 
   export default Line;
