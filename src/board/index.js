@@ -916,7 +916,8 @@ class Board extends Component {
                         zoomLevel={this.state.zoomLevel}
                     />
                     <Tools
-                        handleDeselectAllElements={this.handleDeselectAllElements} 
+                        handleDeselectAllElements={this.handleDeselectAllElements}
+                        handleSelectElementsWithinArea={this.handleSelectElementsWithinArea} 
                         registerDragHandler={this.registerDragHandler}
                         removeDragHandler={this.removeDragHandler}
                         currentSelectedTool={this.state.tool}

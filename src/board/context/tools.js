@@ -4,7 +4,14 @@ const initialState = {
   tool : null,
   currentOpenSubMenu : null,
   autoActivate : null,
-  previousSelectedTools : {}
+  previousSelectedTools : {},
+  selectAreaVisible : false,
+  selectAreaPosition : {
+    x : 0,
+    y : 0,
+    width : 0,
+    height : 0,
+  }
 };
 
 const store = createContext(initialState);
@@ -36,10 +43,21 @@ const ToolsProvider = ( { children } ) => {
       case 'resetAutoActivate':
         newState.autoActivate = null;
         return newState;
+      case 'activateSelectArea':
+        newState.selectAreaVisible = true;
+        newState.selectAreaPosition = action.data.selectAreaPosition;
+        return newState;
+      case 'updateSelectArea':
+        newState.selectAreaPosition = action.data.selectAreaPosition;
+        return newState;
+      case 'resetSelectArea':
+        newState.selectAreaVisible = false;
+        newState.selectAreaPosition = initialState.selectAreaPosition;
+        return newState;
       default:
         throw new Error();
     };
-  }, initialState);
+  }, {...initialState});
 
   return <Provider value={{ state, dispatch }}>{children}</Provider>;
 };

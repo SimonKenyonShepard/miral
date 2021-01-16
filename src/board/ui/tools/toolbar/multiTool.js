@@ -54,7 +54,7 @@ class MultiTool extends Component {
   
     render() {
 
-        let submenuCSS = "toolbar_submenu";
+        let submenuCSS = `toolbar_submenu toolbar_subMenu_${this.props.type}`;
         if(this.state.toolSubMenuOpen && this.props.subMenuItems) {
           submenuCSS += " toolbar_isVisible";
         }

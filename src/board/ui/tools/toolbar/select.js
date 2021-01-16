@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Tool from './tool';
+import { store } from '../../../context/tools';
 
 import './styles.css';
 
@@ -17,7 +18,19 @@ class Select extends Component {
     }
 
     handleSelectStart = (e, dragStartX, dragStartY) => {
-        this.props.handleShowSelectionArea(true, e, dragStartX, dragStartY);
+        this.context.dispatch(
+            {
+                type : "activateSelectArea", 
+                data : {
+                    selectAreaPosition : {
+                        x : dragStartX,
+                        y : dragStartY,
+                        width : e.movementX,
+                        height : e.movementY,
+                    }
+                }
+            }
+        );
         
         this.setState({
             x : dragStartX,
@@ -28,14 +41,39 @@ class Select extends Component {
     }
 
     handleSelectMove = (e) => {
-        const selectionAreaUpdate = {
+
+        const selectionAreaCoords = {
             x : this.state.x,
             y : this.state.y,
             x1 : this.state.x1+e.movementX,
             y1 : this.state.y1+e.movementY
         };
-        this.props.handleUpdateSelectionArea(selectionAreaUpdate);
-        this.setState(selectionAreaUpdate);
+
+        const positionUpdate = {
+            width : selectionAreaCoords.x1-selectionAreaCoords.x,
+            height : selectionAreaCoords.y1-selectionAreaCoords.y
+        };
+
+        if(selectionAreaCoords.x > selectionAreaCoords.x1) {
+            positionUpdate.x = selectionAreaCoords.x1;
+            positionUpdate.width = selectionAreaCoords.x-selectionAreaCoords.x1;
+        }
+
+        if(selectionAreaCoords.y > selectionAreaCoords.y1) {
+            positionUpdate.y = selectionAreaCoords.y1;
+            positionUpdate.height = selectionAreaCoords.y-selectionAreaCoords.y1;
+        }
+
+        this.context.dispatch(
+            {
+                type : "updateSelectArea", 
+                data : {
+                    selectAreaPosition : Object.assign({}, this.context.state.selectAreaPosition, positionUpdate)
+                }
+            }
+        );
+
+        this.setState(selectionAreaCoords);
     }
 
     handleSelectEnd = (e) => {
@@ -60,6 +98,11 @@ class Select extends Component {
             selectionArea.y1 = y;
         }
         this.props.handleSelectElementsWithinArea(selectionArea.x, selectionArea.y, selectionArea.x1, selectionArea.y1);
+        this.context.dispatch(
+            {
+                type : "resetSelectArea"
+            }
+        );
     }
   
     render() {
@@ -84,5 +127,7 @@ class Select extends Component {
     }
     
   }
+
+  Select.contextType = store;
 
   export default Select;

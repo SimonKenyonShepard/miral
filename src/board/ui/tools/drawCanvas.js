@@ -32,7 +32,7 @@ class DrawCanvas extends PureComponent {
         const {
             selectAreaVisible,
             selectAreaPosition
-        } = this.state;
+        } = this.context.state;
 
         const selectAreaStyle = {
             display : "none"
