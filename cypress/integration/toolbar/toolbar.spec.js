@@ -1,4 +1,65 @@
+function dragMouse(element, from, to, speed){
+    const steps = to.x - from.x;
+    for(let i = 0; i < steps; i++) {
+        const clientX = from.x+i,
+              clientY = from.y+i;
+        
+        if(i === 0) {
+            element.trigger('pointerdown', { 
+                eventConstructor: 'PointerEvent',
+                bubbles: true,
+                cancelable: true,
+                buttons: 1,
+                clientX, 
+                clientY, 
+                screenX: clientX, 
+                screenY: clientY,
+            });
+        }
+
+        (function(element, clientX, clientY, incrementDelay) {
+            setTimeout(() => {
+                element.trigger('pointermove', { 
+                    eventConstructor: 'PointerEvent',
+                    bubbles: true,
+                    cancelable: true,
+                    buttons: 1,
+                    clientX,
+                    clientY,
+                    screenX: clientX,
+                    screenY: clientY
+                });
+                console.log("test mouse move");
+            }, incrementDelay);
+        }.bind(this)(element, clientX, clientY, speed*(i+1)));
+
+        if(i === steps-1) {
+            (function(element, clientX, clientY, incrementDelay) {
+                return new Cypress.Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        element.trigger('pointerup', {
+                            eventConstructor: 'PointerEvent',
+                            bubbles: true,
+                            cancelable: true,
+                            buttons: 1,
+                            clientX,
+                            clientY,
+                            screenX: clientX,
+                            screenY: clientY,
+                            force: true 
+                        });
+                        console.log("test mouse move");
+                        resolve('foo');
+                    }, incrementDelay);
+                });
+            }.bind(this)(element, clientX, clientY, speed*(i+2)));
+        }
+
+    }
+};
+
 describe('Toolbar', () => {
+
   beforeEach(() => {
     window.localStorage.setItem("miral_isFirstUse", true);
     cy.visit('/');
@@ -44,23 +105,19 @@ describe('Toolbar', () => {
         cy.get('#drawCanvas').click(300, 300);
         cy.get('.toolbar_more').should('be.visible');
     })
-    // it('creates a shape of the correct size when dragged', () => {
-    //     cy.get('.toolbar_shape').click();
-    //     cy.get('#drawCanvas')
-    //         .trigger('mousedown', { clientX: 300, clientY: 300, movementX: 1, movementY: 1 })
-    //         .trigger('mousemove', { clientX: 301, clientY: 301, movementX: 1, movementY: 1 })
-    //         .trigger('mousemove', { clientX: 302, clientY: 302, movementX: 1, movementY: 1 })
-    //         .trigger('mousemove', { clientX: 303, clientY: 303, movementX: 1, movementY: 1 })
-    //         .trigger('mousemove', { clientX: 304, clientY: 304, movementX: 1, movementY: 1 })
-    //         .trigger('mousemove', { clientX: 305, clientY: 305, movementX: 1, movementY: 1 })
-    //         .trigger('mousemove', { clientX: 306, clientY: 306, movementX: 1, movementY: 1 })
-    //         .trigger('mousemove', { clientX: 307, clientY: 307, movementX: 1, movementY: 1 })
-    //         .trigger('mousemove', { clientX: 308, clientY: 308, movementX: 1, movementY: 1 })
-    //         .trigger('mousemove', { clientX: 309, clientY: 309, movementX: 1, movementY: 1 })
-    //         .trigger('mousemove', { clientX: 310, clientY: 310, movementX: 1, movementY: 1 })
-    //         .trigger('mouseup', { force: true });
-            
-    // })
+    it('creates a shape of the correct size when dragged', () => {
+
+        cy.get('.toolbar_shape').click();
+
+        cy.then(() => {
+            return dragMouse(cy.get('#interActionManager'), {x:300, y:300}, {x:400, y:400}, 30);
+        })
+
+        cy.get('g rect').eq(0).should('have.attr', 'width', 9900);
+
+        
+    })
+    
 
   })  
   

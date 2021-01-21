@@ -9,6 +9,7 @@ import Image from './image';
 import Slide from './slide';
 import Link from './link';
 import Youtube from './youtube';
+import Emoji from './emoji';
 
 
 class Elements extends PureComponent {
@@ -135,6 +136,17 @@ class Elements extends PureComponent {
                     fontStyles={element.fontStyles}
                     elementState={elementState[element.id]}
                     handleTextEdit={handleTextEdit}
+                    handleSetCurrentElement={handleSetCurrentElement}
+                    isSelected={isSelected}
+                    lowDetail={lowDetail}
+                />);
+            } else if (element.type === "emoji") {
+                return (<Emoji
+                    key={element.id}
+                    data={element}
+                    styles={element.styles}
+                    fontStyles={element.fontStyles}
+                    elementState={elementState[element.id]}
                     handleSetCurrentElement={handleSetCurrentElement}
                     isSelected={isSelected}
                     lowDetail={lowDetail}

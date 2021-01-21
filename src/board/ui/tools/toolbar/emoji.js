@@ -14,7 +14,7 @@ class Emoji extends Component {
         const newState = {};
         newState.elements = {...currentState.elements};
         const newID = Shortid.generate();
-        const presetWidthAndHeight = 120;
+        const presetWidthAndHeight = 24;
         
         newState.elements[newID] = createElementBaseObject(newID, "emoji", currentState.zoomLevel);
         
@@ -24,7 +24,8 @@ class Emoji extends Component {
         newElement.styles.width = presetWidthAndHeight*currentState.zoomLevel;
         newElement.styles.height = presetWidthAndHeight*currentState.zoomLevel;
         newElement.styles.strokeOpacity = 0;
-        newElement.URL = "/icons/insert_photo-noBorder-24px.svg";
+        newElement.emojiCharacterCode = window.workshoppr.emojiCharacter;
+        newElement.fixedRatio = "true";
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
@@ -53,7 +54,8 @@ class Emoji extends Component {
         newElement.styles.width = width*currentState.zoomLevel;
         newElement.styles.height = height*currentState.zoomLevel;
         newElement.styles.strokeOpacity = 0;
-        newElement.URL = "/icons/insert_photo-noBorder-24px.svg";
+        newElement.emojiCharacterCode = window.workshoppr.emojiCharacter;
+        newElement.fixedRatio = "true";
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
@@ -67,7 +69,8 @@ class Emoji extends Component {
     render() {
         const {
             emojiCharacter,
-            handleToolSelect,
+            emojiCharacterNumber,
+            handleDeselectAllElements,
             handleDrawCanvasShow,
             registerDragHandler,
             handleDragMove,
@@ -76,12 +79,11 @@ class Emoji extends Component {
             currentSelectedTool
         } = this.props;
 
-
         return (
            
-            <Tool type={"emoji_"+emojiCharacter}
+            <Tool type={"emoji_"+emojiCharacterNumber}
                 content={emojiCharacter}
-                handleToolSelect={handleToolSelect}
+                handleDeselectAllElements={handleDeselectAllElements}
                 currentSelectedTool={currentSelectedTool}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}

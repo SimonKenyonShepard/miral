@@ -36,7 +36,7 @@ class Board extends Component {
         boardName : "new-board-"+new Date().toLocaleDateString().replace(/\//g, ""),
         boardID : Shortid.generate(),
         userID : Shortid.generate(),
-        zoomLevel : 100,
+        zoomLevel : 50,
         offsetX : 0,
         offsetY : 0,
         tool : "pan",
