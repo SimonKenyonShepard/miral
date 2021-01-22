@@ -445,7 +445,9 @@ class MultiUserManager extends Component {
                 requestCreds : true
             });
         }
-        window.workshoppr = {};
+        if(!window.workshoppr) {
+            window.workshoppr = {};
+        }
         window.workshoppr.joinBoard = this.getJoinCreds;
     }
 

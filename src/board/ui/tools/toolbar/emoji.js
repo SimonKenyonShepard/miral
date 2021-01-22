@@ -69,7 +69,7 @@ class Emoji extends Component {
     render() {
         const {
             emojiCharacter,
-            emojiCharacterNumber,
+            emojiCharacterCode,
             handleDeselectAllElements,
             handleDrawCanvasShow,
             registerDragHandler,
@@ -81,7 +81,7 @@ class Emoji extends Component {
 
         return (
            
-            <Tool type={"emoji_"+emojiCharacterNumber}
+            <Tool type={"emoji_"+emojiCharacterCode}
                 content={emojiCharacter}
                 handleDeselectAllElements={handleDeselectAllElements}
                 currentSelectedTool={currentSelectedTool}

@@ -34,7 +34,6 @@ class Emoji extends PureComponent {
                 <text
                     fontFamily={"'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', Times, Symbola, Aegyptus, Code2000, Code2001, Code2002, Musica, serif, LastResort"}
                     fontSize={"24px"}
-                    lineHeigh
                     x={0}
                     y={24}
                     dy={-1}

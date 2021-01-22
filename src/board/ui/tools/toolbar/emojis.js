@@ -16,7 +16,7 @@ class Emojis extends Component {
         if(!window.workshoppr) {
             window.workshoppr = {};
         }
-        window.workshoppr.emojiCharacter = String.fromCodePoint((String("128513").toString(16)));
+        window.workshoppr.emojiCharacter = String.fromCodePoint((String("128512").toString(16)));
     }
 
     uglyHack(e) {
@@ -47,7 +47,7 @@ class Emojis extends Component {
                         {emojiEntity}
                     </span>
                     )}
-                    emojiCharacterNumber={emojiEntity}
+                    emojiCharacterCode={emojiEntity}
                     key={"tool_emoji-"+x}
                     handleDeselectAllElements={handleDeselectAllElements}
                     handleDrawCanvasShow={handleDrawCanvasShow}
@@ -64,7 +64,7 @@ class Emojis extends Component {
             <MultiTool 
                 type={this.subMenuType}
                 subMenuItems={subMenuTools}
-                defaultTool={"emoji-128513"}
+                defaultTool={"emoji_😀"}
                 noIconChange={true}
             />
                    

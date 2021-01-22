@@ -105,6 +105,12 @@ describe('Toolbar', () => {
         cy.get('#drawCanvas').click(300, 300);
         cy.get('.toolbar_more').should('be.visible');
     })
+    it('autoselects the first emoji when the emoji tool is used', () => {
+        cy.get('.toolbar_emoji').click();
+        cy.get('#drawCanvas').click(300, 300);
+        console.log(cy.get('text').eq(0));
+        cy.get('text').contains('😀');
+    })
     it('creates a shape of the correct size when dragged', () => {
 
         cy.get('.toolbar_shape').click();
