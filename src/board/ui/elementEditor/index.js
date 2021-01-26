@@ -16,6 +16,7 @@ import ElementDeleter from './editors/elementDeleter';
 import ElementEditorMenu from './editors/elementEditorMenu';
 import Url from './editors/url';
 import ElementVisibility from './editors/elementVisibility';
+import ElementGroup from './editors/elementGroup';
 
 
 import './styles.css';
@@ -31,7 +32,7 @@ const shapeTypeEditableFeatures = {
     "youtube" : ["url", "lock", "delete", "menu"]
 };
 
-const multiElementEditableFeatures = ["bringForward", "sendBackward", "lock", "delete", "menu"];
+const multiElementEditableFeatures = ["bringForward", "sendBackward", "lock", "group", "delete", "menu"];
 
 class ElementEditor extends Component {
 
@@ -190,6 +191,12 @@ class ElementEditor extends Component {
                                     handleShiftElementPosition={this.props.handleShiftElementPosition}
                                     ids={selectedIDs}
                                 />;
+                    case 'group':
+                        return <ElementGroup 
+                            key={`${selectedElements[0].id}_${button}`}
+                            elements={selectedElements}
+                            handleUpdateElementProperty={this.handleUpdateElementProperty}
+                        />;
                     case 'visibility':
                         return <ElementVisibility 
                             key={`${selectedElements[0].id}_${button}`}

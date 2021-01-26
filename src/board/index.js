@@ -19,7 +19,7 @@ import Elements from './elements';
 
 //HELPERS
 import Shortid from 'shortid';
-import {objectClone, mergeObjects} from './utils';
+import {objectClone, mergeObjects, removeData} from './utils';
 
 //SVG
 import Pattern from './pattern';
@@ -223,8 +223,25 @@ class Board extends Component {
         });
     }
 
+    selectGroupedElements = (newElementState) => {
+        const selectedElements = this.getSelectedElements(newElementState);
+        selectedElements.forEach(element => {
+            if(element.groups.length) {
+                const groups = element.groups;
+                groups.forEach(group => {
+                    const groupElements = Object.keys(this.state.elements).filter(element => this.state.elements[element].groups.indexOf(group) !== -1);
+                    groupElements.forEach(groupedElement => {
+                        newElementState[groupedElement] = {...newElementState[groupedElement]};
+                        newElementState[groupedElement].selected = this.state.userID;
+                    })
+                })
+            }
+        })
+        return newElementState;
+    }
+
     handleSetCurrentElement = (elementID, isMultiSelect) => {
-        const newElementStateData = {...this.state.elementState};
+        let newElementStateData = {...this.state.elementState};
         if(!isMultiSelect) {
             Object.keys(newElementStateData).forEach(item => {
                 if(this.isSelected(item)) {
@@ -235,12 +252,15 @@ class Board extends Component {
             });
         }
         const newSelectedElement = {...newElementStateData[elementID]};
-        if(this.isSelected(elementID)) {
+        if(this.isSelected(elementID) && isMultiSelect) {
             newSelectedElement.selected = false;
         } else if (!this.isSelected(elementID) && newElementStateData[elementID].selected === false) {
             newSelectedElement.selected = this.state.userID;
+        } else if (this.isSelected(elementID) && !isMultiSelect) {
+            newSelectedElement.selected = this.state.userID;
         }
         newElementStateData[elementID] = newSelectedElement;
+        newElementStateData = this.selectGroupedElements(newElementStateData);
         this.setState({
             elementState : newElementStateData
         });
@@ -309,8 +329,15 @@ class Board extends Component {
     handleUpdateElementProperty = (data) => {
         const newElementsData = {...this.state.elements};
         data.id.forEach((id) => {
-            const newElement = mergeObjects(newElementsData[id], data.update);
-            newElementsData[id] = newElement;
+
+            if(data.update) {
+                let newElement = mergeObjects(newElementsData[id], data.update);
+                newElementsData[id] = newElement;
+            } else if(data.remove) {
+                let newElement = removeData(newElementsData[id], data.remove);
+                newElementsData[id] = newElement;
+            }
+            
         });
         this.setState({elements : newElementsData, storeUndo : true});
     }
@@ -539,11 +566,14 @@ class Board extends Component {
         };
     }
 
-    isSelected = (elementID) => {
+    isSelected = (elementID, elementState) => {
         const {
-            elementState,
             userID
         } = this.state;
+
+        if(!elementState) {
+            elementState = this.state.elementState;
+        }
         
         let isSelected = false;
 
@@ -573,7 +603,7 @@ class Board extends Component {
     getSelectedElements(elementState) {
         const selectedElements = [];
         Object.keys(elementState).forEach(elementID => {
-            if(this.isSelected(elementID)) {
+            if(this.isSelected(elementID, elementState)) {
                 selectedElements.push(this.state.elements[elementID]);
             }
         });

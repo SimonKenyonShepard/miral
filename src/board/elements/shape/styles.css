@@ -15,3 +15,11 @@
 .svg_textContainer_foreignObject {
     pointer-events: none;
 }
+
+.elementSelectedByUser {
+    outline : 1px dashed #5086F2;
+}
+
+.elementSelectedByOtherUser {
+    outline : 1px solid #666;
+}

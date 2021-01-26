@@ -83,8 +83,6 @@ class InteractionManager extends PureComponent {
             x : (e.clientX*this.props.zoomLevel)+this.props.offsetX,
             y : (e.clientY*this.props.zoomLevel)+this.props.offsetY
         });
-
-        console.log("moouseMove");
         
         if(drag === "mouseDown" || drag === "dragging") {
             let dragHandlers = this.props.dragHandlers[elementID];
