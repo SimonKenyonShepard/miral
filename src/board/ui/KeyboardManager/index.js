@@ -48,7 +48,7 @@ class KeyboardManager extends PureComponent {
             e.preventDefault();
             this.props.paste();
         }
-        
+        //TAB THROUGH ELEMENTS
     }
 
     render() {

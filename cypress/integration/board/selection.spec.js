@@ -194,6 +194,29 @@ describe('Element selection', () => {
         cy.get('g rect').eq(1).should('have.class', 'elementSelectedByUser');
     })
 
+    it('selects only new group instance when grouped items duplicated', () => {
+        cy.get('.toolbar_shape').click();
+        cy.get('#drawCanvas').click(300, 300);
+        cy.get('#board').click(10, 10);
+        cy.get('.toolbar_shapeRect').eq(0).click();
+        cy.get('#drawCanvas').click(600, 600);
+        cy.get('#board').click(10, 10);
+        cy.get('#board').click(300, 300);
+        cy.get('#board').click(600, 600, {metaKey : true});
+        cy.get('[title="Group these elements"]').click();
+        cy.document().get("body").trigger("keydown", {
+            eventConstructor: 'KeyboardEvent',
+            ctrlKey: true,
+            key : "d"
+        });
+        cy.get('#board').click(10, 10);
+        cy.get('#board').click(800, 300);
+        cy.get('g rect').eq(0).should('not.have.class', 'elementSelectedByUser');
+        cy.get('g rect').eq(1).should('not.have.class', 'elementSelectedByUser');
+        cy.get('g rect').eq(2).should('have.class', 'elementSelectedByUser');
+        cy.get('g rect').eq(3).should('have.class', 'elementSelectedByUser');
+    })
+
   })
   
 })

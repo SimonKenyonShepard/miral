@@ -456,6 +456,8 @@ class Board extends Component {
                 }
             });
 
+            const newDuplicateElements = [];
+
             //duplicate elements & state
             selectedElements.forEach(element => {
                 const newID = Shortid.generate();
@@ -468,6 +470,25 @@ class Board extends Component {
                 //remove selected status for old items
                 newElementsState[element.id] = {...newElementsState[element.id]};
                 newElementsState[element.id].selected = false;
+                newDuplicateElements.push(duplicateElement);
+            });
+
+            //replace groups with new groups
+            const allPreviousGroupIDs = {};
+            newDuplicateElements.forEach(newDuplicateElement => {
+                newDuplicateElement.groups.forEach(oldGroup => {
+                    allPreviousGroupIDs[oldGroup] = true;
+                });
+            });
+            newDuplicateElements.forEach(newDuplicateElement => {
+                const newGroups = newDuplicateElement.groups.map(oldGroup => {
+                    if(allPreviousGroupIDs[oldGroup] === true) {
+                        const newGroupID = Shortid.generate();
+                        allPreviousGroupIDs[oldGroup] = newGroupID;
+                    }
+                    return allPreviousGroupIDs[oldGroup];
+                });
+                newDuplicateElement.groups = newGroups;
             });
 
             this.setState(
