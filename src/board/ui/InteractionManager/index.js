@@ -150,7 +150,7 @@ class InteractionManager extends PureComponent {
 
     wasAccidentalMovement(dragStartX, dragStartY, currentX, currentY) {
         const interactionMovement = (dragStartX+dragStartY)-(currentX+currentY);
-        return (interactionMovement > -5 && interactionMovement < 5)
+        return (interactionMovement > -3 && interactionMovement < 3)
     }
 
     render() {
