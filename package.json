@@ -21,6 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --verbose=false",
+    "integrationTest": "yarn run cypress run",
+    "integrationTestDebug": "yarn run cypress open",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -39,6 +41,6 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^6.2.1"
+    "cypress": "6.4.0"
   }
 }

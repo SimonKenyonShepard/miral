@@ -1,8 +1,12 @@
-function dragMouse(element, from, to, speed){
-    const steps = to.x - from.x;
+function dragMouse(element, from, to, resolve){
+    const maxDuration = 3000;
+    const frameInterval = 30;
+    const steps = maxDuration/frameInterval;
+    const positionDelta = to.x - from.x;
+    const increment = Math.ceil(positionDelta/steps);
     for(let i = 0; i < steps; i++) {
-        const clientX = from.x+i,
-              clientY = from.y+i;
+        const clientX = from.x+(i*increment),
+              clientY = from.y+(i*increment);
         
         if(i === 0) {
             element.trigger('pointerdown', { 
@@ -17,44 +21,37 @@ function dragMouse(element, from, to, speed){
             });
         }
 
-        (function(element, clientX, clientY, incrementDelay) {
+        (function(element, clientX, clientY, incrementDelay, isLastMovement, resolve) {
             setTimeout(() => {
-                element.trigger('pointermove', { 
-                    eventConstructor: 'PointerEvent',
-                    bubbles: true,
-                    cancelable: true,
-                    buttons: 1,
-                    clientX,
-                    clientY,
-                    screenX: clientX,
-                    screenY: clientY
-                });
-                console.log("test mouse move");
-            }, incrementDelay);
-        }.bind(this)(element, clientX, clientY, speed*(i+1)));
-
-        if(i === steps-1) {
-            (function(element, clientX, clientY, incrementDelay) {
-                return new Cypress.Promise((resolve, reject) => {
+                if(isLastMovement) {
+                    element.trigger('pointerup', {
+                        eventConstructor: 'PointerEvent',
+                        bubbles: true,
+                        cancelable: true,
+                        buttons: 1,
+                        clientX,
+                        clientY,
+                        screenX: clientX,
+                        screenY: clientY,
+                        force: true 
+                    });
                     setTimeout(() => {
-                        element.trigger('pointerup', {
-                            eventConstructor: 'PointerEvent',
-                            bubbles: true,
-                            cancelable: true,
-                            buttons: 1,
-                            clientX,
-                            clientY,
-                            screenX: clientX,
-                            screenY: clientY,
-                            force: true 
-                        });
-                        console.log("test mouse move");
                         resolve('foo');
-                    }, incrementDelay);
-                });
-            }.bind(this)(element, clientX, clientY, speed*(i+2)));
-        }
-
+                    }, 50);
+                } else {
+                    element.trigger('pointermove', { 
+                        eventConstructor: 'PointerEvent',
+                        bubbles: true,
+                        cancelable: true,
+                        buttons: 1,
+                        clientX,
+                        clientY,
+                        screenX: clientX,
+                        screenY: clientY
+                    });
+                }
+            }, incrementDelay);
+        }.bind(this)(element, clientX, clientY, frameInterval*(i+1), (i === (steps-1)), resolve));
     }
 };
 
@@ -108,7 +105,6 @@ describe('Toolbar', () => {
     it('autoselects the first emoji when the emoji tool is used', () => {
         cy.get('.toolbar_emoji').click();
         cy.get('#drawCanvas').click(300, 300);
-        console.log(cy.get('text').eq(0));
         cy.get('text').contains('😀');
     })
     it('creates a shape of the correct size when dragged', () => {
@@ -116,15 +112,52 @@ describe('Toolbar', () => {
         cy.get('.toolbar_shape').click();
 
         cy.then(() => {
-            return dragMouse(cy.get('#interActionManager'), {x:300, y:300}, {x:400, y:400}, 30);
+            return new Cypress.Promise((resolve, reject) => {
+                dragMouse(
+                    cy.get('#interActionManager'),
+                    {x:300, y:300},
+                    {x:400, y:400},
+                    resolve
+                );
+                
+            })
         })
 
-        cy.get('g rect').eq(0).should('have.attr', 'width', 9900);
+        cy.get('g rect').eq(0).should('have.attr', 'width', 4900);
 
         
     })
     
 
-  })  
+  })
+  
+    context("selecting shapes", () => {
+
+        it('selects two shapes when a rectangle of the correct size is dragged', () => {
+
+            cy.get('.toolbar_shape').click();
+            cy.get('#drawCanvas').click(300, 300);
+            cy.get('.toolbar_shapeRect').eq(0).click();
+            cy.get('#drawCanvas').click(350, 350);
+            cy.get('.toolbar_select').click();
+    
+            cy.then(() => {
+                return new Cypress.Promise((resolve, reject) => {
+                    dragMouse(
+                        cy.get('#interActionManager'),
+                        {x:150, y:200},
+                        {x:500, y:500},
+                        resolve
+                    );
+                    
+                })
+            }).then(() => {
+                cy.get('g rect').eq(0).should('have.class', 'elementSelectedByUser');
+                cy.get('g rect').eq(1).should('have.class', 'elementSelectedByUser');
+            })
+            
+        })
+
+    })
   
 })

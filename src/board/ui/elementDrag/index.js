@@ -10,6 +10,12 @@ class ElementDrag extends Component {
         this.handleSetCurrentElement(elementID, isMultiSelect);
     }
 
+    handleElementDragStart() {
+        console.log("drag started");
+        const selectedElementIds = this.getSelectedElements(this.state.elementState).map(element => element.id);
+        this.handleShiftElementPosition("forward", selectedElementIds);
+    }
+
     updateElementDragPosition(e) {
         const {
             zoomLevel
@@ -95,6 +101,7 @@ class ElementDrag extends Component {
         if(addedElements.length > 0) {
             addedElements.forEach(id => {
                 this.props.registerDragHandler(id, {
+                    "dragStartHandler" : this.handleElementDragStart,
                     "dragMoveHandler" : this.updateElementDragPosition,
                     "dragEndHandler" : this.handleElementDragEnd,
                     "clickHandler" : this.handleSelect

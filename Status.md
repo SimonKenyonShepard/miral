@@ -60,6 +60,8 @@ Workshop agenda - done with slide naming?
 slides - autozoom - done
 Multi-user encryption w PW - done
 touchpad controls - done
+group elements - done
+Move to pointer events & responsive test - done
 
 
 Bugs
@@ -68,12 +70,22 @@ Green share icon for participants
 share icon invisible if server unavailable
 store creds (name initials) in local storage *
 basic encryption for data on server
-
-
-TESTS TESTS TESTS
+fix ipad touch zoom
+Mobile layout CSS
+end pointer down when goes out of window
 
 
 Backlog
+
+align
+
+custom colours
+
+Autosave
+
+onboarding lightbox
+
+upload images locally
 
 escape to cancel toolbar
 
@@ -88,7 +100,7 @@ line resizer - hard
 Menu buttons highlight - easy
 Image crop - medium
 
-group elements - hard
+
 
 lock elements - easy
 multi-select lock - easy
@@ -98,8 +110,6 @@ change element visibility - easy
 
 smooth zoom & inertia pan - hard
 Iframes - easy *
-
-
 
 Attention management - easy
 Share
@@ -123,7 +133,7 @@ tables
 
 ctrl-s - save
 
-Move to pointer events & responsive test *
+Markdown in text editor
 
 Markdown editor for post-it's?
 

@@ -126,7 +126,6 @@ class InteractionManager extends PureComponent {
         if(this.state.drag === "dragging" && !wasProbablyClick) {
             e.stopPropagation();
             if(dragHandlers && dragHandlers.handleDragEnd) {
-                console.log("moouseUp");
                 dragHandlers.handleDragEnd(e);
             }
             
