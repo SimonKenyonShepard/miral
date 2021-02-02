@@ -13,6 +13,7 @@ import BoardControls from './ui/boardControls';
 import InteractionManager from './ui/InteractionManager';
 import KeyboardManager from './ui/KeyboardManager';
 import MultiUserManager from './ui/MultiUserManager';
+import SlideNavigator from './ui/slideNavigator';
 
 //ELEMENTS
 import Elements from './elements';
@@ -926,7 +927,7 @@ class Board extends Component {
                             removeDragHandler={this.removeDragHandler}
                         />
                     </InteractionManager>
-                    <Altimeter zoomLevel={zoomLevel} />
+                    
                     <BoardControls
                         elements={this.state.elements}
                         elementState={this.state.elementState}
@@ -935,9 +936,6 @@ class Board extends Component {
                         boardName={this.state.boardName}
                         updateBoardName={this.updateBoardName}
                         toggleBoardShare={this.toggleBoardShare}
-                        getSlides={this.getSlides}
-                        changeSlideName={this.changeSlideName}
-                        animateToElement={this.animateToElement}
                     />
                     <NavBar 
                         getState={this.getState}
@@ -954,18 +952,6 @@ class Board extends Component {
                         cut={this.cut}
                         paste={this.paste}
                     />
-                    <MultiUserManager
-                        userID={this.state.userID} 
-                        shareBoard={this.state.shareBoard}
-                        elements={this.state.elements}
-                        elementState={this.state.elementState}
-                        handleUpdateElementsAndState={this.handleUpdateElementsAndState}
-                        multiUserUpdate={this.state.multiUserUpdate}
-                        pointerPosition={this.state.pointerPosition}
-                        offsetX={this.state.offsetX}
-                        offsetY={this.state.offsetY}
-                        zoomLevel={this.state.zoomLevel}
-                    />
                     <Tools
                         handleDeselectAllElements={this.handleDeselectAllElements}
                         handleSelectElementsWithinArea={this.handleSelectElementsWithinArea} 
@@ -973,6 +959,29 @@ class Board extends Component {
                         removeDragHandler={this.removeDragHandler}
                         currentSelectedTool={this.state.tool}
                     />
+                    <div className="bottomLeft">
+                        <SlideNavigator
+                            getSlides={this.getSlides}
+                            changeSlideName={this.changeSlideName}
+                            animateToElement={this.animateToElement}
+                        />
+                        <MultiUserManager
+                            userID={this.state.userID} 
+                            shareBoard={this.state.shareBoard}
+                            elements={this.state.elements}
+                            elementState={this.state.elementState}
+                            handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                            multiUserUpdate={this.state.multiUserUpdate}
+                            pointerPosition={this.state.pointerPosition}
+                            offsetX={this.state.offsetX}
+                            offsetY={this.state.offsetY}
+                            zoomLevel={this.state.zoomLevel}
+                        />
+                    </div>
+                    <div className="bottomRight">
+                        <Altimeter zoomLevel={zoomLevel} />
+                    </div>
+                    
                 </div>
         );
     }

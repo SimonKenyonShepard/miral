@@ -173,7 +173,7 @@ class SlideNavigator extends Component {
         });
 
         return (
-            <div className={"undoControls"} style={slidesNavStyles}>
+            <div className={"slideList_controls"} style={slidesNavStyles}>
                 <span 
                     className={`iconButton backward ${slideBackwardsDisabled}`}
                     onClick={this.handleSlideBackwards}

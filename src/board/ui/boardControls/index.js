@@ -2,7 +2,6 @@ import React, {PureComponent} from 'react';
 
 import Share from './share';
 import UndoRedo from './undoRedo';
-import SlideNavigator from './slideNavigator';
 
 import './styles.css';
 
@@ -59,12 +58,6 @@ class BoardControls extends PureComponent {
                     elements={this.props.elements}
                     elementState={this.props.elementState}
                     storeUndo={this.props.storeUndo}
-                />
-
-                <SlideNavigator 
-                    getSlides={this.props.getSlides}
-                    changeSlideName={this.props.changeSlideName}
-                    animateToElement={this.props.animateToElement}
                 />
             </div>
         );

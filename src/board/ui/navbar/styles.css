@@ -14,6 +14,8 @@
 .companyName {
     font-weight: bold;
     border-right: 1px solid #ccc;
+    display: none;
+    margin-right: 8px;
     padding-right: 8px;
 }
 
@@ -25,7 +27,6 @@
     cursor: pointer;
     display: inline-block;
     height: 24px;
-    margin-left: 8px;
     width: 24px
 }
 
@@ -34,7 +35,8 @@
 }
 
 .navBar_menu {
-    left: 0;
+    right: 0;
+    min-width: 176px;
     opacity: 0;
     pointer-events : none;
     position: absolute;
@@ -101,4 +103,12 @@
 
 .navMenu_error {
     padding: 8px;
+}
+
+@media screen and (min-width: 768px) {
+
+    .companyName {
+        display: block;
+    }
+
 }

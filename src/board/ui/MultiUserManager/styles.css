@@ -1,9 +1,5 @@
 .multiUser_UserDock {
-    bottom : 16px;
-    display: flex;
-    flex-direction: row;
-    left: 16px;
-    position: absolute;
+    
 }
 
 .multiUser_UserDockAvatar {
