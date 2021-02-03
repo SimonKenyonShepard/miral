@@ -16,9 +16,11 @@ class Slide extends PureComponent {
         let shape = null;
         let overlay = null;
         if(this.props.isSelected(data.id)) {
-            shapeProps.style = {outline : `${(data.initialZoomLevel)}px dashed #5086F2`};
+            shapeProps.style = {outlineWidth : `${(data.initialZoomLevel)}px`};
+            shapeProps.className = "elementSelectedByUser";
         } else if(elementState.selected) {
-            shapeProps.style = {outline : `${(data.initialZoomLevel)}px solid #666`};
+            shapeProps.style = {outlineWidth : `${(data.initialZoomLevel)}px`};
+            shapeProps.className = "elementSelectedByOtherUser";
             overlay = (<rect 
                 {...shapeProps}
                 fillOpacity={"0.3"}

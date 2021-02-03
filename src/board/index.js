@@ -847,6 +847,7 @@ class Board extends Component {
             backgroundPosition : `${backgroundPositionX}px ${backgroundPositionY}px`,
             backgroundSize : `${backgroundGridSize}px ${backgroundGridSize}px`
         };
+
         return (
                 <div 
                     className={`boardWrapper ${tool}`} 

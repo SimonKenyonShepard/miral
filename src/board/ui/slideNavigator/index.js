@@ -31,7 +31,8 @@ class SlideListItem extends Component {
             editMode
         } = this.state;
         return (
-            <div 
+            <div
+                className={"slideList_item"} 
                 key={`slideList_name_${this.props.slideNumber}`} 
             >
             {editMode 

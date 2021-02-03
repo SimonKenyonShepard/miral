@@ -157,6 +157,12 @@ Proximity chat
 
 Flip elements
 
+Link to board segment
+
+Unlock all
+
+Export board segment as image
+
 
 
 * required for release
