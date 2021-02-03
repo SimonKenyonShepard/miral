@@ -845,7 +845,9 @@ class Board extends Component {
 
         const gridPosition = {
             backgroundPosition : `${backgroundPositionX}px ${backgroundPositionY}px`,
-            backgroundSize : `${backgroundGridSize}px ${backgroundGridSize}px`
+            backgroundSize : `${backgroundGridSize}px ${backgroundGridSize}px`,
+            height : `${height}px`,
+            width : `${width}px`
         };
 
         return (
