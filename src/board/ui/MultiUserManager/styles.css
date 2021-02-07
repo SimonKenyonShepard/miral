@@ -1,13 +1,19 @@
 .multiUser_UserDock {
-    
+    position: absolute;
+    display: none;
+    top: 16px;
+    left: 288px;
 }
 
 .multiUser_UserDockAvatar {
+    border: 2px solid white;
     border-radius: 32px;
     color: white;
     font-size: 12px;
-    padding: 4px;
+    font-weight: bold;
+    padding: 6px;
     margin-right: 8px;
+    min-width: 24px;
 }
 
 .multiUser_boardOverlay {
@@ -56,4 +62,12 @@
     position: absolute;
     left: 0;
     top : 0;
+}
+
+@media screen and (min-width: 768px) {
+
+    .multiUser_UserDock {
+        display: flex;
+    }
+
 }
