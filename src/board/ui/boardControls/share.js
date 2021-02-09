@@ -152,6 +152,7 @@ class Share extends Component {
                             <div className="share_menu_fieldrow">
                                  <label>Board ID : </label>
                                  <input 
+                                     id="share_menu_input_boardID"
                                      className="share_menu_input"
                                      placeholder="xxxxxxxx"
                                      value={boardID}
@@ -162,7 +163,8 @@ class Share extends Component {
                            
                             <div className="share_menu_fieldrow">
                                 <label>name : </label>
-                                <input 
+                                <input
+                                    id="share_menu_input_userName" 
                                     className="share_menu_input"
                                     placeholder="e.g. john"
                                     value={name}
@@ -171,7 +173,8 @@ class Share extends Component {
                             </div>
                             <div className="share_menu_fieldrow">
                                 <label>Initials : </label>
-                                <input 
+                                <input
+                                    id="share_menu_input_initials"  
                                     className="share_menu_input"
                                     placeholder="js"
                                     value={initials}
@@ -187,20 +190,23 @@ class Share extends Component {
                             </div> */}
                             <div className="share_menu_fieldrow">
                                 <label>Security code : </label>
-                                <input 
+                                <input
+                                    id="share_menu_input_securityCode" 
                                     className="share_menu_input"
                                     defaultValue={securityCode}
                                     onChange={this.handleSecurityCodeUpdate}
                                 />
                             </div>
                             <div className="share_menu_fieldrow">
-                                <button 
+                                <button
+                                    id="share_menu_input_shareNow" 
                                     className="share_menu_button"
                                     onClick={this.handleShareBoard}
                                 >Share board now</button>
                             </div>
                             <div className="share_menu_fieldrow">
-                                <button 
+                                <button
+                                    id="share_menu_input_joinExisting" 
                                     className="share_menu_button"
                                     onClick={this.handleJoinBoard}
                                 >Join existing session</button>

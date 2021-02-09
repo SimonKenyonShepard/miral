@@ -82,6 +82,8 @@ class MultiUserManager extends Component {
         const io = window.io;
         
         const socket = io(`${HOST}${companyName}`, {'reconnectionAttempts': 10});
+        window.workshoppr.socket = socket; //FOR AUTOM. TESTING ONLY
+
         this.setState({
             socket,
             boardID,
@@ -96,8 +98,6 @@ class MultiUserManager extends Component {
         socket.on('userLeft', this.userLeft);
         socket.on('updatePointer', this.updatePointer);
         socket.on('updateBoard', this.updateBoard);
-
-        
         
     }
 
@@ -114,6 +114,7 @@ class MultiUserManager extends Component {
 
         const io = window.io;
         const socket = io(`${HOST}${companyName}`, {'reconnectionAttempts': 10});
+        window.workshoppr.socket = socket; //FOR AUTOM. TESTING ONLY
         
         this.setState({
             securityCode,
@@ -256,8 +257,8 @@ class MultiUserManager extends Component {
             elementState : {...this.props.elementState}
         }, data.elementsDiffUpdates);
         rfc6902.applyPatch(newCombinedData, data.elementsDiffUpdates);
-        console.log("new patch", data.elementsDiffUpdates);
-        console.log("recieved update", newCombinedData);
+        // console.log("new patch", data.elementsDiffUpdates);
+        // console.log("recieved update", newCombinedData);
         this.setState({
             prevCombinedBoardData : newCombinedData
         });
@@ -419,7 +420,6 @@ class MultiUserManager extends Component {
         
         if(prevProps.shareBoard !== this.props.shareBoard) {
             if(this.props.shareBoard && !socket) {
-                console.log(this.props.shareBoard);
                 this.setupShareBoardSocketConnection(this.props.shareBoard);
             } else {
                 //TODO : emit unShareBoard event

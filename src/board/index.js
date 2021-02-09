@@ -968,7 +968,11 @@ class Board extends Component {
                             changeSlideName={this.changeSlideName}
                             animateToElement={this.animateToElement}
                         />
-                        <MultiUserManager
+                    </div>
+                    <div className="bottomRight">
+                        <Altimeter zoomLevel={zoomLevel} />
+                    </div>
+                    <MultiUserManager
                             userID={this.state.userID} 
                             shareBoard={this.state.shareBoard}
                             elements={this.state.elements}
@@ -980,10 +984,6 @@ class Board extends Component {
                             offsetY={this.state.offsetY}
                             zoomLevel={this.state.zoomLevel}
                         />
-                    </div>
-                    <div className="bottomRight">
-                        <Altimeter zoomLevel={zoomLevel} />
-                    </div>
                     
                 </div>
         );

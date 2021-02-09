@@ -28,16 +28,30 @@ class Cursor extends Component {
             </div>
         );
     }
+    
+    animateMouse = (prevX, prevY, currentX, currentY) => {
+        this.cursorRef.current.animate(
+            [
+                {transform : `translate3d(${prevX}px, ${prevY}px, 0px)`},
+                {transform : `translate3d(${currentX}px, ${currentY}px, 0px)`}
+            ]
+        , {
+            fill: 'forwards',
+            easing: 'ease-out',
+            duration: 500
+          });
+    }
 
     componentDidUpdate(prevProps) {
         const {
             offsetX,
             offsetY,
-            zoomLevel
+            zoomLevel,
+            data
         } = this.props;
 
-        const currentX = this.props.data.pointerPosition.x/zoomLevel-(offsetX/zoomLevel),
-              currentY = this.props.data.pointerPosition.y/zoomLevel-(offsetY/zoomLevel),
+        const currentX = data.pointerPosition.x/zoomLevel-(offsetX/zoomLevel),
+              currentY = data.pointerPosition.y/zoomLevel-(offsetY/zoomLevel),
               prevX = prevProps.data.pointerPosition.x/prevProps.zoomLevel-(prevProps.offsetX/prevProps.zoomLevel),
               prevY = prevProps.data.pointerPosition.y/prevProps.zoomLevel-(prevProps.offsetY/prevProps.zoomLevel);
         
@@ -46,18 +60,22 @@ class Cursor extends Component {
         const mouseDidUpdate = mouseXDidUpdate || mouseYDidUpdate;
         if(mouseDidUpdate) {
             
-            this.cursorRef.current.animate(
-                [
-                    {transform : `translate3d(${prevX}px, ${prevY}px, 0px)`},
-                    {transform : `translate3d(${currentX}px, ${currentY}px, 0px)`}
-                ]
-            , {
-                fill: 'forwards',
-                easing: 'ease-out',
-                duration: 500
-              });
+            this.animateMouse(prevX, prevY, currentX, currentY);
 
         }
+    }
+
+    componentDidMount() {
+        const {
+            offsetX,
+            offsetY,
+            zoomLevel,
+            data
+        } = this.props;
+
+        const currentX = data.pointerPosition.x/zoomLevel-(offsetX/zoomLevel),
+              currentY = data.pointerPosition.y/zoomLevel-(offsetY/zoomLevel);
+        this.animateMouse(0, 0, currentX, currentY);
     }
 }
 
