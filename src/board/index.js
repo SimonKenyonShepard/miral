@@ -14,6 +14,7 @@ import InteractionManager from './ui/InteractionManager';
 import KeyboardManager from './ui/KeyboardManager';
 import MultiUserManager from './ui/MultiUserManager';
 import SlideNavigator from './ui/slideNavigator';
+import Hub from './ui/hub';
 
 //ELEMENTS
 import Elements from './elements';
@@ -984,7 +985,7 @@ class Board extends Component {
                             offsetY={this.state.offsetY}
                             zoomLevel={this.state.zoomLevel}
                         />
-                    
+                    <Hub />
                 </div>
         );
     }

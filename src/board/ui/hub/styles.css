@@ -1,0 +1,99 @@
+.hub {
+    justify-content: center;
+    display: flex;
+    height : 100vh;
+    position: fixed;
+    width : 100vw;
+    visibility: hidden;
+    pointer-events: initial;
+}
+
+.hubBackground {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    height : 100vh;
+    width : 100vw;
+}
+
+.hub.hubVisible {
+    visibility: visible;
+    pointer-events: initial;
+}
+
+.hubContents {
+    background-color:rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    flex-grow: 1;
+    margin: 80px;
+    max-width : 1024px;
+    overflow: hidden;
+    z-index: 99;
+}
+
+.hubTabs {
+    display : flex;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.hubTab {
+    background-color:rgba(255, 255, 255, 1);
+    cursor : pointer;
+    flex: 1;
+    padding: 16px;
+    user-select: none;
+}
+
+.hubTab.selected {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.hubSections {
+    display : flex;
+    flex-grow: 1;
+    flex-direction: row;
+    transform: translateX(0);
+    transition: all .3s;
+}
+
+.hub_section {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 0 0 100%;
+    padding: 16px;
+    width: 100%;
+}
+
+
+.tutorialTrigger {
+    display : flex;
+    align-items: center;
+    justify-content: center;
+    width : 100%;
+}
+
+.tutorialTriggerContent {
+    background-image: url("/tutorial.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    box-shadow: 8px 8px 0px #666;
+    height: 246px;
+    width: 640px;
+    overflow : hidden;
+    cursor: pointer;
+}
+
+.tutorialTriggerContent:hover {    
+    box-shadow: 2px 2px 0px #666;
+    transform: translate(8px, 8px);
+}
+
+.tutorialTriggerContent img {
+    width: 100%;
+}
