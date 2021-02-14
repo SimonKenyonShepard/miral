@@ -999,7 +999,8 @@ class Board extends Component {
             "clickHandler" : this.handleDeselectAllElements
         });
         const isNotFirstUse = window.localStorage.getItem("miral_isFirstUse");
-        if(!isNotFirstUse) {
+        const isNotShare = (window.location.hash.indexOf("j=") === -1);
+        if(!isNotFirstUse && isNotShare) {
             this.loadTemplatesAndTutorials();
             window.localStorage.setItem("miral_isFirstUse", true);
         }
