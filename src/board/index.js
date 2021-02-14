@@ -903,6 +903,7 @@ class Board extends Component {
                                 isUniqueSelected={this.isUniqueSelected}
                                 animateToElement={this.animateToElement}
                                 loadRemoteBoard={this.loadRemoteBoard}
+                                handleUpdateElementProperty={this.handleUpdateElementProperty}
                                 zoomLevel={zoomLevel}
                             />
                         </svg>

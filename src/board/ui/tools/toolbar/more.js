@@ -9,6 +9,7 @@ import Iframe from "./iframe";
 import Youtube from "./youtube";
 import Timer from "./timer";
 import Poll from "./poll";
+import Dice from "./dice";
 
 import './styles.css';
 
@@ -90,6 +91,15 @@ class More extends Component {
             />,
             <Poll
                 key={"tool_poll"}
+                handleDeselectAllElements={handleDeselectAllElements}
+                handleDrawCanvasShow={handleDrawCanvasShow}
+                registerDragHandler={registerDragHandler}
+                handleDragMove={handleDragMove}
+                handleDragEnd={handleDragEnd}
+                currentSelectedTool={currentSelectedTool}
+            />,
+            <Dice
+                key={"tool_dice"}
                 handleDeselectAllElements={handleDeselectAllElements}
                 handleDrawCanvasShow={handleDrawCanvasShow}
                 registerDragHandler={registerDragHandler}
