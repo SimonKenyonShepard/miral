@@ -29,7 +29,8 @@ const shapeTypeEditableFeatures = {
     "image" : ["url", "customBorderColor", "borderStyle", "bringForward", "sendBackward", "visibility", "lock", "delete", "menu"],
     "slide" : ["customColor", "bringForward", "sendBackward", "lock", "delete", "menu"],
     "link" : ["link", "visibility", "lock", "delete", "menu"],
-    "youtube" : ["url", "lock", "delete", "menu"]
+    "youtube" : ["url", "lock", "delete", "menu"],
+    "emoji" : [ "visibility", "lock", "delete", "menu"]
 };
 
 const multiElementEditableFeatures = ["bringForward", "sendBackward", "lock", "group", "delete", "menu"];
