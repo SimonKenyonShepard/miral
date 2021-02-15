@@ -28,7 +28,10 @@ class Dice extends Component {
         newElement.styles.fill = "#666";
 
         newElement.fixedRatio = "true";
-        newElement.diceNumber = Math.floor(Math.random() * (5 - 0 + 1)) + 0;
+
+        const randomNumber = Math.random();
+        const randomDiceNumber = Math.floor(randomNumber * (5 - 0 + 1)) + 0;
+        newElement.diceNumber = randomDiceNumber;
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
@@ -60,7 +63,10 @@ class Dice extends Component {
         newElement.styles.fill = "#666";
 
         newElement.fixedRatio = "true";
-        newElement.diceNumber = Math.floor(Math.random() * (5 - 0 + 1)) + 0;
+
+        const randomNumber = Math.random();
+        const randomDiceNumber = Math.floor(randomNumber * (5 - 0 + 1)) + 0;
+        newElement.diceNumber = randomDiceNumber;
 
         newState.elementState = {...currentState.elementState};
         newState.elementState[newID] = {
