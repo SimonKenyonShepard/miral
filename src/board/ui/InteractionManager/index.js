@@ -14,6 +14,8 @@ class InteractionManager extends PureComponent {
       this.SAFARIHACK_SCREENX = 0;
       this.SAFARIHACK_SCREENY = 0;
       this.containerElement = null;
+      this.pointers = [];
+      this.previousPinchZoomDistance = 0;
     }
 
     handleMouseWheel = (e) => {
@@ -53,24 +55,40 @@ class InteractionManager extends PureComponent {
 
     }
   
-    handleMouseDown = (e) => {
+    handlePointerDown = (e) => {
         e.stopPropagation();
-        this.setState({
-            dragStartX : e.clientX,
-            dragStartY : e.clientY,
-            dragStartTime : Date.now(),
-            drag : "mouseDown",
-            isSelected : this.props.isSelected(e.target.id),
-            elementID : e.target.id
-        });
-        this.SAFARIHACK_SCREENX = e.screenX;
-        this.SAFARIHACK_SCREENY = e.screenY;
-
-        console.log(e.target.id);
+        if(this.state.drag === "normal") {
+            this.setState({
+                dragStartX : e.clientX,
+                dragStartY : e.clientY,
+                dragStartTime : Date.now(),
+                drag : "mouseDown",
+                isSelected : this.props.isSelected(e.target.id),
+                elementID : e.target.id
+            });
+            this.pointers = [{...e}];
+            this.SAFARIHACK_SCREENX = e.screenX;
+            this.SAFARIHACK_SCREENY = e.screenY;
+        } else if (this.state.drag === "mouseDown" || this.state.drag === "dragging") {
+            const isSecondPointer  = (e.pointerId !== this.pointers[0].pointerId);
+            if(isSecondPointer) {
+                this.pointers = [...this.pointers, {...e}];
+            }
+        }
         
     }
 
-    handleMouseMove = (e) => {
+    handlePointerMove = (e) => {
+
+        if(this.pointers.length === 1) {
+            this.handleSinglePointerMove(e);
+        } else if (this.pointers.length > 1) {
+            this.handleMultiPointerMove(e);
+        }
+
+    }
+
+    handleSinglePointerMove = (e) => {
         const {
             drag,
             elementID,
@@ -118,7 +136,47 @@ class InteractionManager extends PureComponent {
         }
     }
 
-    handleMouseUp = (e) => {
+    handleMultiPointerMove = (e) => {
+
+        const newPointers = this.pointers;
+
+        for (var i = 0; i < newPointers.length; i++) {
+            if (e.pointerId === newPointers[i].pointerId) {
+                newPointers[i] = {...e};
+                break;
+            }
+        }
+
+        var dist = Math.hypot(
+            newPointers[0].clientX - newPointers[1].clientX,
+            newPointers[0].clientY - newPointers[1].clientY);
+
+        const highestX = Math.max(newPointers[0].clientX, newPointers[1].clientX),
+              lowestX = Math.min(newPointers[0].clientX, newPointers[1].clientX),
+              highestY = Math.max(newPointers[0].clientY, newPointers[1].clientY),
+              lowestY = Math.max(newPointers[0].clientY, newPointers[1].clientY);
+        
+        const delta = this.previousPinchZoomDistance - dist;
+        if(delta) {
+            this.handleZoom({
+                deltaY : delta,
+                clientX : lowestX + ((highestX - lowestX)/2),
+                clientY : lowestY + ((highestY - lowestY)/2)
+            });
+        }
+
+        this.previousPinchZoomDistance = dist;
+    }
+
+    handlePointerUp = (e) => {
+        if(this.pointers.length === 1) {
+            this.handleSinglePointerUp(e);
+        } else if (this.pointers.length > 1) {
+            this.handleMultiPointerUp(e);
+        }
+    }
+
+    handleSinglePointerUp = (e) => {
         const dragHandlers = this.props.dragHandlers[this.state.elementID];
         const interactionTime = Date.now() - this.state.dragStartTime;
         const wasAccidentalMovement = this.wasAccidentalMovement(this.state.dragStartX, this.state.dragStartY, e.clientX, e.clientY);
@@ -147,6 +205,10 @@ class InteractionManager extends PureComponent {
         }
     }
 
+    handleMultiPointerUp = (e) => {
+        this.pointers.pop();
+    }
+
     wasAccidentalMovement(dragStartX, dragStartY, currentX, currentY) {
         const interactionMovement = (dragStartX+dragStartY)-(currentX+currentY);
         return (interactionMovement > -3 && interactionMovement < 3)
@@ -167,9 +229,9 @@ class InteractionManager extends PureComponent {
         return (
             <div
                 style={styles}
-                onPointerDown={this.handleMouseDown}
-                onPointerMove={this.handleMouseMove}
-                onPointerUp={this.handleMouseUp}
+                onPointerDown={this.handlePointerDown}
+                onPointerMove={this.handlePointerMove}
+                onPointerUp={this.handlePointerUp}
                 id="interActionManager"
                 ref={(container) => { this.containerElement = container; }}
             >

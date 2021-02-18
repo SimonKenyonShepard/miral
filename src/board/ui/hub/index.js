@@ -2,6 +2,16 @@ import React, {Component} from 'react';
 
 import './styles.css';
 
+class Item extends Component {
+    render() {
+        return (
+            <div className={`hub_item`}>
+                {this.props.children}
+            </div>
+        );
+    }
+}
+
 class TutorialTrigger extends Component {
     render() {
         return (
@@ -18,9 +28,16 @@ class Home extends Component {
     render() {
         return (
             <div className={`hub_section hub_home`}>
-                <TutorialTrigger />
-                <h2>Your boards</h2>
-                <h2>Settings</h2>
+                <div className={"hub_scrollWrapper"}>
+                    <TutorialTrigger />
+                    <h2>Your boards</h2>
+                    <div className="hub_boards">
+                        <Item>
+
+                        </Item>
+                    </div>
+                    <h2>Settings</h2>
+                </div>
             </div>
         );
     }
@@ -33,9 +50,37 @@ class Templates extends Component {
         return (
             <div className={`hub_section hub_templates`}>
                 <h2>Popular</h2>
+                <div className="hub_boards">
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                </div>
                 <h2>Games</h2>
+                <div className="hub_boards">
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                </div>
                 <h2>Agile</h2>
+                <div className="hub_boards">
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                </div>
                 <h2>Education</h2>
+                <div className="hub_boards">
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                </div>
             </div>
         );
     }
@@ -62,7 +107,7 @@ class Hub extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            hubVisible : false,
+            hubVisible : true,
             currentTab : 0,
         };
     }

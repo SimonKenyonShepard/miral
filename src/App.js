@@ -9,15 +9,15 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: window.innerWidth,
-      height : window.innerHeight
+      width: document.body.clientWidth,
+      height : document.body.clientHeight
     };
   }
 
   handleWindowResize = () => {
     this.setState({
-      width : window.innerWidth,
-      height : window.innerHeight
+      width: document.body.clientWidth,
+      height : document.body.clientHeight
     });
   }
 

@@ -61,19 +61,40 @@
 
 .hub_section {
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     flex: 0 0 100%;
     padding: 16px;
     width: 100%;
+}
+
+.hub_scrollWrapper {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    height : 100%;
+    overflow: scroll;
+    width: 100%
+}
+
+.hub_boards {
+    display : flex;
+    flex-direction: row;
+}
+
+.hub_item {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 2px 2px 0px #666;
+    height: 200px;
+    margin-right: 16px;
+    width : 160px;
+
 }
 
 
 .tutorialTrigger {
     display : flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     width : 100%;
 }
 
@@ -81,8 +102,8 @@
     background-image: url("/tutorial.png");
     background-size: contain;
     background-repeat: no-repeat;
-    border-radius: 20px;
-    box-shadow: 8px 8px 0px #666;
+    border-radius: 10px;
+    box-shadow: 4px 4px 0px #666;
     height: 246px;
     width: 640px;
     overflow : hidden;
@@ -91,7 +112,7 @@
 
 .tutorialTriggerContent:hover {    
     box-shadow: 2px 2px 0px #666;
-    transform: translate(8px, 8px);
+    transform: translate(2px, 2px);
 }
 
 .tutorialTriggerContent img {
