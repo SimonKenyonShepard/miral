@@ -139,9 +139,11 @@ class InteractionManager extends PureComponent {
     handleMultiPointerMove = (e) => {
 
         const newPointers = this.pointers;
+        let previousE;
 
         for (var i = 0; i < newPointers.length; i++) {
             if (e.pointerId === newPointers[i].pointerId) {
+                previousE = {...newPointers[i]};
                 newPointers[i] = {...e};
                 break;
             }
@@ -157,12 +159,21 @@ class InteractionManager extends PureComponent {
               lowestY = Math.max(newPointers[0].clientY, newPointers[1].clientY);
         
         const delta = this.previousPinchZoomDistance - dist;
-        if(delta) {
+
+        if(delta > 0.1 || delta < -0.1) {
             this.handleZoom({
                 deltaY : delta,
                 clientX : lowestX + ((highestX - lowestX)/2),
                 clientY : lowestY + ((highestY - lowestY)/2)
             });
+        } else {
+            //TODO would be really nice if 2 finger pan worked on touch.
+            // const simulatedPanEvent = {
+            //     movementX : previousE.clientX-e.clientX,
+            //     movementY : previousE.clientY-e.clientY
+            // };
+            // console.log(previousE.clientX, e.clientX);
+            // this.props.handlePanMove(simulatedPanEvent);
         }
 
         this.previousPinchZoomDistance = dist;
