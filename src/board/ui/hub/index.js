@@ -107,7 +107,7 @@ class Hub extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            hubVisible : true,
+            hubVisible : false,
             currentTab : 0,
         };
     }
