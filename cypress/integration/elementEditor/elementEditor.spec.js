@@ -5,6 +5,48 @@ describe('Element Editor', () => {
         cy.visit('/');
     })
 
+    context("hiding elements", () => {
+
+        it('hides element content when selected ', () => {
+            cy.get('.toolbar_shape').click();
+            cy.get('#drawCanvas').click(300, 300);
+            cy.get('[title="Make this element not visible"]').should('be.visible');
+            cy.get('[title="Make this element not visible"]').click();
+            cy.get('.visibilityOverlay').should('be.visible');
+        })
+
+        it('unhides the element content when selected ', () => {
+            cy.get('.toolbar_shape').click();
+            cy.get('#drawCanvas').click(300, 300);
+            cy.get('[title="Make this element not visible"]').should('be.visible');
+            cy.get('[title="Make this element not visible"]').click();
+            cy.get('.visibilityOverlay').should('be.visible');
+            cy.get('[title="Make this element not visible"]').click();
+            cy.get('.visibilityOverlay').should('not.exist');
+        })
+
+    })
+
+    context("locking elements", () => {
+
+        it('locks elements content when selected ', () => {
+            cy.get('.toolbar_shape').click();
+            cy.get('#drawCanvas').click(300, 300);
+            cy.get('#board').click(10, 10);
+            cy.get('.toolbar_shapeRect').eq(0).click();
+            cy.get('#drawCanvas').click(600, 600);
+            cy.get('#board').click(10, 10);
+            cy.get('#board').click(300, 300);
+            cy.get('#board').click(600, 600, {metaKey : true});
+            cy.get('[title="Lock this element from changes"]').should('be.visible');
+            cy.get('[title="Lock this element from changes"]').click();
+            //should not be able to drag element
+            cy.get('#resizerHandle').should('not.be.visible');
+
+        })
+
+    })
+
     context("editing multiple elements", () => {
 
         it('shows a different toolbar when multiple elements are selected', () => {

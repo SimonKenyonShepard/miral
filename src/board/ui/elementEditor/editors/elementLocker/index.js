@@ -8,18 +8,20 @@ class ElementLocker extends Component {
 
     constructor(props, context) {
       super(props, context);
-      this.state = {
-        isLocked : false
-      };
+      this.state = {};
     }
 
     handleToggleLock = () => {
-      this.setState({isLocked : !this.state.isLocked});
+      this.props.handleUpdateElementProperty({
+        update : {
+          locked : !this.props.isLocked
+        }
+      });
     }
 
     render() {
         
-      const {isLocked} = this.state;
+      const {isLocked} = this.props;
 
       return (
         <div className={"editor_option"}>

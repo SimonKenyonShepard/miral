@@ -220,18 +220,19 @@ class Resizer extends Component {
         (nextProps.boundingBox.y !== this.props.boundingBox.y) ||
         (nextProps.boundingBox.cx !== this.props.boundingBox.cx) ||
         (nextProps.boundingBox.cy !== this.props.boundingBox.cy) ||
-        (nextProps.isVisible !== this.props.isVisible);
+        (nextProps.isVisible !== this.props.isVisible) ||
+        (nextProps.isLocked !== this.props.isLocked);
 
         return needsUpdate;
     }
 
     render() {
-        const { boundingBox, isVisible } = this.props;
+        const { boundingBox, isVisible, isLocked } = this.props;
         const wrapperStyles = {
             display: "none"
         };
 
-        if(isVisible) {
+        if(isVisible && !isLocked) {
             wrapperStyles.display = "block";
         }
         const resizerStyles = {

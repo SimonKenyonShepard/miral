@@ -607,6 +607,15 @@ class Board extends Component {
         return isSelected;
     }
 
+    isLocked = (elementID) => {
+        const element = this.state.elements[elementID]; 
+        if(element) {
+            return element.locked;
+        } else {
+            return null;
+        }
+    }
+
     isUniqueSelected = (elementID) => {
         const {
             elementState,
@@ -865,6 +874,7 @@ class Board extends Component {
                         updatePointerPosition={this.updatePointerPosition}
                         handlePanMove={this.handlePanMove}
                         isSelected={this.isSelected}
+                        isLocked={this.isLocked}
                     >
                         <svg id="board" 
                             width={`${width}px`}
@@ -907,7 +917,8 @@ class Board extends Component {
                                 zoomLevel={zoomLevel}
                             />
                         </svg>
-                        <Resizer 
+                        <Resizer
+                            isLocked={(selectedElements.filter(item => item.locked).length)} 
                             isVisible={(selectedElements.length > 0)}
                             registerDragHandler={this.registerDragHandler}
                             boundingBox={boundingBox}

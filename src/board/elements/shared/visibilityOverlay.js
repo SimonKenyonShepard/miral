@@ -7,7 +7,7 @@ class VisibilityOverlay extends PureComponent {
         const iconSize = shapeProps.width/5;
         return (
             <foreignObject
-                    className="svg_textContainer_foreignObject"
+                    className="svg_textContainer_foreignObject visibilityOverlay"
                     x={shapeProps.x}
                     y={shapeProps.y}
                     height={shapeProps.height}

@@ -64,6 +64,7 @@ class InteractionManager extends PureComponent {
                 dragStartTime : Date.now(),
                 drag : "mouseDown",
                 isSelected : this.props.isSelected(e.target.id),
+                isLocked : this.props.isLocked(e.target.id),
                 elementID : e.target.id
             });
             this.pointers = [{...e}];
@@ -93,6 +94,7 @@ class InteractionManager extends PureComponent {
             drag,
             elementID,
             isSelected,
+            isLocked,
             dragStartX,
             dragStartY
         } = this.state;
@@ -109,7 +111,7 @@ class InteractionManager extends PureComponent {
             const wasStartOfDrag = (drag === "mouseDown" && !wasAccidentalMovement);
             const wasMiddleOfDrag = (dragHandlers && dragHandlers.handleDragMove && !wasAccidentalMovement);
             const wasCanvasDrag = (!wasAccidentalMovement && !isSelected && elementID !== "drawCanvas" && elementID !== "resizerHandle" && elementID !== "elementSelectionArea");
-            if(wasCanvasDrag) {
+            if(wasCanvasDrag || isLocked) {
                 dragHandlers = this.props.dragHandlers["board"];
                 this.setState({elementID : "board"});
             }
@@ -174,6 +176,7 @@ class InteractionManager extends PureComponent {
             // };
             // console.log(previousE.clientX, e.clientX);
             // this.props.handlePanMove(simulatedPanEvent);
+            console.log(previousE);
         }
 
         this.previousPinchZoomDistance = dist;

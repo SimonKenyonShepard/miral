@@ -28,6 +28,7 @@ export function createElementBaseObject(id, type, initialZoomLevel) {
         initialZoomLevel,
         link : "",
         hidden : false,
-        groups : []
+        groups : [],
+        locked : false
     };
 }

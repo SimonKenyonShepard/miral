@@ -205,7 +205,11 @@ class ElementEditor extends Component {
                             handleUpdateElementProperty={this.handleUpdateElementProperty}
                         />;
                     case 'lock':
-                        return <ElementLocker key={`${selectedElements[0].id}_${button}`} />;
+                        return <ElementLocker 
+                                    key={`${selectedElements[0].id}_${button}`} 
+                                    isLocked={selectedElements[0].locked}
+                                    handleUpdateElementProperty={this.handleUpdateElementProperty}
+                                />;
                     case 'delete':
                         return <ElementDeleter 
                                     key={`${selectedElements[0].id}_${button}`} 
