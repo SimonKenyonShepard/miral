@@ -39,11 +39,12 @@ class TextEditor extends Component {
     sizeChecker = () => {
 
         const { isAutoResize, isExpandToFit } = ELEMENT_TYPE_PROPERTIES[this.props.data.type];
-
-        if(isAutoResize && (this.textContainer.scrollHeight > this.textContainer.clientHeight)) {
+        const textIsTooLarge = (this.textContainer.scrollHeight > this.textContainer.clientHeight);
+        const textIsTooSmall = (this.textInput.clientHeight < this.textContainer.clientHeight);
+        if(isAutoResize && textIsTooLarge) {
             const newFontSize = (this.state.fontSize/3)*2;
             this.setState({fontSize : newFontSize});
-        } else if(isAutoResize && (this.textInput.clientHeight < this.textContainer.clientHeight) && this.state.fontSize < 24) {
+        } else if(isAutoResize && textIsTooSmall && this.state.fontSize < 24) {
             const twoThirds = (1/3*2);
             const nextExpectedHeight = (this.textInput.clientHeight/(twoThirds*100))*100;
             if(nextExpectedHeight < this.textContainer.clientHeight) {
@@ -65,7 +66,7 @@ class TextEditor extends Component {
 
     handleGotFocus = (e) => {
         this.setState({
-            fontSize : this.props.data.fontStyle.fontSize
+            fontSize : this.props.data.fontStyle.fontSize/this.props.gridSpace.zoomLevel
         });
     }
 
@@ -90,20 +91,22 @@ class TextEditor extends Component {
     }
 
     render() {
-       const {data, gridSpace} = this.props;
-       const styles = {
-           position : "absolute",
-           display : "flex",
-           alignItems : "center",
-           justifyContent : "center",
-           visibility: "hidden"
-       };
-       const textStyles = {
+        const {data, gridSpace} = this.props
+        
+        const styles = {
+            position : "absolute",
+            display : "flex",
+            alignItems : "center",
+            justifyContent : "center",
+            visibility: "hidden",
+            borderTop: "1px solid blue" //THIS IS A WIERD SAFARI FIX, CARET DOES NOT SHOW FOR EMPTY TEXT WITHOUT THIS?
+        };
+        const textStyles = {
             fontSize : this.state.fontSize
-       };
-       let starterText = "";
-       let editorKey = "blank";
-       if(data && data.id && data.styles) {
+        };
+        let starterText = "";
+        let editorKey = "blank";
+        if(data && data.id && data.styles) {
         const componentStyles = data.styles;
         let x = ((componentStyles.x || componentStyles.cx)/gridSpace.zoomLevel)-(gridSpace.offsetX/gridSpace.zoomLevel),
             y = ((componentStyles.y || componentStyles.cy)/gridSpace.zoomLevel)-(gridSpace.offsetY/gridSpace.zoomLevel),
@@ -144,7 +147,7 @@ class TextEditor extends Component {
 
         editorKey=this.props.data.id;
             
-       }
+        }
         
         return (
             <div
@@ -170,16 +173,21 @@ class TextEditor extends Component {
 
    componentDidUpdate(prevProps, prevState) {
        if(this.props.data && this.props.data.id) {
-            this.textInput.focus();
-            const moveCaretToEnd = this.props.data ? this.props.data.text.length > 0 : false;
-            if(moveCaretToEnd && document.createRange) {
-                let range = document.createRange();
-                range.selectNodeContents(this.textInput);
-                range.collapse(false);
-                let selection = window.getSelection();
-                selection.removeAllRanges();
-                selection.addRange(range);
-            }
+           
+            setTimeout(() => {
+                this.textInput.focus();
+                const moveCaretToEnd = this.props.data ? this.props.data.text.length > 0 : false;
+                if(moveCaretToEnd && document.createRange) {
+                    let range = document.createRange();
+                    range.selectNodeContents(this.textInput);
+                    range.collapse(false);
+                    let selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }
+
+            }, 100); //NEEDED AGAIN FOR SAFARI OTHERWISE FOR SOME REASON DOESN"T FOCUS
+
             if(!prevProps.data || (this.props.data.id !== prevProps.data.id)) {
                 this.setState({
                     fontSize :  this.props.data.fontStyle.fontSize/this.props.gridSpace.zoomLevel,
