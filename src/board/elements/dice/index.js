@@ -10,6 +10,7 @@ class Dice extends PureComponent {
       this.state = {
           diceAnimation : null
       };
+      this.audio = new Audio('/sounds/dice.mp3');
     }
 
     generateRandomDiceNumber() {
@@ -115,10 +116,10 @@ class Dice extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        console.log(prevProps.data.diceNumber !== this.props.data.diceNumber);
         if(prevProps.data.diceNumber !== this.props.data.diceNumber) {
             const intervalMax = 6;
             let intervalCount = 0;
+            this.audio.play();
             const interval = setInterval(() => {
                 if(intervalCount > intervalMax) {
                     this.setState({diceAnimation : null});
