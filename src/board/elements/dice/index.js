@@ -91,6 +91,7 @@ class Dice extends PureComponent {
                             cx={diceCoords[0]}
                             cy={diceCoords[1]}
                             fill={"#fff"}
+                            pointerEvents={"none"}
                         />;
                     })
                 }
