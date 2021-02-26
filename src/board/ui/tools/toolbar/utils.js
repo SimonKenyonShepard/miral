@@ -29,6 +29,9 @@ export function createElementBaseObject(id, type, initialZoomLevel) {
         link : "",
         hidden : false,
         groups : [],
-        locked : false
+        locked : false,
+        comments : [], //not yet implemented
+        rotation : 0, //not yet implemented
+        flipped : false //not yet implemented
     };
 }
