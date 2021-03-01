@@ -17,6 +17,9 @@ class TutorialTrigger extends Component {
         return (
             <div className={`tutorialTrigger`}>
                 <div className={"tutorialTriggerContent"}>
+                    <h2 className={"tutorialTriggerHeading tutorialTriggerHeading_main"}>First time?</h2>
+                    <h3 className={"tutorialTriggerHeading tutorialTriggerHeading_subLine"}>Explore the sandbox</h3>
+                    <div className={"tutorialTriggerCta"}>{">"}</div>
                 </div>
             </div>
         );
@@ -28,6 +31,11 @@ class Home extends Component {
     render() {
         return (
             <div className={`hub_section hub_home`}>
+                <div className={"hub_subMenu"}>
+                    <div className={"hub_subMenu_item"}>Your boards</div>
+                    <div className={"hub_subMenu_item"}>Groups</div>
+                    <div className={"hub_subMenu_item"}>Settings</div>
+                </div>
                 <div className={"hub_scrollWrapper"}>
                     <TutorialTrigger />
                     <h2>Your boards</h2>
@@ -36,6 +44,7 @@ class Home extends Component {
 
                         </Item>
                     </div>
+                    <h2>Groups</h2>
                     <h2>Settings</h2>
                 </div>
             </div>
@@ -49,6 +58,13 @@ class Templates extends Component {
     render() {
         return (
             <div className={`hub_section hub_templates`}>
+                <div className={"hub_subMenu"}>
+                    <div className={"hub_subMenu_item"}>Popular</div>
+                    <div className={"hub_subMenu_item"}>Games</div>
+                    <div className={"hub_subMenu_item"}>Agile</div>
+                    <div className={"hub_subMenu_item"}>Education</div>
+                </div>
+                <div className={"hub_scrollWrapper"}>
                 <h2>Popular</h2>
                 <div className="hub_boards">
                     <Item></Item>
@@ -81,6 +97,7 @@ class Templates extends Component {
                     <Item></Item>
                     <Item></Item>
                 </div>
+                </div>
             </div>
         );
     }
@@ -92,9 +109,18 @@ class Guides extends Component {
     render() {
         return (
             <div className={`hub_section hub_guides`}>
-                <h2>Basics</h2>
-                <h2>Intermediate</h2>
-                <h2>Advanced</h2>
+                <div className={"hub_subMenu"}>
+                    <div className={"hub_subMenu_item"}>Basics</div>
+                    <div className={"hub_subMenu_item"}>Intermediate</div>
+                    <div className={"hub_subMenu_item"}>Advanced</div>
+                    <div className={"hub_subMenu_item"}>Release notes</div>
+                </div>
+                <div className={"hub_scrollWrapper"}>
+                    <h2>Basics</h2>
+                    <h2>Intermediate</h2>
+                    <h2>Advanced</h2>
+                    <h2>Release notes</h2>
+                </div>
             </div>
         );
     }
@@ -118,7 +144,7 @@ class Hub extends Component {
 
     switchTab = (e) => {
         const element = e.target;
-        const currentTab = Array.from(element.parentNode.children).indexOf(element);
+        const currentTab = Array.from(element.parentNode.children).indexOf(element)-1;
         this.setState({currentTab});
     }
   
@@ -146,6 +172,7 @@ class Hub extends Component {
                 <div className={`hubBackground`} onPointerUp={this.hideHub}></div>
                 <div className={"hubContents"}>
                     <div className={"hubTabs"}>
+                        <div className={"hubTabLogo"} >Workshoppr</div>
                         <div className={`hubTab ${(currentTab === 0 ? "selected" : null)}`} onPointerUp={this.switchTab}>Home</div>
                         <div className={`hubTab ${(currentTab === 1 ? "selected" : null)}`} onPointerUp={this.switchTab}>Templates</div>
                         <div className={`hubTab ${(currentTab === 2 ? "selected" : null)}`} onPointerUp={this.switchTab}>Guides</div>

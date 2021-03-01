@@ -315,7 +315,7 @@ class Navbar extends PureComponent {
         }
         return (
             <div className={"navBar"}>
-                <span className={"companyName"}>Workshoppr.com</span>
+                <span className={"companyName"}>Workshoppr</span>
                 <span className={"burgerMenu"} onClick={this.handleOpenMenu}></span>
                 <div className={menuCSS}>
                     <div className={"navBar_menu_arrow"} />

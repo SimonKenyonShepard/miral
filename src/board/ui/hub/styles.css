@@ -38,6 +38,22 @@
     justify-content: space-evenly;
 }
 
+.hubTabLogo {
+    background-color: #fff;
+    background-image : url("/workshopprIcon.svg");
+    background-size: 40px 40px;
+    background-repeat: no-repeat;
+    background-position: 8px 8px;
+    box-sizing: border-box;
+    color: #333;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 16px 0px 16px 56px;
+    text-align: left;
+    width: 176px;
+}
+
 .hubTab {
     background-color:rgba(255, 255, 255, 1);
     cursor : pointer;
@@ -61,9 +77,19 @@
 
 .hub_section {
     box-sizing: border-box;
+    display: flex;
     flex: 0 0 100%;
     padding: 16px;
     width: 100%;
+}
+
+.hub_subMenu {
+    width: 200px;
+}
+
+.hub_subMenu_item {
+    text-align: left;
+    margin: 16px 0;
 }
 
 .hub_scrollWrapper {
@@ -99,15 +125,49 @@
 }
 
 .tutorialTriggerContent {
-    background-image: url("/tutorial.png");
-    background-size: contain;
+    align-items: flex-start;
+    background-color: #F28D95;
+    background-image : url("/images/firstUse.svg");
     background-repeat: no-repeat;
-    border-radius: 10px;
+    background-position: center right;
+    border-radius: 25px;
     box-shadow: 4px 4px 0px #666;
+    display: flex;
+    flex-direction: column;
     height: 246px;
+    justify-content: flex-start;
     width: 640px;
+    opacity: 0.7;
     overflow : hidden;
     cursor: pointer;
+}
+
+.tutorialTriggerHeading {
+    color: #fff;
+    margin: 16px;
+}
+
+.tutorialTriggerHeading_main {
+    font-family: 'Permanent Marker', cursive;
+    font-size : 32px;
+    margin-bottom: 8px;
+}
+
+.tutorialTriggerHeading_subLine {
+    font-size : 24px;
+    margin-top: 8px;
+}
+
+.tutorialTriggerCta {
+    border-radius: 300px;
+    border: 5px solid white;
+    color: #fff;
+    font-family: 'Permanent Marker', cursive;
+    font-size : 56px;
+    line-height: 60px;
+    margin: 16px 16px 16px 72px;
+    height: 80px;
+    width: 80px;
 }
 
 .tutorialTriggerContent:hover {    
