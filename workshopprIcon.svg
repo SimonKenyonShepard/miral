@@ -1,0 +1,27 @@
+<svg width="865px" height="699px" viewBox="0 0 38250 38500" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <defs>
+  <filter height="200%" id="shadow2" width="200%" x="-50%" y="-50%">
+   <feGaussianBlur stdDeviation="10"/>
+  </filter>
+ </defs>
+ <pattern height="1000" id="diagonalHatch" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse" width="1000">
+  <line id="svg_2" stroke="rgb(204, 204, 204)" stroke-opacity="0.2" stroke-width="500" x1="0" x2="0" y1="0" y2="1000"/>
+ </pattern>
+ <g class="layer">
+  <title>Layer 1</title>
+  <rect fill-opacity="0" height="0" id="elementSelectionArea" width="0" x="0" y="0"/>
+  <g id="svg_3">
+   <rect fill="#ffffff" fill-opacity="0" height="36730.10156" id="Y_XsqYTVw" stroke="#000000" stroke-dasharray="0" stroke-opacity="0" stroke-width="244" width="36730.10156" x="912.5" y="860.9375"/>
+   <g id="svg_4" transform="translate(61912.5 21960.9) scale(45.9126 45.9126)">
+    <path d="m-1283.70251,-396.69394l640.25289,10.29141l26.12655,667.88059c-220.05926,-34.24142 -365.88962,55.33474 -634.21199,10.13668l-32.16744,-688.30868l0,0c0,0 0,0 -0.00001,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0c0,0 0,0 0,0z" fill="rgba(0,0,0, 0.4)" filter="url(#shadow2)" id="svg_5"/>
+    <path d="m-1312.51543,-455.49786l747.98738,9.83101l-6.86179,727.87271l-752.43448,-9.22069l11.30889,-728.48303z" fill="#F2C744" id="svg_6"/>
+   </g>
+  </g>
+  <g id="svg_7">
+   <circle cx="9720.32813" cy="9961.85156" fill="#7EBFD9" id="ssLthgv_HK" r="3226.80469" stroke="#000000" stroke-dasharray="0" stroke-opacity="0" stroke-width="244"/>
+  </g>
+  <g id="svg_8">
+   <circle cx="17909.10156" cy="14145.11719" fill="#7EBFD9" id="1Z5cVpd1FT" r="3226.80469" stroke="#000000" stroke-dasharray="0" stroke-opacity="0" stroke-width="244"/>
+  </g>
+ </g>
+</svg>
