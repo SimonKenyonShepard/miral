@@ -23,6 +23,7 @@ class BoardControls extends PureComponent {
 
     handleBlur = (e) => {
         this.props.updateBoardName(e.target.innerText);
+        document.title = "Workshoppr.com - "+e.target.innerText;
         this.setState({
             editBoardName : false
         });
