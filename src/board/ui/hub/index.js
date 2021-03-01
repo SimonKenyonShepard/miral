@@ -18,7 +18,7 @@ class TutorialTrigger extends Component {
             <div className={`tutorialTrigger`}>
                 <div className={"tutorialTriggerContent"}>
                     <h2 className={"tutorialTriggerHeading tutorialTriggerHeading_main"}>First time?</h2>
-                    <h3 className={"tutorialTriggerHeading tutorialTriggerHeading_subLine"}>Explore the sandbox</h3>
+                    <h3 className={"tutorialTriggerHeading tutorialTriggerHeading_subLine"}>Explore the sandbox...</h3>
                     <div className={"tutorialTriggerCta"}>{">"}</div>
                 </div>
             </div>
@@ -38,14 +38,24 @@ class Home extends Component {
                 </div>
                 <div className={"hub_scrollWrapper"}>
                     <TutorialTrigger />
-                    <h2>Your boards</h2>
+                    <h2 className="hub_title">Your boards</h2>
                     <div className="hub_boards">
                         <Item>
 
                         </Item>
                     </div>
-                    <h2>Groups</h2>
-                    <h2>Settings</h2>
+                    <h2 className="hub_title">Groups</h2>
+                    <div className="hub_boards">
+                        <Item>
+
+                        </Item>
+                    </div>
+                    <h2 className="hub_title">Settings</h2>
+                    <div className="hub_boards">
+                        <Item>
+
+                        </Item>
+                    </div>
                 </div>
             </div>
         );
@@ -65,32 +75,52 @@ class Templates extends Component {
                     <div className={"hub_subMenu_item"}>Education</div>
                 </div>
                 <div className={"hub_scrollWrapper"}>
-                <h2>Popular</h2>
+                <h2 className="hub_title">Popular</h2>
                 <div className="hub_boards">
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
                     <Item></Item>
                     <Item></Item>
                     <Item></Item>
                     <Item></Item>
                     <Item></Item>
                 </div>
-                <h2>Games</h2>
+                <h2 className="hub_title">Games</h2>
                 <div className="hub_boards">
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
                     <Item></Item>
                     <Item></Item>
                     <Item></Item>
                     <Item></Item>
                     <Item></Item>
                 </div>
-                <h2>Agile</h2>
+                <h2 className="hub_title">Agile</h2>
                 <div className="hub_boards">
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
                     <Item></Item>
                     <Item></Item>
                     <Item></Item>
                     <Item></Item>
                     <Item></Item>
                 </div>
-                <h2>Education</h2>
+                <h2 className="hub_title">Education</h2>
                 <div className="hub_boards">
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
+                    <Item></Item>
                     <Item></Item>
                     <Item></Item>
                     <Item></Item>
@@ -116,10 +146,10 @@ class Guides extends Component {
                     <div className={"hub_subMenu_item"}>Release notes</div>
                 </div>
                 <div className={"hub_scrollWrapper"}>
-                    <h2>Basics</h2>
-                    <h2>Intermediate</h2>
-                    <h2>Advanced</h2>
-                    <h2>Release notes</h2>
+                    <h2 className="hub_title">Basics</h2>
+                    <h2 className="hub_title">Intermediate</h2>
+                    <h2 className="hub_title">Advanced</h2>
+                    <h2 className="hub_title">Release notes</h2>
                 </div>
             </div>
         );

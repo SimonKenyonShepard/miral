@@ -62,6 +62,10 @@ Multi-user encryption w PW - done
 touchpad controls - done
 group elements - done
 Move to pointer events & responsive test - done
+fix ipad touch zoom - done
+Mobile layout CSS - done
+lock elements - done
+change element visibility - done
 
 
 Bugs
@@ -70,12 +74,12 @@ Green share icon for participants
 share icon invisible if server unavailable
 store creds (name initials) in local storage *
 basic encryption for data on server
-fix ipad touch zoom
-Mobile layout CSS
 end pointer down when goes out of window
 
 
 Backlog
+
+change page title to new file title
 
 align
 
@@ -84,6 +88,7 @@ custom colours
 Autosave
 
 onboarding lightbox
+-organise your boards into folders/teams
 
 upload images locally
 
@@ -100,13 +105,9 @@ line resizer - hard
 Menu buttons highlight - easy
 Image crop - medium
 
-
-
-lock elements - easy
 multi-select lock - easy
 multi-select align - easy
 custom colors/font color - medium
-change element visibility - easy
 
 smooth zoom & inertia pan - hard
 Iframes - easy *
