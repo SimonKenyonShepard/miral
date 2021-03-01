@@ -55,3 +55,7 @@ export function removeData(primaryObject, mergeObject) {
   });
   return mergedObject;
 }
+
+export function updateDocumentTitle(newTitle) {
+  document.title = "Workshoppr.com - "+newTitle;
+}

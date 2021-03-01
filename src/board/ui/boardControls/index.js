@@ -3,6 +3,8 @@ import React, {PureComponent} from 'react';
 import Share from './share';
 import UndoRedo from './undoRedo';
 
+import { updateDocumentTitle } from './../../utils';
+
 import './styles.css';
 
 
@@ -23,7 +25,7 @@ class BoardControls extends PureComponent {
 
     handleBlur = (e) => {
         this.props.updateBoardName(e.target.innerText);
-        document.title = "Workshoppr.com - "+e.target.innerText;
+        updateDocumentTitle(e.target.innerText);
         this.setState({
             editBoardName : false
         });

@@ -1,5 +1,7 @@
 import React, {Component, PureComponent} from 'react';
 
+import { updateDocumentTitle } from './../../utils';
+
 import './styles.css';
 
 class FileOption extends Component {
@@ -120,7 +122,7 @@ class Navbar extends PureComponent {
         const file = window.localStorage.getItem(fileName);
         const dataToLoad = JSON.parse(file);
         const state = Object.assign({}, this.props.applicationState, dataToLoad);
-        this.props.handleUpdateElementsAndState(state);
+        this.loadNewBoard(state);
         this.setState({
             menuVisible : false,
             subMenu : []
@@ -137,7 +139,7 @@ class Navbar extends PureComponent {
             const loader = (e) => {
                 var file = e.target.result;
                 const state = Object.assign({}, this.props.applicationState, JSON.parse(file));
-                this.props.handleUpdateElementsAndState(state);
+                this.loadNewBoard(state);
             }
             reader.onload = loader;
             reader.readAsText(file);
@@ -245,7 +247,7 @@ class Navbar extends PureComponent {
         .then(request => {
             if(request.data.value) {
                 const state = Object.assign({}, this.props.applicationState, JSON.parse(request.data.value));
-                this.props.handleUpdateElementsAndState(state);
+                this.loadNewBoard(state);
                 this.setState({
                     menuVisible : false,
                     subMenu : []
@@ -253,6 +255,12 @@ class Navbar extends PureComponent {
             }
         });
         
+    }
+
+    loadNewBoard = (newState) => {
+        //NEED TO WRITE TESTS FOR ALL THIS!
+        updateDocumentTitle(newState.boardName);
+        this.props.handleUpdateElementsAndState(newState);
     }
 
     deleteFileFromLocalStorage = () => {
