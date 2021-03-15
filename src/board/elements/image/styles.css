@@ -1,13 +1,4 @@
 .svg_imageContainer {
-    display : flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
     pointer-events: none;
     user-select: none;
-    width: 100%;
-}
-
-.svg_imageContainer_foreignObject {
-    pointer-events: none;
 }

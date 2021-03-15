@@ -31,26 +31,15 @@ class Image extends PureComponent {
             />);
         }
             
-        const imgStyle = {
-            backgroundImage : `url(${data.URL})`,
-            backgroundRepeat : "no-repeat",
-            backgroundSize : "contain",
-            backgroundPosition : "0 0",
-            width : "100%"
-        };
         image = (
-            <foreignObject
-                className="svg_imageContainer_foreignObject"
+            <image
+                className="svg_imageContainer"
+                href={data.URL}
                 x={shapeProps.x}
                 y={shapeProps.y}
                 height={shapeProps.height}
                 width={shapeProps.width}
-            >
-                <div
-                    className="svg_imageContainer"
-                    style={imgStyle}
-                />
-            </foreignObject>
+            />
         );
         shape = <rect
             id={data.id} 
