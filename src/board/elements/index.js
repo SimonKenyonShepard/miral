@@ -175,7 +175,6 @@ class Elements extends PureComponent {
             </>
         );
     }
-
     
   }
 

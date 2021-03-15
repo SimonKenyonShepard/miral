@@ -118,7 +118,7 @@ class WrappedText extends PureComponent {
                     x={(shapeProps.x)}
                     y={(textBaseLinePosition)}
                     fontSize={(fontStyle.fontSize)}
-                    fontFamily={fontStyle.fontFamily}
+                    fontFamily={(fontStyle.fontFamily || "sans-serif")}
                     pointerEvents={"none"}
                     textAnchor={textAnchor}
                     dominantBaseline={(textBaseline)}
