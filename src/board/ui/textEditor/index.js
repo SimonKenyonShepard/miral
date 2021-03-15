@@ -154,7 +154,8 @@ class TextEditor extends Component {
                 style={styles}
                 ref={(container) => { this.textContainer = container; }}
             >
-                <div 
+                <div
+                    id={"textEditor"} 
                     key={`textEditor_${editorKey}`}
                     contentEditable={true}
                     ref={(input) => { this.textInput = input; }}

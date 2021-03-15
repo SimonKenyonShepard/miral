@@ -1,9 +1,10 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import VisibilityOverlay from '../shared/visibilityOverlay';
+import WrappedText from '../shared/wrappedText';
 
 import './styles.css';
 
-class Shape extends PureComponent {
+class Shape extends Component {
 
     constructor(props, context) {
       super(props, context);
@@ -33,40 +34,15 @@ class Shape extends PureComponent {
                 fill="#000000"
             />);
         }
+        
         if(data.text) {
-            const textBody = data.text.split(/\n|\r/).map((line, i) => {
-                return(<div key={`${data.id}_${line}_${i}`}>{line}</div>);
-            });
-            const fontStyle = {
-                ...data.fontStyle,
-                lineHeight : `${(data.fontStyle.fontSize*1.4)}px`,
-                padding : `${data.padding}px`,
-                width : "100%"
-            };
-            let textAlign = "center";
-            if(data.fontStyle.alignItems === "top") {
-                textAlign = "flex-start";
-            } else if(data.fontStyle.alignItems === "bottom") {
-                textAlign = "flex-end";
-            }
             text = (
-                <foreignObject
-                    className="svg_textContainer_foreignObject"
-                    x={shapeProps.x}
-                    y={shapeProps.y}
-                    height={shapeProps.height}
-                    width={shapeProps.width}
-                >
-                    <div
-                        className="svg_textContainer"
-                        style={{
-                            alignItems : textAlign
-                        }}
-                    >
-                        <div className="svg_textContainer_line" style={fontStyle}>{textBody}</div>
-                    </div>
-                    
-                </foreignObject>
+                <WrappedText
+                    shapeProps={shapeProps}
+                    fontStyle={data.fontStyle}
+                    text={data.text}
+                    padding={data.padding}
+                />
             );
         }
 

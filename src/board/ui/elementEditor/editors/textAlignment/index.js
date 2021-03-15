@@ -171,22 +171,48 @@ class TextAlignment extends Component {
                   onClick={this.handleOpenSubMenu}
                 >
                     <div className={"arrow"} />
-                    <div className={`editor_subMenu_icon ${leftSelected}`} onClick={this.handleLeftChange}>
+                    <div 
+                      className={`editor_subMenu_icon ${leftSelected}`} 
+                      onClick={this.handleLeftChange}
+                      title={"Align text left"}
+                    >
                       <LeftIcon iconColor={iconColor} />
                     </div>
-                    <div className={`editor_subMenu_icon ${centerSelected}`} onClick={this.handleCenterChange}>
+                    <div 
+                      className={`editor_subMenu_icon 
+                      ${centerSelected}`} 
+                      onClick={this.handleCenterChange}
+                      title={"Align text center"}
+                    >
                       <CenterIcon iconColor={iconColor} />
                     </div>
-                    <div className={`editor_subMenu_icon ${rightSelected}`} onClick={this.handleRightChange}>
+                    <div 
+                      className={`editor_subMenu_icon ${rightSelected}`} 
+                      onClick={this.handleRightChange}
+                      title={"Align text right"}
+                    >
                       <RightIcon iconColor={iconColor} />
                     </div>
-                    <div className={`editor_subMenu_icon ${topAlignSelected}`} onClick={this.handleAlignTop}>
+                    <div 
+                      className={`editor_subMenu_icon 
+                      ${topAlignSelected}`} 
+                      onClick={this.handleAlignTop}
+                      title={"Align text to top"}
+                    >
                       <AlignTopIcon iconColor={iconColor} />
                     </div>
-                    <div className={`editor_subMenu_icon ${centerAlignSelected}`} onClick={this.handleAlignCenter}>
+                    <div 
+                      className={`editor_subMenu_icon ${centerAlignSelected}`} 
+                      onClick={this.handleAlignCenter}
+                      title={"Align text to middle"}
+                    >
                       <AlignCenterIcon iconColor={iconColor} />
                     </div>
-                    <div className={`editor_subMenu_icon ${bottomAlignSelected}`} onClick={this.handleAlignBottom}>
+                    <div 
+                      className={`editor_subMenu_icon ${bottomAlignSelected}`} 
+                      onClick={this.handleAlignBottom}
+                      title={"Align text to bottom"}
+                    >
                       <AlignBottomIcon iconColor={iconColor} />
                     </div>
                     
