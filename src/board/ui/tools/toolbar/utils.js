@@ -16,7 +16,7 @@ export function createElementBaseObject(id, type, initialZoomLevel) {
         },
         fontStyle : {
             fontSize : 24*initialZoomLevel,
-            fontFamily : "",
+            fontFamily : "sans-serif",
             fontWeight : "normal",
             fontStyle : "normal",
             textDecorationLine : "",
