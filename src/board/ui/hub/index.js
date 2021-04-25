@@ -47,7 +47,7 @@ class Home extends Component {
                         key={`fileOption_${fileName}`} 
                         fileName={fileName}
                     >
-                        <div className={"itemCtaImage"}><img src={dataToLoad.previewImage} /></div>
+                        <div className={"itemCtaImage"}><img alt="file preview" src={dataToLoad.previewImage} /></div>
                         <div className={"itemCtaIconText"}>{fileName}</div>
                     </Item>
                 );
@@ -118,7 +118,7 @@ class Templates extends Component {
                 <h2 className="hub_title">Popular</h2>
                 <div className="hub_boards">
                     <Item>
-                        <div className={"itemCtaImage"}><img src="/images/1DayDesignSprint.jpg" /></div>
+                        <div className={"itemCtaImage"}></div>
                         <div className={"itemCtaIconText"}>1-day design sprint</div>
                     </Item>
                     <Item>
