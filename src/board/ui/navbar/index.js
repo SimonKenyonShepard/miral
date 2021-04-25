@@ -2,7 +2,62 @@ import React, {Component, PureComponent} from 'react';
 
 import { updateDocumentTitle } from './../../utils';
 
+import { svgToPng } from './../../utils-svg2png';
+
 import './styles.css';
+
+const autosave_fileName = `miral_autoSave`;
+
+class ExportSVG extends Component {
+
+    render() {
+        return(
+        <div 
+            className={"navBar_menu_item"}
+            onClick={this.props.onClick}
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M19,9h-4V3H9v6H5l7,7L19,9z M5,18v2h14v-2H5z"/>
+            </svg>
+            <span>Export as SVG</span>
+        </div>
+        );
+    }
+}
+
+class ExportPNG extends Component {
+
+    render() {
+        return(
+        <div 
+            className={"navBar_menu_item"}
+            onClick={this.props.onClick}
+        >   
+             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M19,9h-4V3H9v6H5l7,7L19,9z M5,18v2h14v-2H5z"/>
+            </svg>
+            <span>Export as PNG</span>
+        </div>
+        );
+    }
+}
+
+class ExportTemplate extends Component {
+
+    render() {
+        return(
+        <div 
+            className={"navBar_menu_item"}
+            onClick={this.props.onClick}
+        >   
+             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M19,9h-4V3H9v6H5l7,7L19,9z M5,18v2h14v-2H5z"/>
+            </svg>
+            <span>Export as Template</span>
+        </div>
+        );
+    }
+}
 
 class FileOption extends Component {
 
@@ -20,8 +75,6 @@ class FileOption extends Component {
         </div>);
     }
 }
-
-const autosave_fileName = `miral_autoSave`;
 
 class Navbar extends PureComponent {
 
@@ -44,6 +97,54 @@ class Navbar extends PureComponent {
             }
         });
         return newElementStateData;
+    }
+
+    exportAsPNG = () => {
+        const applicationState = this.props.getState();
+        const rawSVG = this.props.getRawSVG();
+        svgToPng(rawSVG, {width: this.props.windowWidth, height: this.props.windowHeight}, (data) => {
+            console.log("hello");
+            const modData = data.replace("image/png", "image/octet-stream");
+            var evt = new MouseEvent("click", {
+                view: window,
+                bubbles: false,
+                cancelable: true
+            });
+            var a = document.createElement("a");
+            a.setAttribute("download", applicationState.boardName+"-export.png");
+            a.setAttribute("href", modData);
+            a.dispatchEvent(evt);
+            this.setState({
+                menuVisible : false,
+                subMenu : []
+            });
+        });
+    }
+
+    savePreviewImage = () => {
+        return new Promise((resolve, reject) => {
+            const rawSVG = this.props.getRawSVG();
+            svgToPng(rawSVG, {width: 125, height: 56}, (data) => {
+                const modData = data.replace("image/png", "image/octet-stream");
+                resolve(modData);
+            });
+        });
+    }
+
+    exportAsSVG = () => {
+        const rawSVG = this.props.getRawSVG();
+
+        const rawSVGWithoutForeignObject = rawSVG.replace(/<foreignObject\b[^<]*(?:(?!<\/foreignObject>)<[^<]*)*<\/foreignObject>/gi, "");
+        const applicationState = this.props.getState();
+        var a = document.createElement("a");
+        var file = new Blob([rawSVGWithoutForeignObject], {type: 'image/svg+xml;charset=utf-8'});
+        a.href = URL.createObjectURL(file);
+        a.download = applicationState.boardName+"-export.svg";
+        a.click();
+        this.setState({
+            menuVisible : false,
+            subMenu : []
+        });
     }
     
     handleOpenMenu = (e) => {
@@ -77,25 +178,28 @@ class Navbar extends PureComponent {
     saveToBrowser = (e) => {
         const applicationState = this.props.getState();
         applicationState.elementState = this.deselectElements(applicationState.elementState);
-
-        const stateToSave = {
-            elements : applicationState.elements,
-            elementState : applicationState.elementState,
-            boardName : applicationState.boardName,
-            zoomLevel : applicationState.zoomLevel,
-            offsetX : applicationState.offsetX,
-            offsetY : applicationState.offsetY
-        };
-        
-        let fileName = `miralFile_${applicationState.boardName}`;
-        window.localStorage.setItem(fileName, JSON.stringify(stateToSave));
-        this.setState({
-            menuVisible : false,
-            subMenu : []
+        this.savePreviewImage().then(preview => {
+            const stateToSave = {
+                previewImage : preview,
+                elements : applicationState.elements,
+                elementState : applicationState.elementState,
+                boardName : applicationState.boardName,
+                zoomLevel : applicationState.zoomLevel,
+                offsetX : applicationState.offsetX,
+                offsetY : applicationState.offsetY
+            };
+            
+            let fileName = `miralFile_${applicationState.boardName}`;
+            window.localStorage.setItem(fileName, JSON.stringify(stateToSave));
+            this.setState({
+                menuVisible : false,
+                subMenu : []
+            });
         });
+        
     }
 
-    saveToFile = (e) => {
+    saveToFile = () => {
         const applicationState = this.props.getState();
         applicationState.elementState = this.deselectElements(applicationState.elementState);
         const stateToSave = {
@@ -115,6 +219,33 @@ class Navbar extends PureComponent {
         this.setState({
             menuVisible : false,
             subMenu : []
+        });
+    }
+
+    exportAsTemplate = () => {
+        const applicationState = this.props.getState();
+        applicationState.elementState = this.deselectElements(applicationState.elementState);
+        this.savePreviewImage().then(preview => {
+            const stateToSave = {
+                previewImage : preview,
+                elements : applicationState.elements,
+                elementState : applicationState.elementState,
+                boardName : applicationState.boardName,
+                zoomLevel : applicationState.zoomLevel,
+                offsetX : applicationState.offsetX,
+                offsetY : applicationState.offsetY
+            };
+            
+            let fileName = `whiteboardFile_${applicationState.boardName}.wswb`;
+            var a = document.createElement("a");
+            var file = new Blob([JSON.stringify(stateToSave)], {type: 'text/plain'});
+            a.href = URL.createObjectURL(file);
+            a.download = fileName;
+            a.click();
+            this.setState({
+                menuVisible : false,
+                subMenu : []
+            });
         });
     }
 
@@ -285,6 +416,7 @@ class Navbar extends PureComponent {
             const blankState = {
                 elements : {},
                 elementState : {},
+                dragHandlers : {},
                 boardName : "new-board-"+new Date().toLocaleDateString().replace(/\//g, ""),
                 zoomLevel : 100,
                 offsetX : 0,
@@ -304,6 +436,23 @@ class Navbar extends PureComponent {
         this.setState({
             menuVisible : false,
             subMenu : []
+        });
+    }
+
+    exportAs = () => {
+
+        this.setState({
+            subMenu : [
+                <ExportSVG
+                    onClick={this.exportAsSVG}
+                />,
+                <ExportPNG
+                    onClick={this.exportAsPNG}
+                />,
+                <ExportTemplate
+                    onClick={this.exportAsTemplate}
+                />
+            ]
         });
     }
   
@@ -424,6 +573,15 @@ class Navbar extends PureComponent {
                                         <path d="M6 21h12V7H6v14zm2.46-9.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4h-3.5z"/>
                                     </svg>
                                     <span>Delete board</span>
+                                </div>
+                                <div 
+                                    className={"navBar_menu_item"}
+                                    onClick={this.exportAs}
+                                >   
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                        <path d="M19,9h-4V3H9v6H5l7,7L19,9z M5,18v2h14v-2H5z"/>
+                                    </svg>
+                                    <span>Export as...</span>
                                 </div>
                                 <div 
                                     className={"navBar_menu_item"}

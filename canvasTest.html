@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Safari contenteditable focus test</title>
+  <style>
+      html {
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+      body {
+          margin: 0;
+          padding: 0;
+          height: 100vh;
+          width: 100vw;
+      }
+
+      #testContainer {
+          position: absolute;
+          left: 0;
+          top : 0;
+
+      }
+
+      [contenteditable] {
+        -webkit-user-select: text;
+        user-select: text;
+        }
+  </style>
+  <script>
+      
+      setTimeout(function() {
+        const options = {
+          width: 800,
+          height : 600
+        };
+        const node = document.getElementById("testContainer");
+        const canvas = document.createElement('canvas');
+        canvas.width = options.width;
+        canvas.height = options.height;
+        node.appendChild(canvas);
+        const canvasCtx = canvas.getContext('2d');
+        //canvasCtx.drawImage(svgImage, 0, 0, options.width, options.height);
+        const image = new Image(options.width, options.height); // Using optional size for image
+        image.onload = drawImageActualSize; // Draw when image has loaded
+
+          // Load an image of intrinsic size 300x227 in CSS pixels
+        image.src = './test.svg';
+
+        function drawImageActualSize() {
+          // Use the intrinsic size of image in CSS pixels for the canvas element
+          //canvas.width = this.naturalWidth;
+          //canvas.height = this.naturalHeight;
+          console.log(this.naturalWidth, this.naturalHeight);
+          const newHeight = (this.width/this.naturalWidth) * this.naturalHeight;
+
+          // // Will draw the image as 300x227, ignoring the custom size of 60x45
+          // // given in the constructor
+          canvasCtx.drawImage(this, 0, 0, this.width, newHeight);
+
+          // To use the custom size we'll have to specify the scale parameters
+          // using the element's width and height properties - lets draw one
+          // on top in the corner:
+          //canvasCtx.drawImage(this, 0, 0, this.width, this.height);
+        }
+
+        
+      }, 500);
+  </script>
+</head>
+<body>
+    <div id="testContainer">
+    </div>
+</body>
+</html>

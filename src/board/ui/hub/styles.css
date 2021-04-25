@@ -46,12 +46,12 @@
     background-position: 8px 8px;
     box-sizing: border-box;
     color: #333;
-    font-family: 'Permanent Marker', cursive;
-    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
     font-weight: bold;
     padding: 16px 0px 16px 56px;
     text-align: left;
-    width: 176px;
+    width: 224px;
 }
 
 .hubTab {
@@ -111,14 +111,25 @@
 }
 
 .hub_item {
-    background-color: #fff;
-    border-radius: 10px;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    
+    border-radius: 5px;
     box-shadow: 2px 2px 0px #666;
+    display: flex;
+    flex-direction: column;
     height: 200px;
+    justify-content: center;
     margin-right: 16px;
     min-width : 160px;
     max-width : 160px;
+    cursor: pointer;
+    overflow: hidden;
+}
 
+.hub_item:hover {
+    box-shadow: 1px 1px 0px #666;
+    transform: translate(1px, 1px);
 }
 
 
@@ -168,10 +179,10 @@
     border-radius: 300px;
     border: 5px solid white;
     color: #fff;
-    font-family: 'Permanent Marker', cursive;
+    font-family: 'Montserrat', sans-serif;
     font-size : 56px;
-    line-height: 60px;
-    margin: 16px 16px 16px 72px;
+    line-height: 80px;
+    margin: 16px 16px 16px 104px;
     height: 80px;
     width: 80px;
 }
@@ -180,6 +191,54 @@
     box-shadow: 2px 2px 0px #666;
     transform: translate(2px, 2px);
 }
+
+.itemCtaLogo {
+    border-radius: 300px;
+    border: 5px solid #ccc;
+    color: #ccc;
+    
+    font-family: 'Montserrat', sans-serif;
+    font-size : 40px;
+    line-height: 40px;
+    min-height: 40px;
+    min-width: 40px;
+}
+
+.itemCtaImage {
+    align-items: center;
+    color: #ccc;
+    display: flex;
+    font-family: 'Montserrat', sans-serif;
+    flex: 2 1 auto;
+    font-size : 40px;
+    line-height: 40px;
+    min-height: 40px;
+    min-width: 40px;
+}
+
+.itemCtaImage img {
+    width: 100%;
+}
+
+.itemCtaIconText {
+    background-color: #7EBFD9;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size : 20px;
+    padding: 8px;
+    min-height: 20%;
+    min-width: 100%;
+}
+
+.itemCtaText {
+    color: #ccc;
+    font-size : 20px;
+    margin: 8px 0;
+}
+
+
 
 .tutorialTriggerContent img {
     width: 100%;

@@ -58,6 +58,7 @@ class Board extends Component {
         }
       };
       this.canvasAnimations = [];
+      this.SVGElementRef = null;
     }
 
     handlePanStart = (e, dragStartX, dragStartY) => {
@@ -826,6 +827,12 @@ class Board extends Component {
         this.loadRemoteBoard("https://raw.githubusercontent.com/SimonKenyonShepard/miral_templates/main/whiteboardFile_splashScreen.wswb");
     }
 
+    getRawSVG = () => {
+        var serializer = new XMLSerializer();
+        var rawSVGString = serializer.serializeToString(this.SVGElementRef);
+        return rawSVGString;
+    }
+
     render() {
         const {width, height} = this.props;
         const {
@@ -880,6 +887,7 @@ class Board extends Component {
                             width={`${width}px`}
                             height={`${height}px`}
                             viewBox={viewBox}
+                            ref={(element) => { this.SVGElementRef = element; }}
                             >
                             <defs>
                                 <filter height="200%" id="shadow1" width="200%" x="-50%" y="-50%">
@@ -957,6 +965,9 @@ class Board extends Component {
                         getState={this.getState}
                         handleUpdateElementsAndState={this.handleUpdateElementsAndState}
                         loadTemplatesAndTutorials={this.loadTemplatesAndTutorials}
+                        getRawSVG={this.getRawSVG}
+                        windowWidth={width}
+                        windowHeight={height}
                     />
                     <KeyboardManager
                         keyboardHandlers={this.state.keyboardHandlers}

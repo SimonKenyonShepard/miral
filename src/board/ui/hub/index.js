@@ -27,8 +27,44 @@ class TutorialTrigger extends Component {
 }
 
 class Home extends Component {
+
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            savedBoards : this.getSavedBoards()
+        };
+    }
+
+    getSavedBoards = () => {
+        const files = [];
+        Object.keys(window.localStorage).forEach(item => {
+            if(item.indexOf("miralFile_") !== -1) {
+                const fileName = item.replace("miralFile_", "");
+                const file = window.localStorage.getItem(item);
+                const dataToLoad = JSON.parse(file);
+                files.push(
+                    <Item
+                        key={`fileOption_${fileName}`} 
+                        fileName={fileName}
+                    >
+                        <div className={"itemCtaImage"}><img src={dataToLoad.previewImage} /></div>
+                        <div className={"itemCtaIconText"}>{fileName}</div>
+                    </Item>
+                );
+            }
+        });
+        if(files.length === 0) {
+            files.push(<div className="navMenu_error">
+                No saved files found on this browser.
+            </div>);
+        }
+        return files;
+    }
   
     render() {
+        const {
+            savedBoards
+        } = this.state;
         return (
             <div className={`hub_section hub_home`}>
                 <div className={"hub_subMenu"}>
@@ -41,25 +77,29 @@ class Home extends Component {
                     <h2 className="hub_title">Your boards</h2>
                     <div className="hub_boards">
                         <Item>
-
+                            <div className={"itemCtaLogo"}>{"+"}</div>
+                            <div className={"itemCtaText"}>new board</div>
                         </Item>
+                        {savedBoards}
                     </div>
                     <h2 className="hub_title">Groups</h2>
                     <div className="hub_boards">
                         <Item>
-
+                            <div className={"itemCtaLogo"}>{"+"}</div>
+                            <div className={"itemCtaText"}>new group</div>
                         </Item>
                     </div>
                     <h2 className="hub_title">Settings</h2>
                     <div className="hub_boards">
-                        <Item>
-
-                        </Item>
                     </div>
                 </div>
             </div>
         );
     }
+
+    // componentDidUpdate() {
+    //     this.getSavedBoards();
+    // }
     
 }
 
@@ -77,11 +117,26 @@ class Templates extends Component {
                 <div className={"hub_scrollWrapper"}>
                 <h2 className="hub_title">Popular</h2>
                 <div className="hub_boards">
-                    <Item></Item>
-                    <Item></Item>
-                    <Item></Item>
-                    <Item></Item>
-                    <Item></Item>
+                    <Item>
+                        <div className={"itemCtaImage"}><img src="/images/1DayDesignSprint.jpg" /></div>
+                        <div className={"itemCtaIconText"}>1-day design sprint</div>
+                    </Item>
+                    <Item>
+                        <div className={"itemCtaIcon"}>{"🔧"}</div>
+                        <div className={"itemCtaIconText"}>Worlds simplest retro</div>
+                    </Item>
+                    <Item>
+                        <div className={"itemCtaIcon"}>{"⚖"}</div>
+                        <div className={"itemCtaIconText"}>Lightening descision Jam</div>
+                    </Item>
+                    <Item>
+                        <div className={"itemCtaIcon"}>{"🏆"}</div>
+                        <div className={"itemCtaIconText"}>Team trust building</div>
+                    </Item>
+                    <Item>
+                        <div className={"itemCtaIcon"}>{"📜"}</div>
+                        <div className={"itemCtaIconText"}>Team charter</div>
+                    </Item>
                     <Item></Item>
                     <Item></Item>
                     <Item></Item>
@@ -163,7 +218,7 @@ class Hub extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            hubVisible : false,
+            hubVisible : true,
             currentTab : 0,
         };
     }
