@@ -148,8 +148,8 @@
     background-image : url("/images/firstUse.svg");
     background-repeat: no-repeat;
     background-position: center right;
-    border-radius: 25px;
-    box-shadow: 4px 4px 0px #666;
+    border-radius: 10px;
+    box-shadow: 3px 3px 1px #666;
     display: flex;
     flex-direction: column;
     height: 246px;

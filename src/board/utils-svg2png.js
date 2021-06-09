@@ -9,7 +9,7 @@ const replaceAsync = async (str, regex, asyncFn) => {
 }
 
 const getBase64FromUrl = async (match, group1, url, group2) => {
-  const proxiedURL = `http://localhost:3001/imageProxy/${encodeURIComponent(url)}`;
+  const proxiedURL = encodeURIComponent(url);
   const data = await fetch(proxiedURL);
   const blob = await data.blob();
   return new Promise((resolve) => {

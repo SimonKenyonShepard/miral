@@ -8,13 +8,12 @@ import TextEditor from './ui/textEditor';
 import ElementEditor from './ui/elementEditor';
 import Resizer from './ui/resizer';
 import ElementDrag from './ui/elementDrag';
-import NavBar from './ui/navbar';
+import Nav from './ui/nav';
 import BoardControls from './ui/boardControls';
 import InteractionManager from './ui/InteractionManager';
 import KeyboardManager from './ui/KeyboardManager';
 import MultiUserManager from './ui/MultiUserManager';
 import SlideNavigator from './ui/slideNavigator';
-import Hub from './ui/hub';
 
 //ELEMENTS
 import Elements from './elements';
@@ -823,10 +822,6 @@ class Board extends Component {
             .catch(e => console.log(e));
     }
 
-    loadTemplatesAndTutorials = () => {
-        this.loadRemoteBoard("https://raw.githubusercontent.com/SimonKenyonShepard/miral_templates/main/whiteboardFile_splashScreen.wswb");
-    }
-
     getRawSVG = () => {
         var serializer = new XMLSerializer();
         var rawSVGString = serializer.serializeToString(this.SVGElementRef);
@@ -951,7 +946,28 @@ class Board extends Component {
                             removeDragHandler={this.removeDragHandler}
                         />
                     </InteractionManager>
-                    
+                    <div className="bottomLeft">
+                        <SlideNavigator
+                            getSlides={this.getSlides}
+                            changeSlideName={this.changeSlideName}
+                            animateToElement={this.animateToElement}
+                        />
+                    </div>
+                    <div className="bottomRight">
+                        <Altimeter zoomLevel={zoomLevel} />
+                    </div>
+                    <MultiUserManager
+                        userID={this.state.userID} 
+                        shareBoard={this.state.shareBoard}
+                        elements={this.state.elements}
+                        elementState={this.state.elementState}
+                        handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                        multiUserUpdate={this.state.multiUserUpdate}
+                        pointerPosition={this.state.pointerPosition}
+                        offsetX={this.state.offsetX}
+                        offsetY={this.state.offsetY}
+                        zoomLevel={this.state.zoomLevel}
+                    />
                     <BoardControls
                         elements={this.state.elements}
                         elementState={this.state.elementState}
@@ -960,14 +976,6 @@ class Board extends Component {
                         boardName={this.state.boardName}
                         updateBoardName={this.updateBoardName}
                         toggleBoardShare={this.toggleBoardShare}
-                    />
-                    <NavBar 
-                        getState={this.getState}
-                        handleUpdateElementsAndState={this.handleUpdateElementsAndState}
-                        loadTemplatesAndTutorials={this.loadTemplatesAndTutorials}
-                        getRawSVG={this.getRawSVG}
-                        windowWidth={width}
-                        windowHeight={height}
                     />
                     <KeyboardManager
                         keyboardHandlers={this.state.keyboardHandlers}
@@ -986,29 +994,14 @@ class Board extends Component {
                         removeDragHandler={this.removeDragHandler}
                         currentSelectedTool={this.state.tool}
                     />
-                    <div className="bottomLeft">
-                        <SlideNavigator
-                            getSlides={this.getSlides}
-                            changeSlideName={this.changeSlideName}
-                            animateToElement={this.animateToElement}
-                        />
-                    </div>
-                    <div className="bottomRight">
-                        <Altimeter zoomLevel={zoomLevel} />
-                    </div>
-                    <MultiUserManager
-                            userID={this.state.userID} 
-                            shareBoard={this.state.shareBoard}
-                            elements={this.state.elements}
-                            elementState={this.state.elementState}
-                            handleUpdateElementsAndState={this.handleUpdateElementsAndState}
-                            multiUserUpdate={this.state.multiUserUpdate}
-                            pointerPosition={this.state.pointerPosition}
-                            offsetX={this.state.offsetX}
-                            offsetY={this.state.offsetY}
-                            zoomLevel={this.state.zoomLevel}
-                        />
-                    <Hub />
+                     <Nav
+                        getState={this.getState}
+                        handleUpdateElementsAndState={this.handleUpdateElementsAndState}
+                        loadRemoteBoard={this.loadRemoteBoard}
+                        getRawSVG={this.getRawSVG}
+                        windowWidth={width}
+                        windowHeight={height}
+                    />
                 </div>
         );
     }
@@ -1023,7 +1016,6 @@ class Board extends Component {
         const isNotFirstUse = window.localStorage.getItem("miral_isFirstUse");
         const isNotShare = (window.location.hash.indexOf("j=") === -1);
         if(!isNotFirstUse && isNotShare) {
-            this.loadTemplatesAndTutorials();
             window.localStorage.setItem("miral_isFirstUse", true);
         }
         

@@ -5,7 +5,9 @@ import './styles.css';
 class Item extends Component {
     render() {
         return (
-            <div className={`hub_item`}>
+            <div className={`hub_item`}
+                onClick={this.props.clickHandler}
+            >
                 {this.props.children}
             </div>
         );
@@ -13,10 +15,16 @@ class Item extends Component {
 }
 
 class TutorialTrigger extends Component {
+
+    handleClick = () => {
+        this.props.loadRemoteBoard("https://raw.githubusercontent.com/SimonKenyonShepard/miral_templates/main/whiteboardFile_welcomeTour.wswb");
+        this.props.hideHub();
+    }
+
     render() {
         return (
             <div className={`tutorialTrigger`}>
-                <div className={"tutorialTriggerContent"}>
+                <div className={"tutorialTriggerContent"} onClick={this.handleClick}>
                     <h2 className={"tutorialTriggerHeading tutorialTriggerHeading_main"}>First time?</h2>
                     <h3 className={"tutorialTriggerHeading tutorialTriggerHeading_subLine"}>Explore the sandbox...</h3>
                     <div className={"tutorialTriggerCta"}>{">"}</div>
@@ -42,22 +50,23 @@ class Home extends Component {
                 const fileName = item.replace("miralFile_", "");
                 const file = window.localStorage.getItem(item);
                 const dataToLoad = JSON.parse(file);
+                const img = dataToLoad.previewImage ? <img alt="file preview" src={dataToLoad.previewImage} /> : null;
+                const clickHandler = () => {
+                    this.props.loadFileFromBrowser(item);
+                    this.props.hideHub();
+                };
                 files.push(
                     <Item
                         key={`fileOption_${fileName}`} 
                         fileName={fileName}
+                        clickHandler={clickHandler}
                     >
-                        <div className={"itemCtaImage"}><img alt="file preview" src={dataToLoad.previewImage} /></div>
+                        <div className={"itemCtaImage"}>{img}</div>
                         <div className={"itemCtaIconText"}>{fileName}</div>
                     </Item>
                 );
             }
         });
-        if(files.length === 0) {
-            files.push(<div className="navMenu_error">
-                No saved files found on this browser.
-            </div>);
-        }
         return files;
     }
   
@@ -73,10 +82,17 @@ class Home extends Component {
                     <div className={"hub_subMenu_item"}>Settings</div>
                 </div>
                 <div className={"hub_scrollWrapper"}>
-                    <TutorialTrigger />
+                    <TutorialTrigger 
+                        loadRemoteBoard={this.props.loadRemoteBoard}
+                        hideHub={this.props.hideHub}
+                    />
                     <h2 className="hub_title">Your boards</h2>
                     <div className="hub_boards">
-                        <Item>
+                        <Item
+                            clickHandler={() => {
+                                this.props.hideHub();
+                            }}
+                        >
                             <div className={"itemCtaLogo"}>{"+"}</div>
                             <div className={"itemCtaText"}>new board</div>
                         </Item>
@@ -263,7 +279,11 @@ class Hub extends Component {
                         <div className={`hubTab ${(currentTab === 2 ? "selected" : null)}`} onPointerUp={this.switchTab}>Guides</div>
                     </div>
                     <div className={"hubSections"} style={sectionStyles}>
-                        <Home />
+                        <Home 
+                            loadRemoteBoard={this.props.helpers.loadRemoteBoard}
+                            loadFileFromBrowser={this.props.helpers.loadFileFromBrowser}
+                            hideHub={this.hideHub}
+                        />
                         <Templates />
                         <Guides />
                     </div>
