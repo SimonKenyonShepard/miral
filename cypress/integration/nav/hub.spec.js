@@ -41,7 +41,7 @@ describe('Hub', () => {
     })
 
     it('has one saved file visible', () => {
-      cy.contains('test123').should('be.visible');
+      cy.contains('test123').scrollIntoView().should('be.visible');
     })
 
     it('has loads the locally saved file when clicked', () => {
