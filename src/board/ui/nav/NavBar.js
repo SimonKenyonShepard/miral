@@ -98,54 +98,6 @@ class Navbar extends PureComponent {
         });
         return newElementStateData;
     }
-
-    exportAsPNG = () => {
-        const applicationState = this.props.getState();
-        const rawSVG = this.props.getRawSVG();
-        svgToPng(rawSVG, {width: this.props.windowWidth, height: this.props.windowHeight}, (data) => {
-            console.log("hello");
-            const modData = data.replace("image/png", "image/octet-stream");
-            var evt = new MouseEvent("click", {
-                view: window,
-                bubbles: false,
-                cancelable: true
-            });
-            var a = document.createElement("a");
-            a.setAttribute("download", applicationState.boardName+"-export.png");
-            a.setAttribute("href", modData);
-            a.dispatchEvent(evt);
-            this.setState({
-                menuVisible : false,
-                subMenu : []
-            });
-        });
-    }
-
-    savePreviewImage = () => {
-        return new Promise((resolve, reject) => {
-            const rawSVG = this.props.getRawSVG();
-            svgToPng(rawSVG, {width: 125, height: 56}, (data) => {
-                const modData = data.replace("image/png", "image/octet-stream");
-                resolve(modData);
-            });
-        });
-    }
-
-    exportAsSVG = () => {
-        const rawSVG = this.props.getRawSVG();
-
-        const rawSVGWithoutForeignObject = rawSVG.replace(/<foreignObject\b[^<]*(?:(?!<\/foreignObject>)<[^<]*)*<\/foreignObject>/gi, "");
-        const applicationState = this.props.getState();
-        var a = document.createElement("a");
-        var file = new Blob([rawSVGWithoutForeignObject], {type: 'image/svg+xml;charset=utf-8'});
-        a.href = URL.createObjectURL(file);
-        a.download = applicationState.boardName+"-export.svg";
-        a.click();
-        this.setState({
-            menuVisible : false,
-            subMenu : []
-        });
-    }
     
     handleOpenMenu = (e) => {
         e.stopPropagation();
@@ -176,46 +128,16 @@ class Navbar extends PureComponent {
     }
     
     saveToBrowser = (e) => {
-        const applicationState = this.props.getState();
-        applicationState.elementState = this.deselectElements(applicationState.elementState);
-        this.savePreviewImage().then(preview => {
-            const stateToSave = {
-                previewImage : preview,
-                elements : applicationState.elements,
-                elementState : applicationState.elementState,
-                boardName : applicationState.boardName,
-                zoomLevel : applicationState.zoomLevel,
-                offsetX : applicationState.offsetX,
-                offsetY : applicationState.offsetY
-            };
-            
-            let fileName = `miralFile_${applicationState.boardName}`;
-            window.localStorage.setItem(fileName, JSON.stringify(stateToSave));
-            this.setState({
-                menuVisible : false,
-                subMenu : []
-            });
+        this.props.helpers.saveToBrowser();
+        this.setState({
+            menuVisible : false,
+            subMenu : []
         });
         
     }
 
     saveToFile = () => {
-        const applicationState = this.props.getState();
-        applicationState.elementState = this.deselectElements(applicationState.elementState);
-        const stateToSave = {
-            elements : applicationState.elements,
-            elementState : applicationState.elementState,
-            boardName : applicationState.boardName,
-            zoomLevel : applicationState.zoomLevel,
-            offsetX : applicationState.offsetX,
-            offsetY : applicationState.offsetY
-        };
-        let fileName = `whiteboardFile_${applicationState.boardName}.wswb`;
-        var a = document.createElement("a");
-        var file = new Blob([JSON.stringify(stateToSave)], {type: 'text/plain'});
-        a.href = URL.createObjectURL(file);
-        a.download = fileName;
-        a.click();
+        this.props.helpers.saveToFile();
         this.setState({
             menuVisible : false,
             subMenu : []
@@ -223,37 +145,15 @@ class Navbar extends PureComponent {
     }
 
     exportAsTemplate = () => {
-        const applicationState = this.props.getState();
-        applicationState.elementState = this.deselectElements(applicationState.elementState);
-        this.savePreviewImage().then(preview => {
-            const stateToSave = {
-                previewImage : preview,
-                elements : applicationState.elements,
-                elementState : applicationState.elementState,
-                boardName : applicationState.boardName,
-                zoomLevel : applicationState.zoomLevel,
-                offsetX : applicationState.offsetX,
-                offsetY : applicationState.offsetY
-            };
-            
-            let fileName = `whiteboardFile_${applicationState.boardName}.wswb`;
-            var a = document.createElement("a");
-            var file = new Blob([JSON.stringify(stateToSave)], {type: 'text/plain'});
-            a.href = URL.createObjectURL(file);
-            a.download = fileName;
-            a.click();
-            this.setState({
-                menuVisible : false,
-                subMenu : []
-            });
+        this.props.helpers.exportAsTemplate();
+        this.setState({
+            menuVisible : false,
+            subMenu : []
         });
     }
 
     loadFileFromBrowser = (fileName) => {
-        const file = window.localStorage.getItem(fileName);
-        const dataToLoad = JSON.parse(file);
-        const state = Object.assign({}, this.props.applicationState, dataToLoad);
-        this.loadNewBoard(state);
+        this.props.helpers.loadFileFromBrowser(fileName);
         this.setState({
             menuVisible : false,
             subMenu : []
@@ -261,26 +161,7 @@ class Navbar extends PureComponent {
     }
 
     loadFile = () => {
-        const readFile = (e) => {
-            var file = e.target.files[0];
-            if (!file) {
-                return;
-            }
-            var reader = new FileReader();
-            const loader = (e) => {
-                var file = e.target.result;
-                const state = Object.assign({}, this.props.applicationState, JSON.parse(file));
-                this.loadNewBoard(state);
-            }
-            reader.onload = loader;
-            reader.readAsText(file);
-        }
-        const fileInput = document.createElement("input");
-        fileInput.type='file';
-        fileInput.accept=".wswb";
-        fileInput.onchange=readFile;
-        fileInput.click();
-
+        this.props.helpers.loadFile();
         this.setState({
             menuVisible : false,
             subMenu : []
@@ -313,34 +194,7 @@ class Navbar extends PureComponent {
     }
 
     saveToMonday = (e) => {
-        const monday = window.mondaySdk();
-        const applicationState = this.props.getState();
-        applicationState.elementState = this.deselectElements(applicationState.elementState);
-        const stateToSave = {
-            elements : applicationState.elements,
-            elementState : applicationState.elementState,
-            boardName : applicationState.boardName,
-            zoomLevel : applicationState.zoomLevel,
-            offsetX : applicationState.offsetX,
-            offsetY : applicationState.offsetY
-        };
-        let fileName = `miralFile_${applicationState.boardName}`;
-        const checkIfAlreadyExists = monday.storage.instance.getItem(fileName);
-        if(checkIfAlreadyExists) {
-            fileName = fileName+"_"+new Date().getHours()+new Date().getMinutes();
-        }
-        monday.storage.instance.setItem(fileName, JSON.stringify(stateToSave));
-        monday.storage.instance.getItem("miralFileList")
-            .then((request) => {
-                let checkFileList = [];
-                if(request.data.value === null) {
-                    checkFileList = [fileName];
-                } else {
-                    checkFileList = JSON.parse(request.data.value);
-                    checkFileList.push(fileName);
-                }
-            monday.storage.instance.setItem("miralFileList", JSON.stringify(checkFileList));
-        });
+        this.props.helpers.saveToMonday();
         this.setState({
             menuVisible : false,
             subMenu : []
@@ -373,66 +227,56 @@ class Navbar extends PureComponent {
     }
 
     loadFileFromMonday = (fileName) => {
-        const monday = window.mondaySdk();
-        monday.storage.instance.getItem(fileName)
-        .then(request => {
-            if(request.data.value) {
-                const state = Object.assign({}, this.props.applicationState, JSON.parse(request.data.value));
-                this.loadNewBoard(state);
-                this.setState({
-                    menuVisible : false,
-                    subMenu : []
-                });
-            }
+        this.props.helpers.loadFileFromMonday(fileName);
+        this.setState({
+            menuVisible : false,
+            subMenu : []
         });
         
     }
 
-    loadNewBoard = (newState) => {
-        //NEED TO WRITE TESTS FOR ALL THIS!
-        updateDocumentTitle(newState.boardName);
-        this.props.handleUpdateElementsAndState(newState);
-    }
-
     deleteFileFromLocalStorage = () => {
-        const applicationState = this.props.getState();
-        const {
-            boardName 
-        } = applicationState;
-
-        window.localStorage.removeItem(`miralFile_${boardName}`);
-        this.newFile();
+        this.props.helpers.deleteFileFromLocalStorage();
+        this.setState({
+            menuVisible : false,
+            subMenu : []
+        });
     }
 
     newFile = () => {
-        //TODO write robust mechanism to determine whether file has changed.
-        const checkWillLoseChanges = window.localStorage.getItem(autosave_fileName);
-        let userConfirmation = true;
-        if(checkWillLoseChanges) {
-            userConfirmation = window.confirm("All changes in current board will be lost, are you sure?");
-        }
-        if(userConfirmation) {
-            const applicationState = this.props.getState();
-            const blankState = {
-                elements : {},
-                elementState : {},
-                dragHandlers : {},
-                boardName : "new-board-"+new Date().toLocaleDateString().replace(/\//g, ""),
-                zoomLevel : 100,
-                offsetX : 0,
-                offsetY : 0
-            };
-            const state = Object.assign({}, applicationState, blankState);
-            this.props.handleUpdateElementsAndState(state);
-            this.setState({
-                menuVisible : false,
-                subMenu : []
-            });
-        }
+        this.props.helpers.newFile();
+        this.setState({
+            menuVisible : false,
+            subMenu : []
+        });
     }
 
     loadTemplatesAndTutorials = () => {
-        this.props.loadTemplatesAndTutorials();
+        this.props.helpers.showHub();
+        this.setState({
+            menuVisible : false,
+            subMenu : []
+        });
+    }
+
+    exportAsPNG = () => {
+        this.props.helpers.exportAsPNG();
+        this.setState({
+            menuVisible : false,
+            subMenu : []
+        });
+    }
+
+    exportAsSVG = () => {
+        this.props.helpers.exportAsSVG();
+        this.setState({
+            menuVisible : false,
+            subMenu : []
+        });
+    }
+
+    exportAsTemplate = () => {
+        this.props.helpers.exportAsTemplate();
         this.setState({
             menuVisible : false,
             subMenu : []

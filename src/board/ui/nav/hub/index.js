@@ -89,9 +89,7 @@ class Home extends Component {
                     <h2 className="hub_title">Your boards</h2>
                     <div className="hub_boards">
                         <Item
-                            clickHandler={() => {
-                                this.props.hideHub();
-                            }}
+                            clickHandler={this.props.hideHub}
                         >
                             <div className={"itemCtaLogo"}>{"+"}</div>
                             <div className={"itemCtaText"}>new board</div>
@@ -112,10 +110,6 @@ class Home extends Component {
             </div>
         );
     }
-
-    // componentDidUpdate() {
-    //     this.getSavedBoards();
-    // }
     
 }
 
@@ -234,13 +228,8 @@ class Hub extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            hubVisible : true,
             currentTab : 0,
         };
-    }
-
-    hideHub = () => {
-        this.setState({hubVisible : false});
     }
 
     switchTab = (e) => {
@@ -254,9 +243,12 @@ class Hub extends Component {
         const sectionStyles = {};
 
         const {
-            hubVisible,
             currentTab
         } = this.state;
+
+        const {
+            hubVisible
+        } = this.props;
 
         if(hubVisible) {
             visibleClass = 'hubVisible';
@@ -270,7 +262,7 @@ class Hub extends Component {
 
         return (
             <div className={`hub ${visibleClass}`}>
-                <div className={`hubBackground`} onPointerUp={this.hideHub}></div>
+                <div className={`hubBackground`} onPointerUp={this.props.helpers.hideHub}></div>
                 <div className={"hubContents"}>
                     <div className={"hubTabs"}>
                         <div className={"hubTabLogo"} >Workshoppr</div>
@@ -282,7 +274,7 @@ class Hub extends Component {
                         <Home 
                             loadRemoteBoard={this.props.helpers.loadRemoteBoard}
                             loadFileFromBrowser={this.props.helpers.loadFileFromBrowser}
-                            hideHub={this.hideHub}
+                            hideHub={this.props.helpers.hideHub}
                         />
                         <Templates />
                         <Guides />

@@ -2,6 +2,8 @@ import React, {PureComponent} from 'react';
 
 import { updateDocumentTitle } from './../../utils';
 
+import { svgToPng } from './../../utils-svg2png';
+
 import Hub from './hub/';
 import NavBar from './NavBar';
 
@@ -15,11 +17,24 @@ class Nav extends PureComponent {
     constructor(props, context) {
         super(props, context);
         this.state = {
+          hubVisible : true,
           menuVisible : false,
           subMenu : [],
           mondaySaveAvailable : false,
         };
       }
+
+    showHub = () => {
+        this.setState({
+            hubVisible : true
+        });
+    }
+    
+    hideHub = () => {
+        this.setState({
+            hubVisible : false
+        });
+    }
 
     hideMenu = () => {
         this.setState({
@@ -59,6 +74,46 @@ class Nav extends PureComponent {
        
         
     }
+
+    exportAsPNG = () => {
+        const applicationState = this.props.getState();
+        const rawSVG = this.props.getRawSVG();
+        svgToPng(rawSVG, {width: this.props.windowWidth, height: this.props.windowHeight}, (data) => {
+            console.log("hello");
+            const modData = data.replace("image/png", "image/octet-stream");
+            var evt = new MouseEvent("click", {
+                view: window,
+                bubbles: false,
+                cancelable: true
+            });
+            var a = document.createElement("a");
+            a.setAttribute("download", applicationState.boardName+"-export.png");
+            a.setAttribute("href", modData);
+            a.dispatchEvent(evt);
+        });
+    }
+
+    savePreviewImage = () => {
+        return new Promise((resolve, reject) => {
+            const rawSVG = this.props.getRawSVG();
+            svgToPng(rawSVG, {width: 125, height: 56}, (data) => {
+                const modData = data.replace("image/png", "image/octet-stream");
+                resolve(modData);
+            });
+        });
+    }
+
+    exportAsSVG = () => {
+        const rawSVG = this.props.getRawSVG();
+
+        const rawSVGWithoutForeignObject = rawSVG.replace(/<foreignObject\b[^<]*(?:(?!<\/foreignObject>)<[^<]*)*<\/foreignObject>/gi, "");
+        const applicationState = this.props.getState();
+        var a = document.createElement("a");
+        var file = new Blob([rawSVGWithoutForeignObject], {type: 'image/svg+xml;charset=utf-8'});
+        a.href = URL.createObjectURL(file);
+        a.download = applicationState.boardName+"-export.svg";
+        a.click();
+    }
     
     saveToBrowser = (e) => {
         const applicationState = this.props.getState();
@@ -76,10 +131,6 @@ class Nav extends PureComponent {
             
             let fileName = `miralFile_${applicationState.boardName}`;
             window.localStorage.setItem(fileName, JSON.stringify(stateToSave));
-            this.setState({
-                menuVisible : false,
-                subMenu : []
-            });
         });
         
     }
@@ -101,10 +152,6 @@ class Nav extends PureComponent {
         a.href = URL.createObjectURL(file);
         a.download = fileName;
         a.click();
-        this.setState({
-            menuVisible : false,
-            subMenu : []
-        });
     }
 
     exportAsTemplate = () => {
@@ -127,10 +174,6 @@ class Nav extends PureComponent {
             a.href = URL.createObjectURL(file);
             a.download = fileName;
             a.click();
-            this.setState({
-                menuVisible : false,
-                subMenu : []
-            });
         });
     }
 
@@ -138,7 +181,6 @@ class Nav extends PureComponent {
         const file = window.localStorage.getItem(fileName);
         const dataToLoad = JSON.parse(file);
         const state = Object.assign({}, this.props.applicationState, dataToLoad);
-        console.log(fileName, dataToLoad, state);
         this.loadNewBoard(state);
     }
 
@@ -162,11 +204,6 @@ class Nav extends PureComponent {
         fileInput.accept=".wswb";
         fileInput.onchange=readFile;
         fileInput.click();
-
-        this.setState({
-            menuVisible : false,
-            subMenu : []
-        });
     }
 
     getSavedFromBrowser = (e) => {
@@ -222,10 +259,6 @@ class Nav extends PureComponent {
                     checkFileList.push(fileName);
                 }
             monday.storage.instance.setItem("miralFileList", JSON.stringify(checkFileList));
-        });
-        this.setState({
-            menuVisible : false,
-            subMenu : []
         });
         
     }
@@ -306,10 +339,6 @@ class Nav extends PureComponent {
             };
             const state = Object.assign({}, applicationState, blankState);
             this.props.handleUpdateElementsAndState(state);
-            this.setState({
-                menuVisible : false,
-                subMenu : []
-            });
         }
     }
 
@@ -325,11 +354,14 @@ class Nav extends PureComponent {
             getSavedFromBrowser,
             loadFile,
             loadFileFromBrowser,
+            exportAsPNG,
+            exportAsSVG,
             exportAsTemplate,
             saveToFile,
             saveToBrowser,
             deselectElements,
-            hideWelcomeScreen
+            hideHub,
+            showHub
         } = this;
 
         const helpers = {
@@ -341,12 +373,15 @@ class Nav extends PureComponent {
             getSavedFromBrowser,
             loadFile,
             loadFileFromBrowser,
+            exportAsPNG,
+            exportAsSVG,
             exportAsTemplate,
             saveToFile,
             saveToBrowser,
             deselectElements,
             loadRemoteBoard : this.props.loadRemoteBoard,
-            hideWelcomeScreen
+            hideHub,
+            showHub
         };
 
         return (
@@ -356,6 +391,7 @@ class Nav extends PureComponent {
                 />
                 <Hub 
                     helpers={helpers}
+                    hubVisible={this.state.hubVisible}
                 />
             </div>
         );
