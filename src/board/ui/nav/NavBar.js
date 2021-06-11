@@ -1,8 +1,5 @@
 import React, {Component, PureComponent} from 'react';
 
-import { updateDocumentTitle } from './../../utils';
-
-import { svgToPng } from './../../utils-svg2png';
 
 import './styles.css';
 
