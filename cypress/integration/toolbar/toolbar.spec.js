@@ -60,6 +60,7 @@ describe('Toolbar', () => {
   beforeEach(() => {
     window.localStorage.setItem("miral_isFirstUse", true);
     cy.visit('/');
+    cy.get('.hubBackground').click({force : true});
   })
   context("creating new shapes", () => {
     it('activates the drawCanvas when clicked', () => {

@@ -90,6 +90,7 @@ describe('Element interaction', () => {
   beforeEach(() => {
     window.localStorage.setItem("miral_isFirstUse", true);
     cy.visit('/');
+    cy.get('.hubBackground').click({force : true});
   })
   context("selecting elements", () => {
 

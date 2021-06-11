@@ -9,6 +9,7 @@ describe('Tools', () => {
         cy.stub(win.Math, 'random').returns(0.7)
       }
     });
+    cy.get('.hubBackground').click({force : true});
   })
 
   context("creating a dice", () => {
