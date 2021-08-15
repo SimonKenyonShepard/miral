@@ -20,7 +20,12 @@ class KeyboardManager extends PureComponent {
             (e.metaKey === true && e.key === "d")
         ) {
             e.preventDefault();
-            this.props.handleDuplicateElements();
+            let direction = "right";
+            if(e.shiftKey) {
+                direction = "down";
+            }
+            this.props.handleDuplicateElements(direction);
+
         } else if (e.key === "ArrowDown" && !isTextBox) {
             this.props.shuntSelectedElements("down");
         } else if (e.key === "ArrowUp" && !isTextBox) {

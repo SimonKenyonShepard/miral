@@ -194,6 +194,47 @@ describe('Element interaction', () => {
         cy.get('g rect').eq(1).should('have.class', 'elementSelectedByUser');
     })
 
+    it('duplicates elements horizontally when cmd-d is used', () => {
+        cy.get('.toolbar_shape').click();
+        cy.get('#drawCanvas').click(300, 300);
+        cy.document().get("body").trigger("keydown", {
+            eventConstructor: 'KeyboardEvent',
+            ctrlKey: true,
+            key : "d"
+        });
+
+        cy.get('g rect').should('have.length', 2);
+        cy.get('g rect').eq(0).invoke('attr', 'width').then(function(width){
+            cy.get('g rect').eq(0).invoke('attr', 'x').then(function(x){
+                const areaOfFirstElement = Number(width)+Number(x);
+                cy.get('g rect').eq(1).invoke('attr', 'x').then(function(duplicatedX){
+                    expect(Number(duplicatedX)).to.be.at.least(areaOfFirstElement);
+                })
+            });
+        });
+    })
+
+    it('duplicates elements verticall when cmd-d is used with shift', () => {
+        cy.get('.toolbar_shape').click();
+        cy.get('#drawCanvas').click(300, 300);
+        cy.document().get("body").trigger("keydown", {
+            eventConstructor: 'KeyboardEvent',
+            ctrlKey: true,
+            shiftKey: true,
+            key : "d"
+        });
+
+        cy.get('g rect').should('have.length', 2);
+        cy.get('g rect').eq(0).invoke('attr', 'height').then(function(height){
+            cy.get('g rect').eq(0).invoke('attr', 'y').then(function(y){
+                const areaOfFirstElement = Number(height)+Number(y);
+                cy.get('g rect').eq(1).invoke('attr', 'y').then(function(duplicatedY){
+                    expect(Number(duplicatedY)).to.be.at.least(areaOfFirstElement);
+                })
+            });
+        });
+    })
+
     it('selects only new group instance when grouped items duplicated', () => {
         cy.get('.toolbar_shape').click();
         cy.get('#drawCanvas').click(300, 300);

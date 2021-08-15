@@ -426,7 +426,7 @@ class Board extends Component {
         this.setState({elementState : newElementsState});
     }
 
-    handleDuplicateElements = () => {
+    handleDuplicateElements = (direction) => {
         const {
             elements,
             elementState,
@@ -444,7 +444,9 @@ class Board extends Component {
 
             const duplicatesOffsetPosition = {
                 x : selectedElements[0].styles.x,
-                x1 : selectedElements[0].styles.x + selectedElements[0].styles.width + (duplicatesOffsetMargin*zoomLevel)
+                x1 : selectedElements[0].styles.x + selectedElements[0].styles.width + (duplicatesOffsetMargin*zoomLevel),
+                y : selectedElements[0].styles.y,
+                y1 : selectedElements[0].styles.y + selectedElements[0].styles.height + (duplicatesOffsetMargin*zoomLevel),
             };
 
             //get position for new duplicate elements
@@ -456,6 +458,13 @@ class Board extends Component {
                 if(elementX1 > duplicatesOffsetPosition.x1) {
                     duplicatesOffsetPosition.x1 = elementX1+(duplicatesOffsetMargin*zoomLevel);
                 }
+                if(element.styles.y < duplicatesOffsetPosition.y) {
+                    duplicatesOffsetPosition.y = element.styles.y;
+                }
+                const elementY1 = element.styles.y + element.styles.height;
+                if(elementY1 > duplicatesOffsetPosition.y1) {
+                    duplicatesOffsetPosition.y1 = elementY1+(duplicatesOffsetMargin*zoomLevel);
+                }
             });
 
             const newDuplicateElements = [];
@@ -466,7 +475,12 @@ class Board extends Component {
                 const duplicateElement = objectClone(element);
                 const duplicateElementState = objectClone(elementState[element.id]);
                 duplicateElement.id = newID;
-                duplicateElement.styles.x = duplicatesOffsetPosition.x1 + (duplicateElement.styles.x - duplicatesOffsetPosition.x);
+                
+                if(direction === "right") {
+                    duplicateElement.styles.x = duplicatesOffsetPosition.x1 + (duplicateElement.styles.x - duplicatesOffsetPosition.x);
+                } else if (direction === "down") {
+                    duplicateElement.styles.y = duplicatesOffsetPosition.y1 + (duplicateElement.styles.y - duplicatesOffsetPosition.y);
+                }
                 newElements[newID] = duplicateElement;
                 newElementsState[newID] = duplicateElementState;
                 //remove selected status for old items
