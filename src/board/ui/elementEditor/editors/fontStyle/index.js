@@ -65,7 +65,7 @@ class FontStyle extends Component {
       this.props.handleUpdateElementProperty({
         update : {
           fontStyle : {
-            color
+            fill : color
           }
         }
       });
@@ -117,16 +117,20 @@ class FontStyle extends Component {
                   className={submenuCSS}
                 >
                     <div className={"arrow"} />
-                    {
-                      theme.fontColors.map((color, i) => {
-                        return <CustomColorOption 
-                                key={('fontColorOption_'+color)}
-                                color={color} 
-                                colorID={i}
-                                handleUpdateColor={this.handleUpdateColor}
-                              />
-                      })
-                    }
+                    <div className="fontColorScroller">
+                      <div className="fontColor">
+                      {
+                        theme.fontColors.map((color, i) => {
+                          return <CustomColorOption 
+                                  key={('fontColorOption_'+color)}
+                                  color={color} 
+                                  colorID={i}
+                                  handleUpdateColor={this.handleUpdateColor}
+                                />
+                        })
+                      }
+                      </div>
+                    </div>
                     <div className="fontFamily">
                         <select 
                           value={this.props.fontStyle.fontFamily}

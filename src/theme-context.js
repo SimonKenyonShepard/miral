@@ -25,7 +25,13 @@ export const themes = {
     fontColors : [
       "#ffffff", //white
       "#999", //grey
-      "#080808" //text grey/black
+      "#080808", //text grey/black
+      "#03a678", //green
+      "#4183D7", //blue
+      "#9370DB", //purple
+      "#AA8F00", //dirty yellow
+      "#E65722", //orange
+      "#F22613" //red
     ],
   },
   dark: {

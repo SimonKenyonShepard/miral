@@ -27,3 +27,17 @@
 .picker input {
     width : 56px
 }
+
+.fontColorScroller {
+    width: 150px;
+    overflow-x: scroll;
+}
+
+.fontColor {
+    text-align:left;
+    width: 350px;
+}
+
+.fontColor .availableColor {
+    display: inline-block;
+}

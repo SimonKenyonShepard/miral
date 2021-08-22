@@ -946,20 +946,20 @@ class Board extends Component {
                             handleUpdatedText={this.handleUpdatedText}
                             handleSetElementHeight={this.handleSetElementHeight}
                         />
-                        <ElementEditor 
-                            selectedElements={selectedElements}
-                            gridSpace={{offsetX, offsetY, zoomLevel}}
-                            getSlides={this.getSlides}
-                            handleUpdateElementProperty={this.handleUpdateElementProperty}
-                            handleDeleteElements={this.handleDeleteElements}
-                            handleShiftElementPosition={this.handleShiftElementPosition}
-                            boundingBox={boundingBox}
-                        />
                         <DrawCanvas 
                             handleSelectElementsWithinArea={this.handleSelectElementsWithinArea}
                             removeDragHandler={this.removeDragHandler}
                         />
                     </InteractionManager>
+                    <ElementEditor 
+                        selectedElements={selectedElements}
+                        gridSpace={{offsetX, offsetY, zoomLevel}}
+                        getSlides={this.getSlides}
+                        handleUpdateElementProperty={this.handleUpdateElementProperty}
+                        handleDeleteElements={this.handleDeleteElements}
+                        handleShiftElementPosition={this.handleShiftElementPosition}
+                        boundingBox={boundingBox}
+                    />
                     <div className="bottomLeft">
                         <SlideNavigator
                             getSlides={this.getSlides}

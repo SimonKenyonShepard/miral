@@ -10,10 +10,11 @@ class ElementDrag extends Component {
         this.handleSetCurrentElement(elementID, isMultiSelect);
     }
 
-    handleElementDragStart() {
-        console.log("drag started");
+    handleElementDragStart(e) {
         const selectedElementIds = this.getSelectedElements(this.state.elementState).map(element => element.id);
-        this.handleShiftElementPosition("forward", selectedElementIds);
+        if(!e.metaKey) {
+            this.handleShiftElementPosition("forward", selectedElementIds);
+        }
     }
 
     updateElementDragPosition(e) {

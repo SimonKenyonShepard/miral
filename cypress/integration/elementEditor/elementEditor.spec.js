@@ -216,5 +216,28 @@ describe('Element Editor', () => {
         })
 
     })
+
+    context("changing text formatting", () => {
+
+        it('changes text color', () => {
+            cy.get('.toolbar_shape').click();
+            cy.get('#drawCanvas').click(300, 300);
+            cy.get('#board').dblclick(300, 300);
+            cy.get('#textEditor').type('Hello, this is a test, to see if coloring works.');
+            cy.get('#board').dblclick(10, 10);
+            cy.get('#board').click(300, 300);
+            cy.get('[title="Change font styles"]').should('be.visible');
+            cy.get('[title="Change font styles"]').click();
+            cy.get('.fontColor').should('be.visible');
+            cy.get('.fontColor .availableColor').eq(0).click();
+            cy.get('g text').should('have.attr', 'fill', '#ffffff');
+            cy.get('.fontColor .availableColor').eq(1).click();
+            cy.get('g text').should('have.attr', 'fill', '#999');
+            cy.get('.fontColor .availableColor').eq(2).click();
+            cy.get('g text').should('have.attr', 'fill', '#080808');
+
+        })
+
+    })
   
 })

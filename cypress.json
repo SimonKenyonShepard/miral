@@ -1,6 +1,7 @@
 {
 
     "baseUrl": "http://localhost:3000",
-    "scrollBehavior" : false
+    "scrollBehavior" : false,
+    "video" : false
 
 }
