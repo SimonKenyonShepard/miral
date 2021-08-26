@@ -940,17 +940,17 @@ class Board extends Component {
                             registerDragHandler={this.registerDragHandler}
                             boundingBox={boundingBox}
                         />
-                        <TextEditor 
-                            data={textEditor}
-                            gridSpace={{offsetX, offsetY, zoomLevel}}
-                            handleUpdatedText={this.handleUpdatedText}
-                            handleSetElementHeight={this.handleSetElementHeight}
-                        />
                         <DrawCanvas 
                             handleSelectElementsWithinArea={this.handleSelectElementsWithinArea}
                             removeDragHandler={this.removeDragHandler}
                         />
                     </InteractionManager>
+                    <TextEditor 
+                        data={textEditor}
+                        gridSpace={{offsetX, offsetY, zoomLevel}}
+                        handleUpdatedText={this.handleUpdatedText}
+                        handleSetElementHeight={this.handleSetElementHeight}
+                    />
                     <ElementEditor 
                         selectedElements={selectedElements}
                         gridSpace={{offsetX, offsetY, zoomLevel}}
