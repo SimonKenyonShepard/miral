@@ -328,10 +328,10 @@ class Nav extends PureComponent {
         }
         if(userConfirmation) {
             const applicationState = this.props.getState();
+            
             const blankState = {
                 elements : {},
                 elementState : {},
-                dragHandlers : {},
                 boardName : "new-board-"+new Date().toLocaleDateString().replace(/\//g, ""),
                 zoomLevel : 100,
                 offsetX : 0,
