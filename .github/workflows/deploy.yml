@@ -1,9 +1,21 @@
-name: Deployment
+name: Test & Deployment
 on:
   push:
     branches:
       - master
 jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          headless: true
+          start: npm start
+          wait-on: http://localhost:3000/
   deploy:
     runs-on: ubuntu-latest
     strategy:
