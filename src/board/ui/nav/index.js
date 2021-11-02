@@ -17,7 +17,7 @@ class Nav extends PureComponent {
     constructor(props, context) {
         super(props, context);
         this.state = {
-          hubVisible : true,
+          hubVisible : false,
           menuVisible : false,
           subMenu : [],
           mondaySaveAvailable : false,
