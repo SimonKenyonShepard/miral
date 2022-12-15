@@ -9681,10 +9681,10 @@ rework@1.0.1:
     convert-source-map "^0.3.3"
     css "^2.0.0"
 
-rfc6902@^3.0.4:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/rfc6902/-/rfc6902-3.1.1.tgz#24fc3b2568496100ac507c2e27e61ec5a1c134dd"
-  integrity sha512-aHiEm2S4mQSyyIaK7NVotfmVkgOOn1K9iuuSCIKJ8eIAte/8o06Vp06Z2NcLrmMahDmA+2F6oHx33P4NOQ1JnQ==
+rfc6902@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/rfc6902/-/rfc6902-5.0.0.tgz#cb53ac1cb8a700edc1ddc6c19afbb93422f9e385"
+  integrity sha512-6d0Q7DgN+RWHhvY/jb7QWG6ol+XreFqQn4NzvHB8CSALA70fRLRmbJaMvxlFf/JIzfkiNWq0lQF0l5yWb4yuLA==
 
 rgb-regex@^1.0.1:
   version "1.0.1"
